@@ -1,0 +1,156 @@
+/* =========================================================
+   TORINO RUN — HUD Overlay Styling
+   ========================================================= */
+
+.hud-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+  z-index: 50;
+}
+
+.hud-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hud-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(10, 15, 26, 0.7);
+  backdrop-filter: blur(6px);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 183, 3, 0.25);
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-item.lives {
+  color: #ef4444;
+}
+
+.hud-item.score {
+  color: #ffb703;
+}
+
+.hud-item.gianduiotti {
+  color: #ffe066;
+}
+
+.hud-item.time {
+  color: #38bdf8;
+}
+
+.hud-item.time.warning {
+  color: #f87171;
+  animation: pulse 1s infinite alternate;
+}
+
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.btn-pause {
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-pause:hover {
+  background: #1e293b;
+  border-color: var(--color-oro-reale);
+  color: var(--color-oro-reale);
+}
+
+/* Card informativa Power-Up con Bonus e Malus */
+.powerup-card {
+  background: rgba(10, 15, 26, 0.88);
+  backdrop-filter: blur(8px);
+  border: 2px solid #ffb703;
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  width: 380px;
+  max-width: 90vw;
+  margin-top: 4px;
+  animation: slideDown 0.2s ease-out;
+}
+
+.powerup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.powerup-title {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.powerup-progress {
+  width: 140px;
+  height: 8px;
+  background: #0f172a;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.powerup-fill {
+  height: 100%;
+  transition: width 0.1s linear;
+}
+
+.powerup-details {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-shadow: none;
+}
+
+.powerup-bonus {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.powerup-malus {
+  color: #f87171;
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.4; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-6px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
