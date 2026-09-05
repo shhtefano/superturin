@@ -33,7 +33,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
           <div>Salto Arcade (tieni premuto per saltare più in alto!)</div>
 
           <div><span className="key-badge">SPAZIO</span> / <span className="key-badge">⭐ JOYPAD</span></div>
-          <div><strong>⭐ Super-Abilità Eroe:</strong> Abilità speciale unica con cooldown (Shhte, Ugo, Jari, Jonson, Krebs, Devis, Willy)</div>
+          <div><strong>⭐ Super-Abilità Eroe:</strong> Abilità speciale unica con cooldown (Shhte, Ugo, Jari, Jonson, Krebs, Devis, Willy, Benedetta)</div>
 
           <div><span className="key-badge">SHIFT</span></div>
           <div>Corsa veloce con scatto</div>

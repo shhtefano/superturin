@@ -205,6 +205,29 @@ export class GameEngine {
       this.emitHudUpdate(true);
     };
 
+    this.player.onCharmBurst = (x, y, radius) => {
+      this.camera.triggerShake(14, 0.35);
+      this.audio.playCoin();
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          const eY = enemy.y + enemy.height / 2;
+          const dist = Math.hypot(eX - x, eY - y);
+          if (dist <= radius) {
+            enemy.die();
+            this.score += 250;
+            this.gianduiottiCount += 1;
+            this.particles.emitGoldSparks(eX, eY, 16);
+            hitAny = true;
+          }
+        }
+      }
+      if (hitAny) {
+        this.emitHudUpdate(true);
+      }
+    };
+
     this.camera.setPositionImmediate(this.player.x, this.player.y);
     this.emitHudUpdate(true);
   }
@@ -312,10 +335,11 @@ export class GameEngine {
       this.camera.triggerShake(2, 0.05);
     }
 
-    // BONUS MD: Magnete Gianduiotti (attira a sé le monete entro 260px)
-    if (this.player.hasPowerUp('md')) {
+    // BONUS MD & INCANTO BENEDETTA: Magnete Gianduiotti (attira a sé le monete)
+    if (this.player.hasPowerUp('md') || this.player.isCharmActive) {
       const pCenterX = this.player.x + this.player.width / 2;
       const pCenterY = this.player.y + this.player.height / 2;
+      const magnetDist = this.player.isCharmActive ? 380 : 260;
       for (const col of this.collectibles) {
         if (!col.collected && col instanceof PowerUpItem && col.itemType === 'gianduiotto') {
           const cCenterX = col.x + col.width / 2;
@@ -323,8 +347,8 @@ export class GameEngine {
           const dx = pCenterX - cCenterX;
           const dy = pCenterY - cCenterY;
           const dist = Math.hypot(dx, dy);
-          if (dist < 260 && dist > 5) {
-            const speed = 440;
+          if (dist < magnetDist && dist > 5) {
+            const speed = 460;
             col.x += (dx / dist) * speed * dt;
             col.y += (dy / dist) * speed * dt;
           }
@@ -478,6 +502,18 @@ export class GameEngine {
 
       // Fase Spettrale di Devis: attraversa i nemici senza subire danni fisici
       if (this.player.isGhostActive) {
+        continue;
+      }
+
+      // Incanto Reale di Benedetta: respinge e sconfigge i nemici al tocco
+      if (this.player.isCharmActive && !enemy.isDead && CollisionSystem.checkAABB(playerBox, enemy.getHitbox())) {
+        enemy.die();
+        this.score += 200 * scoreMultiplier;
+        this.gianduiottiCount += 1;
+        this.camera.triggerShake(6, 0.15);
+        this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 14);
+        this.audio.playCoin();
+        this.emitHudUpdate(true);
         continue;
       }
 

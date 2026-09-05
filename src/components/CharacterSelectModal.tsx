@@ -67,7 +67,8 @@ const CharacterPreviewCanvas: React.FC<{ heroId: CharacterId; isSelected: boolea
         false, // isSliding
         heroId, // characterId
         heroId === 'devis' && isSelected, // isGhostActive
-        heroId === 'krebs' && isSelected // isBioAuraActive
+        heroId === 'krebs' && isSelected, // isBioAuraActive
+        heroId === 'benedetta' && isSelected // isCharmActive
       );
 
       animFrameId = requestAnimationFrame(render);
@@ -123,8 +124,8 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         return;
       }
 
-      // Selezione diretta con tasti 1-7
-      if (e.key >= '1' && e.key <= '7') {
+      // Selezione diretta con tasti 1-8
+      if (e.key >= '1' && e.key <= '8') {
         e.preventDefault();
         const index = parseInt(e.key, 10) - 1;
         if (CHARACTER_LIST[index]) {
@@ -289,7 +290,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         {/* Footer comandi */}
         <div className="char-select-footer">
           <div className="menu-nav-hint">
-            ⌨️ Scegli con <kbd>1</kbd>-<kbd>7</kbd> o <kbd>◀</kbd> <kbd>▶</kbd> • Premi <kbd>INVIO</kbd> per giocare • <kbd>ESC</kbd> per chiudere
+            ⌨️ Scegli con <kbd>1</kbd>-<kbd>8</kbd> o <kbd>◀</kbd> <kbd>▶</kbd> • Premi <kbd>INVIO</kbd> per giocare • <kbd>ESC</kbd> per chiudere
           </div>
           <button type="button" className="btn-arcade btn-arcade-secondary btn-close-modal" onClick={onClose}>
             INDIETRO AL MENU

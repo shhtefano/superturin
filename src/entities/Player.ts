@@ -39,12 +39,15 @@ export class Player extends Entity {
   public bioAuraTimer: number = 0;
   public isGhostActive: boolean = false;
   public ghostTimer: number = 0;
+  public isCharmActive: boolean = false;
+  public charmTimer: number = 0;
 
   // Callbacks per GameEngine
   public onSpecialSkill?: (characterId: CharacterId) => void;
   public onGroundSlam?: (x: number, y: number, radius: number) => void;
   public onSpreadShot?: (x: number, y: number, facingRight: boolean) => void;
   public onJackpotShower?: (x: number, y: number) => void;
+  public onCharmBurst?: (x: number, y: number, radius: number) => void;
 
   // --- SISTEMA SKILL TATTICHE (Tastierino Numerico 1, 2, 3) ---
   public isSliding: boolean = false;
@@ -99,6 +102,8 @@ export class Player extends Entity {
     this.bioAuraTimer = 0;
     this.isGhostActive = false;
     this.ghostTimer = 0;
+    this.isCharmActive = false;
+    this.charmTimer = 0;
   }
 
   public override getHitbox(): Hitbox {
@@ -205,6 +210,15 @@ export class Player extends Entity {
         // Jackpot Sabaudo (Pioggia di gianduiotti dorati & buff)
         this.onJackpotShower?.(this.x + this.width / 2, this.y - 120);
         this.onSpecialSkill?.('willy');
+        break;
+
+      case 'benedetta':
+        // Incanto Reale & Pioggia di Cuori
+        this.isCharmActive = true;
+        this.charmTimer = 4.0;
+        this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 30);
+        this.onCharmBurst?.(this.x + this.width / 2, this.y + this.height / 2, 380);
+        this.onSpecialSkill?.('benedetta');
         break;
     }
   }
@@ -377,7 +391,7 @@ export class Player extends Entity {
   }
 
   public takeDamage(): boolean {
-    if (this.invincibleTimer > 0 || this.state === 'dead' || this.state === 'victory' || this.isGhostActive) {
+    if (this.invincibleTimer > 0 || this.state === 'dead' || this.state === 'victory' || this.isGhostActive || this.isCharmActive) {
       return false;
     }
 
@@ -423,6 +437,8 @@ export class Player extends Entity {
     this.isGliding = false;
     this.isBioAuraActive = false;
     this.isGhostActive = false;
+    this.isCharmActive = false;
+    this.charmTimer = 0;
     this.activePowerUps.clear();
     this.audio.playDeath();
   }
@@ -438,6 +454,8 @@ export class Player extends Entity {
     this.isGliding = false;
     this.isBioAuraActive = false;
     this.isGhostActive = false;
+    this.isCharmActive = false;
+    this.charmTimer = 0;
     this.state = 'idle';
     this.invincibleTimer = 1.5;
     this.activePowerUps.clear();
@@ -636,6 +654,10 @@ export class Player extends Entity {
       this.ghostTimer -= dt;
       if (this.ghostTimer <= 0) this.isGhostActive = false;
     }
+    if (this.isCharmActive) {
+      this.charmTimer -= dt;
+      if (this.charmTimer <= 0) this.isCharmActive = false;
+    }
 
     // Effetto planata morbida ad aria di Jari
     if (this.isGliding && this.vy > 35) {
@@ -694,7 +716,8 @@ export class Player extends Entity {
       this.isSliding,
       this.characterId,
       this.isGhostActive,
-      this.isBioAuraActive
+      this.isBioAuraActive,
+      this.isCharmActive
     );
   }
 }

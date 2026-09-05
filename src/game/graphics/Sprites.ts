@@ -57,7 +57,8 @@ export class Sprites {
     isSliding: boolean = false,
     characterId: CharacterId = 'shhte',
     isGhostActive: boolean = false,
-    isBioAuraActive: boolean = false
+    isBioAuraActive: boolean = false,
+    isCharmActive: boolean = false
   ): void {
     // Lampeggio se invincibile dopo un danno
     if (invincibleTimer > 0 && Math.floor(invincibleTimer * 20) % 2 === 0) {
@@ -196,12 +197,38 @@ export class Sprites {
       ctx.restore();
     }
 
+    // 8. EFFETTO INCANTO REALE (Benedetta)
+    if (isCharmActive) {
+      ctx.save();
+      const pulse = Math.sin(Date.now() * 0.01) * 4;
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#ec4899';
+      ctx.shadowBlur = 18;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, width * 0.6 + pulse, height * 0.55 + pulse, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Cuoricini luminosi fluttuanti attorno a Benedetta
+      ctx.fillStyle = '#ec4899';
+      const time = Date.now() * 0.004;
+      for (let i = 0; i < 4; i++) {
+        const angle = time + (i * Math.PI) / 2;
+        const cx = Math.cos(angle) * (width * 0.7);
+        const cy = Math.sin(angle) * (height * 0.6);
+        ctx.fillRect(cx - 2, cy - 2, 4, 4);
+        ctx.fillRect(cx - 3, cy - 1, 2, 2);
+        ctx.fillRect(cx + 1, cy - 1, 2, 2);
+      }
+      ctx.restore();
+    }
+
     const halfW = width / 2;
     const halfH = height / 2;
     const legPhase = isGrounded && Math.abs(vx) > 10 ? Math.sin(Date.now() * 0.018) * 6 : 0;
 
     // =========================================================================
-    // RENDERING DISTINTIVO DEI 7 PERSONAGGI GIOCABILI
+    // RENDERING DISTINTIVO DEGLI 8 PERSONAGGI GIOCABILI
     // =========================================================================
 
     // 1. GAMBE / PANTALONI E SCARPE
@@ -229,6 +256,9 @@ export class Sprites {
     } else if (characterId === 'willy') {
       pantsColor = '#1e1b4b';
       shoeColor = '#ffd166'; // Scarpe eleganti dorate
+    } else if (characterId === 'benedetta') {
+      pantsColor = '#3b0764'; // Calze raffinate velluto scuro
+      shoeColor = '#be185d'; // Stivaletti nobiliari fucsia con tacco
     }
 
     ctx.fillStyle = pantsColor;
@@ -300,6 +330,23 @@ export class Sprites {
       ctx.fillRect(-halfW + 5, -4, width - 10, 4); // Revers d'oro
       ctx.fillRect(-1, 0, 3, 3);
       ctx.fillRect(-1, 6, 3, 3);
+    } else if (characterId === 'benedetta') {
+      // Corsetto e giacca aristocratica fucsia/magenta con colletto in pizzo e spilla
+      ctx.fillStyle = '#be185d';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      // Colletto in pizzo bianco
+      ctx.fillStyle = '#fdf2f8';
+      ctx.fillRect(-6, -6, 12, 5);
+      // Spilla con gemma di rubino e oro
+      ctx.fillStyle = '#ffd166';
+      ctx.fillRect(-2, 0, 4, 4);
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillRect(-1, 1, 2, 2);
+      // Gonna nobiliare a balze
+      ctx.fillStyle = '#9d174d';
+      ctx.fillRect(-halfW + 1, 9, width - 2, 8);
+      ctx.fillStyle = '#ffd166';
+      ctx.fillRect(-halfW + 1, 16, width - 2, 2); // Bordo dorato
     } else {
       // Default Cappotto Blu Savoia
       ctx.fillStyle = '#0d47a1';
@@ -331,6 +378,16 @@ export class Sprites {
       // Occhi spettrali ardenti viola
       ctx.fillStyle = '#c084fc';
       ctx.fillRect(2, -halfH + 13, 4, 3);
+    } else if (characterId === 'benedetta') {
+      // Occhi femminili eleganti con pupilla smeraldo e ciglia
+      ctx.fillStyle = '#047857';
+      ctx.fillRect(2, -halfH + 13, 3, 3);
+      ctx.fillStyle = '#0f172a'; // Ciglia
+      ctx.fillRect(1, -halfH + 12, 5, 1);
+      ctx.fillRect(5, -halfH + 11, 2, 1);
+      // Rossetto rubino delicato
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillRect(2, -halfH + 19, 4, 2);
     } else {
       ctx.fillStyle = '#0f172a';
       ctx.fillRect(2, -halfH + 13, 3, 4);
@@ -348,7 +405,7 @@ export class Sprites {
       ctx.arc(4, -halfH + 14, 4, 0, Math.PI * 2);
       ctx.lineWidth = 1;
       ctx.stroke();
-    } else if (characterId !== 'devis' && characterId !== 'shhte') {
+    } else if (characterId !== 'devis' && characterId !== 'shhte' && characterId !== 'benedetta') {
       // Baffetti classici
       ctx.fillStyle = '#3e2723';
       ctx.fillRect(0, -halfH + 19, 9, 3);
@@ -404,6 +461,18 @@ export class Sprites {
       ctx.fillRect(-8, -halfH - 8, 16, 13); // Tubo cilindro
       ctx.fillStyle = '#ffd166';
       ctx.fillRect(-8, -halfH + 2, 16, 3); // Nastro d'oro
+    } else if (characterId === 'benedetta') {
+      // Lunghi capelli castano-miele fluenti con onde principesche
+      ctx.fillStyle = '#92400e';
+      ctx.fillRect(-12, -halfH + 2, 24, 7);
+      ctx.fillRect(-13, -halfH + 8, 5, 20); // Onde fluenti laterali
+      ctx.fillRect(8, -halfH + 8, 4, 16);
+      // Diadema / Tiara Reale Sabauda in oro con gemma centrale fucsia
+      ctx.fillStyle = '#ffd166';
+      ctx.fillRect(-10, -halfH + 2, 20, 3);
+      ctx.fillRect(-2, -halfH - 2, 4, 4);
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillRect(-1, -halfH - 1, 2, 2);
     } else {
       // Coppola Torinese
       ctx.fillStyle = '#334155';

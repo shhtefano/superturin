@@ -106,6 +106,19 @@ export const CHARACTERS: Record<CharacterId, CharacterConfig> = {
     color: '#ffd166',
     accentColor: '#ffb703',
   },
+  benedetta: {
+    id: 'benedetta',
+    name: 'Benedetta',
+    subtitle: 'La Duchessa Reale dei Portici',
+    description: 'Elegante nobildonna dei salotti torinesi e campionessa sabauda. Unisce grazia aristocratica e tempestosi incanti magnetici.',
+    skillName: 'Incanto Reale & Pioggia di Cuori',
+    skillKey: 'SPACE',
+    skillDescription: 'Onda d\'urto di cuori che sconfigge i nemici trasformandoli in gianduiotti (+250 pt), attira ogni moneta e conferisce scudo per 4s.',
+    skillCooldown: 11.0,
+    tag: '💖 CHARM & SHIELD',
+    color: '#ec4899',
+    accentColor: '#f43f5e',
+  },
 };
 
 export const CHARACTER_LIST: CharacterConfig[] = Object.values(CHARACTERS);
