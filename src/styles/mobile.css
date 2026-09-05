@@ -439,4 +439,45 @@
   .level-quadro-art {
     height: 60px;
   }
+
+  /* Barra status-effects-bar compatta su mobile landscape */
+  .status-effects-bar {
+    max-width: 440px;
+    gap: 4px;
+    margin-top: 2px;
+  }
+
+  .status-pill {
+    padding: 2px 6px 4px 6px;
+    gap: 4px;
+    border-width: 1px;
+  }
+
+  .status-pill-lead {
+    font-size: 0.58rem;
+    padding-right: 4px;
+  }
+
+  .lead-icon {
+    font-size: 0.76rem;
+  }
+
+  .lead-timer {
+    font-size: 0.55rem;
+  }
+
+  .status-pill-value {
+    font-size: 0.52rem;
+    padding: 1px 4px;
+    gap: 2px;
+  }
+
+  .val-icon {
+    font-size: 0.65rem;
+  }
+
+  .val-label {
+    font-size: 0.5rem;
+  }
 }
+

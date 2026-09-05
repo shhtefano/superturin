@@ -39,63 +39,89 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
           </div>
         </div>
 
-        {/* Banner Sinergie Combinate Speciali */}
-        {activeSynergies.length > 0 && (
-          <div className="synergies-container">
+        {/* Indicatori Compatti Effetti Attivi (Icone Valore Bonus / Malus Arcade) */}
+        {(activeSynergies.length > 0 || activePowerUps.length > 0) && (
+          <div className="status-effects-bar">
+            {/* Sinergie attive in pillola compatta con icone */}
             {activeSynergies.map((synergy) => (
               <div
                 key={synergy.id}
-                className="synergy-banner"
+                className="status-pill synergy-pill"
                 style={{
                   borderColor: synergy.color,
-                  boxShadow: `0 0 16px ${synergy.color}88, inset 0 0 8px ${synergy.color}33`,
+                  boxShadow: `0 0 10px ${synergy.color}66`,
                 }}
+                title={`${synergy.name}: ${synergy.description}`}
               >
-                <span className="synergy-badge" style={{ backgroundColor: synergy.color }}>
+                <span className="status-pill-badge" style={{ backgroundColor: synergy.color }}>
                   {synergy.badge}
                 </span>
-                <div className="synergy-text">
-                  <span className="synergy-name" style={{ color: synergy.color }}>
-                    {synergy.name}
+                {synergy.badges?.map((b, i) => (
+                  <span
+                    key={i}
+                    className={`status-pill-value val-${b.type}`}
+                    title={b.tooltip || b.label}
+                  >
+                    <span className="val-icon">{b.icon}</span>
+                    <span className="val-label">{b.label}</span>
                   </span>
-                  <span className="synergy-desc">{synergy.description}</span>
-                </div>
+                ))}
               </div>
             ))}
-          </div>
-        )}
 
-        {/* Lista Power-up Multipli Attivi con Timer individuali e Bonus/Malus */}
-        {activePowerUps.length > 0 && (
-          <div className="powerup-list">
+            {/* Power-up attivi con icone valore Bonus/Malus e timer */}
             {activePowerUps.map((powerUp) => (
               <div
                 key={powerUp.type}
-                className="powerup-card"
+                className="status-pill powerup-pill"
                 style={{
                   borderColor: powerUp.color,
-                  boxShadow: `0 0 12px ${powerUp.color}44`,
+                  boxShadow: `0 0 8px ${powerUp.color}55`,
                 }}
+                title={`${powerUp.name} (${powerUp.durationLeft}s) — ${powerUp.bonusText} | ${powerUp.malusText}`}
               >
-                <div className="powerup-header">
-                  <span className="powerup-title" style={{ color: powerUp.color }}>
-                    {powerUp.name} <span className="powerup-timer">({powerUp.durationLeft}s)</span>
-                  </span>
-                  <div className="powerup-progress">
-                    <div
-                      className="powerup-fill"
-                      style={{
-                        width: `${Math.round(powerUp.durationPercent * 100)}%`,
-                        backgroundColor: powerUp.color,
-                      }}
-                    />
-                  </div>
+                {/* Icona sostanza e timer */}
+                <div className="status-pill-lead">
+                  <span className="lead-icon">{powerUp.icon || '⚡'}</span>
+                  <span className="lead-timer">{powerUp.durationLeft}s</span>
                 </div>
 
-                <div className="powerup-details">
-                  <div className="powerup-bonus">{powerUp.bonusText}</div>
-                  <div className="powerup-malus">{powerUp.malusText}</div>
-                </div>
+                {/* Valori Bonus con icone verdi */}
+                {powerUp.badges
+                  ?.filter((b) => b.type === 'bonus')
+                  .map((b, i) => (
+                    <span
+                      key={`b_${i}`}
+                      className="status-pill-value val-bonus"
+                      title={b.tooltip || b.label}
+                    >
+                      <span className="val-icon">{b.icon}</span>
+                      <span className="val-label">{b.label}</span>
+                    </span>
+                  ))}
+
+                {/* Valori Malus con icone rosse */}
+                {powerUp.badges
+                  ?.filter((b) => b.type === 'malus')
+                  .map((b, i) => (
+                    <span
+                      key={`m_${i}`}
+                      className="status-pill-value val-malus"
+                      title={b.tooltip || b.label}
+                    >
+                      <span className="val-icon">{b.icon}</span>
+                      <span className="val-label">{b.label}</span>
+                    </span>
+                  ))}
+
+                {/* Sottile barra timer progressiva sul fondo della pillola */}
+                <div
+                  className="status-pill-progress"
+                  style={{
+                    width: `${Math.round(powerUp.durationPercent * 100)}%`,
+                    backgroundColor: powerUp.color,
+                  }}
+                />
               </div>
             ))}
           </div>

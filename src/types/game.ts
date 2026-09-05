@@ -13,14 +13,23 @@ export type CharacterId = 'shhte' | 'ugo' | 'jari' | 'jonson' | 'krebs' | 'devis
 
 export type PowerUpType = 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 
+export interface PowerUpBadge {
+  icon: string;
+  label: string;
+  type: 'bonus' | 'malus';
+  tooltip?: string;
+}
+
 export interface ActivePowerUpInfo {
   type: PowerUpType;
   name: string;
+  icon: string;
   durationLeft: number;
   durationPercent: number; // 0 to 1
   bonusText: string;
   malusText: string;
   color: string;
+  badges: PowerUpBadge[];
 }
 
 export interface SynergyInfo {
@@ -29,6 +38,7 @@ export interface SynergyInfo {
   description: string;
   badge: string;
   color: string;
+  badges?: PowerUpBadge[];
 }
 
 export interface SkillInfo {

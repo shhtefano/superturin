@@ -274,55 +274,84 @@ export class Player extends Entity {
           list.push({
             type: 'cocaina',
             name: 'COCAINA',
+            icon: '⚡',
             durationLeft,
             durationPercent: percent,
             bonusText: '⚡ Super Velocità (+70%) & Super Salto (+25%)',
             malusText: '⚠️ Cuore fragile: danni subiti raddoppiati!',
             color: '#06b6d4',
+            badges: [
+              { icon: '⚡', label: '+70% SPD', type: 'bonus', tooltip: 'Velocità corsa +70%' },
+              { icon: '⬆️', label: '+25% JMP', type: 'bonus', tooltip: 'Salto +25%' },
+              { icon: '💔', label: 'x2 DMG', type: 'malus', tooltip: 'Danno raddoppiato' },
+            ],
           });
           break;
         case 'marijuana':
           list.push({
             type: 'marijuana',
             name: 'MARIJUANA',
+            icon: '🌿',
             durationLeft,
             durationPercent: percent,
             bonusText: '🛡️ +1 Vita & Nemici completamente innocui',
             malusText: '🐌 Movimenti rallentati (-35%)',
             color: '#22c55e',
+            badges: [
+              { icon: '❤️', label: '+1 HP', type: 'bonus', tooltip: '+1 Cuore vita' },
+              { icon: '🛡️', label: 'CALM', type: 'bonus', tooltip: 'Nemici innocui' },
+              { icon: '🐌', label: '-35% SPD', type: 'malus', tooltip: 'Velocità -35%' },
+            ],
           });
           break;
         case 'md':
           list.push({
             type: 'md',
-            name: 'MDMA (PASTICCA)',
+            name: 'MDMA',
+            icon: '✨',
             durationLeft,
             durationPercent: percent,
             bonusText: '✨ Punti x2 & Magnete Gianduiotti',
             malusText: '🧊 Scivoli come sul ghiaccio (attrito ridotto)',
             color: '#ec4899',
+            badges: [
+              { icon: '⭐', label: 'x2 PTS', type: 'bonus', tooltip: 'Punti raddoppiati' },
+              { icon: '🧲', label: 'MAG', type: 'bonus', tooltip: 'Magnete gianduiotti' },
+              { icon: '🧊', label: 'SLIP', type: 'malus', tooltip: 'Attrito ridotto (scivoloso)' },
+            ],
           });
           break;
         case 'lsd':
           list.push({
             type: 'lsd',
-            name: 'LSD (BLOTTER)',
+            name: 'LSD',
+            icon: '🌀',
             durationLeft,
             durationPercent: percent,
             bonusText: '🌀 Doppio Salto a mezz\'aria sbloccato',
             malusText: '🌈 Distorsione visiva psichedelica',
             color: '#a855f7',
+            badges: [
+              { icon: '🌀', label: '2x JUMP', type: 'bonus', tooltip: 'Doppio salto sbloccato' },
+              { icon: '🌈', label: 'TRIP', type: 'malus', tooltip: 'Distorsione psichedelica' },
+            ],
           });
           break;
         case 'funghetti':
           list.push({
             type: 'funghetti',
             name: 'FUNGHETTI',
+            icon: '🍄',
             durationLeft,
             durationPercent: percent,
             bonusText: '🍄 Gigante: schiaccia i nemici anche frontalmente',
             malusText: '🧱 Corpo enorme e caduta pesante',
             color: '#f59e0b',
+            badges: [
+              { icon: '🍄', label: 'GIANT', type: 'bonus', tooltip: 'Modalità gigante' },
+              { icon: '💥', label: 'CRUSH', type: 'bonus', tooltip: 'Schiaccia nemici' },
+              { icon: '🧱', label: 'HEAVY', type: 'malus', tooltip: 'Caduta pesante' },
+            ],
           });
           break;
       }
@@ -347,10 +376,14 @@ export class Player extends Entity {
     if (hasCocaina && hasMarijuana) {
       synergies.push({
         id: 'speedball',
-        name: '⚡🌿 SPEEDBALL SABAUDO',
+        name: 'SPEEDBALL',
         description: 'Immunità totale ai nemici con super velocità e salto amplificato!',
-        badge: 'SPEEDBALL',
+        badge: '⚡🌿 SPEEDBALL',
         color: '#10b981',
+        badges: [
+          { icon: '🛡️', label: 'IMMUNE', type: 'bonus', tooltip: 'Immunità totale nemici' },
+          { icon: '⚡', label: 'SPD++', type: 'bonus', tooltip: 'Super velocità combinata' },
+        ],
       });
     }
 
@@ -358,10 +391,15 @@ export class Player extends Entity {
     if (hasMD && hasLSD) {
       synergies.push({
         id: 'candyflip',
-        name: '✨🌀 CANDYFLIP COSMICO',
+        name: 'CANDYFLIP',
         description: 'Doppio salto fluttuante con magnetismo dorato totale e punti x2!',
-        badge: 'CANDYFLIP',
+        badge: '✨🌀 CANDYFLIP',
         color: '#f43f5e',
+        badges: [
+          { icon: '⭐', label: 'x2 PTS', type: 'bonus', tooltip: 'Punti raddoppiati' },
+          { icon: '🧲', label: 'MAG++', type: 'bonus', tooltip: 'Magnete dorato' },
+          { icon: '🌀', label: 'FLOAT', type: 'bonus', tooltip: 'Doppio salto fluttuante' },
+        ],
       });
     }
 
@@ -369,10 +407,14 @@ export class Player extends Entity {
     if (hasFunghetti && hasLSD) {
       synergies.push({
         id: 'megatrip',
-        name: '🍄🌀 COLOSSO PSICHEDELICO',
+        name: 'MEGA-TRIP',
         description: 'Gigante con doppio salto a mezz\'aria inarrestabile!',
-        badge: 'MEGA-TRIP',
+        badge: '🍄🌀 MEGA-TRIP',
         color: '#8b5cf6',
+        badges: [
+          { icon: '🍄', label: 'TITAN', type: 'bonus', tooltip: 'Statura titanica' },
+          { icon: '🌀', label: 'DOUBLE', type: 'bonus', tooltip: 'Doppio salto gigante' },
+        ],
       });
     }
 
@@ -380,10 +422,14 @@ export class Player extends Entity {
     if (this.activePowerUps.size >= 3) {
       synergies.push({
         id: 'polydoping',
-        name: '🔥👑 POLYDOPING DEI MURAZZI',
+        name: 'POLYDOPING',
         description: 'Potere sovrano sabaudo: Moltiplicatore punti moltiplicato a x3!',
-        badge: 'POLYDOPING x3',
+        badge: '👑 POLYDOPING',
         color: '#ffb703',
+        badges: [
+          { icon: '⭐', label: 'x3 PTS', type: 'bonus', tooltip: 'Punti triplicati' },
+          { icon: '👑', label: 'ROYAL', type: 'bonus', tooltip: 'Sovranità sabauda' },
+        ],
       });
     }
 
