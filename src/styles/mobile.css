@@ -1,0 +1,411 @@
+/* =========================================================
+   TORINO RUN — Mobile Joypad & Horizontal Screen Styles
+   ========================================================= */
+
+/* Virtual Joypad Overlay */
+.virtual-joypad-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16px 24px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  touch-action: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Top bar for mobile quick controls */
+.mobile-top-bar {
+  position: absolute;
+  top: 14px;
+  right: 180px; /* Non copre il tasto pausa del HUD */
+  display: flex;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.btn-mobile-icon {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 183, 3, 0.4);
+  color: #f8fafc;
+  font-size: 1.1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  transition: all 0.15s ease;
+}
+
+.btn-mobile-icon:active {
+  transform: scale(0.92);
+  border-color: #ffb703;
+  background: #1e293b;
+}
+
+/* --- CLUSTER SINISTRO (D-PAD & CORSA) --- */
+.joypad-left-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.btn-joypad-run {
+  background: rgba(15, 23, 42, 0.88);
+  border: 2px solid rgba(255, 183, 3, 0.35);
+  color: #94a3b8;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
+  backdrop-filter: blur(8px);
+}
+
+.btn-joypad-run.is-active {
+  border-color: #ffb703;
+  color: #0f172a;
+  background: #ffb703;
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.6);
+}
+
+.btn-joypad-run:active {
+  transform: scale(0.94);
+}
+
+/* Croce Direzionale Arcade */
+.joypad-dpad {
+  display: grid;
+  grid-template-columns: 56px 56px 56px;
+  grid-template-rows: 56px;
+  gap: 6px;
+  align-items: center;
+  background: rgba(10, 15, 26, 0.65);
+  backdrop-filter: blur(10px);
+  padding: 6px;
+  border-radius: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+.joypad-btn {
+  width: 56px;
+  height: 56px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 2px solid rgba(255, 183, 3, 0.3);
+  border-radius: 50%;
+  color: #f8fafc;
+  font-size: 1.4rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: none;
+  transition: all 0.08s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.joypad-btn:active,
+.joypad-btn.is-pressed {
+  background: #0d47a1;
+  border-color: #ffb703;
+  color: #ffb703;
+  transform: scale(0.92);
+  box-shadow: 0 0 16px rgba(255, 183, 3, 0.7);
+}
+
+/* --- CLUSTER DESTRO (SALTO & SKILL) --- */
+.joypad-right-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  pointer-events: auto;
+}
+
+/* Arco delle Abilità Speciali (1, 2, 3) */
+.joypad-skills-arc {
+  display: flex;
+  gap: 10px;
+}
+
+.joypad-skill-btn {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.9);
+  border: 2px solid #ffb703;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  transition: all 0.12s ease;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+.joypad-skill-btn.is-ready:active {
+  transform: scale(0.9);
+  box-shadow: 0 0 16px rgba(255, 183, 3, 0.8);
+}
+
+.joypad-skill-btn.is-cooldown {
+  opacity: 0.6;
+  border-color: rgba(148, 163, 184, 0.4);
+  filter: grayscale(0.5);
+}
+
+.skill-btn-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.skill-btn-badge {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  background: #ffb703;
+  color: #0f172a;
+  font-family: var(--font-display);
+  font-size: 0.52rem;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.joypad-skill-btn.is-cooldown .skill-btn-badge {
+  background: #64748b;
+  color: #cbd5e1;
+}
+
+/* Tasto Super-Abilità Eroe Mobile Joypad */
+.joypad-skill-btn.joypad-special-btn {
+  border-color: #38bdf8;
+  background: rgba(8, 28, 54, 0.95);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.4), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+
+.joypad-skill-btn.joypad-special-btn.is-ready {
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.6);
+}
+
+.joypad-skill-btn.joypad-special-btn.is-ready:active {
+  transform: scale(0.9);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.9);
+}
+
+.joypad-skill-btn.joypad-special-btn .skill-btn-badge {
+  background: #38bdf8;
+  color: #030712;
+}
+
+.joypad-skill-btn.joypad-special-btn .skill-btn-cd {
+  color: #38bdf8;
+}
+
+.skill-btn-cd {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  color: #f87171;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 4px #000;
+}
+
+/* Grande Tasto Salto Arcade */
+.joypad-btn-jump {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd166, #ffb703 65%, #d48b00 100%);
+  border: 3px solid #ffffff;
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: none;
+  box-shadow: 0 6px 20px rgba(255, 183, 3, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+  transition: all 0.08s ease;
+}
+
+.joypad-btn-jump:active {
+  transform: scale(0.92);
+  background: radial-gradient(circle at 45% 45%, #ffb703, #d48b00 80%);
+  box-shadow: 0 0 25px rgba(255, 183, 3, 0.9), inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.jump-label {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.jump-key {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 800;
+  opacity: 0.8;
+}
+
+/* =========================================================
+   ORIENTATION PROMPT (Schermo Orizzontale Obbligatorio)
+   ========================================================= */
+.orientation-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(8, 10, 15, 0.96);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.orientation-card {
+  background: rgba(18, 24, 38, 0.95);
+  border: 2px solid #ffb703;
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  max-width: 440px;
+  width: 90vw;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), var(--shadow-gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.rotate-phone-anim {
+  animation: phoneRotate 2.2s infinite ease-in-out;
+}
+
+.orientation-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: #ffb703;
+  letter-spacing: 1px;
+}
+
+.orientation-text {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+@keyframes phoneRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(90deg);
+  }
+  60% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Mobile Responsive Optimization for Landscape */
+@media screen and (max-height: 520px) {
+  .game-viewport {
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .virtual-joypad-overlay {
+    padding: 8px 16px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+
+  .joypad-dpad {
+    grid-template-columns: 48px 48px 48px;
+    grid-template-rows: 48px;
+    padding: 4px;
+  }
+
+  .joypad-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  .joypad-skill-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .joypad-btn-jump {
+    width: 68px;
+    height: 68px;
+  }
+
+  .modal-card {
+    padding: 14px 20px;
+    max-height: 94vh;
+    overflow-y: auto;
+  }
+
+  .modal-title {
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .modal-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+
+  .btn-arcade {
+    padding: 10px 14px;
+    font-size: 0.7rem;
+  }
+
+  .level-gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-height: 58vh;
+    overflow-y: auto;
+    gap: 8px;
+  }
+
+  .level-quadro-art {
+    height: 60px;
+  }
+}

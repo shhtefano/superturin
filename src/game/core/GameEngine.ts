@@ -1,4 +1,4 @@
-import { EngineCallbacks, GameStatus, HudData } from '../../types/game';
+import { EngineCallbacks, GameStatus, HudData, CharacterId, PowerUpType } from '../../types/game';
 import { GameLoop } from './GameLoop';
 import { InputManager } from './InputManager';
 import { Camera } from './Camera';
@@ -18,6 +18,8 @@ import { Pigeon } from '../../entities/enemies/Pigeon';
 import { Tram } from '../../entities/enemies/Tram';
 import { AngryLocal } from '../../entities/enemies/AngryLocal';
 import { Squirrel } from '../../entities/enemies/Squirrel';
+import { Bullet } from '../../entities/projectiles/Bullet';
+import { GianduiottoBomb } from '../../entities/projectiles/GianduiottoBomb';
 import { LevelData } from '../../levels/types';
 import { getLevelById, LEVELS } from '../../levels';
 
@@ -40,6 +42,8 @@ export class GameEngine {
   public checkpoints: Checkpoint[] = [];
   public collectibles: Collectible[] = [];
   public enemies: Enemy[] = [];
+  public bullets: Bullet[] = [];
+  public bombs: GianduiottoBomb[] = [];
   public goal!: Goal;
   public currentLevel!: LevelData;
 
@@ -131,14 +135,75 @@ export class GameEngine {
     // 5. Inizializza Goal
     this.goal = new Goal('level_goal', levelData.goal.x, levelData.goal.y);
 
-    // 6. Inizializza Player
+    this.bullets = [];
+    this.bombs = [];
+
+    // 6. Inizializza Player con il personaggio selezionato
+    const selectedChar = SaveManager.getSelectedCharacter();
     this.player = new Player(
       'player_hero',
       levelData.playerStart.x,
       levelData.playerStart.y,
       this.audio,
-      this.particles
+      this.particles,
+      selectedChar
     );
+
+    // Connetti le Skill (Tastierino Numerico) del Giocatore al motore di gioco
+    this.player.onShoot = (x, y, facingRight) => {
+      this.bullets.push(new Bullet(x, y, facingRight));
+    };
+
+    this.player.onBomb = (x, y, facingRight) => {
+      this.bombs.push(new GianduiottoBomb(x, y, facingRight));
+    };
+
+    // Connetti le Super-Abilità speciali (Barra Spaziatrice)
+    this.player.onGroundSlam = (x, y, radius) => {
+      this.camera.triggerShake(18, 0.45);
+      this.audio.playExplosion();
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          if (Math.abs(eX - x) <= radius) {
+            enemy.die();
+            this.score += 250;
+            this.particles.emitFeathers(eX, enemy.y + enemy.height / 2, 14);
+            hitAny = true;
+          }
+        }
+      }
+      if (hitAny) {
+        this.emitHudUpdate(true);
+      }
+    };
+
+    this.player.onSpreadShot = (x, y, facingRight) => {
+      this.audio.playShoot();
+      for (let i = -2; i <= 2; i++) {
+        const bullet = new Bullet(x, y + i * 8, facingRight);
+        bullet.vx = (facingRight ? 1 : -1) * (620 + Math.abs(i) * 25);
+        this.bullets.push(bullet);
+      }
+    };
+
+    this.player.onJackpotShower = (x, y) => {
+      this.audio.playCoin();
+      this.score += 500;
+      this.gianduiottiCount += 5;
+      const buffs: PowerUpType[] = ['cocaina', 'marijuana', 'md', 'lsd', 'funghetti'];
+      const randomBuff = buffs[Math.floor(Math.random() * buffs.length)];
+      this.player.activatePowerUp(randomBuff);
+      for (let i = 0; i < 6; i++) {
+        const bx = x + (i - 2.5) * 55;
+        const bomb = new GianduiottoBomb(bx, y - 80 - i * 15, i % 2 === 0);
+        bomb.vy = 120 + Math.random() * 80;
+        bomb.vx = (Math.random() - 0.5) * 140;
+        this.bombs.push(bomb);
+      }
+      this.emitHudUpdate(true);
+    };
 
     this.camera.setPositionImmediate(this.player.x, this.player.y);
     this.emitHudUpdate(true);
@@ -170,6 +235,14 @@ export class GameEngine {
     this.gianduiottiCount = 0;
     this.loadLevel(this.currentLevel.id);
     this.play();
+  }
+
+  public setSelectedCharacter(characterId: CharacterId): void {
+    SaveManager.setSelectedCharacter(characterId);
+    if (this.player) {
+      this.player.setCharacter(characterId);
+      this.emitHudUpdate(true);
+    }
   }
 
   private handlePlayerDeath(): void {
@@ -379,9 +452,34 @@ export class GameEngine {
     }
 
     // --- NEMICI (PICCIONE, TRAM, TORINESE, SCOIATTOLO) ---
+    // Bullet-time: se Shhte ha attivo Matrix Overclock, i nemici rallentano al 35% di velocità
+    const enemyDt = this.player.isMatrixActive ? dt * 0.35 : dt;
+    const playerCenterX = this.player.x + this.player.width / 2;
+    const playerCenterY = this.player.y + this.player.height / 2;
+
     for (const enemy of this.enemies) {
       if (!enemy.active) continue;
-      enemy.update(dt);
+      enemy.update(enemyDt);
+
+      // Aura Tossica di Krebs: stermina i nemici entro raggio di 85px
+      if (!enemy.isDead && this.player.isBioAuraActive) {
+        const eCenterX = enemy.x + enemy.width / 2;
+        const eCenterY = enemy.y + enemy.height / 2;
+        const dist = Math.hypot(playerCenterX - eCenterX, playerCenterY - eCenterY);
+        if (dist <= 85) {
+          enemy.die();
+          this.score += 150 * scoreMultiplier;
+          this.particles.emitFeathers(eCenterX, eCenterY, 10);
+          this.audio.playStomp();
+          this.emitHudUpdate(true);
+          continue;
+        }
+      }
+
+      // Fase Spettrale di Devis: attraversa i nemici senza subire danni fisici
+      if (this.player.isGhostActive) {
+        continue;
+      }
 
       if (!enemy.isDead && CollisionSystem.checkAABB(playerBox, enemy.getHitbox())) {
         // BONUS FUNGHETTI: schiaccia qualsiasi nemico anche frontalmente al tocco (Mega Mario)!
@@ -390,6 +488,17 @@ export class GameEngine {
           this.score += 200 * scoreMultiplier;
           this.camera.triggerShake(8, 0.2);
           this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 15);
+          this.audio.playStomp();
+          this.emitHudUpdate(true);
+          continue;
+        }
+
+        // Controllo se il giocatore è in scivolata (Skill 1: Scivolata atterra i nemici)
+        if (this.player.isSliding && enemy.isStompable) {
+          enemy.die();
+          this.score += 250 * scoreMultiplier;
+          this.camera.triggerShake(6, 0.15);
+          this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 12);
           this.audio.playStomp();
           this.emitHudUpdate(true);
           continue;
@@ -417,6 +526,93 @@ export class GameEngine {
         }
       }
     }
+
+    // --- AGGIORNAMENTO PROIETTILI (PISTOLA - SKILL 2) ---
+    for (const bullet of this.bullets) {
+      bullet.update(dt);
+      if (!bullet.active) continue;
+
+      const bBox = bullet.getHitbox();
+
+      // Collisione proiettile con piattaforme e blocchi sorpresa
+      for (const plat of this.platforms) {
+        if (CollisionSystem.checkAABB(bBox, plat.getHitbox())) {
+          if (plat.isQuestionBlock && !plat.isHit) {
+            const reward = plat.bump();
+            this.camera.triggerShake(5, 0.15);
+            if (reward === 'gianduiotto') {
+              this.score += 100 * scoreMultiplier;
+              this.gianduiottiCount += 1;
+              this.audio.playCoin();
+              this.particles.emitGoldSparks(plat.x + plat.width / 2, plat.y - 12, 12);
+            } else if (reward) {
+              this.player.activatePowerUp(reward);
+              this.camera.triggerShake(7, 0.25);
+            }
+            this.emitHudUpdate(true);
+          }
+          bullet.active = false;
+          this.particles.emitGoldSparks(bullet.x, bullet.y, 4);
+          break;
+        }
+      }
+
+      if (!bullet.active) continue;
+
+      // Collisione proiettile con nemici
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead && CollisionSystem.checkAABB(bBox, enemy.getHitbox())) {
+          enemy.die();
+          bullet.active = false;
+          this.score += 200 * scoreMultiplier;
+          this.camera.triggerShake(7, 0.15);
+          this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 12);
+          this.audio.playStomp();
+          this.emitHudUpdate(true);
+          break;
+        }
+      }
+    }
+    this.bullets = this.bullets.filter((b) => b.active);
+
+    // --- AGGIORNAMENTO BOMBE GIANDUIOTTO (SKILL 3) ---
+    for (const bomb of this.bombs) {
+      bomb.update(dt, this.platforms);
+
+      // Impatto diretto su nemici prima dell'esplosione
+      if (!bomb.hasExploded) {
+        const bombBox = bomb.getHitbox();
+        for (const enemy of this.enemies) {
+          if (enemy.active && !enemy.isDead && CollisionSystem.checkAABB(bombBox, enemy.getHitbox())) {
+            bomb.explode();
+            break;
+          }
+        }
+      }
+
+      // Se appena esplosa, applica danni ad area (AoE) e feedback audiovisivo
+      if (bomb.hasExploded && bomb.lifeTime <= 0.15) {
+        this.audio.playExplosion();
+        this.camera.triggerShake(14, 0.35);
+        this.particles.emitGoldSparks(bomb.x, bomb.y, 25);
+        this.particles.emitWaterDroplets(bomb.x, bomb.y, 15);
+
+        for (const enemy of this.enemies) {
+          if (enemy.active && !enemy.isDead) {
+            const eCenterX = enemy.x + enemy.width / 2;
+            const eCenterY = enemy.y + enemy.height / 2;
+            const dist = Math.hypot(eCenterX - bomb.x, eCenterY - bomb.y);
+            if (dist <= bomb.explosionRadius) {
+              enemy.die();
+              this.score += 300 * scoreMultiplier;
+              this.particles.emitFeathers(eCenterX, eCenterY, 15);
+              this.emitHudUpdate(true);
+            }
+          }
+        }
+      }
+    }
+    this.bombs = this.bombs.filter((b) => !b.isFinished);
 
     // --- TRAGUARDO (GOAL) ---
     if (CollisionSystem.checkAABB(playerBox, this.goal.getHitbox())) {
@@ -448,6 +644,7 @@ export class GameEngine {
       levelTitle: this.currentLevel ? this.currentLevel.title : 'Torino',
       activePowerUps: this.player ? this.player.getActivePowerUpsList() : [],
       activeSynergies: this.player ? this.player.getActiveSynergies() : [],
+      skills: this.player ? this.player.getSkillInfo() : undefined,
     };
     this.callbacks.onHudUpdate(data);
   }
@@ -493,6 +690,14 @@ export class GameEngine {
     // 8. Disegna Nemici
     for (const enemy of this.enemies) {
       enemy.render(this.ctx);
+    }
+
+    // 8b. Disegna Proiettili e Bombe
+    for (const bullet of this.bullets) {
+      bullet.render(this.ctx);
+    }
+    for (const bomb of this.bombs) {
+      bomb.render(this.ctx);
     }
 
     // 9. Disegna Giocatore

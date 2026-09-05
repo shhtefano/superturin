@@ -230,3 +230,145 @@
   from { transform: translateY(-6px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+
+/* =========================================================
+   Hotbar delle Abilità (Skills 1, 2, 3 / Tastierino Numerico)
+   ========================================================= */
+.hud-skills-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.skill-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 183, 3, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  width: 145px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.skill-slot.is-ready {
+  border-color: #ffb703;
+  box-shadow: 0 0 10px rgba(255, 183, 3, 0.3);
+}
+
+.skill-slot.is-ready:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.6);
+}
+
+.skill-slot.is-cooldown {
+  opacity: 0.65;
+  border-color: rgba(148, 163, 184, 0.25);
+  filter: grayscale(0.4);
+}
+
+.skill-badge-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #ffb703;
+  color: #0f172a;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.65rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.skill-slot.is-cooldown .skill-badge-key {
+  background: #64748b;
+  color: #cbd5e1;
+}
+
+.skill-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.skill-name {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #f8fafc;
+  white-space: nowrap;
+}
+
+.skill-cooldown-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  border-top: 1px solid rgba(239, 68, 68, 0.7);
+  transition: height 0.08s linear;
+}
+
+.skill-cd-text {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #f87171;
+  text-shadow: 0 0 4px #000;
+}
+
+/* Slot Super Abilità Eroe (Barra Spaziatrice) */
+.skill-slot.special-skill-slot {
+  width: 175px;
+  border-color: #38bdf8;
+  background: rgba(10, 20, 38, 0.9);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
+}
+
+.skill-slot.special-skill-slot.is-ready {
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.55);
+}
+
+.skill-slot.special-skill-slot .skill-badge-key {
+  background: #38bdf8;
+  color: #030712;
+  width: auto;
+  padding: 0 5px;
+  font-size: 0.58rem;
+}
+
+.skill-hero-tag {
+  font-size: 0.55rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.special-cooldown-fill {
+  border-top: 1px solid rgba(56, 189, 248, 0.8);
+}
+
+.special-cooldown-fill .skill-cd-text {
+  color: #38bdf8;
+}
+
+@media screen and (max-height: 560px), (pointer: coarse) {
+  .hud-skills-bar {
+    display: none;
+  }
+}

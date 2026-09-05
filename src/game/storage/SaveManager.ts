@@ -1,12 +1,13 @@
-import { SaveData, GameSettings } from '../../types/game';
+import { SaveData, GameSettings, CharacterId } from '../../types/game';
 
 export class SaveManager {
   private static readonly STORAGE_KEY = 'superturin_save_v1';
 
   private static defaultData: SaveData = {
-    unlockedLevels: 1,
-    bestScores: { 1: 0 },
+    unlockedLevels: 6, // Tutti i 6 livelli sbloccati subito!
+    bestScores: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
     totalGianduiotti: 0,
+    selectedCharacter: 'shhte',
     settings: {
       music: true,
       soundEffects: true,
@@ -22,6 +23,9 @@ export class SaveManager {
       return {
         ...this.defaultData,
         ...parsed,
+        unlockedLevels: 6, // Sbloccati per tutti i giocatori
+        selectedCharacter: parsed.selectedCharacter || 'shhte',
+        bestScores: { ...this.defaultData.bestScores, ...(parsed.bestScores || {}) },
         settings: { ...this.defaultData.settings, ...parsed.settings },
       };
     } catch {
@@ -52,6 +56,17 @@ export class SaveManager {
       data.bestScores[levelId] = score;
     }
     data.totalGianduiotti += gianduiotti;
+    this.save(data);
+  }
+
+  public static getSelectedCharacter(): CharacterId {
+    const data = this.load();
+    return data.selectedCharacter || 'shhte';
+  }
+
+  public static setSelectedCharacter(id: CharacterId): void {
+    const data = this.load();
+    data.selectedCharacter = id;
     this.save(data);
   }
 

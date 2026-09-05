@@ -50,6 +50,8 @@ html, body, #root {
   display: flex;
   justify-content: center;
   align-items: center;
+  touch-action: none;
+  -webkit-touch-callout: none;
 }
 
 /* Container principale del gioco che garantisce l'aspect ratio 16:9 */
@@ -61,6 +63,8 @@ html, body, #root {
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle at center, #141c2e 0%, #080a0f 100%);
+  overflow: hidden;
+  touch-action: none;
 }
 
 .game-viewport {

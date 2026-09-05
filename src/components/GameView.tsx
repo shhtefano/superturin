@@ -10,7 +10,11 @@ import { LevelCompleteModal } from './LevelCompleteModal';
 import { HowToPlayModal } from './HowToPlayModal';
 import { SettingsModal } from './SettingsModal';
 import { LevelSelect } from './LevelSelect';
+import { CharacterSelectModal } from './CharacterSelectModal';
+import { VirtualJoypad } from './VirtualJoypad';
+import { OrientationPrompt } from './OrientationPrompt';
 import { LEVELS } from '../levels';
+import { CharacterId } from '../types/game';
 
 export const GameView: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,6 +22,10 @@ export const GameView: React.FC = () => {
 
   const [status, setStatus] = useState<GameStatus>('menu');
   const [saveData, setSaveData] = useState<SaveData>(() => SaveManager.load());
+  const [showVirtualJoypad, setShowVirtualJoypad] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 1024;
+  });
   const [hudData, setHudData] = useState<HudData>({
     lives: 3,
     maxLives: 3,
@@ -129,6 +137,14 @@ export const GameView: React.FC = () => {
     }
   };
 
+  const handleSelectCharacter = (heroId: CharacterId) => {
+    SaveManager.setSelectedCharacter(heroId);
+    setSaveData(SaveManager.load());
+    if (engineRef.current) {
+      engineRef.current.setSelectedCharacter(heroId);
+    }
+  };
+
   const handleUpdateSettings = (newSettings: Partial<SaveData['settings']>) => {
     SaveManager.updateSettings(newSettings);
     const updated = SaveManager.load();
@@ -149,6 +165,9 @@ export const GameView: React.FC = () => {
 
   return (
     <div className="game-viewport-wrapper">
+      {/* Avviso rotazione schermo orizzontale obbligatorio per mobile */}
+      <OrientationPrompt />
+
       <div className="game-viewport">
         {/* Canvas ad alta risoluzione base 1280x720 */}
         <canvas
@@ -157,6 +176,15 @@ export const GameView: React.FC = () => {
           height={720}
           className="game-canvas"
         />
+
+        {/* Virtual Joypad Arcade Touch per Mobile / Tablet */}
+        {status === 'playing' && showVirtualJoypad && (
+          <VirtualJoypad
+            inputManager={engineRef.current ? engineRef.current.input : null}
+            skills={hudData.skills}
+            onPause={handlePause}
+          />
+        )}
 
         {/* UI Overlay React */}
         <div className="ui-layer">
@@ -167,11 +195,24 @@ export const GameView: React.FC = () => {
           {status === 'menu' && (
             <MainMenu
               onStartGame={handleStartGame}
+              onOpenCharacterSelect={() => setStatus('characterSelect')}
               onOpenLevelSelect={() => setStatus('levelSelect')}
               onOpenHowToPlay={() => setStatus('howToPlay')}
               onOpenSettings={() => setStatus('settings')}
               unlockedLevels={saveData.unlockedLevels}
               totalGianduiotti={saveData.totalGianduiotti}
+              selectedCharacter={saveData.selectedCharacter ?? 'shhte'}
+            />
+          )}
+
+          {status === 'characterSelect' && (
+            <CharacterSelectModal
+              currentHero={saveData.selectedCharacter ?? 'shhte'}
+              onSelectHero={handleSelectCharacter}
+              onStartGame={() => {
+                handleStartGame();
+              }}
+              onClose={() => setStatus('menu')}
             />
           )}
 
@@ -180,6 +221,8 @@ export const GameView: React.FC = () => {
               onResume={handleResume}
               onRestart={handleRestart}
               onQuitToMenu={handleQuitToMenu}
+              joypadActive={showVirtualJoypad}
+              onToggleJoypad={() => setShowVirtualJoypad((prev) => !prev)}
             />
           )}
 

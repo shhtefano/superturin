@@ -5,15 +5,28 @@ interface PauseModalProps {
   onResume: () => void;
   onRestart: () => void;
   onQuitToMenu: () => void;
+  joypadActive?: boolean;
+  onToggleJoypad?: () => void;
 }
 
 export const PauseModal: React.FC<PauseModalProps> = ({
   onResume,
   onRestart,
   onQuitToMenu,
+  joypadActive,
+  onToggleJoypad,
 }) => {
   const options = [
     { label: '1. RIPRENDI', action: onResume, primary: true },
+    ...(onToggleJoypad
+      ? [
+          {
+            label: joypadActive ? '🎮 JOYPAD TOUCH: [ATTIVO]' : '🎮 JOYPAD TOUCH: [DISATTIVO]',
+            action: onToggleJoypad,
+            primary: false,
+          },
+        ]
+      : []),
     { label: '2. RICOMINCIA LIVELLO', action: onRestart, primary: false },
     { label: '3. MENU PRINCIPALE', action: onQuitToMenu, primary: false },
   ];

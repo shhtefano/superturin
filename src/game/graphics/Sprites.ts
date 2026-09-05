@@ -1,4 +1,4 @@
-import { PowerUpType } from '../../types/game';
+import { CharacterId, PowerUpType } from '../../types/game';
 
 export class Sprites {
   /**
@@ -15,7 +15,8 @@ export class Sprites {
     vx: number,
     vy: number,
     invincibleTimer: number,
-    activePowerUp?: PowerUpType | null
+    activePowerUp?: PowerUpType | null,
+    characterId: CharacterId = 'shhte'
   ): void {
     const map = new Map<PowerUpType, number>();
     if (activePowerUp) {
@@ -32,7 +33,9 @@ export class Sprites {
       vx,
       vy,
       invincibleTimer,
-      map
+      map,
+      false,
+      characterId
     );
   }
 
@@ -50,7 +53,11 @@ export class Sprites {
     vx: number,
     vy: number,
     invincibleTimer: number,
-    activePowerUps: Map<PowerUpType, number> = new Map()
+    activePowerUps: Map<PowerUpType, number> = new Map(),
+    isSliding: boolean = false,
+    characterId: CharacterId = 'shhte',
+    isGhostActive: boolean = false,
+    isBioAuraActive: boolean = false
   ): void {
     // Lampeggio se invincibile dopo un danno
     if (invincibleTimer > 0 && Math.floor(invincibleTimer * 20) % 2 === 0) {
@@ -67,6 +74,12 @@ export class Sprites {
     const isGiant = activePowerUps.has('funghetti');
     if (isGiant) {
       ctx.scale(1.5, 1.5);
+    }
+
+    // Se sta scivolando (Skill 1), abbassa e allunga la posa del corpo
+    if (isSliding) {
+      ctx.translate(0, height * 0.22);
+      ctx.scale(1.25, 0.55);
     }
 
     // Effetto Squash & Stretch
@@ -157,34 +170,150 @@ export class Sprites {
       ctx.restore();
     }
 
+    // 6. EFFETTO FASE SPETTRALE (Devis)
+    if (isGhostActive) {
+      ctx.globalAlpha = 0.6;
+      ctx.save();
+      ctx.strokeStyle = '#818cf8';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#6366f1';
+      ctx.shadowBlur = 18;
+      ctx.strokeRect(-width / 2 - 3, -height / 2 - 3, width + 6, height + 6);
+      ctx.restore();
+    }
+
+    // 7. EFFETTO BIO-AURA TOSSICA (Krebs)
+    if (isBioAuraActive) {
+      ctx.save();
+      const auraPulse = Math.sin(Date.now() * 0.012) * 5;
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 4;
+      ctx.shadowColor = '#22c55e';
+      ctx.shadowBlur = 16;
+      ctx.beginPath();
+      ctx.arc(0, 0, width * 1.1 + auraPulse, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
     const halfW = width / 2;
     const halfH = height / 2;
-
-    // 1. Gambe / Pantaloni scuri e stivali
     const legPhase = isGrounded && Math.abs(vx) > 10 ? Math.sin(Date.now() * 0.018) * 6 : 0;
-    ctx.fillStyle = '#1e293b';
+
+    // =========================================================================
+    // RENDERING DISTINTIVO DEI 7 PERSONAGGI GIOCABILI
+    // =========================================================================
+
+    // 1. GAMBE / PANTALONI E SCARPE
+    let pantsColor = '#1e293b';
+    let shoeColor = '#451a03';
+
+    if (characterId === 'shhte') {
+      pantsColor = '#0f172a';
+      shoeColor = '#06b6d4'; // Sneakers cyber
+    } else if (characterId === 'ugo') {
+      pantsColor = '#27272a';
+      shoeColor = '#52525b'; // Scarponi pesanti da brawler
+    } else if (characterId === 'jari') {
+      pantsColor = '#064e3b'; // Pantaloni ninja
+      shoeColor = '#facc15'; // Stivaletti dorati
+    } else if (characterId === 'jonson') {
+      pantsColor = '#713f12'; // Mimetica
+      shoeColor = '#3f2204';
+    } else if (characterId === 'krebs') {
+      pantsColor = '#334155';
+      shoeColor = '#475569';
+    } else if (characterId === 'devis') {
+      pantsColor = '#312e81';
+      shoeColor = '#6366f1';
+    } else if (characterId === 'willy') {
+      pantsColor = '#1e1b4b';
+      shoeColor = '#ffd166'; // Scarpe eleganti dorate
+    }
+
+    ctx.fillStyle = pantsColor;
     ctx.fillRect(-10 + legPhase, halfH - 16, 8, 12);
     ctx.fillRect(2 - legPhase, halfH - 16, 8, 12);
 
-    ctx.fillStyle = '#451a03';
+    ctx.fillStyle = shoeColor;
     ctx.fillRect(-12 + legPhase, halfH - 5, 11, 6);
     ctx.fillRect(1 - legPhase, halfH - 5, 11, 6);
 
-    // 2. Cappotto / Giacca Blu Savoia
-    ctx.fillStyle = '#0d47a1';
-    ctx.fillRect(-halfW + 4, -6, width - 8, 22);
+    // 2. TORSO / ABITO DEL PERSONAGGIO
+    if (characterId === 'shhte') {
+      // Trench Cyber-Runner scuro con rifiniture ciano
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(-1, -6, 2, 22); // Cerniera neon
+      ctx.fillRect(-halfW + 4, 10, width - 8, 3);
+    } else if (characterId === 'ugo') {
+      // Gilet bordeaux brawler su maglietta scura
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(-halfW + 4, -6, width - 8, 22);
+      ctx.fillStyle = '#7a131b';
+      ctx.fillRect(-halfW + 3, -6, 4, 20);
+      ctx.fillRect(halfW - 7, -6, 4, 20);
+    } else if (characterId === 'jari') {
+      // Giubba verde smeraldo acrobata con sciarpa svolazzante
+      ctx.fillStyle = '#059669';
+      ctx.fillRect(-halfW + 4, -6, width - 8, 22);
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(-halfW + 4, 6, width - 8, 3); // Cintura dorata
+      // Sciarpa che fluttua dietro
+      const scarfWave = Math.sin(Date.now() * 0.02) * 5;
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(-halfW - 8, -6 + scarfWave, 10, 5);
+    } else if (characterId === 'jonson') {
+      // Giacca tattica mimetica con bandoliera diagonale
+      ctx.fillStyle = '#854d0e';
+      ctx.fillRect(-halfW + 4, -6, width - 8, 22);
+      ctx.fillStyle = '#365314';
+      ctx.fillRect(-halfW + 4, 0, width - 8, 8);
+      // Cartucciera
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillRect(-4, -4, 3, 3);
+      ctx.fillRect(0, 0, 3, 3);
+      ctx.fillRect(4, 4, 3, 3);
+    } else if (characterId === 'krebs') {
+      // Camice bianco da scienziato con fiale fluorescenti
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillRect(-1, -6, 2, 22);
+      // Fiale biochimiche viola/verdi alla cintura
+      ctx.fillStyle = '#a855f7';
+      ctx.fillRect(-halfW + 5, 8, 4, 6);
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(-halfW + 11, 8, 4, 6);
+    } else if (characterId === 'devis') {
+      // Veste con cappuccio spettrale viola scuro e brandelli
+      ctx.fillStyle = '#311042';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      ctx.fillStyle = '#4c1d95';
+      ctx.fillRect(-halfW + 5, 10, width - 10, 8);
+    } else if (characterId === 'willy') {
+      // Giacca damascata da nobile bordeaux con rifiniture in oro
+      ctx.fillStyle = '#991b1b';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      ctx.fillStyle = '#ffd166';
+      ctx.fillRect(-halfW + 5, -4, width - 10, 4); // Revers d'oro
+      ctx.fillRect(-1, 0, 3, 3);
+      ctx.fillRect(-1, 6, 3, 3);
+    } else {
+      // Default Cappotto Blu Savoia
+      ctx.fillStyle = '#0d47a1';
+      ctx.fillRect(-halfW + 4, -6, width - 8, 22);
+      ctx.fillStyle = '#ffb703';
+      ctx.fillRect(-1, -2, 3, 3);
+      ctx.fillRect(-1, 4, 3, 3);
+    }
 
-    // Fila di bottoni dorati
-    ctx.fillStyle = '#ffb703';
-    ctx.fillRect(-1, -2, 3, 3);
-    ctx.fillRect(-1, 4, 3, 3);
-    ctx.fillRect(-1, 10, 3, 3);
-
-    // 3. Testa
+    // 3. VISO / TESTA
     ctx.fillStyle = '#fed7aa';
     ctx.fillRect(-9, -halfH + 8, 18, 16);
 
-    // Occhi reattivi alle sostanze
+    // Occhi (reattivi al personaggio e alle sostanze)
     if (activePowerUps.has('cocaina')) {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(1, -halfH + 12, 6, 6);
@@ -198,21 +327,90 @@ export class Sprites {
       ctx.beginPath();
       ctx.arc(4, -halfH + 14, 3.5, 0, Math.PI * 2);
       ctx.fill();
+    } else if (characterId === 'devis') {
+      // Occhi spettrali ardenti viola
+      ctx.fillStyle = '#c084fc';
+      ctx.fillRect(2, -halfH + 13, 4, 3);
     } else {
       ctx.fillStyle = '#0f172a';
       ctx.fillRect(2, -halfH + 13, 3, 4);
     }
 
-    // Baffi tipici piemontesi all'insù
-    ctx.fillStyle = '#3e2723';
-    ctx.fillRect(0, -halfH + 19, 9, 3);
-    ctx.fillRect(7, -halfH + 18, 3, 2);
+    // Baffi o barba
+    if (characterId === 'ugo') {
+      ctx.fillStyle = '#27272a';
+      ctx.fillRect(0, -halfH + 18, 9, 4); // Barba brawler
+    } else if (characterId === 'willy') {
+      ctx.fillStyle = '#3e2723';
+      ctx.fillRect(0, -halfH + 19, 8, 2); // Baffi curati con monocolo
+      ctx.fillStyle = '#ffd166';
+      ctx.beginPath();
+      ctx.arc(4, -halfH + 14, 4, 0, Math.PI * 2);
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    } else if (characterId !== 'devis' && characterId !== 'shhte') {
+      // Baffetti classici
+      ctx.fillStyle = '#3e2723';
+      ctx.fillRect(0, -halfH + 19, 9, 3);
+      ctx.fillRect(7, -halfH + 18, 3, 2);
+    }
 
-    // 4. Coppola Torinese
-    ctx.fillStyle = '#334155';
-    ctx.fillRect(-12, -halfH + 4, 24, 7);
-    ctx.fillStyle = '#1e293b';
-    ctx.fillRect(0, -halfH + 9, 14, 3);
+    // 4. CAPIGLIATURA / COPRICAPO UNICO PER OGNI EROE
+    if (characterId === 'shhte') {
+      // Capelli cybernetici a spazzola ciano + Visore HUD
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(-11, -halfH + 2, 22, 6);
+      ctx.fillRect(-8, -halfH - 2, 16, 5);
+      // Occhiali HUD cyberpunk ciano neon
+      ctx.fillStyle = '#22d3ee';
+      ctx.fillRect(0, -halfH + 11, 8, 4);
+    } else if (characterId === 'ugo') {
+      // Bandana brawler granata
+      ctx.fillStyle = '#dc2626';
+      ctx.fillRect(-11, -halfH + 4, 22, 6);
+      ctx.fillRect(-14, -halfH + 6, 4, 8); // Lembo annodato
+    } else if (characterId === 'jari') {
+      // Capelli raccolti e fascia dorata da ninja
+      ctx.fillStyle = '#451a03';
+      ctx.fillRect(-11, -halfH + 2, 22, 6);
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(-11, -halfH + 7, 22, 4);
+    } else if (characterId === 'jonson') {
+      // Berretto militare verde inclinato
+      ctx.fillStyle = '#365314';
+      ctx.fillRect(-12, -halfH + 2, 24, 7);
+      ctx.fillStyle = '#14532d';
+      ctx.fillRect(-2, -halfH + 7, 14, 3);
+      // Sigaro in bocca
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(7, -halfH + 20, 5, 2);
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(11, -halfH + 20, 2, 2);
+    } else if (characterId === 'krebs') {
+      // Capelli spettinati e occhialoni protettivi da chimico
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillRect(-11, -halfH + 1, 22, 7);
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(-2, -halfH + 10, 10, 6); // Lente occhialone verde neon
+    } else if (characterId === 'devis') {
+      // Cappuccio spettrale che oscura quasi tutto il capo
+      ctx.fillStyle = '#1e1b4b';
+      ctx.fillRect(-12, -halfH + 2, 24, 12);
+      ctx.fillRect(-8, -halfH - 2, 16, 5);
+    } else if (characterId === 'willy') {
+      // Cilindro nobile nero con nastro d'oro
+      ctx.fillStyle = '#1e1b4b';
+      ctx.fillRect(-12, -halfH + 5, 24, 4); // Falda
+      ctx.fillRect(-8, -halfH - 8, 16, 13); // Tubo cilindro
+      ctx.fillStyle = '#ffd166';
+      ctx.fillRect(-8, -halfH + 2, 16, 3); // Nastro d'oro
+    } else {
+      // Coppola Torinese
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(-12, -halfH + 4, 24, 7);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(0, -halfH + 9, 14, 3);
+    }
 
     ctx.restore();
   }

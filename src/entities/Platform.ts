@@ -7,7 +7,8 @@ export type PlatformStyle =
   | 'stone_portico'
   | 'marble'
   | 'brick'
-  | 'wood_dock';
+  | 'wood_dock'
+  | 'steel_beam';
 
 export class Platform extends Entity {
   public isOneWay: boolean;
@@ -228,6 +229,21 @@ export class Platform extends Entity {
       ctx.fillStyle = '#422006';
       for (let wx = renderX + 16; wx < renderX + this.width; wx += 20) {
         ctx.fillRect(wx, renderY, 2, this.height);
+      }
+    } else if (this.style === 'steel_beam') {
+      // Travi d'acciaio industriali del Lingotto
+      ctx.fillStyle = '#475569';
+      ctx.fillRect(renderX, renderY, this.width, this.height);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillRect(renderX, renderY, this.width, 3);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(renderX, renderY + this.height - 3, this.width, 3);
+
+      // Bulloni metallici industriali
+      ctx.fillStyle = '#cbd5e1';
+      for (let bx = renderX + 8; bx < renderX + this.width - 8; bx += 24) {
+        ctx.fillRect(bx, renderY + 4, 3, 3);
       }
     } else {
       // Marmo chiaro

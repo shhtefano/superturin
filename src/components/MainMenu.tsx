@@ -1,28 +1,37 @@
 import React from 'react';
 import { useMenuKeyboard } from '../hooks/useMenuKeyboard';
+import { CharacterId } from '../types/game';
+import { getCharacterConfig } from '../characters';
 
 interface MainMenuProps {
   onStartGame: () => void;
+  onOpenCharacterSelect: () => void;
   onOpenLevelSelect: () => void;
   onOpenHowToPlay: () => void;
   onOpenSettings: () => void;
   unlockedLevels: number;
   totalGianduiotti: number;
+  selectedCharacter: CharacterId;
 }
 
 export const MainMenu: React.FC<MainMenuProps> = ({
   onStartGame,
+  onOpenCharacterSelect,
   onOpenLevelSelect,
   onOpenHowToPlay,
   onOpenSettings,
   unlockedLevels,
   totalGianduiotti,
+  selectedCharacter,
 }) => {
+  const heroConfig = getCharacterConfig(selectedCharacter);
+
   const options = [
     { label: '1. GIOCA', action: onStartGame, primary: true },
-    { label: '2. SELEZIONA LIVELLO', action: onOpenLevelSelect, primary: false },
-    { label: '3. COME GIOCARE', action: onOpenHowToPlay, primary: false },
-    { label: '4. IMPOSTAZIONI', action: onOpenSettings, primary: false },
+    { label: `2. SCEGLI EROE [${heroConfig.name.toUpperCase()}]`, action: onOpenCharacterSelect, primary: false },
+    { label: '3. SELEZIONA LIVELLO', action: onOpenLevelSelect, primary: false },
+    { label: '4. COME GIOCARE', action: onOpenHowToPlay, primary: false },
+    { label: '5. IMPOSTAZIONI', action: onOpenSettings, primary: false },
   ];
 
   const { selectedIndex, setSelectedIndex } = useMenuKeyboard(
@@ -43,15 +52,17 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         <div
           style={{
             display: 'flex',
+            flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: '20px',
-            marginBottom: '26px',
+            gap: '16px',
+            marginBottom: '22px',
             fontSize: '0.85rem',
             color: 'var(--text-accent)',
             fontFamily: 'var(--font-display)',
           }}
         >
-          <span>🏆 Livelli: {unlockedLevels}</span>
+          <span>👤 Eroe: <strong style={{ color: heroConfig.color }}>{heroConfig.name}</strong></span>
+          <span>⭐ Skill: {heroConfig.skillName}</span>
           <span>🍫 Gianduiotti: {totalGianduiotti}</span>
         </div>
 
@@ -74,7 +85,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         </div>
 
         <div className="menu-nav-hint">
-          ⌨️ Usa <kbd>▲</kbd> <kbd>▼</kbd> o <kbd>W</kbd>/<kbd>S</kbd> e <kbd>INVIO</kbd> (oppure i tasti <kbd>1-4</kbd>)
+          ⌨️ Usa <kbd>▲</kbd> <kbd>▼</kbd> o <kbd>W</kbd>/<kbd>S</kbd> e <kbd>INVIO</kbd> (oppure i tasti <kbd>1-5</kbd>)
         </div>
       </div>
     </div>

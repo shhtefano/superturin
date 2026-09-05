@@ -260,8 +260,88 @@ export class AudioManager {
 
       osc.start(t);
       osc.stop(t + note.d + 0.05);
-      offset += note.d * 0.9;
+      offset += note.d;
     });
+  }
+
+  // --- EFFETTI SONORI DELLE SKILL (Tastierino 1, 2, 3) ---
+
+  /**
+   * Skill 1: Scivolata rapida
+   */
+  public playSlide(): void {
+    if (!this.isSfxEnabled) return;
+    this.initContext();
+    if (!this.ctx || !this.sfxGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(320, now);
+    osc.frequency.exponentialRampToValueAtTime(70, now + 0.25);
+
+    gain.gain.setValueAtTime(0.28, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+
+    osc.start(now);
+    osc.stop(now + 0.26);
+  }
+
+  /**
+   * Skill 2: Sparo con la Pistola
+   */
+  public playShoot(): void {
+    if (!this.isSfxEnabled) return;
+    this.initContext();
+    if (!this.ctx || !this.sfxGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(840, now);
+    osc.frequency.exponentialRampToValueAtTime(140, now + 0.12);
+
+    gain.gain.setValueAtTime(0.35, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+
+    osc.start(now);
+    osc.stop(now + 0.13);
+  }
+
+  /**
+   * Skill 3: Detonazione Bomba al Gianduiotto
+   */
+  public playExplosion(): void {
+    if (!this.isSfxEnabled) return;
+    this.initContext();
+    if (!this.ctx || !this.sfxGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(160, now);
+    osc.frequency.exponentialRampToValueAtTime(35, now + 0.35);
+
+    gain.gain.setValueAtTime(0.45, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+
+    osc.start(now);
+    osc.stop(now + 0.36);
   }
 
   // --- MUSICA DI SOTTOFONDO PROCEDURALE VINTAGE ---

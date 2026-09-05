@@ -29,11 +29,23 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
           <div><span className="key-badge">D</span> / <span className="key-badge">▶</span></div>
           <div>Muoviti a Destra</div>
 
-          <div><span className="key-badge">W</span> / <span className="key-badge">▲</span> / <span className="key-badge">SPACE</span></div>
-          <div>Super Salto (tieni premuto per saltare molto in alto!)</div>
+          <div><span className="key-badge">W</span> / <span className="key-badge">▲</span></div>
+          <div>Salto Arcade (tieni premuto per saltare più in alto!)</div>
+
+          <div><span className="key-badge">SPAZIO</span> / <span className="key-badge">⭐ JOYPAD</span></div>
+          <div><strong>⭐ Super-Abilità Eroe:</strong> Abilità speciale unica con cooldown (Shhte, Ugo, Jari, Jonson, Krebs, Devis, Willy)</div>
 
           <div><span className="key-badge">SHIFT</span></div>
           <div>Corsa veloce con scatto</div>
+
+          <div><span className="key-badge">1</span> / <span className="key-badge">Num1</span> / <span className="key-badge">J</span></div>
+          <div><strong>💨 Scivolata:</strong> Scatto radente, passa nei cunicoli bassi e stende i nemici</div>
+
+          <div><span className="key-badge">2</span> / <span className="key-badge">Num2</span> / <span className="key-badge">K</span></div>
+          <div><strong>🔫 Pistola Sabauda:</strong> Spara proiettili a nemici e blocchi ? distanti</div>
+
+          <div><span className="key-badge">3</span> / <span className="key-badge">Num3</span> / <span className="key-badge">L</span></div>
+          <div><strong>💣 Bomba Gianduiotto:</strong> Lancio a parabola ed esplosione ad area dorata</div>
         </div>
 
         <div className="lore-box" style={{ marginBottom: '20px', maxHeight: '220px', overflowY: 'auto' }}>

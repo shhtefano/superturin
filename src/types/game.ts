@@ -1,5 +1,6 @@
 export type GameStatus =
   | 'menu'
+  | 'characterSelect'
   | 'levelSelect'
   | 'howToPlay'
   | 'settings'
@@ -7,6 +8,8 @@ export type GameStatus =
   | 'paused'
   | 'gameOver'
   | 'levelComplete';
+
+export type CharacterId = 'shhte' | 'ugo' | 'jari' | 'jonson' | 'krebs' | 'devis' | 'willy';
 
 export type PowerUpType = 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 
@@ -28,6 +31,25 @@ export interface SynergyInfo {
   color: string;
 }
 
+export interface SkillInfo {
+  slideReady: boolean;
+  slideCooldownRatio: number;
+  slideTimeLeft: number;
+  shootReady: boolean;
+  shootCooldownRatio: number;
+  shootTimeLeft: number;
+  bombReady: boolean;
+  bombCooldownRatio: number;
+  bombTimeLeft: number;
+  // Super-Abilità del Personaggio (Tasto SPACE / Mobile ⭐ SPECIAL)
+  characterId: CharacterId;
+  characterName: string;
+  specialSkillName: string;
+  specialSkillReady: boolean;
+  specialSkillCooldownRatio: number;
+  specialSkillTimeLeft: number;
+}
+
 export interface HudData {
   lives: number;
   maxLives: number;
@@ -38,6 +60,7 @@ export interface HudData {
   levelTitle: string;
   activePowerUps: ActivePowerUpInfo[];
   activeSynergies: SynergyInfo[];
+  skills?: SkillInfo;
 }
 
 export interface GameSettings {
@@ -51,6 +74,7 @@ export interface SaveData {
   bestScores: Record<number, number>;
   totalGianduiotti: number;
   settings: GameSettings;
+  selectedCharacter: CharacterId;
 }
 
 export interface EngineCallbacks {

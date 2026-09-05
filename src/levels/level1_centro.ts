@@ -3,75 +3,136 @@ import { LevelData } from './types';
 export const level1_centro: LevelData = {
   id: 1,
   title: 'Livello 1 — Centro di Torino',
-  subtitle: 'Piazza Castello, Portici Sabaudi e Tram Storico',
+  subtitle: 'Piazza Castello, Via Po e la Sfida dei Tram GTT',
   theme: 'centro',
-  width: 4200,
+  width: 5800,
   height: 720,
-  timeLimit: 300,
+  timeLimit: 340,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
-    // Terreno principale Piazza Castello
-    { id: 'ground_1', x: 0, y: 580, width: 1250, height: 140, style: 'ground_pave' },
+    // 1. Piazza Castello - Terreno iniziale
+    { id: 'c1_ground_1', x: 0, y: 580, width: 1100, height: 140, style: 'ground_pave' },
 
-    // BLOCCHI SORPRESA "?" STILE SUPER MARIO (Piazza Castello)
-    { id: 'q_block_1', x: 360, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'gianduiotto' },
-    { id: 'brick_1', x: 396, y: 430, width: 36, height: 36, style: 'brick' },
-    { id: 'q_block_2', x: 432, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
-    { id: 'brick_2', x: 468, y: 430, width: 36, height: 36, style: 'brick' },
-    { id: 'q_block_3', x: 504, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
+    // Primi blocchi sorpresa rialzati (richiedono salto preciso)
+    { id: 'c1_brick_1', x: 420, y: 440, width: 36, height: 36, style: 'brick' },
+    { id: 'c1_q_1', x: 456, y: 440, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
+    { id: 'c1_brick_2', x: 492, y: 440, width: 36, height: 36, style: 'brick' },
+    { id: 'c1_q_2', x: 528, y: 440, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
 
-    // Portici e gradini di Palazzo Madama
-    { id: 'plat_portico_1', x: 620, y: 390, width: 150, height: 24, isOneWay: true, style: 'stone_portico' },
-    { id: 'plat_portico_2', x: 860, y: 430, width: 150, height: 24, isOneWay: true, style: 'stone_portico' },
+    // Portici di Palazzo Madama (scalata verticale)
+    { id: 'c1_portico_1', x: 680, y: 450, width: 130, height: 22, isOneWay: true, style: 'stone_portico' },
+    { id: 'c1_portico_2', x: 880, y: 380, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
+    { id: 'c1_portico_3', x: 1080, y: 300, width: 130, height: 22, isOneWay: true, style: 'stone_portico' },
 
-    // Fossa e passaggio
-    { id: 'ground_2', x: 1350, y: 580, width: 750, height: 140, style: 'ground_pave' },
-    { id: 'step_madama_1', x: 1550, y: 470, width: 150, height: 24, isOneWay: true, style: 'marble' },
-    { id: 'q_block_4', x: 1720, y: 340, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
-    { id: 'step_madama_2', x: 1800, y: 390, width: 160, height: 24, isOneWay: true, style: 'marble' },
+    // Fossa 1: Baratro stradale con piattaforma mobile
+    {
+      id: 'c1_moving_1',
+      x: 1280,
+      y: 460,
+      width: 120,
+      height: 22,
+      isOneWay: true,
+      style: 'marble',
+      isMoving: true,
+      moveAxis: 'x',
+      moveRange: 100,
+      moveSpeed: 1.6,
+    },
 
-    // Zona Binari del Tram GTT (il tram passa sotto, i portici sopra)
-    { id: 'ground_tram', x: 2180, y: 580, width: 850, height: 140, style: 'ground_pave' },
-    { id: 'portico_tram_1', x: 2240, y: 430, width: 160, height: 24, isOneWay: true, style: 'stone_portico' },
-    { id: 'portico_tram_roof', x: 2480, y: 340, width: 180, height: 24, isOneWay: true, style: 'marble' },
-    { id: 'q_block_5', x: 2550, y: 220, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
-    { id: 'portico_tram_2', x: 2740, y: 430, width: 160, height: 24, isOneWay: true, style: 'stone_portico' },
+    // 2. Zona Piazzetta Reale (Terreno 2)
+    { id: 'c1_ground_2', x: 1540, y: 580, width: 750, height: 140, style: 'ground_pave' },
+    { id: 'c1_step_1', x: 1720, y: 480, width: 120, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'c1_q_3', x: 1860, y: 360, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
+    { id: 'c1_step_2', x: 1980, y: 440, width: 130, height: 22, isOneWay: true, style: 'marble' },
 
-    // Sezione Palazzo Reale finale
-    { id: 'ground_palazzo', x: 3120, y: 580, width: 1080, height: 140, style: 'ground_pave' },
-    { id: 'reale_step_1', x: 3280, y: 470, width: 130, height: 24, isOneWay: true, style: 'marble' },
-    { id: 'reale_step_2', x: 3480, y: 390, width: 130, height: 24, isOneWay: true, style: 'marble' },
-    { id: 'q_block_6', x: 3530, y: 270, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
-    { id: 'reale_step_3', x: 3680, y: 460, width: 140, height: 24, isOneWay: true, style: 'marble' },
+    // Fossa 2: Salto lungo con piattaforma oscillante verticale
+    {
+      id: 'c1_moving_2',
+      x: 2360,
+      y: 470,
+      width: 110,
+      height: 22,
+      isOneWay: true,
+      style: 'stone_portico',
+      isMoving: true,
+      moveAxis: 'y',
+      moveRange: 70,
+      moveSpeed: 1.8,
+    },
+
+    // 3. Settore Binari di Via Po - TRAM MULTIPLI & PORTICI ALTI
+    { id: 'c1_ground_tram_1', x: 2540, y: 580, width: 950, height: 140, style: 'ground_pave' },
+    { id: 'c1_roof_tram_1', x: 2650, y: 430, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
+    { id: 'c1_roof_tram_2', x: 2880, y: 350, width: 160, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'c1_q_4', x: 2950, y: 230, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
+    { id: 'c1_roof_tram_3', x: 3120, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
+
+    // Fossa 3: Doppio baratro con gradini stretti
+    { id: 'c1_pillar_1', x: 3560, y: 480, width: 80, height: 240, style: 'stone_portico' },
+    { id: 'c1_pillar_2', x: 3720, y: 410, width: 80, height: 310, style: 'stone_portico' },
+    { id: 'c1_pillar_3', x: 3880, y: 460, width: 80, height: 260, style: 'stone_portico' },
+
+    // 4. Sezione Piazza San Carlo - Portici Monumentali
+    { id: 'c1_ground_sancarlo', x: 4030, y: 580, width: 800, height: 140, style: 'ground_pave' },
+    { id: 'c1_sc_step_1', x: 4180, y: 470, width: 140, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'c1_sc_q_5', x: 4340, y: 340, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
+    { id: 'c1_sc_step_2', x: 4420, y: 410, width: 150, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'c1_sc_step_3', x: 4640, y: 350, width: 130, height: 22, isOneWay: true, style: 'stone_portico' },
+
+    // Fossa Finale verso Palazzo Reale
+    {
+      id: 'c1_moving_3',
+      x: 4900,
+      y: 430,
+      width: 120,
+      height: 22,
+      isOneWay: true,
+      style: 'marble',
+      isMoving: true,
+      moveAxis: 'x',
+      moveRange: 90,
+      moveSpeed: 2.0,
+    },
+
+    // Traguardo Finale Palazzo Reale
+    { id: 'c1_ground_final', x: 5090, y: 580, width: 710, height: 140, style: 'ground_pave' },
+    { id: 'c1_final_step', x: 5260, y: 480, width: 140, height: 22, isOneWay: true, style: 'marble' },
   ],
 
   checkpoints: [
-    { id: 'toret_1', x: 1400, y: 532 },
-    { id: 'toret_2', x: 3170, y: 532 },
+    { id: 'toret_1', x: 1600, y: 532 },
+    { id: 'toret_2', x: 4080, y: 532 },
   ],
 
+  // Rari collezionabili posizionati in punti elevati / rischiosi
   collectibles: [
-    { id: 'g_1', type: 'gianduiotto', x: 280, y: 540 },
-    { id: 'c_1', type: 'marijuana', x: 670, y: 350 },
-    { id: 'g_2', type: 'gianduiotto', x: 920, y: 390 },
-    { id: 'c_2', type: 'funghetti', x: 1870, y: 350 },
-    { id: 'g_3', type: 'gianduiotto', x: 2300, y: 390 },
-    { id: 'c_3', type: 'cocaina', x: 2540, y: 300 },
-    { id: 'g_4', type: 'gianduiotto', x: 2800, y: 390 },
-    { id: 'c_4', type: 'md', x: 3320, y: 430 },
-    { id: 'c_5', type: 'lsd', x: 3720, y: 420 },
+    { id: 'c1_g_1', type: 'gianduiotto', x: 1090, y: 260 }, // Alto sul portico
+    { id: 'c1_g_2', type: 'gianduiotto', x: 2900, y: 310 }, // Sopra il tetto tram
+    { id: 'c1_g_3', type: 'gianduiotto', x: 3730, y: 370 }, // Sopra il pilastro stretto
+    { id: 'c1_g_4', type: 'gianduiotto', x: 4660, y: 310 }, // Alto su Piazza San Carlo
   ],
 
   enemies: [
-    { id: 'pigeon_1', type: 'pigeon', x: 500, y: 554, patrolLeft: 400, patrolRight: 750 },
-    { id: 'pigeon_2', type: 'pigeon', x: 1600, y: 554, patrolLeft: 1450, patrolRight: 1900 },
-    { id: 'tram_1', type: 'tram', x: 2260, y: 530, patrolLeft: 2220, patrolRight: 2850 },
-    { id: 'angry_1', type: 'angryLocal', x: 3420, y: 536, patrolLeft: 3260, patrolRight: 3700 },
+    // Piazza Castello
+    { id: 'pigeon_1', type: 'pigeon', x: 500, y: 554, patrolLeft: 380, patrolRight: 750 },
+    { id: 'angry_1', type: 'angryLocal', x: 880, y: 536, patrolLeft: 780, patrolRight: 1050 },
+
+    // Piazzetta Reale
+    { id: 'pigeon_2', type: 'pigeon', x: 1680, y: 554, patrolLeft: 1560, patrolRight: 1950 },
+
+    // Via Po: Tram 1 veloce a terra, Tram 2 di pattuglia
+    { id: 'tram_1', type: 'tram', x: 2600, y: 530, patrolLeft: 2540, patrolRight: 3100 },
+    { id: 'pigeon_3', type: 'pigeon', x: 2920, y: 324, patrolLeft: 2880, patrolRight: 3040 },
+
+    // Piazza San Carlo
+    { id: 'angry_2', type: 'angryLocal', x: 4200, y: 536, patrolLeft: 4050, patrolRight: 4500 },
+    { id: 'pigeon_4', type: 'pigeon', x: 4440, y: 384, patrolLeft: 4420, patrolRight: 4570 },
+    { id: 'angry_3', type: 'angryLocal', x: 5300, y: 536, patrolLeft: 5120, patrolRight: 5520 },
   ],
 
   goal: {
-    x: 4020,
+    x: 5620,
     y: 500,
   },
 };

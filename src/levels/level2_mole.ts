@@ -3,105 +3,167 @@ import { LevelData } from './types';
 export const level2_mole: LevelData = {
   id: 2,
   title: 'Livello 2 — La Mole Antonelliana',
-  subtitle: 'Salita Verticale tra Mattoni Sabaudi e Ascensori Panoramici',
+  subtitle: 'La Grande Scalata Verticale tra Ascensori nel Vuoto e la Guglia',
   theme: 'mole',
-  width: 3800,
+  width: 5600,
   height: 720,
-  timeLimit: 320,
+  timeLimit: 360,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
-    // Base d'ingresso della Mole
-    { id: 'mole_base_1', x: 0, y: 580, width: 850, height: 140, style: 'brick' },
+    // 1. Ingresso e Base Monumentale
+    { id: 'm_base_1', x: 0, y: 580, width: 850, height: 140, style: 'brick' },
 
-    // Blocchi interrogativi d'inizio
-    { id: 'm_q_1', x: 320, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'gianduiotto' },
-    { id: 'm_brick_1', x: 356, y: 430, width: 36, height: 36, style: 'brick' },
-    { id: 'm_q_2', x: 392, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
+    // Blocchi per preparare la scalata
+    { id: 'm_brick_1', x: 380, y: 440, width: 36, height: 36, style: 'brick' },
+    { id: 'm_q_1', x: 416, y: 440, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' }, // Sblocca doppio salto
+    { id: 'm_brick_2', x: 452, y: 440, width: 36, height: 36, style: 'brick' },
 
-    // ASCENSORE PANORAMICO 1 (Piattaforma mobile verticale)
+    // Scalini di marmo per raggiungere il primo ascensore
+    { id: 'm_step_1', x: 620, y: 480, width: 130, height: 22, isOneWay: true, style: 'marble' },
+
+    // ASCENSORE 1: Salita verticale rapida sopra il baratro
     {
-      id: 'mole_lift_1',
-      x: 950,
-      y: 480,
-      width: 120,
+      id: 'm_lift_1',
+      x: 880,
+      y: 460,
+      width: 110,
+      height: 20,
+      isOneWay: true,
+      style: 'marble',
+      isMoving: true,
+      moveAxis: 'y',
+      moveRange: 150,
+      moveSpeed: 2.2,
+    },
+
+    // 2. Terrazza Intermedia 1 (Loggiato Alto)
+    { id: 'm_terrace_1', x: 1080, y: 350, width: 680, height: 370, style: 'brick' },
+    { id: 'm_q_2', x: 1280, y: 220, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
+    { id: 'm_step_2', x: 1480, y: 250, width: 130, height: 22, isOneWay: true, style: 'marble' },
+
+    // Fossa dei Mattoni: Doppio ascensore sincronizzato in controfase
+    {
+      id: 'm_lift_2a',
+      x: 1840,
+      y: 360,
+      width: 100,
+      height: 20,
+      isOneWay: true,
+      style: 'marble',
+      isMoving: true,
+      moveAxis: 'x',
+      moveRange: 90,
+      moveSpeed: 1.8,
+    },
+    {
+      id: 'm_lift_2b',
+      x: 2100,
+      y: 400,
+      width: 100,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
       moveRange: 130,
-      moveSpeed: 1.8,
+      moveSpeed: 2.0,
     },
 
-    // Terrazza Loggiato Inferiore
-    { id: 'mole_terrace_1', x: 1180, y: 380, width: 650, height: 340, style: 'brick' },
-    { id: 'm_q_3', x: 1350, y: 250, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
-    { id: 'm_q_4', x: 1550, y: 250, width: 36, height: 36, isQuestionBlock: true, questionContent: 'gianduiotto' },
+    // 3. Settore Cupola - Piattaforme a gradoni e pilastri stretti
+    { id: 'm_cupola_base', x: 2300, y: 430, width: 750, height: 290, style: 'brick' },
+    { id: 'm_cupola_step_1', x: 2450, y: 320, width: 120, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'm_q_3', x: 2620, y: 200, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
+    { id: 'm_cupola_step_2', x: 2750, y: 260, width: 140, height: 22, isOneWay: true, style: 'marble' },
 
-    // ASCENSORE PANORAMICO 2 (Piattaforma mobile orizzontale)
+    // Baratro del Tempietto: 2 Piattaforme mobili su assi incrociati
     {
-      id: 'mole_lift_2',
-      x: 1980,
-      y: 350,
-      width: 130,
-      height: 20,
-      isOneWay: true,
-      style: 'marble',
-      isMoving: true,
-      moveAxis: 'x',
-      moveRange: 120,
-      moveSpeed: 1.6,
-    },
-
-    // Struttura Tempietto superiore
-    { id: 'mole_tempietto', x: 2280, y: 400, width: 700, height: 320, style: 'brick' },
-    { id: 'tempietto_step_1', x: 2420, y: 300, width: 140, height: 22, isOneWay: true, style: 'marble' },
-    { id: 'm_q_5', x: 2600, y: 190, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
-    { id: 'tempietto_step_2', x: 2720, y: 240, width: 150, height: 22, isOneWay: true, style: 'marble' },
-
-    // ASCENSORE 3: Verso la Guglia
-    {
-      id: 'mole_lift_3',
-      x: 3100,
-      y: 360,
-      width: 120,
+      id: 'm_lift_3',
+      x: 3120,
+      y: 320,
+      width: 110,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
       moveRange: 140,
-      moveSpeed: 2.0,
+      moveSpeed: 2.3,
+    },
+    {
+      id: 'm_lift_4',
+      x: 3320,
+      y: 260,
+      width: 110,
+      height: 20,
+      isOneWay: true,
+      style: 'marble',
+      isMoving: true,
+      moveAxis: 'x',
+      moveRange: 110,
+      moveSpeed: 2.1,
     },
 
-    // Terrazza Sommitale con la Guglia
-    { id: 'mole_spire_platform', x: 3320, y: 420, width: 480, height: 300, style: 'marble' },
+    // 4. Balconata del Tempietto Superiore
+    { id: 'm_tempietto_plat', x: 3540, y: 380, width: 700, height: 340, style: 'brick' },
+    { id: 'm_step_tempietto', x: 3720, y: 270, width: 130, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'm_q_4', x: 3900, y: 150, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
+
+    // Baratro della Guglia: Serie di 3 pilastri strettissimi nel vuoto
+    { id: 'm_spire_pillar_1', x: 4320, y: 460, width: 70, height: 260, style: 'brick' },
+    { id: 'm_spire_pillar_2', x: 4520, y: 380, width: 70, height: 340, style: 'brick' },
+    { id: 'm_spire_pillar_3', x: 4720, y: 310, width: 70, height: 410, style: 'brick' },
+
+    // ASCENSORE FINALE: Salita rapida verso la vetta della Guglia
+    {
+      id: 'm_lift_final',
+      x: 4920,
+      y: 350,
+      width: 110,
+      height: 20,
+      isOneWay: true,
+      style: 'marble',
+      isMoving: true,
+      moveAxis: 'y',
+      moveRange: 160,
+      moveSpeed: 2.5,
+    },
+
+    // 5. Terrazza Panoramica Sommitale con la Guglia e Toro d'Oro
+    { id: 'm_spire_summit', x: 5120, y: 400, width: 480, height: 320, style: 'marble' },
   ],
 
   checkpoints: [
-    { id: 'toret_mole', x: 1240, y: 332 },
+    { id: 'toret_mole_1', x: 1140, y: 302 },
+    { id: 'toret_mole_2', x: 3600, y: 332 },
   ],
 
+  // Rari collezionabili posizionati nei punti più vertiginosi
   collectibles: [
-    { id: 'mg_1', type: 'gianduiotto', x: 240, y: 540 },
-    { id: 'mg_2', type: 'lsd', x: 990, y: 320 },
-    { id: 'mg_3', type: 'gianduiotto', x: 1420, y: 340 },
-    { id: 'mg_4', type: 'md', x: 1680, y: 340 },
-    { id: 'mg_5', type: 'marijuana', x: 2020, y: 280 },
-    { id: 'mg_6', type: 'gianduiotto', x: 2460, y: 260 },
-    { id: 'mg_7', type: 'cocaina', x: 2760, y: 200 },
-    { id: 'mg_8', type: 'gianduiotto', x: 3420, y: 380 },
+    { id: 'm_g_1', type: 'gianduiotto', x: 920, y: 260 },  // In aria sopra l'ascensore 1
+    { id: 'm_g_2', type: 'gianduiotto', x: 2790, y: 210 }, // Vertice alto della cupola
+    { id: 'm_g_3', type: 'gianduiotto', x: 4540, y: 330 }, // In cima al pilastro stretto nel vuoto
   ],
 
   enemies: [
-    { id: 'mole_pigeon_1', type: 'pigeon', x: 450, y: 554, patrolLeft: 380, patrolRight: 720 },
-    { id: 'mole_pigeon_2', type: 'pigeon', x: 1380, y: 354, patrolLeft: 1280, patrolRight: 1720 },
-    { id: 'mole_angry_1', type: 'angryLocal', x: 2480, y: 356, patrolLeft: 2360, patrolRight: 2850 },
+    // Base Mole
+    { id: 'mole_pig_1', type: 'pigeon', x: 520, y: 554, patrolLeft: 420, patrolRight: 750 },
+
+    // Terrazza 1
+    { id: 'mole_angry_1', type: 'angryLocal', x: 1260, y: 306, patrolLeft: 1120, patrolRight: 1600 },
+    { id: 'mole_pig_2', type: 'pigeon', x: 1520, y: 224, patrolLeft: 1480, patrolRight: 1610 },
+
+    // Cupola
+    { id: 'mole_angry_2', type: 'angryLocal', x: 2420, y: 386, patrolLeft: 2320, patrolRight: 2680 },
+    { id: 'mole_pig_3', type: 'pigeon', x: 2800, y: 234, patrolLeft: 2750, patrolRight: 2890 },
+
+    // Tempietto Superiore
+    { id: 'mole_angry_3', type: 'angryLocal', x: 3650, y: 336, patrolLeft: 3560, patrolRight: 4100 },
+    { id: 'mole_pig_4', type: 'pigeon', x: 4740, y: 284, patrolLeft: 4720, patrolRight: 4790 },
   ],
 
   goal: {
-    x: 3620,
-    y: 340,
+    x: 5440,
+    y: 320,
   },
 };
