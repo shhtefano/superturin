@@ -2,7 +2,7 @@ import { PowerUpType } from '../../types/game';
 
 export class Sprites {
   /**
-   * Disegna il Giocatore (Eroe Sabaudo con coppola torinese, baffi, cappotto blu Savoia e stivali).
+   * Disegna il Giocatore (singolo power-up retrocompatibile).
    */
   public static drawPlayer(
     ctx: CanvasRenderingContext2D,
@@ -15,7 +15,42 @@ export class Sprites {
     vx: number,
     vy: number,
     invincibleTimer: number,
-    activePowerUp: PowerUpType = 'none'
+    activePowerUp?: PowerUpType | null
+  ): void {
+    const map = new Map<PowerUpType, number>();
+    if (activePowerUp) {
+      map.set(activePowerUp, 10);
+    }
+    Sprites.drawPlayerCombined(
+      ctx,
+      x,
+      y,
+      width,
+      height,
+      facingRight,
+      isGrounded,
+      vx,
+      vy,
+      invincibleTimer,
+      map
+    );
+  }
+
+  /**
+   * Disegna il Giocatore con COMBINAZIONI MULTIPLE di sostanze ed effetti stratificati
+   */
+  public static drawPlayerCombined(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    facingRight: boolean,
+    isGrounded: boolean,
+    vx: number,
+    vy: number,
+    invincibleTimer: number,
+    activePowerUps: Map<PowerUpType, number> = new Map()
   ): void {
     // Lampeggio se invincibile dopo un danno
     if (invincibleTimer > 0 && Math.floor(invincibleTimer * 20) % 2 === 0) {
@@ -29,7 +64,7 @@ export class Sprites {
     }
 
     // Se ha il funghetto, il giocatore diventa GIGANTE (Mega Mario style 1.5x)
-    const isGiant = activePowerUp === 'funghetti';
+    const isGiant = activePowerUps.has('funghetti');
     if (isGiant) {
       ctx.scale(1.5, 1.5);
     }
@@ -52,51 +87,55 @@ export class Sprites {
     ctx.scale(scaleX, scaleY);
 
     // =========================================================================
-    // EFFETTI VISIVI UNICI DEI POWER-UP SUL PERSONAGGIO
+    // EFFETTI VISIVI COMBINATI MULTIPLI SUL PERSONAGGIO (STRATIFICATI INSIEME)
     // =========================================================================
-    if (activePowerUp === 'cocaina') {
-      // Aura elettrica bianca frenetica e scia di velocità
+
+    // 1. EFFETTO COCAINA: Aura elettrica ciano + scintille
+    if (activePowerUps.has('cocaina')) {
       ctx.save();
       ctx.strokeStyle = '#67e8f9';
       ctx.lineWidth = 3;
       ctx.shadowColor = '#ffffff';
       ctx.shadowBlur = 14;
       ctx.strokeRect(-width / 2 - 3, -height / 2 - 3, width + 6, height + 6);
-      // Scintille bianche
       ctx.fillStyle = '#ffffff';
       const sparkX = Math.sin(Date.now() * 0.04) * 20;
       ctx.fillRect(sparkX, -height / 2 - 8, 3, 3);
       ctx.restore();
-    } else if (activePowerUp === 'marijuana') {
-      // Aura verde relax e anellini di fumo
+    }
+
+    // 2. EFFETTO MARIJUANA: Aura verde relax + sbuffi di fumo
+    if (activePowerUps.has('marijuana')) {
       ctx.save();
       ctx.strokeStyle = '#22c55e';
       ctx.lineWidth = 3;
       ctx.shadowColor = '#4ade80';
       ctx.shadowBlur = 12;
       ctx.strokeRect(-width / 2 - 2, -height / 2 - 2, width + 4, height + 4);
-      // Nuvola di fumo sereno sopra la testa
       ctx.fillStyle = 'rgba(187, 247, 208, 0.45)';
       const smokeOffset = (Date.now() * 0.003) % 1;
       ctx.beginPath();
       ctx.arc(-4, -height / 2 - 10 - smokeOffset * 10, 6 + smokeOffset * 4, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
-    } else if (activePowerUp === 'md') {
-      // Pulsazione neon disco fucsia
+    }
+
+    // 3. EFFETTO MD: Pulsazione neon fucsia disco + cuoricini
+    if (activePowerUps.has('md')) {
       ctx.save();
       ctx.strokeStyle = '#ec4899';
       ctx.lineWidth = 3;
       ctx.shadowColor = '#f43f5e';
       ctx.shadowBlur = 16;
       ctx.strokeRect(-width / 2 - 3, -height / 2 - 3, width + 6, height + 6);
-      // Cuoricini disco che fluttuano
       ctx.fillStyle = '#f472b6';
       ctx.font = '10px sans-serif';
       ctx.fillText('♥', -8, -height / 2 - 8);
       ctx.restore();
-    } else if (activePowerUp === 'lsd') {
-      // Aura caleidoscopica arcobaleno (cycling hue)
+    }
+
+    // 4. EFFETTO LSD: Scia caleidoscopica arcobaleno (cycling hue)
+    if (activePowerUps.has('lsd')) {
       ctx.save();
       const hue = Math.floor((Date.now() * 0.2) % 360);
       ctx.strokeStyle = `hsl(${hue}, 100%, 60%)`;
@@ -105,8 +144,10 @@ export class Sprites {
       ctx.shadowBlur = 15;
       ctx.strokeRect(-width / 2 - 4, -height / 2 - 4, width + 8, height + 8);
       ctx.restore();
-    } else if (activePowerUp === 'funghetti') {
-      // Alone dorato maestoso gigante
+    }
+
+    // 5. EFFETTO FUNGHETTI: Alone dorato gigante
+    if (activePowerUps.has('funghetti')) {
       ctx.save();
       ctx.strokeStyle = '#fbbf24';
       ctx.lineWidth = 4;
@@ -121,11 +162,10 @@ export class Sprites {
 
     // 1. Gambe / Pantaloni scuri e stivali
     const legPhase = isGrounded && Math.abs(vx) > 10 ? Math.sin(Date.now() * 0.018) * 6 : 0;
-    ctx.fillStyle = '#1e293b'; // Pantaloni
+    ctx.fillStyle = '#1e293b';
     ctx.fillRect(-10 + legPhase, halfH - 16, 8, 12);
     ctx.fillRect(2 - legPhase, halfH - 16, 8, 12);
 
-    // Scarpe in pelle marrone
     ctx.fillStyle = '#451a03';
     ctx.fillRect(-12 + legPhase, halfH - 5, 11, 6);
     ctx.fillRect(1 - legPhase, halfH - 5, 11, 6);
@@ -134,26 +174,30 @@ export class Sprites {
     ctx.fillStyle = '#0d47a1';
     ctx.fillRect(-halfW + 4, -6, width - 8, 22);
 
-    // Dettaglio: Fila di bottoni dorati
+    // Fila di bottoni dorati
     ctx.fillStyle = '#ffb703';
     ctx.fillRect(-1, -2, 3, 3);
     ctx.fillRect(-1, 4, 3, 3);
     ctx.fillRect(-1, 10, 3, 3);
 
-    // 3. Testa (Viso carnacino)
+    // 3. Testa
     ctx.fillStyle = '#fed7aa';
     ctx.fillRect(-9, -halfH + 8, 18, 16);
 
-    // Occhi (frenetici se sotto cocaina, rilassati se sotto marijuana)
-    if (activePowerUp === 'cocaina') {
+    // Occhi reattivi alle sostanze
+    if (activePowerUps.has('cocaina')) {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(1, -halfH + 12, 6, 6);
       ctx.fillStyle = '#000000';
       ctx.fillRect(4, -halfH + 14, 2, 2);
-    } else if (activePowerUp === 'marijuana') {
-      // Occhi rilassati socchiusi
+    } else if (activePowerUps.has('marijuana')) {
       ctx.fillStyle = '#dc2626';
       ctx.fillRect(1, -halfH + 14, 5, 2);
+    } else if (activePowerUps.has('md')) {
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.arc(4, -halfH + 14, 3.5, 0, Math.PI * 2);
+      ctx.fill();
     } else {
       ctx.fillStyle = '#0f172a';
       ctx.fillRect(2, -halfH + 13, 3, 4);
@@ -164,10 +208,9 @@ export class Sprites {
     ctx.fillRect(0, -halfH + 19, 9, 3);
     ctx.fillRect(7, -halfH + 18, 3, 2);
 
-    // 4. Coppola Torinese tradizionale
+    // 4. Coppola Torinese
     ctx.fillStyle = '#334155';
     ctx.fillRect(-12, -halfH + 4, 24, 7);
-    // Visiera sporgente in avanti
     ctx.fillStyle = '#1e293b';
     ctx.fillRect(0, -halfH + 9, 14, 3);
 
@@ -257,6 +300,51 @@ export class Sprites {
     ctx.moveTo(x + width / 2 - 2, cy + 4);
     ctx.lineTo(x + 6, cy + height - 4);
     ctx.stroke();
+    ctx.restore();
+  }
+
+  /**
+   * 1b. Bicerin storico torinese (bicchierino di vetro a strati: cioccolato, caffè e fior di latte)
+   */
+  public static drawBicerin(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    hoverOffset: number = 0
+  ): void {
+    ctx.save();
+    const cy = y + hoverOffset;
+    ctx.shadowColor = '#d97706';
+    ctx.shadowBlur = 8;
+
+    // Bicchiere di vetro trasparente
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+    ctx.fillRect(x + 3, cy + 2, width - 6, height - 6);
+
+    // Strato 1: Cioccolata calda densa al fondo
+    ctx.fillStyle = '#451a03';
+    ctx.fillRect(x + 4, cy + height - 12, width - 8, 8);
+
+    // Strato 2: Caffè espresso caldo al centro
+    ctx.fillStyle = '#78350f';
+    ctx.fillRect(x + 4, cy + height - 18, width - 8, 6);
+
+    // Strato 3: Fior di latte cremoso in cima
+    ctx.fillStyle = '#fefce8';
+    ctx.fillRect(x + 4, cy + 4, width - 8, 6);
+
+    // Bordo bicchiere lucido
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x + 3, cy + 2, width - 6, height - 6);
+
+    // Piedino del bicchierino
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillRect(x + width / 2 - 2, cy + height - 4, 4, 3);
+    ctx.fillRect(x + width / 2 - 5, cy + height - 2, 10, 2);
+
     ctx.restore();
   }
 

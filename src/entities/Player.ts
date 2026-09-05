@@ -5,7 +5,7 @@ import { AudioManager } from '../game/audio/AudioManager';
 import { ParticleSystem } from '../game/graphics/ParticleSystem';
 import { Sprites } from '../game/graphics/Sprites';
 import { Vector2D } from '../types/physics';
-import { PowerUpType, ActivePowerUpInfo } from '../types/game';
+import { PowerUpType, ActivePowerUpInfo, SynergyInfo } from '../types/game';
 
 export type PlayerState = 'idle' | 'running' | 'jumping' | 'falling' | 'hurt' | 'dead' | 'victory';
 
@@ -19,10 +19,9 @@ export class Player extends Entity {
   public coyoteTimer: number = 0;
   public invincibleTimer: number = 0;
 
-  // Sistema Power-Up avanzato con Bonus e Malus (durata >= 10s)
-  public activePowerUp: PowerUpType = 'none';
-  public powerUpTimer: number = 0;
-  public readonly maxPowerUpDuration: number = 12.0; // 12 secondi pieni
+  // Sistema Power-Up avanzato: COMBINAZIONI MULTIPLE CONCURRENTI (Map di tipo -> secondi rimanenti)
+  public activePowerUps: Map<PowerUpType, number> = new Map();
+  public readonly maxPowerUpDuration: number = 12.0; // Durata di 12s per ciascun effetto
   public hasDoubleJumped: boolean = false;
 
   // Salute e checkpoint
@@ -52,17 +51,14 @@ export class Player extends Entity {
   }
 
   /**
-   * Attiva una sostanza/collezionabile con bonus e malus dedicati (durata 12s)
+   * Attiva o ricarica un power-up/sostanza senza sovrascrivere gli altri già attivi (effetti cumulabili!)
    */
   public activatePowerUp(type: PowerUpType): void {
-    if (type === 'none') return;
-    this.activePowerUp = type;
-    this.powerUpTimer = this.maxPowerUpDuration;
+    this.activePowerUps.set(type, this.maxPowerUpDuration);
     this.audio.playPowerUp();
 
-    // Effetti speciali istantanei
+    // Effetti speciali istantanei al consumo
     if (type === 'marijuana') {
-      // Bonus: cura immediata di +1 cuore
       this.lives = Math.min(this.maxLives, this.lives + 1);
       this.particles.emitWaterDroplets(this.x + this.width / 2, this.y, 14);
     } else if (type === 'cocaina') {
@@ -72,73 +68,149 @@ export class Player extends Entity {
       this.particles.emitGoldSparks(this.x + this.width / 2, this.y, 18);
     } else if (type === 'funghetti') {
       this.particles.emitGoldSparks(this.x + this.width / 2, this.y, 22);
+    } else if (type === 'md') {
+      this.particles.emitGoldSparks(this.x + this.width / 2, this.y, 16);
     }
   }
 
-  public hasPowerUp(): boolean {
-    return this.activePowerUp !== 'none' && this.powerUpTimer > 0;
+  public hasPowerUp(type: PowerUpType): boolean {
+    return (this.activePowerUps.get(type) ?? 0) > 0;
   }
 
-  public getActivePowerUpInfo(): ActivePowerUpInfo | null {
-    if (!this.hasPowerUp()) return null;
+  public hasAnyPowerUp(): boolean {
+    return this.activePowerUps.size > 0;
+  }
 
-    const percent = Math.max(0, Math.min(1, this.powerUpTimer / this.maxPowerUpDuration));
-    const durationLeft = Math.ceil(this.powerUpTimer);
+  /**
+   * Ritorna la lista di tutte le sostanze attive con i rispettivi bonus/malus e timer
+   */
+  public getActivePowerUpsList(): ActivePowerUpInfo[] {
+    const list: ActivePowerUpInfo[] = [];
 
-    switch (this.activePowerUp) {
-      case 'cocaina':
-        return {
-          type: 'cocaina',
-          name: 'COCAINA',
-          durationLeft,
-          durationPercent: percent,
-          bonusText: '⚡ Super Velocità (+70%) & Super Salto',
-          malusText: '⚠️ Cuore fragile: subisci danno doppio!',
-          color: '#06b6d4',
-        };
-      case 'marijuana':
-        return {
-          type: 'marijuana',
-          name: 'MARIJUANA',
-          durationLeft,
-          durationPercent: percent,
-          bonusText: '🛡️ +1 Vita & Nemici innocui (nessun danno)',
-          malusText: '🐌 Movimenti e riflessi molto rallentati',
-          color: '#22c55e',
-        };
-      case 'md':
-        return {
-          type: 'md',
-          name: 'MDMA (PASTICCA)',
-          durationLeft,
-          durationPercent: percent,
-          bonusText: '✨ Punti x2 & Magnete Gianduiotti',
-          malusText: '🧊 Scivoli come sul ghiaccio (zero attrito)',
-          color: '#ec4899',
-        };
-      case 'lsd':
-        return {
-          type: 'lsd',
-          name: 'LSD (BLOTTER)',
-          durationLeft,
-          durationPercent: percent,
-          bonusText: '🌀 Doppio Salto infinito a mezz\'aria',
-          malusText: '🌈 Distorsione psichedelica arcobaleno',
-          color: '#a855f7',
-        };
-      case 'funghetti':
-        return {
-          type: 'funghetti',
-          name: 'FUNGHETTI',
-          durationLeft,
-          durationPercent: percent,
-          bonusText: '🍄 Gigante: schiaccia i nemici al tocco',
-          malusText: '🧱 Corpo enorme e caduta pesante',
-          color: '#f59e0b',
-        };
-      default:
-        return null;
+    for (const [type, timer] of this.activePowerUps.entries()) {
+      if (timer <= 0) continue;
+      const percent = Math.max(0, Math.min(1, timer / this.maxPowerUpDuration));
+      const durationLeft = Math.ceil(timer);
+
+      switch (type) {
+        case 'cocaina':
+          list.push({
+            type: 'cocaina',
+            name: 'COCAINA',
+            durationLeft,
+            durationPercent: percent,
+            bonusText: '⚡ Super Velocità (+70%) & Super Salto (+25%)',
+            malusText: '⚠️ Cuore fragile: danni subiti raddoppiati!',
+            color: '#06b6d4',
+          });
+          break;
+        case 'marijuana':
+          list.push({
+            type: 'marijuana',
+            name: 'MARIJUANA',
+            durationLeft,
+            durationPercent: percent,
+            bonusText: '🛡️ +1 Vita & Nemici completamente innocui',
+            malusText: '🐌 Movimenti rallentati (-35%)',
+            color: '#22c55e',
+          });
+          break;
+        case 'md':
+          list.push({
+            type: 'md',
+            name: 'MDMA (PASTICCA)',
+            durationLeft,
+            durationPercent: percent,
+            bonusText: '✨ Punti x2 & Magnete Gianduiotti',
+            malusText: '🧊 Scivoli come sul ghiaccio (attrito ridotto)',
+            color: '#ec4899',
+          });
+          break;
+        case 'lsd':
+          list.push({
+            type: 'lsd',
+            name: 'LSD (BLOTTER)',
+            durationLeft,
+            durationPercent: percent,
+            bonusText: '🌀 Doppio Salto a mezz\'aria sbloccato',
+            malusText: '🌈 Distorsione visiva psichedelica',
+            color: '#a855f7',
+          });
+          break;
+        case 'funghetti':
+          list.push({
+            type: 'funghetti',
+            name: 'FUNGHETTI',
+            durationLeft,
+            durationPercent: percent,
+            bonusText: '🍄 Gigante: schiaccia i nemici anche frontalmente',
+            malusText: '🧱 Corpo enorme e caduta pesante',
+            color: '#f59e0b',
+          });
+          break;
+      }
     }
+
+    return list;
+  }
+
+  /**
+   * Rileva combinazioni sinergiche speciali tra sostanze assunte insieme!
+   */
+  public getActiveSynergies(): SynergyInfo[] {
+    const synergies: SynergyInfo[] = [];
+
+    const hasCocaina = this.hasPowerUp('cocaina');
+    const hasMarijuana = this.hasPowerUp('marijuana');
+    const hasMD = this.hasPowerUp('md');
+    const hasLSD = this.hasPowerUp('lsd');
+    const hasFunghetti = this.hasPowerUp('funghetti');
+
+    // 1. SINERGIA SPEEDBALL SABAUDO (Cocaina + Marijuana)
+    if (hasCocaina && hasMarijuana) {
+      synergies.push({
+        id: 'speedball',
+        name: '⚡🌿 SPEEDBALL SABAUDO',
+        description: 'Immunità totale ai nemici con super velocità e salto amplificato!',
+        badge: 'SPEEDBALL',
+        color: '#10b981',
+      });
+    }
+
+    // 2. SINERGIA CANDYFLIP (MD + LSD)
+    if (hasMD && hasLSD) {
+      synergies.push({
+        id: 'candyflip',
+        name: '✨🌀 CANDYFLIP COSMICO',
+        description: 'Doppio salto fluttuante con magnetismo dorato totale e punti x2!',
+        badge: 'CANDYFLIP',
+        color: '#f43f5e',
+      });
+    }
+
+    // 3. SINERGIA MEGA-TRIP (Funghetti + LSD)
+    if (hasFunghetti && hasLSD) {
+      synergies.push({
+        id: 'megatrip',
+        name: '🍄🌀 COLOSSO PSICHEDELICO',
+        description: 'Gigante con doppio salto a mezz\'aria inarrestabile!',
+        badge: 'MEGA-TRIP',
+        color: '#8b5cf6',
+      });
+    }
+
+    // 4. SINERGIA ULTRA POLYDOPING (3 o più sostanze attive insieme!)
+    if (this.activePowerUps.size >= 3) {
+      synergies.push({
+        id: 'polydoping',
+        name: '🔥👑 POLYDOPING DEI MURAZZI',
+        description: 'Potere sovrano sabaudo: Moltiplicatore punti moltiplicato a x3!',
+        badge: 'POLYDOPING x3',
+        color: '#ffb703',
+      });
+    }
+
+    return synergies;
   }
 
   public takeDamage(): boolean {
@@ -146,24 +218,23 @@ export class Player extends Entity {
       return false;
     }
 
-    // BONUS MARIJUANA: I nemici non fanno male!
-    if (this.activePowerUp === 'marijuana') {
+    // SE HA MARIJUANA ATTIVA: I nemici non fanno male in nessun caso!
+    if (this.hasPowerUp('marijuana')) {
       this.particles.emitWaterDroplets(this.x + this.width / 2, this.y + this.height / 2, 6);
       return false;
     }
 
-    // FUNGHETTO GIGANTE: assorbe il colpo tornando normale
-    if (this.activePowerUp === 'funghetti') {
-      this.activePowerUp = 'none';
-      this.powerUpTimer = 0;
+    // SE HA FUNGHETTI ATTIVI: assorbe il danno tornando di dimensioni normali, salvando le vite
+    if (this.hasPowerUp('funghetti')) {
+      this.activePowerUps.delete('funghetti');
       this.invincibleTimer = 1.4;
       this.audio.playHurt();
       this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 14);
       return false;
     }
 
-    // MALUS COCAINA: Ti rende più debole, perdi 2 vite al colpo!
-    const damage = this.activePowerUp === 'cocaina' ? 2 : 1;
+    // SE HA COCAINA ATTIVA: cuore fragile, subisce danno doppio (perde 2 vite)!
+    const damage = this.hasPowerUp('cocaina') ? 2 : 1;
     this.lives -= damage;
     this.audio.playHurt();
     this.particles.emitFeathers(this.x + this.width / 2, this.y + this.height / 2, 10);
@@ -183,8 +254,7 @@ export class Player extends Entity {
     this.state = 'dead';
     this.vy = -520;
     this.vx = 0;
-    this.activePowerUp = 'none';
-    this.powerUpTimer = 0;
+    this.activePowerUps.clear();
     this.audio.playDeath();
   }
 
@@ -195,8 +265,7 @@ export class Player extends Entity {
     this.vy = 0;
     this.state = 'idle';
     this.invincibleTimer = 1.5;
-    this.activePowerUp = 'none';
-    this.powerUpTimer = 0;
+    this.activePowerUps.clear();
   }
 
   public bounce(): void {
@@ -210,32 +279,31 @@ export class Player extends Entity {
   public handleInput(input: InputManager, dt: number): void {
     if (this.state === 'dead' || this.state === 'victory') return;
 
-    // Aggiornamento timer sostanza/power-up
-    if (this.powerUpTimer > 0) {
-      this.powerUpTimer -= dt;
-      if (this.powerUpTimer <= 0) {
-        this.activePowerUp = 'none';
+    // Aggiorna ciascun timer indipendente delle sostanze
+    for (const [type, timer] of this.activePowerUps.entries()) {
+      const remaining = timer - dt;
+      if (remaining <= 0) {
+        this.activePowerUps.delete(type);
+      } else {
+        this.activePowerUps.set(type, remaining);
       }
     }
 
-    // Calcolo velocità target in base al power-up attivo
-    let targetSpeed = input.isRun() ? Physics.RUN_SPEED : Physics.WALK_SPEED;
+    // CALCOLO VELOCITÀ COMBINATA
+    let speedMult = 1.0;
+    if (this.hasPowerUp('cocaina')) speedMult *= 1.7; // +70%
+    if (this.hasPowerUp('marijuana')) speedMult *= 0.65; // -35%
+    if (this.hasPowerUp('funghetti')) speedMult *= 0.9; // un po' più pesante
 
-    if (this.activePowerUp === 'cocaina') {
-      // BONUS COCAINA: +70% velocità estrema
-      targetSpeed *= 1.7;
-    } else if (this.activePowerUp === 'marijuana') {
-      // MALUS MARIJUANA: -40% velocità (molto rallentato)
-      targetSpeed *= 0.6;
-    }
+    const baseSpeed = input.isRun() ? Physics.RUN_SPEED : Physics.WALK_SPEED;
+    const targetSpeed = baseSpeed * speedMult;
 
-    // Accelerazione e Decelerazione (con malus scivolamento per MD)
+    // ACCELERAZIONE & DECELERAZIONE (Malus MD scivolamento)
     let accel = this.isGrounded ? Physics.ACCELERATION_GROUND : Physics.ACCELERATION_AIR;
     let decel = this.isGrounded ? Physics.DECELERATION_GROUND : Physics.DECELERATION_AIR;
 
-    if (this.activePowerUp === 'md') {
-      // MALUS MD: Scivola sul ghiaccio (attrito ridottissimo)
-      decel *= 0.18;
+    if (this.hasPowerUp('md')) {
+      decel *= 0.18; // Scivola come sul ghiaccio!
     }
 
     if (input.isLeft()) {
@@ -264,7 +332,7 @@ export class Player extends Entity {
       this.vx = 0;
     }
 
-    // Gestione Coyote Time & reset Doppio Salto
+    // COYOTE TIME & RESET DOPPIO SALTO
     if (this.isGrounded) {
       this.coyoteTimer = Physics.COYOTE_TIME;
       this.hasDoubleJumped = false;
@@ -272,26 +340,27 @@ export class Player extends Entity {
       this.coyoteTimer -= dt;
     }
 
-    // Salto base alto e soddisfacente
-    let baseJump = Physics.JUMP_FORCE; // -830
-    if (this.activePowerUp === 'cocaina') {
-      baseJump *= 1.22; // Salto super potente con Cocaina
-    }
+    // FORZA DEL SALTO COMBINATA
+    let jumpMult = 1.0;
+    if (this.hasPowerUp('cocaina')) jumpMult *= 1.25; // Salto super con cocaina
+    if (this.hasPowerUp('marijuana')) jumpMult *= 0.92; // Salto morbido con marijuana
+
+    const currentJumpForce = Physics.JUMP_FORCE * jumpMult;
 
     // 1. Salto Standard da terra o coyote time
     if ((this.isGrounded || this.coyoteTimer > 0) && input.consumeJump()) {
-      this.vy = baseJump;
+      this.vy = currentJumpForce;
       this.isGrounded = false;
       this.coyoteTimer = 0;
       this.audio.playJump();
       this.particles.emitDust(this.x + this.width / 2, this.y + this.height, 6);
     }
-    // 2. BONUS LSD: DOPPIO SALTO a mezz'aria!
-    else if (!this.isGrounded && this.activePowerUp === 'lsd' && !this.hasDoubleJumped && input.consumeJump()) {
-      this.vy = Physics.JUMP_FORCE * 0.95;
+    // 2. BONUS LSD: DOPPIO SALTO A MEZZ'ARIA
+    else if (!this.isGrounded && this.hasPowerUp('lsd') && !this.hasDoubleJumped && input.consumeJump()) {
+      this.vy = currentJumpForce * 0.95;
       this.hasDoubleJumped = true;
       this.audio.playJump();
-      this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 12);
+      this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 14);
     }
 
     // Variable Jump Cut per controllo millimetrico
@@ -305,13 +374,10 @@ export class Player extends Entity {
       this.invincibleTimer -= dt;
     }
 
-    // Gravità (morbida/lenta con marijuana, pesante con funghetti)
+    // GRAVITÀ COMBINATA (fluttuante con marijuana, pesante con funghetti)
     let gravity = Physics.GRAVITY;
-    if (this.activePowerUp === 'marijuana') {
-      gravity *= 0.65; // Caduta fluttuante
-    } else if (this.activePowerUp === 'funghetti') {
-      gravity *= 1.15; // Caduta pesante gigante
-    }
+    if (this.hasPowerUp('marijuana')) gravity *= 0.68;
+    if (this.hasPowerUp('funghetti')) gravity *= 1.15;
 
     this.vy += gravity * dt;
     if (this.vy > Physics.MAX_FALL_SPEED) {
@@ -343,7 +409,7 @@ export class Player extends Entity {
   }
 
   public render(ctx: CanvasRenderingContext2D): void {
-    Sprites.drawPlayer(
+    Sprites.drawPlayerCombined(
       ctx,
       this.x,
       this.y,
@@ -354,7 +420,7 @@ export class Player extends Entity {
       this.vx,
       this.vy,
       this.invincibleTimer,
-      this.activePowerUp
+      this.activePowerUps
     );
   }
 }

@@ -8,7 +8,7 @@ export type GameStatus =
   | 'gameOver'
   | 'levelComplete';
 
-export type PowerUpType = 'none' | 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
+export type PowerUpType = 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 
 export interface ActivePowerUpInfo {
   type: PowerUpType;
@@ -20,6 +20,14 @@ export interface ActivePowerUpInfo {
   color: string;
 }
 
+export interface SynergyInfo {
+  id: string;
+  name: string;
+  description: string;
+  badge: string;
+  color: string;
+}
+
 export interface HudData {
   lives: number;
   maxLives: number;
@@ -28,7 +36,8 @@ export interface HudData {
   timeLeft: number;
   currentLevelId: number;
   levelTitle: string;
-  activePowerUp: ActivePowerUpInfo | null;
+  activePowerUps: ActivePowerUpInfo[];
+  activeSynergies: SynergyInfo[];
 }
 
 export interface GameSettings {

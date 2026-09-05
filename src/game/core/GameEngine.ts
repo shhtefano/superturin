@@ -235,12 +235,12 @@ export class GameEngine {
     this.player.handleInput(this.input, dt);
 
     // MALUS COCAINA: Micro-jitter visivo della telecamera (frenesia)
-    if (this.player.activePowerUp === 'cocaina' && Math.random() < 0.35) {
+    if (this.player.hasPowerUp('cocaina') && Math.random() < 0.35) {
       this.camera.triggerShake(2, 0.05);
     }
 
     // BONUS MD: Magnete Gianduiotti (attira a sé le monete entro 260px)
-    if (this.player.activePowerUp === 'md') {
+    if (this.player.hasPowerUp('md')) {
       const pCenterX = this.player.x + this.player.width / 2;
       const pCenterY = this.player.y + this.player.height / 2;
       for (const col of this.collectibles) {
@@ -257,6 +257,14 @@ export class GameEngine {
           }
         }
       }
+    }
+
+    // Calcolo moltiplicatore punteggio (x3 se Polydoping >= 3 sostanze, x2 se MD)
+    let scoreMultiplier = 1;
+    if (this.player.activePowerUps.size >= 3) {
+      scoreMultiplier = 3;
+    } else if (this.player.hasPowerUp('md')) {
+      scoreMultiplier = 2;
     }
 
     // --- RISOLUZIONE COLLISIONI FISICHE DEL GIOCATORE ---
@@ -310,8 +318,7 @@ export class GameEngine {
           this.camera.triggerShake(5, 0.15);
 
           if (reward === 'gianduiotto') {
-            const mult = this.player.activePowerUp === 'md' ? 2 : 1;
-            this.score += 100 * mult;
+            this.score += 100 * scoreMultiplier;
             this.gianduiottiCount += 1;
             this.audio.playCoin();
             this.particles.emitGoldSparks(plat.x + plat.width / 2, plat.y - 12, 12);
@@ -356,8 +363,7 @@ export class GameEngine {
 
           if (col instanceof PowerUpItem) {
             if (col.itemType === 'gianduiotto') {
-              const mult = this.player.activePowerUp === 'md' ? 2 : 1;
-              this.score += col.value * mult;
+              this.score += col.value * scoreMultiplier;
               this.gianduiottiCount += 1;
               this.audio.playCoin();
               this.particles.emitGoldSparks(col.x + col.width / 2, col.y + col.height / 2, 10);
@@ -379,9 +385,9 @@ export class GameEngine {
 
       if (!enemy.isDead && CollisionSystem.checkAABB(playerBox, enemy.getHitbox())) {
         // BONUS FUNGHETTI: schiaccia qualsiasi nemico anche frontalmente al tocco (Mega Mario)!
-        if (this.player.activePowerUp === 'funghetti') {
+        if (this.player.hasPowerUp('funghetti')) {
           enemy.die();
-          this.score += 200;
+          this.score += 200 * scoreMultiplier;
           this.camera.triggerShake(8, 0.2);
           this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 15);
           this.audio.playStomp();
@@ -396,8 +402,7 @@ export class GameEngine {
         if (enemy.isStompable && isFalling && hitFromAbove) {
           enemy.die();
           this.player.bounce();
-          const mult = this.player.activePowerUp === 'md' ? 2 : 1;
-          this.score += 200 * mult;
+          this.score += 200 * scoreMultiplier;
           this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 10);
           this.emitHudUpdate(true);
         } else {
@@ -405,7 +410,7 @@ export class GameEngine {
           const dead = this.player.takeDamage();
           if (dead) {
             this.handlePlayerDeath();
-          } else if (this.player.activePowerUp !== 'marijuana') {
+          } else if (!this.player.hasPowerUp('marijuana')) {
             this.camera.triggerShake(10, 0.25);
           }
           this.emitHudUpdate(true);
@@ -441,7 +446,8 @@ export class GameEngine {
       timeLeft: Math.max(0, Math.ceil(this.timeLeft)),
       currentLevelId: this.currentLevel ? this.currentLevel.id : 1,
       levelTitle: this.currentLevel ? this.currentLevel.title : 'Torino',
-      activePowerUp: this.player ? this.player.getActivePowerUpInfo() : null,
+      activePowerUps: this.player ? this.player.getActivePowerUpsList() : [],
+      activeSynergies: this.player ? this.player.getActiveSynergies() : [],
     };
     this.callbacks.onHudUpdate(data);
   }
@@ -451,7 +457,7 @@ export class GameEngine {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     // MALUS LSD: Distorsione visiva psichedelica arcobaleno hue-rotate
-    if (this.player && this.player.activePowerUp === 'lsd') {
+    if (this.player && this.player.hasPowerUp('lsd')) {
       const hue = Math.floor((Date.now() * 0.15) % 360);
       this.ctx.filter = `hue-rotate(${hue}deg) saturate(1.5)`;
     } else {

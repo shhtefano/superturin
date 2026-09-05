@@ -26,7 +26,8 @@ export const GameView: React.FC = () => {
     timeLeft: 300,
     currentLevelId: 1,
     levelTitle: 'Livello 1 — Centro di Torino',
-    activePowerUp: null,
+    activePowerUps: [],
+    activeSynergies: [],
   });
 
   const handleStateChange = useCallback((newStatus: GameStatus) => {
