@@ -4,7 +4,7 @@ export const level6_lingotto: LevelData = {
   id: 6,
   title: 'Livello 6 — Lingotto e la Pista sul Tetto',
   subtitle: 'La Pista 500, Curve Paraboliche della FIAT e la Bolla di Cristallo',
-  theme: 'mole',
+  theme: 'lingotto',
   width: 7200,
   height: 720,
   timeLimit: 400,
@@ -56,7 +56,7 @@ export const level6_lingotto: LevelData = {
     },
 
     // 2. Uscita sul Tetto del Lingotto (Quota +28m) - Inizio Pista Asfalto Nord
-    { id: 'l6_roof_north', x: 1650, y: 500, width: 950, height: 220, style: 'ground_pave' },
+    { id: 'l6_roof_north', x: 1650, y: 500, width: 950, height: 220, style: 'lingotto_track' },
     { id: 'l6_q_2', x: 1950, y: 360, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
 
     // Piattaforme sospese sopra i lucernari di vetro
@@ -131,7 +131,7 @@ export const level6_lingotto: LevelData = {
     },
 
     // 4. La Grande Curva Parabolica Sud (Pedane sopraelevate inclinate per test aerodinamici)
-    { id: 'l6_parabolica_base', x: 5050, y: 520, width: 900, height: 200, style: 'ground_pave' },
+    { id: 'l6_parabolica_base', x: 5050, y: 520, width: 900, height: 200, style: 'lingotto_track' },
     { id: 'l6_parabolica_tier1', x: 5200, y: 430, width: 130, height: 24, isOneWay: true, style: 'steel_beam' },
     { id: 'l6_parabolica_tier2', x: 5400, y: 360, width: 130, height: 24, isOneWay: true, style: 'steel_beam' },
     { id: 'l6_q_5', x: 5550, y: 240, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
@@ -166,7 +166,7 @@ export const level6_lingotto: LevelData = {
     },
 
     // 5. La Bolla di Renzo Piano (Tetto Sud e Eliporto panoramico)
-    { id: 'l6_ground_bolla', x: 6450, y: 490, width: 750, height: 230, style: 'ground_pave' },
+    { id: 'l6_ground_bolla', x: 6450, y: 490, width: 750, height: 230, style: 'lingotto_track' },
     { id: 'l6_bolla_stand_1', x: 6600, y: 400, width: 150, height: 22, isOneWay: true, style: 'marble' },
     { id: 'l6_bolla_stand_2', x: 6820, y: 340, width: 160, height: 24, isOneWay: true, style: 'marble' },
   ],

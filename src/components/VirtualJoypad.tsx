@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { InputManager } from '../game/core/InputManager';
 import { SkillInfo } from '../types/game';
+import { toggleFullscreen } from '../utils/fullscreen';
 
 interface VirtualJoypadProps {
   inputManager: InputManager | null;
@@ -75,14 +76,7 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
   // --- FULLSCREEN ---
   const handleFullscreen = () => {
     vibrate(15);
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-      if (screen.orientation && 'lock' in screen.orientation) {
-        (screen.orientation as any).lock('landscape').catch(() => {});
-      }
-    } else {
-      document.exitFullscreen().catch(() => {});
-    }
+    toggleFullscreen();
   };
 
   return (

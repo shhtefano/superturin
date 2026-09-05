@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMenuKeyboard } from '../hooks/useMenuKeyboard';
+import { toggleFullscreen, isFullscreenActive } from '../utils/fullscreen';
 
 interface PauseModalProps {
   onResume: () => void;
@@ -16,8 +17,30 @@ export const PauseModal: React.FC<PauseModalProps> = ({
   joypadActive,
   onToggleJoypad,
 }) => {
+  const [fullscreen, setFullscreen] = useState(isFullscreenActive);
+
+  useEffect(() => {
+    const handleFsChange = () => setFullscreen(isFullscreenActive());
+    document.addEventListener('fullscreenchange', handleFsChange);
+    document.addEventListener('webkitfullscreenchange', handleFsChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFsChange);
+      document.removeEventListener('webkitfullscreenchange', handleFsChange);
+    };
+  }, []);
+
+  const handleToggleFs = () => {
+    toggleFullscreen();
+    setTimeout(() => setFullscreen(isFullscreenActive()), 100);
+  };
+
   const options = [
     { label: '1. RIPRENDI', action: onResume, primary: true },
+    {
+      label: fullscreen ? '⛶ SCHERMO INTERO: [ATTIVO]' : '⛶ SCHERMO INTERO: [ATTIVA]',
+      action: handleToggleFs,
+      primary: false,
+    },
     ...(onToggleJoypad
       ? [
           {

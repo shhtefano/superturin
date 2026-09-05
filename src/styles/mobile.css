@@ -53,6 +53,37 @@
   background: #1e293b;
 }
 
+/* Pulsante Rapido Schermo Intero nei Menu per Mobile */
+.btn-quick-fullscreen {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 120;
+  pointer-events: auto;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1.5px solid var(--color-oro-reale, #ffb703);
+  color: var(--color-oro-reale, #ffb703);
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 183, 3, 0.3);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-quick-fullscreen:active {
+  transform: scale(0.93);
+  background: var(--color-oro-reale, #ffb703);
+  color: #0f172a;
+}
+
 /* --- CLUSTER SINISTRO (D-PAD & CORSA) --- */
 .joypad-left-cluster {
   display: flex;

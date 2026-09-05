@@ -1,7 +1,7 @@
 import { PlatformStyle } from '../entities/Platform';
 import { PowerUpType } from '../types/game';
 
-export type LevelTheme = 'centro' | 'mole' | 'valentino' | 'notte';
+export type LevelTheme = 'centro' | 'mole' | 'valentino' | 'notte' | 'murazzi' | 'superga' | 'lingotto';
 
 export type CollectibleType = 'gianduiotto' | 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 

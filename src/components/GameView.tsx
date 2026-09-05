@@ -15,6 +15,7 @@ import { VirtualJoypad } from './VirtualJoypad';
 import { OrientationPrompt } from './OrientationPrompt';
 import { LEVELS } from '../levels';
 import { CharacterId } from '../types/game';
+import { toggleFullscreen, isFullscreenActive } from '../utils/fullscreen';
 
 export const GameView: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,6 +23,7 @@ export const GameView: React.FC = () => {
 
   const [status, setStatus] = useState<GameStatus>('menu');
   const [saveData, setSaveData] = useState<SaveData>(() => SaveManager.load());
+  const [fullscreen, setFullscreen] = useState<boolean>(isFullscreenActive);
   const [showVirtualJoypad, setShowVirtualJoypad] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 1024;
@@ -87,6 +89,17 @@ export const GameView: React.FC = () => {
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, [status]);
+
+  // Listener cambio stato schermo intero
+  useEffect(() => {
+    const handleFsChange = () => setFullscreen(isFullscreenActive());
+    document.addEventListener('fullscreenchange', handleFsChange);
+    document.addEventListener('webkitfullscreenchange', handleFsChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFsChange);
+      document.removeEventListener('webkitfullscreenchange', handleFsChange);
+    };
+  }, []);
 
   // Gestione azioni UI
   const handleStartGame = () => {
@@ -184,6 +197,18 @@ export const GameView: React.FC = () => {
             skills={hudData.skills}
             onPause={handlePause}
           />
+        )}
+
+        {/* Pulsante rapido Schermo Intero per Mobile / Touch nei menu */}
+        {showVirtualJoypad && status !== 'playing' && (
+          <button
+            type="button"
+            className="btn-quick-fullscreen"
+            onClick={toggleFullscreen}
+            title={fullscreen ? 'Esci da Schermo Intero' : 'Attiva Schermo Intero Orizzontale'}
+          >
+            {fullscreen ? '⤓ FINESTRA' : '⛶ SCHERMO INTERO'}
+          </button>
         )}
 
         {/* UI Overlay React */}

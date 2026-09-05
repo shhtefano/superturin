@@ -1,0 +1,10 @@
+{
+  "name": "Torino Run — Il Platformer Sabaudo",
+  "short_name": "Torino Run",
+  "description": "Platformer 2D arcade ambientato tra i monumenti storici di Torino.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0a0d14",
+  "theme_color": "#0d47a1"
+}

@@ -38,14 +38,25 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
           <rect x="15" y="65" width="85" height="40" fill="#1e3a8a" opacity="0.85" />
           <rect x="25" y="78" width="14" height="27" rx="7" fill="#bae6fd" />
           <rect x="48" y="78" width="14" height="27" rx="7" fill="#bae6fd" />
-          <rect x="71" y="78" width="14" height="27" rx="7" fill="#bae6fd" />
-          {/* Tram Storico GTT */}
-          <rect x="125" y="78" width="75" height="24" rx="3" fill="#d97706" />
-          <rect x="125" y="96" width="75" height="6" fill="#365314" />
-          <rect x="132" y="82" width="12" height="10" fill="#fef08a" />
-          <rect x="148" y="82" width="12" height="10" fill="#fef08a" />
-          <rect x="164" y="82" width="12" height="10" fill="#fef08a" />
-          <rect x="180" y="82" width="12" height="10" fill="#fef08a" />
+          {/* Fontana Toret verde torinese con beccuccio dorato */}
+          <rect x="108" y="88" width="6" height="17" fill="#1b4332" />
+          <polygon points="106,88 111,83 116,88" fill="#1b4332" />
+          <circle cx="107" cy="93" r="1.5" fill="#f59e0b" />
+          <line x1="106" y1="94" x2="103" y2="99" stroke="#38bdf8" strokeWidth="1" />
+
+          {/* Tram Storico GTT Linea 7 */}
+          <rect x="125" y="78" width="75" height="24" rx="3" fill="#166534" />
+          <rect x="125" y="72" width="75" height="8" fill="#fef08a" />
+          <rect x="132" y="82" width="12" height="10" fill="#0f172a" />
+          <rect x="148" y="82" width="12" height="10" fill="#0f172a" />
+          <rect x="164" y="82" width="12" height="10" fill="#0f172a" />
+          <rect x="180" y="82" width="12" height="10" fill="#0f172a" />
+          <rect x="134" y="84" width="4" height="6" fill="#93c5fd" />
+          <rect x="150" y="84" width="4" height="6" fill="#93c5fd" />
+          <rect x="166" y="84" width="4" height="6" fill="#93c5fd" />
+          <rect x="182" y="84" width="4" height="6" fill="#93c5fd" />
+          {/* Faro dorato tram */}
+          <circle cx="127" cy="94" r="3" fill="#fde047" />
           {/* Binari e strada */}
           <rect x="0" y="105" width="240" height="15" fill="#334155" />
           <line x1="0" y1="109" x2="240" y2="109" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6,4" />
@@ -76,6 +87,8 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
           <rect x="116" y="25" width="8" height="15" fill="#1e1b4b" />
           <polygon points="120,40 100,68 140,68" fill="#1e1b4b" />
           <rect x="94" y="68" width="52" height="42" fill="#1e1b4b" />
+          {/* Numeri di Fibonacci al neon rosso sulla cupola (Mario Merz) */}
+          <text x="105" y="58" fill="#ef4444" fontSize="4.5" fontWeight="bold" fontFamily="monospace">1 1 2 3 5 8</text>
           {/* Finestrelle illuminate della Mole */}
           <rect x="106" y="74" width="6" height="8" fill="#fef08a" />
           <rect x="117" y="74" width="6" height="8" fill="#fef08a" />
@@ -120,6 +133,13 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
           <line x1="120" y1="88" x2="120" y2="98" stroke="#78350f" strokeWidth="1" />
           <line x1="134" y1="88" x2="134" y2="98" stroke="#78350f" strokeWidth="1" />
           <line x1="148" y1="88" x2="148" y2="98" stroke="#78350f" strokeWidth="1" />
+          {/* Panchina dei Lampioni Innamorati di Marasciuolo */}
+          <rect x="14" y="96" width="22" height="3" fill="#15803d" />
+          <path d="M 18,96 Q 20,86 23,82" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+          <circle cx="23.5" cy="81" r="2.5" fill="#fde047" />
+          <path d="M 28,96 Q 27,87 24.5,82.5" stroke="#1e293b" strokeWidth="1.5" fill="none" />
+          <circle cx="25.5" cy="82" r="2.5" fill="#fef08a" />
+          <text x="21" y="77" fill="#ef4444" fontSize="6">❤</text>
           {/* Scoiattolino arancione */}
           <circle cx="95" cy="74" r="5" fill="#ea580c" />
           <ellipse cx="92" cy="78" rx="6" ry="4" fill="#c2410c" />
@@ -138,17 +158,24 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
             </linearGradient>
           </defs>
           <rect width="240" height="120" fill="url(#sky4)" />
+          {/* Cupola illuminata della Gran Madre di Dio oltre il Po */}
+          <path d="M 175,54 Q 195,32 215,54 Z" fill="#e2e8f0" />
+          <rect x="180" y="54" width="30" height="6" fill="#f8fafc" />
+          <line x1="195" y1="28" x2="195" y2="34" stroke="#fde047" strokeWidth="1.5" />
           {/* Luci d'Artista Neon sospese */}
           <polyline points="20,24 50,15 80,28 120,16 160,30 200,18 225,25" fill="none" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="4,3" />
           <circle cx="50" cy="15" r="3" fill="#ec4899" />
           <circle cx="120" cy="16" r="3.5" fill="#38bdf8" />
           <circle cx="200" cy="18" r="3" fill="#facc15" />
-          {/* Arcate in pietra dei Murazzi */}
+          {/* Arcate in pietra dei Murazzi con insegne */}
           <rect x="10" y="55" width="220" height="42" fill="#1e293b" />
           <path d="M20,97 L20,72 A 16 16 0 0 1 52 72 L52,97 Z" fill="#0f172a" />
           <path d="M68,97 L68,72 A 16 16 0 0 1 100 72 L100,97 Z" fill="#0f172a" />
           <path d="M116,97 L116,72 A 16 16 0 0 1 148 72 L148,97 Z" fill="#0f172a" />
           <path d="M164,97 L164,72 A 16 16 0 0 1 196 72 L196,97 Z" fill="#0f172a" />
+          {/* Insegne Neon Murazzi */}
+          <text x="36" y="69" fill="#ec4899" fontSize="4" fontWeight="bold" textAnchor="middle">GIANCARLO</text>
+          <text x="84" y="69" fill="#06b6d4" fontSize="4" fontWeight="bold" textAnchor="middle">MAGAZZINI</text>
           {/* Bagliore Rave / Club da dentro le arcate */}
           <ellipse cx="36" cy="85" rx="10" ry="7" fill="#ec4899" opacity="0.6" />
           <ellipse cx="84" cy="85" rx="10" ry="7" fill="#06b6d4" opacity="0.6" />
@@ -175,13 +202,18 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
             </linearGradient>
           </defs>
           <rect width="240" height="120" fill="url(#sky5)" />
+          {/* Piramide aguzza del maestoso MONVISO (3841m) */}
+          <polygon points="35,80 75,26 115,80" fill="#60a5fa" />
+          <polygon points="67,38 75,26 83,38" fill="#ffffff" />
+          <text x="75" y="22" fill="#ffffff" fontSize="4.5" textAnchor="middle" fontWeight="bold">MONVISO</text>
           {/* Vette delle Alpi innevate */}
-          <polygon points="15,75 50,40 85,75" fill="#cbd5e1" />
-          <polygon points="40,50 50,40 60,50" fill="#ffffff" />
-          <polygon points="65,75 95,35 125,75" fill="#94a3b8" />
-          <polygon points="85,48 95,35 105,48" fill="#ffffff" />
+          <polygon points="15,75 40,48 65,75" fill="#cbd5e1" />
+          <polygon points="95,75 125,45 155,75" fill="#94a3b8" />
           {/* Collina ripida di Superga */}
           <path d="M0,120 Q90,95 170,60 L240,48 L240,120 Z" fill="#14532d" />
+          {/* Stendardo Granata del Grande Torino (Invincibili 1949) */}
+          <rect x="156" y="66" width="12" height="8" fill="#7a131b" />
+          <line x1="156" y1="66" x2="156" y2="82" stroke="#e2e8f0" strokeWidth="1" />
           {/* Basilica di Superga in cima */}
           <rect x="188" y="32" width="34" height="18" fill="#fef08a" />
           <path d="M192,32 Q205,14 218,32 Z" fill="#ffd166" />

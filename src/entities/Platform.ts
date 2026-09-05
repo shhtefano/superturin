@@ -8,7 +8,9 @@ export type PlatformStyle =
   | 'marble'
   | 'brick'
   | 'wood_dock'
-  | 'steel_beam';
+  | 'steel_beam'
+  | 'dentiera_rail'
+  | 'lingotto_track';
 
 export class Platform extends Entity {
   public isOneWay: boolean;
@@ -244,6 +246,33 @@ export class Platform extends Entity {
       ctx.fillStyle = '#cbd5e1';
       for (let bx = renderX + 8; bx < renderX + this.width - 8; bx += 24) {
         ctx.fillRect(bx, renderY + 4, 3, 3);
+      }
+    } else if (this.style === 'dentiera_rail') {
+      // Rotaia a cremagliera storica Sassi-Superga con traversine in legno
+      ctx.fillStyle = '#3e2723';
+      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillStyle = '#94a3b8'; // Rotaie in acciaio esterne
+      ctx.fillRect(renderX, renderY, this.width, 2);
+      ctx.fillRect(renderX, renderY + this.height - 2, this.width, 2);
+      // Denti della cremagliera centrale Strub
+      ctx.fillStyle = '#e2e8f0';
+      for (let rx = renderX + 2; rx < renderX + this.width - 4; rx += 8) {
+        ctx.fillRect(rx, renderY + Math.floor(this.height / 2) - 2, 4, 4);
+      }
+    } else if (this.style === 'lingotto_track') {
+      // Pista 500 del Lingotto: asfalto con cordolo a strisce bianche e rosse
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(renderX, renderY, this.width, this.height);
+      // Cordolo a scacchi bianchi e rossi
+      for (let cx = renderX; cx < renderX + this.width; cx += 16) {
+        const isRed = Math.floor((cx - renderX) / 16) % 2 === 0;
+        ctx.fillStyle = isRed ? '#ef4444' : '#ffffff';
+        ctx.fillRect(cx, renderY, Math.min(16, renderX + this.width - cx), 4);
+      }
+      // Linea di mezzeria gialla tratteggiata
+      ctx.fillStyle = '#fde047';
+      for (let lx = renderX + 6; lx < renderX + this.width - 6; lx += 26) {
+        ctx.fillRect(lx, renderY + Math.floor(this.height / 2), 12, 2);
       }
     } else {
       // Marmo chiaro

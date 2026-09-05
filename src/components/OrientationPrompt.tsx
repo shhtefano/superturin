@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toggleFullscreen } from '../utils/fullscreen';
 
 export const OrientationPrompt: React.FC = () => {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
@@ -27,12 +28,7 @@ export const OrientationPrompt: React.FC = () => {
   }, []);
 
   const handleRequestLandscapeFullscreen = () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    }
-    if (screen.orientation && 'lock' in screen.orientation) {
-      (screen.orientation as any).lock('landscape').catch(() => {});
-    }
+    toggleFullscreen();
   };
 
   if (!isPortrait) return null;

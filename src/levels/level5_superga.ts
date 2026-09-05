@@ -4,7 +4,7 @@ export const level5_superga: LevelData = {
   id: 5,
   title: 'Livello 5 — Superga e la Tranvia a Dentiera',
   subtitle: 'La Grande Salita della Collina, Rotaie della Dentiera e la Basilica',
-  theme: 'centro',
+  theme: 'superga',
   width: 6800,
   height: 720,
   timeLimit: 380,
@@ -31,7 +31,7 @@ export const level5_superga: LevelData = {
       width: 120,
       height: 22,
       isOneWay: true,
-      style: 'wood_dock',
+      style: 'dentiera_rail',
       isMoving: true,
       moveAxis: 'x',
       moveRange: 100,
@@ -44,7 +44,7 @@ export const level5_superga: LevelData = {
       width: 110,
       height: 22,
       isOneWay: true,
-      style: 'wood_dock',
+      style: 'dentiera_rail',
       isMoving: true,
       moveAxis: 'y',
       moveRange: 70,
@@ -99,11 +99,11 @@ export const level5_superga: LevelData = {
     },
 
     // 3. Settore Rotaie Dentiera in Pendenza ripida
-    { id: 's5_ground_tracks', x: 3020, y: 540, width: 950, height: 180, style: 'ground_pave' },
-    { id: 's5_track_bridge_1', x: 3160, y: 410, width: 150, height: 22, isOneWay: true, style: 'wood_dock' },
+    { id: 's5_ground_tracks', x: 3020, y: 540, width: 950, height: 180, style: 'dentiera_rail' },
+    { id: 's5_track_bridge_1', x: 3160, y: 410, width: 150, height: 22, isOneWay: true, style: 'dentiera_rail' },
     { id: 's5_track_bridge_roof', x: 3400, y: 310, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 's5_q_3', x: 3480, y: 190, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
-    { id: 's5_track_bridge_2', x: 3660, y: 390, width: 150, height: 22, isOneWay: true, style: 'wood_dock' },
+    { id: 's5_track_bridge_2', x: 3660, y: 390, width: 150, height: 22, isOneWay: true, style: 'dentiera_rail' },
 
     // IL GRANDE BURRONE PANORAMICO: 3 Pilastri di roccia scoscesa nel vuoto
     { id: 's5_cliff_1', x: 4080, y: 480, width: 70, height: 240, style: 'brick' },

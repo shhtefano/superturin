@@ -4,7 +4,7 @@ export const level4_murazzi: LevelData = {
   id: 4,
   title: 'Livello 4 — Murazzi del Po di Notte',
   subtitle: 'Arcate dei Murazzi, Luci d\'Artista e la Darsena Notturna',
-  theme: 'notte',
+  theme: 'murazzi',
   width: 6400,
   height: 720,
   timeLimit: 360,
