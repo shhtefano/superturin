@@ -862,3 +862,38 @@
   }
 }
 
+/* =========================================================
+   MOBILE — Pulizia elementi desktop non necessari su touch
+   ========================================================= */
+@media (hover: none), (pointer: coarse) {
+
+  /* Hint tastiera nella mappa (frecce, WASD, 1-6, INVIO) */
+  .worldmap-hints-bar {
+    display: none;
+  }
+
+  /* Pulsante schermo intero rapido nei menu (già gestito dal VirtualJoypad) */
+  .btn-quick-fullscreen {
+    display: none;
+  }
+
+  /* Riduci padding joypad overlay per massimizzare area di gioco visibile */
+  .virtual-joypad-overlay {
+    padding: 6px 10px;
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+
+  /* Top bar mobile: più compatta */
+  .mobile-top-bar {
+    gap: 6px;
+    top: max(8px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+  }
+
+  /* Rimuovi cursore hover dai btn arcade (non ha senso su touch) */
+  .btn-arcade:hover {
+    transform: none;
+  }
+}

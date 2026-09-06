@@ -418,311 +418,535 @@ export const TorinoWorldMap: React.FC<TorinoWorldMapProps> = ({
       // -------------------------------------------------------------
       ctx.clearRect(0, 0, 1280, 720);
 
-      // A. Prato torinese di base verde brillante con griglia collinare
-      const grassGrad = ctx.createLinearGradient(0, 0, 1280, 720);
-      grassGrad.addColorStop(0, '#84cc16');
-      grassGrad.addColorStop(0.4, '#65a30d');
-      grassGrad.addColorStop(1, '#4d7c0f');
-      ctx.fillStyle = grassGrad;
+      // ============================================================
+      // MAPPA TOPOGRAFICA REALISTICA DI TORINO — Vista dall'alto
+      // Stile: Nintendo city map / carta geografica stilizzata
+      // ============================================================
+
+      // A. SFONDO BASE: Tessuto urbano — colore crema/sabbia carta geografica
+      const cityBg = ctx.createLinearGradient(0, 0, 1280, 720);
+      cityBg.addColorStop(0, '#f5f0e8');
+      cityBg.addColorStop(0.5, '#ede8dc');
+      cityBg.addColorStop(1, '#e8e0d0');
+      ctx.fillStyle = cityBg;
       ctx.fillRect(0, 0, 1280, 720);
 
-      // Micro-texture a scacchi / zolle d'erba Mario World
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
-      for (let gx = 0; gx < 1280; gx += 40) {
-        for (let gy = 0; gy < 720; gy += 40) {
-          if ((gx / 40 + gy / 40) % 2 === 0) {
-            ctx.fillRect(gx, gy, 40, 40);
-          }
-        }
-      }
-
-      // B. Catena Alpina e Vette Innevate all'orizzonte nord (sullo sfondo in alto)
-      ctx.fillStyle = '#60a5fa';
+      // B. COLLINA TORINESE — a est, verde scuro (Superga, Monte dei Cappuccini)
+      const hillGrad = ctx.createLinearGradient(800, 0, 1280, 720);
+      hillGrad.addColorStop(0, '#7fb069');
+      hillGrad.addColorStop(0.4, '#5a8a45');
+      hillGrad.addColorStop(1, '#3d6b2e');
+      ctx.fillStyle = hillGrad;
       ctx.beginPath();
-      ctx.moveTo(0, 70);
-      ctx.lineTo(120, 20);
-      ctx.lineTo(260, 65);
-      ctx.lineTo(390, 15);
-      ctx.lineTo(540, 70);
-      ctx.lineTo(680, 25);
-      ctx.lineTo(840, 65);
-      ctx.lineTo(980, 20);
-      ctx.lineTo(1120, 70);
-      ctx.lineTo(1280, 30);
-      ctx.lineTo(1280, 90);
-      ctx.lineTo(0, 90);
+      ctx.moveTo(820, 0);
+      ctx.bezierCurveTo(870, 80, 900, 200, 860, 380);
+      ctx.bezierCurveTo(840, 480, 870, 600, 900, 720);
+      ctx.lineTo(1280, 720);
+      ctx.lineTo(1280, 0);
       ctx.closePath();
       ctx.fill();
 
-      // Cime innevate bianche
-      ctx.fillStyle = '#f8fafc';
-      const peaks = [120, 390, 680, 980, 1280];
-      peaks.forEach((px) => {
+      // Texture collinare: curve di livello leggerissime
+      ctx.save();
+      ctx.strokeStyle = 'rgba(60,100,40,0.18)';
+      ctx.lineWidth = 1.5;
+      [[850,50,1200,50],[840,120,1250,140],[835,200,1260,230],
+       [840,310,1250,330],[850,420,1240,440],[860,530,1230,555],[870,640,1220,660]].forEach(([x1,y1,x2,y2]) => {
         ctx.beginPath();
-        ctx.moveTo(px - 28, 42);
-        ctx.lineTo(px, px === 390 ? 15 : 20);
-        ctx.lineTo(px + 28, 42);
-        ctx.closePath();
+        ctx.moveTo(x1, y1);
+        ctx.bezierCurveTo(x1+80, y1-10, x2-80, y2+10, x2, y2);
+        ctx.stroke();
+      });
+      ctx.restore();
+
+      // C. PARCO DEL VALENTINO — verde chiaro lungo il Po (sinistra del fiume)
+      const parkGrad = ctx.createLinearGradient(420, 380, 640, 620);
+      parkGrad.addColorStop(0, '#86c968');
+      parkGrad.addColorStop(1, '#5da84a');
+      ctx.fillStyle = parkGrad;
+      ctx.beginPath();
+      ctx.moveTo(430, 380);
+      ctx.bezierCurveTo(460, 360, 560, 370, 610, 410);
+      ctx.bezierCurveTo(640, 440, 650, 490, 630, 530);
+      ctx.bezierCurveTo(610, 570, 560, 600, 500, 610);
+      ctx.bezierCurveTo(450, 620, 400, 590, 400, 540);
+      ctx.bezierCurveTo(390, 490, 410, 420, 430, 380);
+      ctx.closePath();
+      ctx.fill();
+      // Texture punteggiata alberi nel parco
+      ctx.save();
+      ctx.fillStyle = 'rgba(50, 120, 30, 0.28)';
+      const treePos = [[445,420],[475,450],[510,430],[490,480],[540,460],[510,510],[465,500],[555,500],[480,540],[530,540]];
+      treePos.forEach(([tx, ty]) => {
+        ctx.beginPath();
+        ctx.arc(tx, ty, 10, 0, Math.PI * 2);
         ctx.fill();
       });
+      ctx.restore();
 
-      // C. Collina Torinese a est (zona Superga e Monte dei Cappuccini a destra)
-      ctx.fillStyle = '#3f6212';
-      ctx.beginPath();
-      ctx.moveTo(860, 720);
-      ctx.quadraticCurveTo(920, 340, 1020, 170);
-      ctx.quadraticCurveTo(1160, 90, 1280, 100);
-      ctx.lineTo(1280, 720);
-      ctx.closePath();
-      ctx.fill();
-
-      // Terrazzamento collinare superiore più chiaro
-      ctx.fillStyle = '#4d7c0f';
-      ctx.beginPath();
-      ctx.moveTo(980, 270);
-      ctx.quadraticCurveTo(1060, 130, 1280, 130);
-      ctx.lineTo(1280, 350);
-      ctx.quadraticCurveTo(1090, 320, 980, 270);
-      ctx.closePath();
-      ctx.fill();
-
-      // D. FIUME PO: Nastro azzurro sinuoso con onde animate
+      // D. FIUME PO — azzurro realistico, scorre N→S poi curva verso NE sulla collina
+      // Sponda ovest (sinistra)
       ctx.save();
-      ctx.lineWidth = 54;
-      ctx.strokeStyle = '#0284c7';
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
+      ctx.fillStyle = '#5bb8e8';
       ctx.beginPath();
-      ctx.moveTo(590, 740);
-      ctx.bezierCurveTo(620, 560, 680, 440, 740, 360);
-      ctx.bezierCurveTo(790, 290, 850, 240, 940, 180);
-      ctx.bezierCurveTo(1010, 140, 1100, 90, 1200, 0);
+      // Sponda ovest
+      ctx.moveTo(570, 760);
+      ctx.bezierCurveTo(600, 580, 650, 450, 695, 360);
+      ctx.bezierCurveTo(730, 290, 785, 235, 840, 185);
+      ctx.bezierCurveTo(890, 145, 960, 105, 1050, 55);
+      ctx.lineTo(1090, 0);
+      // Sponda est (riva collina)
+      ctx.lineTo(1130, 0);
+      ctx.bezierCurveTo(1000, 90, 940, 130, 895, 165);
+      ctx.bezierCurveTo(840, 210, 790, 265, 755, 330);
+      ctx.bezierCurveTo(720, 400, 680, 510, 655, 660);
+      ctx.lineTo(640, 760);
+      ctx.closePath();
+      ctx.fill();
+      // Riflesso acqua (riga chiara animata)
+      ctx.strokeStyle = 'rgba(180,230,255,0.6)';
+      ctx.lineWidth = 4;
+      ctx.setLineDash([12, 18]);
+      ctx.lineDashOffset = -(anim.tick * 1.2) % 30;
+      ctx.beginPath();
+      ctx.moveTo(610, 680);
+      ctx.bezierCurveTo(640, 520, 690, 400, 730, 320);
+      ctx.bezierCurveTo(770, 250, 820, 200, 870, 170);
       ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.lineDashOffset = 0;
+      ctx.restore();
 
-      // Riflesso interno chiaro del Po
-      ctx.lineWidth = 38;
-      ctx.strokeStyle = '#38bdf8';
+      // Rive del Po — bordo sottile più scuro
+      ctx.save();
+      ctx.strokeStyle = '#2a8fc0';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(570, 760);
+      ctx.bezierCurveTo(600, 580, 650, 450, 695, 360);
+      ctx.bezierCurveTo(730, 290, 785, 235, 840, 185);
+      ctx.bezierCurveTo(890, 145, 960, 105, 1050, 55);
       ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(640, 760);
+      ctx.bezierCurveTo(655, 660, 680, 510, 720, 400);
+      ctx.bezierCurveTo(755, 310, 808, 248, 870, 200);
+      ctx.bezierCurveTo(920, 160, 990, 120, 1080, 70);
+      ctx.stroke();
+      ctx.restore();
 
-      // Onde animate nel fiume
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#e0f2fe';
-      const waveWave = (anim.tick * 0.04) % 1;
-      for (let i = 0; i < 7; i++) {
-        const t = (i / 7 + waveWave) % 1;
-        // Calcolo punto approssimato lungo il fiume Po
-        const wx = 590 + t * 580;
-        const wy = 720 - t * 700;
+      // E. RETICOLO STRADALE DI TORINO — il famoso impianto a scacchiera romano/sabaudo
+      // Strade principali: linee grigio-chiaro con bordo bianco (viali)
+      ctx.save();
+
+      // Helper: disegna una strada con bordi
+      const drawRoad = (pts: number[][], width: number, color: string, borderColor: string) => {
+        if (pts.length < 2) return;
+        // Bordo
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = width + 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.setLineDash([]);
         ctx.beginPath();
-        ctx.arc(wx, wy, 8, 0, Math.PI);
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
         ctx.stroke();
+        // Carreggiata
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+        ctx.stroke();
+      };
+
+      // ── GRANDI VIALI / CORSI (larghezza 9px) ──────────────────────────
+      const mainRoads: number[][][] = [
+        // Corso Francia (O→E, nord)
+        [[0,118],[820,118]],
+        // Corso Regina Margherita (O→E)
+        [[0,195],[300,195],[640,250],[820,280]],
+        // Corso Vittorio Emanuele II (O→E, centro)
+        [[0,340],[200,330],[500,310],[700,330]],
+        // Corso Massimo d'Azeglio (verso Lingotto)
+        [[200,310],[220,400],[260,500],[270,600],[270,720]],
+        // Corso Bramante → Lingotto (verticale S)
+        [[310,310],[310,430],[300,530],[290,640],[290,720]],
+        // Corso Re Umberto (verticale centro)
+        [[370,120],[370,340]],
+        // Corso Palestro / Galileo Ferraris
+        [[430,110],[430,340]],
+        // Via Nizza → Lingotto (verticale)
+        [[260,310],[250,430],[240,540],[240,660],[240,720]],
+        // Corso Casale (riva sinistra del Po, verso collina)
+        [[700,350],[730,300],[780,250],[840,200]],
+        // Corso Moncalieri (viale alberato, riva destra collina)
+        [[760,380],[800,330],[850,280],[900,230],[950,180]],
+        // Via Po (Piazza Castello → Piazza Vittorio sul Po)
+        [[380,280],[480,285],[600,300],[695,340]],
+        // Corso Galileo Ferraris → nord
+        [[490,100],[490,310]],
+        // Corso Duca degli Abruzzi / Einaudi
+        [[540,120],[540,300]],
+        // Viale del Valentino (dentro il parco, curva sul Po)
+        [[480,380],[500,420],[520,470],[545,515],[570,560]],
+        // Corso Unità d'Italia (Sud, verso Lingotto)
+        [[350,340],[340,450],[330,560],[320,660],[320,720]],
+        // Corso Turati (verticale)
+        [[600,100],[600,280]],
+        // Corso S. Maurizio (Mole → Po)
+        [[640,220],[680,260],[710,310],[730,340]],
+        // Via Mazzini / Carlo Alberto
+        [[380,280],[500,280],[620,278]],
+        // Corso Cairoli (nord)
+        [[660,110],[660,240]],
+      ];
+
+      mainRoads.forEach(pts => drawRoad(pts, 6, '#e8e0cc', '#c8bfa8'));
+
+      // ── STRADE SECONDARIE (larghezza 3.5px) ─────────────────────────
+      const minorRoads: number[][][] = [
+        // Griglia centro: strade orizzontali ogni ~30px
+        [[0,150],[820,150]],[[0,170],[820,170]],
+        [[0,220],[820,220]],[[0,240],[820,240]],[[0,260],[820,260]],
+        [[0,300],[700,310]],[[0,320],[700,330]],
+        [[0,360],[700,360]],[[0,380],[700,370]],
+        // Griglia verticali
+        [[150,100],[150,400]],[[200,100],[200,400]],
+        [[250,100],[250,380]],[[300,100],[300,380]],
+        [[350,100],[350,380]],[[400,100],[400,380]],
+        [[450,100],[450,380]],[[500,100],[500,380]],
+        [[550,100],[550,310]],
+        // Strade verso il Po
+        [[630,270],[660,320],[680,360]],
+        [[590,260],[610,300],[640,340]],
+      ];
+      minorRoads.forEach(pts => drawRoad(pts, 3, '#ddd6c4', '#cac4b4'));
+      ctx.restore();
+
+      // F. PIAZZE PRINCIPALI — aree chiare rettangolari/circolari
+      ctx.save();
+      // Piazza Castello (centro, grande)
+      ctx.fillStyle = '#d6ceb8';
+      ctx.strokeStyle = '#b8af9e';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(340, 255, 80, 55, 6);
+      ctx.fill(); ctx.stroke();
+      // Piazza Vittorio Veneto (rettangolare, verso il Po)
+      ctx.fillStyle = '#d6ceb8';
+      ctx.beginPath();
+      ctx.roundRect(615, 295, 90, 50, 5);
+      ctx.fill(); ctx.stroke();
+      // Piazza San Carlo (quadrata elegante)
+      ctx.fillStyle = '#cdc5ae';
+      ctx.beginPath();
+      ctx.roundRect(280, 295, 55, 40, 4);
+      ctx.fill(); ctx.stroke();
+      // Piazza della Repubblica (Porta Palazzo)
+      ctx.fillStyle = '#d2cbb5';
+      ctx.beginPath();
+      ctx.roundRect(320, 148, 65, 42, 5);
+      ctx.fill(); ctx.stroke();
+      // Piazza Carlo Felice (di fronte Porta Nuova)
+      ctx.fillStyle = '#cdc5ae';
+      ctx.beginPath();
+      ctx.arc(375, 358, 22, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      // Piazza Statuto (ovest)
+      ctx.fillStyle = '#d2cbb5';
+      ctx.beginPath();
+      ctx.arc(152, 195, 18, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      // Piazza Bodoni / Cln
+      ctx.fillStyle = '#d6ceb8';
+      ctx.beginPath();
+      ctx.arc(485, 318, 14, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      ctx.restore();
+
+      // G. STAZIONE PORTA NUOVA — rettangolo con tetto a shed
+      ctx.save();
+      ctx.fillStyle = '#c4b99e';
+      ctx.strokeStyle = '#9e9080';
+      ctx.lineWidth = 2;
+      ctx.fillRect(320, 348, 110, 28);
+      ctx.strokeRect(320, 348, 110, 28);
+      // Tettoie binari
+      ctx.fillStyle = '#b0a890';
+      for (let sx = 330; sx < 420; sx += 15) {
+        ctx.fillRect(sx, 350, 10, 24);
+      }
+      // Label
+      ctx.fillStyle = '#6b5e4a';
+      ctx.font = 'bold 8px "Outfit", system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('PORTA NUOVA', 375, 344);
+      ctx.restore();
+
+      // H. STAZIONE PORTA SUSA (ovest)
+      ctx.save();
+      ctx.fillStyle = '#c4b99e';
+      ctx.strokeStyle = '#9e9080';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(100, 275, 80, 22);
+      ctx.strokeRect(100, 275, 80, 22);
+      ctx.fillStyle = '#6b5e4a';
+      ctx.font = 'bold 7px "Outfit", system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('PORTA SUSA', 140, 272);
+      ctx.restore();
+
+      // I. BLOCCHI DI ISOLATI URBANI — la griglia di edifici torinesi
+      ctx.save();
+      ctx.fillStyle = 'rgba(180,168,148,0.55)';
+      ctx.strokeStyle = 'rgba(150,138,120,0.4)';
+      ctx.lineWidth = 0.8;
+      // Genera automaticamente una griglia di isolati nella zona centro
+      for (let bx = 120; bx < 660; bx += 50) {
+        for (let by = 110; by < 380; by += 38) {
+          // Salta le piazze principali e il Po
+          if (bx > 590 && by > 280) continue;
+          if (bx > 330 && bx < 430 && by > 245 && by < 320) continue;
+          ctx.fillRect(bx + 3, by + 3, 42, 30);
+          ctx.strokeRect(bx + 3, by + 3, 42, 30);
+        }
+      }
+      // Isolati a sud (verso Lingotto)
+      for (let bx = 150; bx < 380; bx += 48) {
+        for (let by = 380; bx < 660 && by < 580; by += 36) {
+          if (bx > 380 && by > 350) continue;
+          ctx.fillRect(bx + 3, by + 3, 40, 28);
+          ctx.strokeRect(bx + 3, by + 3, 40, 28);
+        }
       }
       ctx.restore();
 
-      // Ponti storici in pietra sopra il Po
-      // 1. Ponte Vittorio Emanuele I (Murazzi / Piazza Vittorio)
-      ctx.fillStyle = '#cbd5e1';
-      ctx.fillRect(735, 335, 48, 14);
-      ctx.fillStyle = '#475569';
-      ctx.fillRect(735, 333, 48, 3);
-      ctx.fillRect(735, 347, 48, 3);
+      // J. PONTI SUL FIUME PO — raffigurati dall'alto come listelli grigi
+      ctx.save();
+      const bridges = [
+        { x1: 640, y1: 298, x2: 710, y2: 345, w: 10, label: 'P.te Vittorio' },
+        { x1: 570, y1: 480, x2: 640, y2: 510, w: 8, label: 'P.te Umberto' },
+        { x1: 685, y1: 180, x2: 745, y2: 210, w: 8, label: 'P.te Isabella' },
+        { x1: 720, y1: 390, x2: 790, y2: 420, w: 8, label: 'P.te Balbis' },
+      ];
+      bridges.forEach(b => {
+        const angle = Math.atan2(b.y2 - b.y1, b.x2 - b.x1);
+        const len = Math.hypot(b.x2 - b.x1, b.y2 - b.y1);
+        ctx.save();
+        ctx.translate((b.x1 + b.x2) / 2, (b.y1 + b.y2) / 2);
+        ctx.rotate(angle);
+        ctx.fillStyle = '#c8bfa8';
+        ctx.strokeStyle = '#8a8070';
+        ctx.lineWidth = 1;
+        ctx.fillRect(-len / 2, -b.w / 2, len, b.w);
+        ctx.strokeRect(-len / 2, -b.w / 2, len, b.w);
+        // Spallette del ponte
+        ctx.fillStyle = '#a8a090';
+        ctx.fillRect(-len / 2, -b.w / 2 - 2, 5, b.w + 4);
+        ctx.fillRect(len / 2 - 5, -b.w / 2 - 2, 5, b.w + 4);
+        ctx.restore();
+        // Label ponte
+        ctx.fillStyle = 'rgba(60,50,35,0.7)';
+        ctx.font = '7px "Outfit", system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText(b.label, (b.x1 + b.x2) / 2, (b.y1 + b.y2) / 2 - 8);
+      });
+      ctx.restore();
 
-      // 2. Ponte Umberto I (Parco del Valentino)
-      ctx.fillStyle = '#cbd5e1';
-      ctx.fillRect(630, 485, 46, 14);
-      ctx.fillStyle = '#475569';
-      ctx.fillRect(630, 483, 46, 3);
-      ctx.fillRect(630, 497, 46, 3);
+      // K. LINEE FERROVIARIE — tratteggio scuro stile carta geografica
+      ctx.save();
+      ctx.strokeStyle = '#8a7a6a';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([6, 4]);
+      // Linea Torino-Milano (verso nord)
+      ctx.beginPath(); ctx.moveTo(375, 348); ctx.lineTo(340, 100); ctx.lineTo(300, 0); ctx.stroke();
+      // Linea Torino-Genova (verso sud)
+      ctx.beginPath(); ctx.moveTo(375, 376); ctx.lineTo(310, 500); ctx.lineTo(280, 720); ctx.stroke();
+      // Linea verso Porta Susa / est-ovest
+      ctx.beginPath(); ctx.moveTo(180, 286); ctx.lineTo(320, 286); ctx.lineTo(375, 348); ctx.stroke();
+      // Tranvia dentiera Sassi-Superga (verso collina)
+      ctx.strokeStyle = '#9a6040';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 6]);
+      ctx.beginPath(); ctx.moveTo(760, 285); ctx.bezierCurveTo(820, 250, 900, 200, 990, 165); ctx.lineTo(1060, 140); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
 
-      // E. Disegno dei Sentieri Lastricati (Dotted Paths in stile Mario World)
+      // L. NOME DELLE STRADE PRINCIPALI
+      ctx.save();
+      ctx.font = '8px "Outfit", system-ui, sans-serif';
+      ctx.fillStyle = 'rgba(80, 65, 45, 0.85)';
+      ctx.textAlign = 'center';
+      const streetLabels = [
+        { text: 'C.so Francia', x: 400, y: 113, angle: 0 },
+        { text: 'C.so Regina M.ta', x: 320, y: 190, angle: 0 },
+        { text: 'C.so Vittorio E. II', x: 290, y: 344, angle: 0 },
+        { text: 'Via Po', x: 540, y: 277, angle: 0 },
+        { text: 'C.so Casale', x: 800, y: 278, angle: -22 },
+        { text: 'C.so Moncalieri', x: 870, y: 310, angle: -28 },
+        { text: 'C.so Massimo d\'Azeglio', x: 238, y: 420, angle: -85 },
+      ];
+      streetLabels.forEach(sl => {
+        ctx.save();
+        ctx.translate(sl.x, sl.y);
+        ctx.rotate((sl.angle * Math.PI) / 180);
+        ctx.fillText(sl.text, 0, 0);
+        ctx.restore();
+      });
+      ctx.restore();
+
+      // M. NOMI QUARTIERI / ZONE
+      ctx.save();
+      ctx.font = 'bold 11px "Outfit", system-ui, sans-serif';
+      ctx.fillStyle = 'rgba(100, 80, 50, 0.4)';
+      ctx.textAlign = 'center';
+      [
+        { text: 'CROCETTA', x: 215, y: 350 },
+        { text: 'CENTRO', x: 380, y: 230 },
+        { text: 'VANCHIGLIA', x: 620, y: 220 },
+        { text: 'SAN SALVARIO', x: 260, y: 430 },
+        { text: 'COLLINA', x: 970, y: 350 },
+        { text: 'BORGO PO', x: 790, y: 430 },
+        { text: 'FILADELFIA', x: 300, y: 580 },
+      ].forEach(q => {
+        ctx.fillText(q.text, q.x, q.y);
+      });
+      ctx.restore();
+
+      // N. SENTIERI MAPPA (dotted paths stile Mario World sopra la mappa)
       ctx.save();
       for (const seg of MAP_PATHS) {
-        // Linea sentiero interna dorata / sabbia
-        ctx.strokeStyle = '#fde047';
+        // Ombra del sentiero
+        ctx.strokeStyle = 'rgba(0,0,0,0.22)';
+        ctx.lineWidth = 11;
+        ctx.setLineDash([]);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        seg.points.forEach((pt, i) => i === 0 ? ctx.moveTo(pt.x, pt.y + 2) : ctx.lineTo(pt.x, pt.y + 2));
+        ctx.stroke();
+        // Sentiero dorato tratteggiato
+        ctx.strokeStyle = '#ffb703';
         ctx.lineWidth = 8;
-        ctx.setLineDash([8, 10]);
+        ctx.setLineDash([9, 11]);
+        ctx.lineDashOffset = -(anim.tick * 0.8) % 20;
         ctx.beginPath();
-        for (let i = 0; i < seg.points.length; i++) {
-          const pt = seg.points[i];
-          if (i === 0) ctx.moveTo(pt.x, pt.y);
-          else ctx.lineTo(pt.x, pt.y);
+        seg.points.forEach((pt, i) => i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y));
+        ctx.stroke();
+        // Bordo bianco interno
+        ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([6, 14]);
+        ctx.beginPath();
+        seg.points.forEach((pt, i) => i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y));
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      ctx.lineDashOffset = 0;
+      ctx.restore();
+
+      // O. MONUMENTI / LANDMARKS ICONICI (miniature pittoriche)
+      // 1. Palazzo Madama — Nodo 1 (x=380, y=280)
+      ctx.save();
+      {
+        const px = 380, py = 220;
+        ctx.fillStyle = '#e8dfc8'; ctx.strokeStyle = '#b0a070'; ctx.lineWidth = 1.5;
+        ctx.fillRect(px - 38, py - 14, 76, 28); ctx.strokeRect(px - 38, py - 14, 76, 28);
+        ctx.fillStyle = '#c8b888';
+        for (let c = px - 28; c <= px + 28; c += 12) { ctx.fillRect(c, py - 8, 5, 16); }
+        ctx.fillStyle = '#a08040';
+        ctx.beginPath(); ctx.arc(px, py - 24, 14, Math.PI, 0); ctx.fill();
+        ctx.fillStyle = '#d4b870'; ctx.fillRect(px - 2, py - 40, 4, 14);
+      }
+      ctx.restore();
+
+      // 2. Mole Antonelliana — Nodo 2 (x=670, y=240)
+      ctx.save();
+      {
+        const mx = 670, my = 170;
+        ctx.fillStyle = '#d4c8a8'; ctx.strokeStyle = '#8a7a50'; ctx.lineWidth = 1.5;
+        ctx.fillRect(mx - 18, my + 14, 36, 26); ctx.strokeRect(mx - 18, my + 14, 36, 26);
+        ctx.fillStyle = '#c8b888';
+        for (let c = mx - 14; c <= mx + 14; c += 8) { ctx.fillRect(c, my + 18, 4, 18); }
+        ctx.fillStyle = '#8a6a20';
+        ctx.beginPath();
+        ctx.moveTo(mx - 18, my + 14); ctx.quadraticCurveTo(mx, my - 20, mx, my - 36);
+        ctx.quadraticCurveTo(mx, my - 20, mx + 18, my + 14); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#c8a030'; ctx.fillRect(mx - 2, my - 74, 4, 38);
+        ctx.fillStyle = '#fde047';
+        ctx.beginPath(); ctx.arc(mx, my - 76, 3.5, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.restore();
+
+      // 3. Borgo Medievale — Nodo 3 (x=480, y=500) — già nel parco
+      ctx.save();
+      {
+        const vx = 480, vy = 450;
+        ctx.fillStyle = '#8a6040'; ctx.strokeStyle = '#5a4020'; ctx.lineWidth = 1.5;
+        ctx.fillRect(vx - 18, vy, 36, 22); ctx.strokeRect(vx - 18, vy, 36, 22);
+        ctx.fillRect(vx - 22, vy - 8, 9, 30); ctx.fillRect(vx + 13, vy - 8, 9, 30);
+        ctx.fillStyle = '#b04040';
+        ctx.beginPath(); ctx.moveTo(vx - 26, vy - 8); ctx.lineTo(vx - 17, vy - 20); ctx.lineTo(vx - 9, vy - 8); ctx.closePath(); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(vx + 9, vy - 8); ctx.lineTo(vx + 17, vy - 20); ctx.lineTo(vx + 26, vy - 8); ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+
+      // 4. Murazzi — Nodo 4 (x=720, y=400) — sulle rive del Po
+      ctx.save();
+      {
+        const mx2 = 720, my2 = 375;
+        ctx.fillStyle = '#4a5a70'; ctx.strokeStyle = '#2a3a50'; ctx.lineWidth = 1;
+        ctx.fillRect(mx2 - 28, my2, 56, 14); ctx.strokeRect(mx2 - 28, my2, 56, 14);
+        for (let ax = mx2 - 20; ax <= mx2 + 18; ax += 14) {
+          ctx.fillStyle = '#1a2a40';
+          ctx.beginPath(); ctx.arc(ax, my2 + 8, 5, Math.PI, 0); ctx.fill();
+          ctx.fillStyle = `rgba(245,158,11,${0.6 + Math.sin(anim.tick * 0.1 + ax) * 0.3})`;
+          ctx.fillRect(ax - 2, my2 + 2, 4, 3);
         }
-        ctx.stroke();
-
-        // Bordo scuro dei ciottoli
-        ctx.strokeStyle = '#78350f';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
       }
       ctx.restore();
 
-      // F. MONUMENTI MINIATURA DISEGNATI SULLA MAPPA (Ispirati alla Foto di Torino)
-      // 1. Palazzo Madama e Piazza Castello (Nodo 1)
+      // 5. Basilica di Superga — Nodo 5 (x=1060, y=190)
       ctx.save();
-      const pmX = 380;
-      const pmY = 210;
-      // Facciata juvarriana Palazzo Madama
-      ctx.fillStyle = '#e2e8f0';
-      ctx.fillRect(pmX - 44, pmY - 18, 88, 32);
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillRect(pmX - 46, pmY - 22, 92, 5);
-      // Colonne e finestroni classici
-      ctx.fillStyle = '#1e293b';
-      for (let cx = pmX - 36; cx <= pmX + 36; cx += 14) {
-        ctx.fillRect(cx, pmY - 12, 6, 18);
-      }
-      // Statua equestre Caval 'd Brôns
-      ctx.fillStyle = '#78350f';
-      ctx.fillRect(pmX + 36, pmY + 22, 12, 10);
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(pmX + 38, pmY + 16, 8, 8);
-      ctx.restore();
-
-      // 2. La Mole Antonelliana (Nodo 2)
-      ctx.save();
-      const moleX = 670;
-      const moleY = 160;
-      // Basamento e colonnato classico
-      ctx.fillStyle = '#b91c1c';
-      ctx.fillRect(moleX - 22, moleY + 10, 44, 30);
-      ctx.fillStyle = '#f8fafc';
-      for (let mx = moleX - 18; mx <= moleX + 18; mx += 8) {
-        ctx.fillRect(mx, moleY + 14, 4, 22);
-      }
-      // Cupola a pagoda sabauda quadrata
-      ctx.fillStyle = '#7f1d1d';
-      ctx.beginPath();
-      ctx.moveTo(moleX - 22, moleY + 10);
-      ctx.quadraticCurveTo(moleX - 10, moleY - 30, moleX - 6, moleY - 45);
-      ctx.lineTo(moleX + 6, moleY - 45);
-      ctx.quadraticCurveTo(moleX + 10, moleY - 30, moleX + 22, moleY + 10);
-      ctx.closePath();
-      ctx.fill();
-      // Tempietto superiore e Guglia acuminata con stella
-      ctx.fillStyle = '#e2e8f0';
-      ctx.fillRect(moleX - 6, moleY - 55, 12, 10);
-      ctx.fillStyle = '#94a3b8';
-      ctx.fillRect(moleX - 2, moleY - 95, 4, 40);
-      // Stella dorata in cima che brilla
-      ctx.fillStyle = '#fde047';
-      ctx.beginPath();
-      ctx.arc(moleX, moleY - 98, 4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-
-      // 3. Parco del Valentino e Borgo Medievale (Nodo 3)
-      ctx.save();
-      const valX = 480;
-      const valY = 440;
-      // Alberi del parco
-      ctx.fillStyle = '#15803d';
-      ctx.beginPath();
-      ctx.arc(valX - 35, valY + 15, 14, 0, Math.PI * 2);
-      ctx.arc(valX + 35, valY + 15, 12, 0, Math.PI * 2);
-      ctx.fill();
-      // Rocca medievale con merli e torrette
-      ctx.fillStyle = '#78350f';
-      ctx.fillRect(valX - 22, valY, 44, 26);
-      // Torrette laterali con tetto a cono rosso
-      ctx.fillRect(valX - 26, valY - 10, 10, 36);
-      ctx.fillRect(valX + 16, valY - 10, 10, 36);
-      ctx.fillStyle = '#dc2626';
-      ctx.beginPath();
-      ctx.moveTo(valX - 30, valY - 10);
-      ctx.lineTo(valX - 21, valY - 24);
-      ctx.lineTo(valX - 12, valY - 10);
-      ctx.closePath();
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(valX + 12, valY - 10);
-      ctx.lineTo(valX + 21, valY - 24);
-      ctx.lineTo(valX + 30, valY - 10);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-
-      // 4. Murazzi del Po con Arcate in Pietra (Nodo 4)
-      ctx.save();
-      const murX = 720;
-      const murY = 370;
-      ctx.fillStyle = '#334155';
-      ctx.fillRect(murX - 26, murY - 8, 52, 16);
-      // Arcate con luci al neon calde
-      for (let ax = murX - 18; ax <= murX + 18; ax += 14) {
-        ctx.fillStyle = '#0f172a';
-        ctx.beginPath();
-        ctx.arc(ax, murY + 4, 5, Math.PI, 0);
-        ctx.fill();
-        ctx.fillStyle = '#f59e0b';
-        ctx.fillRect(ax - 2, murY, 4, 3);
+      {
+        const sx = 1060, sy = 128;
+        ctx.fillStyle = '#f0d8a0'; ctx.strokeStyle = '#c09040'; ctx.lineWidth = 1.5;
+        ctx.fillRect(sx - 22, sy + 4, 44, 22); ctx.strokeRect(sx - 22, sy + 4, 44, 22);
+        ctx.fillStyle = '#d09040';
+        for (let c = sx - 16; c <= sx + 16; c += 8) { ctx.fillRect(c, sy + 7, 3, 16); }
+        ctx.fillStyle = '#c07830';
+        ctx.beginPath(); ctx.arc(sx, sy + 2, 14, Math.PI, 0); ctx.fill();
+        ctx.fillStyle = '#f0d8a0'; ctx.fillRect(sx - 2, sy - 16, 4, 14);
+        ctx.fillRect(sx - 26, sy - 10, 6, 34); ctx.fillRect(sx + 20, sy - 10, 6, 34);
       }
       ctx.restore();
 
-      // 5. Basilica di Superga e Dentiera sulla Collina (Nodo 5)
+      // 6. Lingotto FIAT — Nodo 6 (x=270, y=600)
       ctx.save();
-      const supX = 1060;
-      const supY = 120;
-      // Basilica Juvarriana con pronao classico e cupola
-      ctx.fillStyle = '#fed7aa';
-      ctx.fillRect(supX - 26, supY, 52, 28);
-      // Colonne pronao
-      ctx.fillStyle = '#ea580c';
-      for (let bx = supX - 18; bx <= supX + 18; bx += 9) {
-        ctx.fillRect(bx, supY + 4, 3, 20);
+      {
+        const lx = 270, ly = 565;
+        ctx.fillStyle = '#8a2020'; ctx.strokeStyle = '#5a1010'; ctx.lineWidth = 1.5;
+        ctx.fillRect(lx - 42, ly - 10, 84, 20); ctx.strokeRect(lx - 42, ly - 10, 84, 20);
+        ctx.fillStyle = '#7ab4e8';
+        for (let wx = lx - 36; wx <= lx + 36; wx += 10) { ctx.fillRect(wx, ly - 7, 6, 6); ctx.fillRect(wx, ly + 1, 6, 5); }
+        ctx.strokeStyle = '#1e2830'; ctx.lineWidth = 3.5; ctx.setLineDash([]);
+        ctx.beginPath(); ctx.ellipse(lx, ly - 14, 38, 9, 0, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath(); ctx.arc(lx + 20, ly - 22, 6, 0, Math.PI * 2); ctx.fill();
       }
-      // Cupola maestosa
-      ctx.fillStyle = '#ea580c';
-      ctx.beginPath();
-      ctx.arc(supX, supY - 2, 16, Math.PI, 0);
-      ctx.fill();
-      ctx.fillStyle = '#ffedd5';
-      ctx.fillRect(supX - 3, supY - 24, 6, 8);
-      // Campanili gemelli
-      ctx.fillStyle = '#fed7aa';
-      ctx.fillRect(supX - 30, supY - 14, 8, 38);
-      ctx.fillRect(supX + 22, supY - 14, 8, 38);
-      // Vagoncino rosso della Dentiera di Sassi in salita
-      ctx.fillStyle = '#b91c1c';
-      ctx.fillRect(supX - 48, supY + 36, 16, 8);
-      ctx.fillStyle = '#fde047';
-      ctx.fillRect(supX - 48, supY + 34, 16, 3);
-      ctx.restore();
-
-      // 6. Lingotto Fiat con Pista 500 sul tetto e Bolla (Nodo 6)
-      ctx.save();
-      const lingX = 270;
-      const lingY = 540;
-      // Fabbrica storica in mattoni rossi
-      ctx.fillStyle = '#7f1d1d';
-      ctx.fillRect(lingX - 40, lingY - 12, 80, 24);
-      // Griglia finestre industriali continue
-      ctx.fillStyle = '#93c5fd';
-      for (let lx = lingX - 34; lx <= lingX + 34; lx += 10) {
-        ctx.fillRect(lx, lingY - 8, 6, 8);
-        ctx.fillRect(lx, lingY + 2, 6, 7);
-      }
-      // Pista 500 sul tetto con curve paraboliche
-      ctx.strokeStyle = '#1e293b';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.ellipse(lingX, lingY - 16, 36, 8, 0, 0, Math.PI * 2);
-      ctx.stroke();
-      // Bolla di Renzo Piano (eliporto in cristallo azzurro)
-      ctx.fillStyle = '#38bdf8';
-      ctx.beginPath();
-      ctx.arc(lingX + 18, lingY - 26, 7, 0, Math.PI * 2);
-      ctx.fill();
       ctx.restore();
 
       // Dettagli ambientali carini (fontanelle Tôret torinesi sparse)
-      const toretsx = [310, 540, 870, 420];
-      const toretsy = [340, 310, 480, 620];
-      ctx.fillStyle = '#1b4332';
+      const toretsx = [310, 540, 420];
+      const toretsy = [240, 230, 500];
+      ctx.fillStyle = '#2a6040';
       for (let i = 0; i < toretsx.length; i++) {
-        ctx.fillRect(toretsx[i], toretsy[i], 5, 9);
+        ctx.fillRect(toretsx[i], toretsy[i], 4, 8);
         ctx.fillStyle = '#f59e0b';
         ctx.fillRect(toretsx[i] - 1, toretsy[i] + 2, 2, 2);
-        ctx.fillStyle = '#1b4332';
+        ctx.fillStyle = '#2a6040';
       }
 
       // G. RENDERING DEI NODI DI LIVELLO (Super Mario World Stage Pads)
@@ -893,46 +1117,78 @@ export const TorinoWorldMap: React.FC<TorinoWorldMapProps> = ({
           </button>
         </div>
 
-        {/* Mini D-Pad Touch di supporto per chi preferisce i tasti a schermo */}
-        <div className="worldmap-touch-controls">
-          <div className="map-touch-dpad">
-            {currentNode.neighbors.up && (
-              <button
-                className="btn-map-dir dir-up"
-                onClick={() => moveToNode(currentNode.neighbors.up!)}
-                title="Spostati in alto"
-              >
-                ▲
-              </button>
-            )}
-            {currentNode.neighbors.left && (
-              <button
-                className="btn-map-dir dir-left"
-                onClick={() => moveToNode(currentNode.neighbors.left!)}
-                title="Spostati a sinistra"
-              >
-                ◀
-              </button>
-            )}
-            {currentNode.neighbors.right && (
-              <button
-                className="btn-map-dir dir-right"
-                onClick={() => moveToNode(currentNode.neighbors.right!)}
-                title="Spostati a destra"
-              >
-                ▶
-              </button>
-            )}
-            {currentNode.neighbors.down && (
-              <button
-                className="btn-map-dir dir-down"
-                onClick={() => moveToNode(currentNode.neighbors.down!)}
-                title="Spostati in basso"
-              >
-                ▼
-              </button>
-            )}
+        {/* ── BARRA NAVIGAZIONE LIVELLI MOBILE ─────────────────────────────
+            Visibile solo su touch/mobile. Sostituisce il D-pad direzionale
+            con controlli diretti livello-per-livello più intuitivi.
+        ──────────────────────────────────────────────────────────────────── */}
+        <div className="map-mobile-nav">
+          {/* Freccia Precedente */}
+          <button
+            className="map-mobile-nav-arrow"
+            onClick={() => {
+              const ids = Object.keys(MAP_NODES).map(Number);
+              const idx = ids.indexOf(currentNodeId);
+              const prevId = ids[(idx - 1 + ids.length) % ids.length];
+              moveToNode(prevId);
+            }}
+            aria-label="Livello precedente"
+          >
+            ◀
+          </button>
+
+          {/* Pillole livello */}
+          <div className="map-mobile-nav-levels">
+            {Object.values(MAP_NODES).map((node) => {
+              const isCurrent = node.id === currentNodeId;
+              const isTarget = node.id === targetNodeId;
+              const levelEmojis: Record<number, string> = {
+                1: '🏛️', 2: '🗼', 3: '🌳', 4: '🌙', 5: '🐗', 6: '🤖',
+              };
+              return (
+                <button
+                  key={node.id}
+                  className={`map-mobile-level-pill${isCurrent ? ' is-current' : ''}${isTarget ? ' is-moving' : ''}`}
+                  onClick={() => {
+                    if (isCurrent && !animRef.current.isMoving) {
+                      onSelectLevel(node.id);
+                    } else {
+                      moveToNode(node.id);
+                    }
+                  }}
+                  title={node.title}
+                >
+                  <span className="map-pill-emoji">{levelEmojis[node.id] ?? '📍'}</span>
+                  <span className="map-pill-num">{node.id}</span>
+                  {(bestScores[node.id] ?? 0) > 0 && (
+                    <span className="map-pill-star">⭐</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
+
+          {/* Freccia Successiva */}
+          <button
+            className="map-mobile-nav-arrow"
+            onClick={() => {
+              const ids = Object.keys(MAP_NODES).map(Number);
+              const idx = ids.indexOf(currentNodeId);
+              const nextId = ids[(idx + 1) % ids.length];
+              moveToNode(nextId);
+            }}
+            aria-label="Livello successivo"
+          >
+            ▶
+          </button>
+
+          {/* Bottone GIOCA centrale */}
+          <button
+            className="map-mobile-play-btn"
+            onClick={() => onSelectLevel(currentNodeId)}
+            aria-label={`Gioca livello ${currentNodeId}`}
+          >
+            ▶ GIOCA
+          </button>
         </div>
       </div>
     </div>

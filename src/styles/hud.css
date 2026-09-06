@@ -457,3 +457,54 @@
   padding-left: 8px;
   white-space: nowrap;
 }
+
+/* =========================================================
+   MOBILE — Nasconde gli elementi solo-desktop
+   ========================================================= */
+@media (hover: none), (pointer: coarse) {
+  /* Nasconde la skill hotbar intera (i tasti 1/2/SPAZIO non esistono su mobile,
+     le skill si usano coi bottoni del joypad) */
+  .hud-skills-bar {
+    display: none;
+  }
+
+  /* Nasconde i badge tasti "1", "2", "SPAZIO" sulle skill slot */
+  .skill-badge-key {
+    display: none;
+  }
+
+  /* Comprime la status bar effetti per non occupare spazio */
+  .status-effects-bar {
+    display: none;
+  }
+
+  /* HUD più compatto: meno padding */
+  .hud-container {
+    padding: 5px 8px;
+  }
+
+  .hud-stats-row {
+    gap: 8px;
+    padding: 3px 8px;
+  }
+
+  .hud-item {
+    font-size: 0.56rem;
+  }
+
+  /* Toast collezionabile: rimane visibile ma più compatto */
+  .hud-collected-toast {
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    gap: 6px;
+    top: 52px;
+  }
+
+  .toast-name {
+    font-size: 0.62rem;
+  }
+
+  .toast-desc {
+    display: none;
+  }
+}

@@ -9,7 +9,8 @@ export class Camera {
   public levelHeight: number = 720;
 
   // Offset verticale per sollevare la linea di terra sopra i controlli touch mobile
-  public readonly verticalGroundOffset: number = 85;
+  // 140px = zona sicura: i bottoni (80px altezza + 12px padding + run btn 30px) stanno tutti sotto
+  public readonly verticalGroundOffset: number = 140;
 
   // Smoothing e lookahead graduale
   private targetX: number = 0;
@@ -58,7 +59,9 @@ export class Camera {
 
     // Deadzone verticale: quando il giocatore salta o atterra, se la variazione è entro 65px
     // la telecamera NON sussulta su e giù, eliminando il mal di mare e rendendo lo sfondo immobile
-    const desiredY = focusY - this.height * 0.6;
+    // Focus a 0.52 (invece di 0.6) → il personaggio appare più in alto nel frame,
+    // lasciando più spazio visibile al terreno sotto e sopra i controlli mobile
+    const desiredY = focusY - this.height * 0.52;
     const diffY = desiredY - this.targetY;
     const deadzoneY = 65;
     if (Math.abs(diffY) > deadzoneY) {
@@ -85,7 +88,11 @@ export class Camera {
 
   private clampToBounds(): void {
     const maxX = Math.max(0, this.levelWidth - this.width);
-    const maxY = Math.max(0, this.levelHeight - this.height);
+    // Il clamp verticale deve tenere conto del verticalGroundOffset:
+    // il transform applica -y -verticalGroundOffset, quindi y=0 significa
+    // che il top del livello è visibile; non vogliamo scendere oltre
+    // (levelHeight - height + verticalGroundOffset) o lo sfondo mostra il vuoto.
+    const maxY = Math.max(0, this.levelHeight - this.height + this.verticalGroundOffset);
 
     if (this.x < 0) this.x = 0;
     if (this.x > maxX) this.x = maxX;

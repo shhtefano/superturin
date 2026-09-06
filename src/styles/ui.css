@@ -583,3 +583,84 @@
   }
 }
 
+/* =========================================================
+   MOBILE — Nasconde tutto ciò che è solo-desktop
+   ========================================================= */
+@media (hover: none), (pointer: coarse) {
+
+  /* Suggerimenti tastiera nel menu principale */
+  .menu-nav-hint,
+  .level-nav-hint {
+    display: none;
+  }
+
+  /* Footer della galleria livelli con hint tastiera */
+  .level-select-footer {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  /* Nasconde il bottone "VISTA MAPPA" ridondante nella galleria (c'è già la mappa principale) */
+  .level-btn-back:first-child {
+    display: none;
+  }
+
+  /* Modal più compatte: meno padding sui lati */
+  .modal-card {
+    padding: 20px 18px;
+    max-width: 98vw;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .modal-subtitle {
+    font-size: 0.82rem;
+    margin-bottom: 14px;
+  }
+
+  /* Pulsanti menu: rimuovi il prefisso "1." ecc. — gestito da JS ma i kbd no */
+  kbd {
+    display: none;
+  }
+
+  /* Pulsanti arcade più grandi come touch target */
+  .btn-arcade {
+    padding: 14px 18px;
+    font-size: 0.6rem;
+    min-height: 48px;
+  }
+
+  /* Btn group più stretto */
+  .btn-group {
+    gap: 10px;
+  }
+
+  /* Level gallery grid: 2 colonne su touch */
+  .level-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .level-quadro {
+    cursor: pointer;
+  }
+
+  /* Pausa modal più compatta */
+  .pause-key-hint {
+    display: none;
+  }
+
+  /* Char select: footer semplificato */
+  .char-select-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .char-confirm-btn {
+    width: 100%;
+  }
+}
