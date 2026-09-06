@@ -46,6 +46,18 @@ export class ParallaxBackground {
 
   public render(ctx: CanvasRenderingContext2D): void {
     switch (this.theme) {
+      case 'mercato':
+        this.renderMercatoTheme(ctx);
+        break;
+      case 'sancarlo':
+        this.renderSanCarloTheme(ctx);
+        break;
+      case 'egizio':
+        this.renderEgizioTheme(ctx);
+        break;
+      case 'alchimia':
+        this.renderAlchimiaTheme(ctx);
+        break;
       case 'mole':
         this.renderMoleTheme(ctx);
         break;
@@ -2070,6 +2082,193 @@ export class ParallaxBackground {
       const sy = (i * 83) % (this.height * 0.6);
       const size = (i % 3 === 0) ? 2.5 : 1.5;
       ctx.fillRect(px, sy, size, size);
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 2: PORTA PALAZZO & IL GRANDE MERCATO
+  // =========================================================================
+  private renderMercatoTheme(ctx: CanvasRenderingContext2D): void {
+    // Cielo luminoso e accogliente con sole
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#0284c7');
+    sky.addColorStop(0.6, '#38bdf8');
+    sky.addColorStop(1, '#fef08a');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // Sole del mercato
+    ctx.save();
+    ctx.fillStyle = '#fef08a';
+    ctx.shadowColor = '#facc15';
+    ctx.shadowBlur = 18;
+    ctx.beginPath();
+    ctx.arc(this.width * 0.78, 80, 32, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    this.renderMarioClouds(ctx, 0.02, 'rgba(255, 255, 255, 0.9)');
+    this.renderCleanMountains(ctx, 0.02, '#93c5fd', '#dbeafe');
+    this.renderRollingHills(ctx, 0.04, '#86efac', '#22c55e', false);
+
+    // Tettoie e sagome dei palazzi liberty di Porta Palazzo (parallasse 0.08)
+    ctx.save();
+    const spacing = 420;
+    const offset = this.getOffset(0.08, spacing);
+    for (let x = -offset - spacing; x < this.width + spacing; x += spacing) {
+      // Palazzina con cupola
+      ctx.fillStyle = '#64748b';
+      ctx.fillRect(x + 50, this.height - 240, 180, 160);
+      ctx.beginPath();
+      ctx.arc(x + 140, this.height - 240, 45, Math.PI, 0);
+      ctx.fill();
+
+      // Tendoni colorati del mercato in lontananza
+      for (let t = 0; t < 5; t++) {
+        ctx.fillStyle = t % 2 === 0 ? '#ef4444' : '#ffffff';
+        ctx.fillRect(x + 60 + t * 30, this.height - 130, 28, 18);
+      }
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 5: PIAZZA SAN CARLO & I PORTICI REALI
+  // =========================================================================
+  private renderSanCarloTheme(ctx: CanvasRenderingContext2D): void {
+    // Cielo dorato sabaudo del tardo pomeriggio
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#0369a1');
+    sky.addColorStop(0.5, '#38bdf8');
+    sky.addColorStop(0.85, '#fed7aa');
+    sky.addColorStop(1, '#fdba74');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    this.renderCleanMountains(ctx, 0.02, '#93c5fd', '#bfdbfe');
+    this.renderRollingHills(ctx, 0.04, '#4ade80', '#16a34a', true);
+
+    // Porticati storici di Piazza San Carlo (parallasse 0.09)
+    ctx.save();
+    const spacing = 480;
+    const offset = this.getOffset(0.09, spacing);
+    for (let x = -offset - spacing; x < this.width + spacing; x += spacing) {
+      // Facciata barocca monumentale
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(x + 40, this.height - 280, 260, 200);
+      // Arcate eleganti del portico
+      for (let a = 0; a < 3; a++) {
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(x + 80 + a * 70, this.height - 170, 24, Math.PI, 0);
+        ctx.fill();
+        ctx.fillRect(x + 56 + a * 70, this.height - 170, 48, 90);
+      }
+      // Lanterna dorata
+      ctx.fillStyle = '#ffb703';
+      ctx.beginPath();
+      ctx.arc(x + 150, this.height - 190, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 7: MUSEO EGIZIO & LA CRIPTA DEI FARAONI
+  // =========================================================================
+  private renderEgizioTheme(ctx: CanvasRenderingContext2D): void {
+    // Atmosfera di mistero: ambra, oro scuro e granito
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#0f172a');
+    sky.addColorStop(0.4, '#1c1917');
+    sky.addColorStop(0.8, '#451a03');
+    sky.addColorStop(1, '#78350f');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // Stelle e bagliori delle torce
+    this.renderStars(ctx, 0.01);
+
+    // Sagome di Obelischi e Sfinge egizia monumentale (parallasse 0.06)
+    ctx.save();
+    const spacing = 520;
+    const offset = this.getOffset(0.06, spacing);
+    for (let x = -offset - spacing; x < this.width + spacing; x += spacing) {
+      // Obelisco slanciato
+      ctx.fillStyle = '#292524';
+      ctx.beginPath();
+      ctx.moveTo(x + 100, this.height - 300);
+      ctx.lineTo(x + 94, this.height - 80);
+      ctx.lineTo(x + 106, this.height - 80);
+      ctx.closePath();
+      ctx.fill();
+      // Cuspide piramidale dorata
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.moveTo(x + 100, this.height - 315);
+      ctx.lineTo(x + 97, this.height - 300);
+      ctx.lineTo(x + 103, this.height - 300);
+      ctx.closePath();
+      ctx.fill();
+
+      // Mura del tempio con bassorilievi
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(x + 200, this.height - 230, 180, 150);
+      // Fregio dorato
+      ctx.fillStyle = '#d97706';
+      ctx.fillRect(x + 200, this.height - 220, 180, 6);
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 10: PIAZZA STATUTO & I SOTTERRANEI ALCHEMICI
+  // =========================================================================
+  private renderAlchimiaTheme(ctx: CanvasRenderingContext2D): void {
+    // Cielo notturno esoterico: nero, viola profondo e bagliori carminio
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#020617');
+    sky.addColorStop(0.4, '#2e1065');
+    sky.addColorStop(0.75, '#581c87');
+    sky.addColorStop(1, '#831843');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // Stelle mistiche
+    this.renderStars(ctx, 0.01);
+
+    // Luna rosso sangue alchemica
+    ctx.save();
+    ctx.fillStyle = '#f43f5e';
+    ctx.shadowColor = '#e11d48';
+    ctx.shadowBlur = 24;
+    ctx.beginPath();
+    ctx.arc(this.width * 0.85, 75, 26, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Obelisco Geodetico di Piazza Statuto e pinnacoli gotici (parallasse 0.05)
+    ctx.save();
+    const spacing = 450;
+    const offset = this.getOffset(0.05, spacing);
+    for (let x = -offset - spacing; x < this.width + spacing; x += spacing) {
+      // Obelisco con astrolabio/globo alchemico
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(x + 80, this.height - 260, 28, 180);
+      // Sfera alchemica in cima all'obelisco
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.arc(x + 94, this.height - 275, 12, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Mura delle grotte alchemiche sotterranee
+      ctx.fillStyle = '#1e1b4b';
+      ctx.fillRect(x + 180, this.height - 200, 200, 120);
+      // Runici alchemici luminescenti
+      ctx.fillStyle = '#e879f9';
+      ctx.font = 'bold 9px monospace';
+      ctx.fillText('☿ ♀ ♂ ♃', x + 210, this.height - 160);
     }
     ctx.restore();
   }

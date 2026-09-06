@@ -1,8 +1,8 @@
 import { LevelData } from './types';
 
 export const level2_mole: LevelData = {
-  id: 2,
-  title: 'Livello 2 — La Mole Antonelliana',
+  id: 6,
+  title: 'Livello 6 — La Mole Antonelliana',
   subtitle: 'La Grande Scalata Verticale tra Ascensori nel Vuoto e la Guglia',
   theme: 'mole',
   width: 6100,

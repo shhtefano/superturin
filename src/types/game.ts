@@ -7,7 +7,8 @@ export type GameStatus =
   | 'playing'
   | 'paused'
   | 'gameOver'
-  | 'levelComplete';
+  | 'levelComplete'
+  | 'gameVictory';
 
 export type CharacterId =
   | 'shhte'

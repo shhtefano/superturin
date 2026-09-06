@@ -35,27 +35,27 @@ export interface MapNode {
 export const MAP_NODES: Record<number, MapNode> = {
   1: {
     id: 1,
-    title: 'Centro di Torino',
-    subtitle: 'Piazza Castello, Palazzo Madama & Tram GTT',
+    title: 'Centro Storico & Piazza Castello',
+    subtitle: 'Palazzo Madama, Giardini Reali & Tram GTT',
     landmark: 'Palazzo Madama',
     tag: '🏛️ CENTRO STORICO',
-    diff: '⭐⭐',
+    diff: '⭐',
     nemici: 'Piccioni, Torinesi con ombrello, Tram 7',
-    x: 380,
-    y: 280,
-    neighbors: { right: 2, down: 3 },
+    x: 400,
+    y: 260,
+    neighbors: { up: 2, down: 5, right: 6, left: 10 },
   },
   2: {
     id: 2,
-    title: 'La Mole Antonelliana',
-    subtitle: 'Ascensore di Cristallo, Guglia & Cupola',
-    landmark: 'Mole Antonelliana',
-    tag: '🗼 MOLE ANTONELLIANA',
-    diff: '⭐⭐⭐',
-    nemici: 'Gabbiani ad alta quota, Vigili Urbani, Concettina A Pilusa (BOSS)',
-    x: 670,
-    y: 240,
-    neighbors: { left: 1, right: 5, down: 4 },
+    title: 'Porta Palazzo & Mercato',
+    subtitle: 'Bancarelle, Cassette di Frutta & Piazza della Repubblica',
+    landmark: 'Mercato Centrale',
+    tag: '🍎 PORTA PALAZZO',
+    diff: '⭐⭐',
+    nemici: 'Torinesi col carrello, Gabbiani golosi',
+    x: 360,
+    y: 150,
+    neighbors: { down: 1, left: 10 },
   },
   3: {
     id: 3,
@@ -63,11 +63,11 @@ export const MAP_NODES: Record<number, MapNode> = {
     subtitle: 'Borgo Medievale, Fiume Po & Canottieri',
     landmark: 'Borgo Medievale',
     tag: '🌳 PARCO VALENTINO',
-    diff: '⭐⭐⭐',
+    diff: '⭐⭐',
     nemici: 'Nutrie del Po, Scoiattoli balzanti & Barconi',
-    x: 480,
-    y: 500,
-    neighbors: { up: 1, right: 4, left: 6, down: 6 },
+    x: 520,
+    y: 490,
+    neighbors: { up: 4, left: 5, down: 9 },
   },
   4: {
     id: 4,
@@ -75,14 +75,50 @@ export const MAP_NODES: Record<number, MapNode> = {
     subtitle: 'Arcate in Pietra, Club Storici & Ponte Vittorio',
     landmark: 'Murazzi del Po',
     tag: '🌙 MURAZZI DI NOTTE',
-    diff: '⭐⭐⭐⭐',
-    nemici: 'Rider in monopattino, Nutrie giganti, PinoFicaFica (BOSS)',
+    diff: '⭐⭐⭐',
+    nemici: 'Rider in monopattino, Nutrie giganti, Regina Nutria (BOSS 4 HP)',
     x: 720,
     y: 400,
-    neighbors: { up: 2, left: 3 },
+    neighbors: { up: 6, down: 3, right: 8 },
   },
   5: {
     id: 5,
+    title: 'Piazza San Carlo & I Portici',
+    subtitle: 'Caval \'d Brôns, Caffè Storici & Portici Reali',
+    landmark: 'Caval \'d Brôns',
+    tag: '☕ PIAZZA SAN CARLO',
+    diff: '⭐⭐⭐',
+    nemici: 'Vigili con fischietto, Rider veloci',
+    x: 380,
+    y: 360,
+    neighbors: { up: 1, down: 9, right: 7 },
+  },
+  6: {
+    id: 6,
+    title: 'La Mole Antonelliana',
+    subtitle: 'Ascensore di Cristallo, Guglia & Cupola',
+    landmark: 'Mole Antonelliana',
+    tag: '🗼 MOLE ANTONELLIANA',
+    diff: '⭐⭐⭐⭐',
+    nemici: 'Gabbiani in picchiata, Re Piccione (BOSS 4 HP)',
+    x: 650,
+    y: 240,
+    neighbors: { left: 1, down: 4, right: 8 },
+  },
+  7: {
+    id: 7,
+    title: 'Museo Egizio & Cripta',
+    subtitle: 'Sarcofagi Millenari, Mummie & Tempio di Ellesija',
+    landmark: 'Museo Egizio',
+    tag: '🏺 MUSEO EGIZIO',
+    diff: '⭐⭐⭐⭐',
+    nemici: 'Guardiani del museo, Spuntoni di granito',
+    x: 480,
+    y: 330,
+    neighbors: { left: 5, right: 6, down: 3 },
+  },
+  8: {
+    id: 8,
     title: 'Collina di Superga',
     subtitle: 'Basilica di Superga, Dentiera Sassi & Alpi',
     landmark: 'Basilica di Superga',
@@ -91,19 +127,31 @@ export const MAP_NODES: Record<number, MapNode> = {
     nemici: 'Cinghiali feroci in carica, Dentiera a cremagliera',
     x: 1060,
     y: 190,
-    neighbors: { left: 2 },
+    neighbors: { left: 6, down: 4 },
   },
-  6: {
-    id: 6,
+  9: {
+    id: 9,
     title: 'Lingotto & Pista 500',
     subtitle: 'Fabbrica Storica FIAT, Rampa Elicoidale & Bolla',
     landmark: 'Lingotto FIAT',
     tag: '🤖 LINGOTTO FIAT',
     diff: '⭐⭐⭐⭐⭐',
-    nemici: 'Robot Saldatori Comau, Pietro Nutella (BOSS)',
+    nemici: 'Robot Saldatori, Comau Titan (BOSS 5 HP)',
     x: 270,
     y: 600,
-    neighbors: { right: 3, up: 3 },
+    neighbors: { up: 5, right: 3 },
+  },
+  10: {
+    id: 10,
+    title: 'Piazza Statuto & Grotte Alchemiche',
+    subtitle: 'Il Vertice della Magia Nera & Fiamme Sotterranee',
+    landmark: 'Obelisco Geodetico',
+    tag: '🐂 PIAZZA STATUTO',
+    diff: '⭐⭐⭐⭐⭐⭐ (MAX)',
+    nemici: 'Trappole infuocate, TAURUS INVICTUS (BOSS FINALE 8 HP)',
+    x: 170,
+    y: 230,
+    neighbors: { right: 1, up: 2 },
   },
 };
 
@@ -115,41 +163,95 @@ interface PathSegment {
 }
 
 const MAP_PATHS: PathSegment[] = [
-  // 1 <-> 2: Via Po (Piazza Castello <-> Mole Antonelliana)
+  // 1 <-> 2: Via Milano verso Porta Palazzo
   {
     from: 1,
     to: 2,
-    points: [{ x: 380, y: 280 }, { x: 520, y: 260 }, { x: 670, y: 240 }],
+    points: [{ x: 400, y: 260 }, { x: 380, y: 200 }, { x: 360, y: 150 }],
   },
-  // 1 <-> 3: Via Roma / Corso Vittorio (Centro <-> Parco Valentino)
+  // 1 <-> 5: Via Roma (Piazza Castello <-> Piazza San Carlo)
   {
     from: 1,
-    to: 3,
-    points: [{ x: 380, y: 280 }, { x: 390, y: 400 }, { x: 480, y: 500 }],
-  },
-  // 2 <-> 4: Discesa verso il Fiume Po e Murazzi
-  {
-    from: 2,
-    to: 4,
-    points: [{ x: 670, y: 240 }, { x: 700, y: 310 }, { x: 720, y: 400 }],
-  },
-  // 2 <-> 5: Ponte Vittorio Emanuele I sul Po e salita alla Collina di Superga
-  {
-    from: 2,
     to: 5,
-    points: [{ x: 670, y: 240 }, { x: 800, y: 220 }, { x: 930, y: 210 }, { x: 1060, y: 190 }],
+    points: [{ x: 400, y: 260 }, { x: 390, y: 310 }, { x: 380, y: 360 }],
   },
-  // 3 <-> 4: Sentiero del Parco fluviale tra Valentino e Murazzi
+  // 1 <-> 6: Via Po (Piazza Castello <-> Mole Antonelliana)
+  {
+    from: 1,
+    to: 6,
+    points: [{ x: 400, y: 260 }, { x: 520, y: 250 }, { x: 650, y: 240 }],
+  },
+  // 1 <-> 10: Via Garibaldi (Piazza Castello <-> Piazza Statuto)
+  {
+    from: 1,
+    to: 10,
+    points: [{ x: 400, y: 260 }, { x: 280, y: 245 }, { x: 170, y: 230 }],
+  },
+  // 2 <-> 10: Corso Regina Margherita
+  {
+    from: 2,
+    to: 10,
+    points: [{ x: 360, y: 150 }, { x: 260, y: 180 }, { x: 170, y: 230 }],
+  },
+  // 3 <-> 4: Sentiero fluviale Po (Valentino <-> Murazzi)
   {
     from: 3,
     to: 4,
-    points: [{ x: 480, y: 500 }, { x: 600, y: 460 }, { x: 720, y: 400 }],
+    points: [{ x: 520, y: 490 }, { x: 620, y: 450 }, { x: 720, y: 400 }],
   },
-  // 3 <-> 6: Corso Massimo d'Azeglio verso il Lingotto
+  // 3 <-> 5: Corso Vittorio Emanuele II
   {
     from: 3,
+    to: 5,
+    points: [{ x: 520, y: 490 }, { x: 450, y: 430 }, { x: 380, y: 360 }],
+  },
+  // 3 <-> 7: Corso Marconi e Giardini
+  {
+    from: 3,
+    to: 7,
+    points: [{ x: 520, y: 490 }, { x: 500, y: 410 }, { x: 480, y: 330 }],
+  },
+  // 3 <-> 9: Corso Massimo d'Azeglio verso il Lingotto
+  {
+    from: 3,
+    to: 9,
+    points: [{ x: 520, y: 490 }, { x: 390, y: 550 }, { x: 270, y: 600 }],
+  },
+  // 4 <-> 6: Salita dai Murazzi verso la Mole
+  {
+    from: 4,
     to: 6,
-    points: [{ x: 480, y: 500 }, { x: 370, y: 560 }, { x: 270, y: 600 }],
+    points: [{ x: 720, y: 400 }, { x: 690, y: 320 }, { x: 650, y: 240 }],
+  },
+  // 4 <-> 8: Ponte Vittorio e salita a Superga
+  {
+    from: 4,
+    to: 8,
+    points: [{ x: 720, y: 400 }, { x: 880, y: 310 }, { x: 1060, y: 190 }],
+  },
+  // 5 <-> 7: Via Maria Vittoria (San Carlo <-> Museo Egizio)
+  {
+    from: 5,
+    to: 7,
+    points: [{ x: 380, y: 360 }, { x: 430, y: 345 }, { x: 480, y: 330 }],
+  },
+  // 5 <-> 9: Via Nizza verso Lingotto
+  {
+    from: 5,
+    to: 9,
+    points: [{ x: 380, y: 360 }, { x: 320, y: 480 }, { x: 270, y: 600 }],
+  },
+  // 6 <-> 7: Via Giolitti
+  {
+    from: 6,
+    to: 7,
+    points: [{ x: 650, y: 240 }, { x: 560, y: 290 }, { x: 480, y: 330 }],
+  },
+  // 6 <-> 8: Panorama fluviale verso Superga
+  {
+    from: 6,
+    to: 8,
+    points: [{ x: 650, y: 240 }, { x: 850, y: 210 }, { x: 1060, y: 190 }],
   },
 ];
 

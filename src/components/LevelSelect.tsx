@@ -67,43 +67,38 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
       );
 
     case 2:
-      // Quadro 2: Mole Antonelliana al tramonto
+      // Quadro 2: Porta Palazzo & Il Grande Mercato
       return (
         <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#311042" />
-              <stop offset="45%" stopColor="#7c2d12" />
-              <stop offset="85%" stopColor="#ea580c" />
-              <stop offset="100%" stopColor="#fde047" />
+            <linearGradient id="sky_m2" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0284c7" />
+              <stop offset="70%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#fef08a" />
             </linearGradient>
           </defs>
-          <rect width="240" height="120" fill="url(#sky2)" />
-          {/* Stelle brillanti */}
-          <circle cx="28" cy="18" r="1.5" fill="#ffffff" />
-          <circle cx="55" cy="35" r="1.2" fill="#ffffff" />
-          <circle cx="195" cy="22" r="1.5" fill="#ffffff" />
-          <circle cx="220" cy="40" r="1.2" fill="#ffffff" />
-          <path d="M36,12 A 10 10 0 0 0 46 22 A 10 10 0 0 1 36 12 Z" fill="#fef08a" />
-          {/* Silhouette Maestosa della Mole */}
-          <polygon points="120,4 122,25 118,25" fill="#1e1b4b" />
-          <rect x="116" y="25" width="8" height="15" fill="#1e1b4b" />
-          <polygon points="120,40 100,68 140,68" fill="#1e1b4b" />
-          <rect x="94" y="68" width="52" height="42" fill="#1e1b4b" />
-          {/* Numeri di Fibonacci al neon rosso sulla cupola (Mario Merz) */}
-          <text x="105" y="58" fill="#ef4444" fontSize="4.5" fontWeight="bold" fontFamily="monospace">1 1 2 3 5 8</text>
-          {/* Finestrelle illuminate della Mole */}
-          <rect x="106" y="74" width="6" height="8" fill="#fef08a" />
-          <rect x="117" y="74" width="6" height="8" fill="#fef08a" />
-          <rect x="128" y="74" width="6" height="8" fill="#fef08a" />
-          <rect x="106" y="88" width="6" height="8" fill="#fef08a" />
-          <rect x="117" y="88" width="6" height="8" fill="#fef08a" />
-          <rect x="128" y="88" width="6" height="8" fill="#fef08a" />
-          {/* Cavi dell'ascensore panoramico */}
-          <line x1="165" y1="35" x2="165" y2="120" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="3,3" />
-          <rect x="158" y="58" width="14" height="12" rx="2" fill="#38bdf8" opacity="0.85" />
-          {/* Base mattoni */}
-          <rect x="0" y="110" width="240" height="10" fill="#451a03" />
+          <rect width="240" height="120" fill="url(#sky_m2)" />
+          {/* Sole caldo */}
+          <circle cx="195" cy="25" r="14" fill="#fef08a" />
+          {/* Tettoie e facciata liberty di Porta Palazzo */}
+          <rect x="20" y="55" width="200" height="45" fill="#64748b" />
+          <polygon points="120,30 30,55 210,55" fill="#475569" />
+          {/* Orologio storico */}
+          <circle cx="120" cy="46" r="6" fill="#f8fafc" stroke="#0f172a" strokeWidth="1" />
+          {/* Tendoni colorati del mercato */}
+          <rect x="30" y="75" width="36" height="14" fill="#ef4444" />
+          <rect x="74" y="75" width="36" height="14" fill="#22c55e" />
+          <rect x="118" y="75" width="36" height="14" fill="#f59e0b" />
+          <rect x="162" y="75" width="36" height="14" fill="#3b82f6" />
+          {/* Cassette di frutta in legno */}
+          <rect x="35" y="94" width="22" height="12" fill="#b45309" />
+          <circle cx="41" cy="98" r="2.5" fill="#dc2626" />
+          <circle cx="47" cy="98" r="2.5" fill="#16a34a" />
+          <rect x="79" y="94" width="22" height="12" fill="#b45309" />
+          <circle cx="85" cy="98" r="2.5" fill="#f59e0b" />
+          <circle cx="91" cy="98" r="2.5" fill="#eab308" />
+          {/* Selciato */}
+          <rect x="0" y="106" width="240" height="14" fill="#334155" />
         </svg>
       );
 
@@ -133,19 +128,6 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
           <path d="M0,98 C60,92 90,104 150,96 C190,90 220,102 240,96 L240,120 L0,120 Z" fill="#0284c7" />
           {/* Barcone / Pontile in legno galleggiante */}
           <rect x="110" y="86" width="48" height="14" rx="2" fill="#b45309" stroke="#78350f" strokeWidth="2" />
-          <line x1="120" y1="88" x2="120" y2="98" stroke="#78350f" strokeWidth="1" />
-          <line x1="134" y1="88" x2="134" y2="98" stroke="#78350f" strokeWidth="1" />
-          <line x1="148" y1="88" x2="148" y2="98" stroke="#78350f" strokeWidth="1" />
-          {/* Panchina dei Lampioni Innamorati di Marasciuolo */}
-          <rect x="14" y="96" width="22" height="3" fill="#15803d" />
-          <path d="M 18,96 Q 20,86 23,82" stroke="#1e293b" strokeWidth="1.5" fill="none" />
-          <circle cx="23.5" cy="81" r="2.5" fill="#fde047" />
-          <path d="M 28,96 Q 27,87 24.5,82.5" stroke="#1e293b" strokeWidth="1.5" fill="none" />
-          <circle cx="25.5" cy="82" r="2.5" fill="#fef08a" />
-          <text x="21" y="77" fill="#ef4444" fontSize="6">❤</text>
-          {/* Scoiattolino arancione */}
-          <circle cx="95" cy="74" r="5" fill="#ea580c" />
-          <ellipse cx="92" cy="78" rx="6" ry="4" fill="#c2410c" />
         </svg>
       );
 
@@ -161,134 +143,183 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
             </linearGradient>
           </defs>
           <rect width="240" height="120" fill="url(#sky4)" />
-          {/* Cupola illuminata della Gran Madre di Dio oltre il Po */}
-          <path d="M 175,54 Q 195,32 215,54 Z" fill="#e2e8f0" />
-          <rect x="180" y="54" width="30" height="6" fill="#f8fafc" />
-          <line x1="195" y1="28" x2="195" y2="34" stroke="#fde047" strokeWidth="1.5" />
           {/* Luci d'Artista Neon sospese */}
           <polyline points="20,24 50,15 80,28 120,16 160,30 200,18 225,25" fill="none" stroke="#06b6d4" strokeWidth="1.5" strokeDasharray="4,3" />
           <circle cx="50" cy="15" r="3" fill="#ec4899" />
           <circle cx="120" cy="16" r="3.5" fill="#38bdf8" />
-          <circle cx="200" cy="18" r="3" fill="#facc15" />
           {/* Arcate in pietra dei Murazzi con insegne */}
           <rect x="10" y="55" width="220" height="42" fill="#1e293b" />
           <path d="M20,97 L20,72 A 16 16 0 0 1 52 72 L52,97 Z" fill="#0f172a" />
           <path d="M68,97 L68,72 A 16 16 0 0 1 100 72 L100,97 Z" fill="#0f172a" />
           <path d="M116,97 L116,72 A 16 16 0 0 1 148 72 L148,97 Z" fill="#0f172a" />
-          <path d="M164,97 L164,72 A 16 16 0 0 1 196 72 L196,97 Z" fill="#0f172a" />
-          {/* Insegne Neon Murazzi */}
-          <text x="36" y="69" fill="#ec4899" fontSize="4" fontWeight="bold" textAnchor="middle">GIANCARLO</text>
-          <text x="84" y="69" fill="#06b6d4" fontSize="4" fontWeight="bold" textAnchor="middle">MAGAZZINI</text>
-          {/* Bagliore Rave / Club da dentro le arcate */}
-          <ellipse cx="36" cy="85" rx="10" ry="7" fill="#ec4899" opacity="0.6" />
-          <ellipse cx="84" cy="85" rx="10" ry="7" fill="#06b6d4" opacity="0.6" />
-          <ellipse cx="132" cy="85" rx="10" ry="7" fill="#a855f7" opacity="0.6" />
-          <ellipse cx="180" cy="85" rx="10" ry="7" fill="#ec4899" opacity="0.6" />
           {/* Acqua notturna con riflessi colorati */}
           <rect x="0" y="97" width="240" height="23" fill="#090d16" />
           <line x1="30" y1="106" x2="70" y2="106" stroke="#ec4899" strokeWidth="1.5" opacity="0.7" />
           <line x1="90" y1="110" x2="135" y2="110" stroke="#06b6d4" strokeWidth="1.5" opacity="0.7" />
-          <line x1="150" y1="107" x2="190" y2="107" stroke="#a855f7" strokeWidth="1.5" opacity="0.7" />
         </svg>
       );
 
     case 5:
-      // Quadro 5: Superga e la Tranvia a Dentiera
+      // Quadro 5: Piazza San Carlo & I Portici Reali
       return (
         <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="sky_sc" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0369a1" />
+              <stop offset="60%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#fed7aa" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_sc)" />
+          {/* Porticato barocco di Piazza San Carlo */}
+          <rect x="10" y="48" width="220" height="52" fill="#334155" />
+          <rect x="25" y="62" width="18" height="38" rx="8" fill="#cbd5e1" />
+          <rect x="55" y="62" width="18" height="38" rx="8" fill="#cbd5e1" />
+          <rect x="165" y="62" width="18" height="38" rx="8" fill="#cbd5e1" />
+          <rect x="195" y="62" width="18" height="38" rx="8" fill="#cbd5e1" />
+          {/* Monumento Caval 'd Brôns al centro */}
+          <rect x="105" y="74" width="30" height="26" fill="#475569" />
+          <ellipse cx="120" cy="62" rx="14" ry="8" fill="#b45309" />
+          <circle cx="125" cy="52" r="5" fill="#f59e0b" />
+          {/* Pavimentazione di marmo nobile */}
+          <rect x="0" y="100" width="240" height="20" fill="#475569" />
+        </svg>
+      );
+
+    case 6:
+      // Quadro 6: Mole Antonelliana al tramonto
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_mole" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#311042" />
+              <stop offset="45%" stopColor="#7c2d12" />
+              <stop offset="85%" stopColor="#ea580c" />
+              <stop offset="100%" stopColor="#fde047" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_mole)" />
+          {/* Silhouette Maestosa della Mole */}
+          <polygon points="120,4 122,25 118,25" fill="#1e1b4b" />
+          <rect x="116" y="25" width="8" height="15" fill="#1e1b4b" />
+          <polygon points="120,40 100,68 140,68" fill="#1e1b4b" />
+          <rect x="94" y="68" width="52" height="42" fill="#1e1b4b" />
+          <text x="105" y="58" fill="#ef4444" fontSize="4.5" fontWeight="bold" fontFamily="monospace">1 1 2 3 5 8</text>
+          {/* Cavi ascensore */}
+          <line x1="165" y1="35" x2="165" y2="120" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="3,3" />
+          <rect x="158" y="58" width="14" height="12" rx="2" fill="#38bdf8" opacity="0.85" />
+          <rect x="0" y="110" width="240" height="10" fill="#451a03" />
+        </svg>
+      );
+
+    case 7:
+      // Quadro 7: Museo Egizio & Cripta dei Faraoni
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_eg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0f172a" />
+              <stop offset="60%" stopColor="#451a03" />
+              <stop offset="100%" stopColor="#78350f" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_eg)" />
+          {/* Piramide dorata all'orizzonte */}
+          <polygon points="190,40 145,100 235,100" fill="#d97706" opacity="0.75" />
+          <polygon points="190,40 190,100 235,100" fill="#b45309" opacity="0.85" />
+          {/* Obelisco slanciato */}
+          <polygon points="50,22 46,100 54,100" fill="#1c1917" />
+          <polygon points="50,15 47,22 53,22" fill="#fbbf24" />
+          {/* Sarcofago faraonico monumentale */}
+          <rect x="95" y="58" width="34" height="42" rx="6" fill="#f59e0b" stroke="#78350f" strokeWidth="1.5" />
+          <circle cx="112" cy="70" r="7" fill="#fde047" />
+          {/* Pavimento in pietra e torce */}
+          <rect x="0" y="100" width="240" height="20" fill="#292524" />
+          <circle cx="80" cy="92" r="3" fill="#f97316" />
+          <circle cx="145" cy="92" r="3" fill="#f97316" />
+        </svg>
+      );
+
+    case 8:
+      // Quadro 8: Superga e la Tranvia a Dentiera
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_sup" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#3730a3" />
               <stop offset="45%" stopColor="#9333ea" />
               <stop offset="75%" stopColor="#f97316" />
               <stop offset="100%" stopColor="#fde047" />
             </linearGradient>
           </defs>
-          <rect width="240" height="120" fill="url(#sky5)" />
-          {/* Piramide aguzza del maestoso MONVISO (3841m) */}
+          <rect width="240" height="120" fill="url(#sky_sup)" />
+          {/* Monviso */}
           <polygon points="35,80 75,26 115,80" fill="#60a5fa" />
           <polygon points="67,38 75,26 83,38" fill="#ffffff" />
-          <text x="75" y="22" fill="#ffffff" fontSize="4.5" textAnchor="middle" fontWeight="bold">MONVISO</text>
-          {/* Vette delle Alpi innevate */}
-          <polygon points="15,75 40,48 65,75" fill="#cbd5e1" />
-          <polygon points="95,75 125,45 155,75" fill="#94a3b8" />
-          {/* Collina ripida di Superga */}
+          {/* Collina di Superga e Basilica */}
           <path d="M0,120 Q90,95 170,60 L240,48 L240,120 Z" fill="#14532d" />
-          {/* Stendardo Granata del Grande Torino (Invincibili 1949) */}
-          <rect x="156" y="66" width="12" height="8" fill="#7a131b" />
-          <line x1="156" y1="66" x2="156" y2="82" stroke="#e2e8f0" strokeWidth="1" />
-          {/* Basilica di Superga in cima */}
           <rect x="188" y="32" width="34" height="18" fill="#fef08a" />
           <path d="M192,32 Q205,14 218,32 Z" fill="#ffd166" />
-          <rect x="204" y="8" width="2" height="7" fill="#ffd166" />
-          <line x1="202" y1="10" x2="208" y2="10" stroke="#ffd166" strokeWidth="1" />
-          {/* Colonne pronao */}
-          <line x1="192" y1="36" x2="192" y2="50" stroke="#b45309" strokeWidth="1.5" />
-          <line x1="198" y1="36" x2="198" y2="50" stroke="#b45309" strokeWidth="1.5" />
-          <line x1="212" y1="36" x2="212" y2="50" stroke="#b45309" strokeWidth="1.5" />
-          <line x1="218" y1="36" x2="218" y2="50" stroke="#b45309" strokeWidth="1.5" />
-          {/* Binari dentati della Tranvia di Sassi in salita */}
-          <line x1="0" y1="112" x2="170" y2="68" stroke="#e2e8f0" strokeWidth="2.5" />
-          <line x1="0" y1="116" x2="170" y2="72" stroke="#e2e8f0" strokeWidth="2.5" />
-          <line x1="20" y1="102" x2="26" y2="114" stroke="#94a3b8" strokeWidth="2" />
-          <line x1="60" y1="90" x2="66" y2="102" stroke="#94a3b8" strokeWidth="2" />
-          <line x1="100" y1="78" x2="106" y2="90" stroke="#94a3b8" strokeWidth="2" />
-          <line x1="140" y1="66" x2="146" y2="78" stroke="#94a3b8" strokeWidth="2" />
-          {/* Piccolo vagone storico rosso della Dentiera */}
+          {/* Dentiera */}
           <rect x="75" y="70" width="24" height="14" rx="2" fill="#dc2626" transform="rotate(-15, 75, 70)" />
         </svg>
       );
 
-    case 6:
-      // Quadro 6: Lingotto e la Pista sul Tetto (La Pista 500)
+    case 9:
+      // Quadro 9: Lingotto e la Pista sul Tetto
       return (
         <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="sky6" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="sky_ling" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#1e1b4b" />
               <stop offset="40%" stopColor="#3730a3" />
               <stop offset="75%" stopColor="#c026d3" />
               <stop offset="100%" stopColor="#f59e0b" />
             </linearGradient>
           </defs>
-          <rect width="240" height="120" fill="url(#sky6)" />
-          {/* Alpi innevate al crepuscolo */}
-          <polygon points="10,65 40,32 70,65" fill="#475569" />
-          <polygon points="32,40 40,32 48,40" fill="#f8fafc" />
-          <polygon points="55,65 85,25 115,65" fill="#334155" />
-          <polygon points="76,36 85,25 94,36" fill="#f8fafc" />
-          <polygon points="100,65 130,35 160,65" fill="#475569" />
-
-          {/* Stabilimento Lingotto: facciata industriale a mattoni e finestre */}
+          <rect width="240" height="120" fill="url(#sky_ling)" />
+          {/* Stabilimento Lingotto */}
           <rect x="0" y="70" width="240" height="50" fill="#78350f" />
-          {/* Finestrelle rettangolari tipiche del Lingotto */}
-          {Array.from({ length: 12 }, (_, i) => (
-            <rect key={i} x={10 + i * 19} y="78" width="11" height="8" fill="#fef08a" opacity="0.8" />
-          ))}
-          {Array.from({ length: 12 }, (_, i) => (
-            <rect key={`b_${i}`} x={10 + i * 19} y="92" width="11" height="8" fill="#fef08a" opacity="0.6" />
-          ))}
-
-          {/* La celebre Curva Parabolica Nord della Pista sul Tetto */}
+          {/* Curva Parabolica Nord */}
           <path d="M 0,70 Q 70,35 140,56 T 240,56" fill="none" stroke="#0f172a" strokeWidth="12" />
-          <path d="M 0,70 Q 70,35 140,56 T 240,56" fill="none" stroke="#e2e8f0" strokeWidth="1.5" strokeDasharray="4,4" />
-          {/* Parapetto metallico rosso della Pista 500 */}
           <path d="M 0,64 Q 70,29 140,50 T 240,50" fill="none" stroke="#dc2626" strokeWidth="2.5" />
-
-          {/* La Bolla di Renzo Piano (sala riunioni e eliporto in cristallo sul tetto) */}
+          {/* Bolla Renzo Piano */}
           <circle cx="195" cy="42" r="16" fill="#38bdf8" opacity="0.75" />
-          <circle cx="195" cy="42" r="14" fill="#0284c7" opacity="0.6" />
-          <ellipse cx="191" cy="38" rx="6" ry="3" fill="#ffffff" opacity="0.7" />
-          <line x1="175" y1="56" x2="215" y2="56" stroke="#94a3b8" strokeWidth="2" />
+        </svg>
+      );
 
-          {/* Silhouette sfrecciante di una FIAT 500 sulla curva parabolica */}
-          <g transform="translate(68, 38) rotate(-14)">
-            <ellipse cx="12" cy="7" rx="13" ry="6" fill="#ef4444" />
-            <circle cx="12" cy="3" rx="7" ry="4" fill="#67e8f9" />
-            <circle cx="6" cy="11" r="3" fill="#0f172a" />
-            <circle cx="18" cy="11" r="3" fill="#0f172a" />
-            <circle cx="24" cy="7" r="2" fill="#fef08a" />
-          </g>
+    case 10:
+      // Quadro 10: Piazza Statuto & I Sotterranei Alchemici (Boss Finale)
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_stat" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#020617" />
+              <stop offset="40%" stopColor="#3b0764" />
+              <stop offset="80%" stopColor="#701a75" />
+              <stop offset="100%" stopColor="#831843" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_stat)" />
+          {/* Luna rosso sangue */}
+          <circle cx="205" cy="28" r="16" fill="#f43f5e" />
+          <circle cx="205" cy="28" r="12" fill="#e11d48" />
+          {/* Obelisco Geodetico di Piazza Statuto */}
+          <rect x="40" y="42" width="16" height="58" fill="#0f172a" />
+          <circle cx="48" cy="34" r="7" fill="#fbbf24" />
+          {/* Rocce vulcaniche delle grotte alchemiche */}
+          <polygon points="75,100 100,55 125,100" fill="#1e1b4b" />
+          <polygon points="120,100 150,48 180,100" fill="#2e1065" />
+          {/* Sagoma con Corna Dorate del Toro Alchemico Boss Finale */}
+          <ellipse cx="120" cy="74" rx="20" ry="14" fill="#0f172a" />
+          <path d="M 112,64 Q 116,48 126,44" stroke="#f59e0b" strokeWidth="3" fill="none" />
+          <path d="M 128,64 Q 124,48 114,44" stroke="#f59e0b" strokeWidth="3" fill="none" />
+          {/* Occhi rossi incandescenti del Boss */}
+          <circle cx="116" cy="72" r="2.5" fill="#ef4444" />
+          <circle cx="124" cy="72" r="2.5" fill="#ef4444" />
+          {/* Terreno con fiamme alchemiche */}
+          <rect x="0" y="100" width="240" height="20" fill="#18181b" />
+          <line x1="0" y1="102" x2="240" y2="102" stroke="#f43f5e" strokeWidth="2" strokeDasharray="8,6" />
         </svg>
       );
 
@@ -298,12 +329,16 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
 };
 
 const LEVEL_METADATA: Record<number, { tag: string; diff: string; nemici: string }> = {
-  1: { tag: '🏛️ CENTRO STORICO', diff: '⭐⭐⭐', nemici: 'Piccioni, Vigili con Paletta, Rider & Tram 7' },
-  2: { tag: '🗼 MOLE ANTONELLIANA', diff: '⭐⭐⭐⭐', nemici: 'Gabbiani in picchiata, Vigili & Ascensori nel vuoto' },
-  3: { tag: '🌳 PARCO VALENTINO', diff: '⭐⭐⭐', nemici: 'Nutrie del Po, Scoiattoli balzanti & Barconi' },
-  4: { tag: '🌙 MURAZZI DI NOTTE', diff: '⭐⭐⭐⭐', nemici: 'Rider su Monopattino, Nutrie giganti & Tram notturno' },
-  5: { tag: '🐗 COLLINA SUPERGA', diff: '⭐⭐⭐⭐⭐', nemici: 'Cinghiali feroci in carica (NO Stomp) & Dentiera' },
-  6: { tag: '🤖 LINGOTTO FIAT', diff: '⭐⭐⭐⭐⭐', nemici: 'Robot Saldatori Comau (NO Stomp) & Rider supersonici' },
+  1: { tag: '🏛️ CENTRO STORICO', diff: '⭐', nemici: 'Piccioni, Vigili con Paletta, Tram 7' },
+  2: { tag: '🍎 PORTA PALAZZO', diff: '⭐⭐', nemici: 'Torinesi col carrello, Gabbiani golosi' },
+  3: { tag: '🌳 PARCO VALENTINO', diff: '⭐⭐', nemici: 'Nutrie del Po, Scoiattoli balzanti & Barconi' },
+  4: { tag: '🌙 MURAZZI DI NOTTE', diff: '⭐⭐⭐', nemici: 'Rider su Monopattino, Regina Nutria (BOSS 4 HP)' },
+  5: { tag: '☕ PIAZZA SAN CARLO', diff: '⭐⭐⭐', nemici: 'Vigili con Fischietto, Caval \'d Brôns' },
+  6: { tag: '🗼 MOLE ANTONELLIANA', diff: '⭐⭐⭐⭐', nemici: 'Gabbiani in picchiata, Re Piccione (BOSS 4 HP)' },
+  7: { tag: '🏺 MUSEO EGIZIO', diff: '⭐⭐⭐⭐', nemici: 'Guardiani del museo, Spuntoni di granito' },
+  8: { tag: '🐗 COLLINA SUPERGA', diff: '⭐⭐⭐⭐⭐', nemici: 'Cinghiali feroci in carica (NO Stomp) & Dentiera' },
+  9: { tag: '🤖 LINGOTTO FIAT', diff: '⭐⭐⭐⭐⭐', nemici: 'Robot Saldatori, Comau Titan (BOSS 5 HP)' },
+  10: { tag: '🐂 PIAZZA STATUTO', diff: '⭐⭐⭐⭐⭐⭐ (MAX)', nemici: 'Trappole alchemiche, TAURUS INVICTUS (BOSS 8 HP)' },
 };
 
 export const LevelSelect: React.FC<LevelSelectProps> = ({
@@ -322,10 +357,11 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
     if (viewMode !== 'gallery') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Tasti numerici 1, 2, 3, 4, 5, 6 (tastiera normale e tastierino numerico) per avvio istantaneo
-      if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5', 'Numpad6'].includes(e.code)) {
+      // Tasti numerici 1..9 e 0 (per 10)
+      if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5', 'Numpad6', 'Numpad7', 'Numpad8', 'Numpad9', 'Numpad0'].includes(e.code)) {
         e.preventDefault();
-        const id = parseInt(e.code.replace('Digit', '').replace('Numpad', ''), 10);
+        const raw = e.code.replace('Digit', '').replace('Numpad', '');
+        const id = raw === '0' ? 10 : parseInt(raw, 10);
         if (LEVELS[id]) {
           onSelectLevel(id);
         }
@@ -382,7 +418,7 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
           <div>
             <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px' }}>SCEGLI IL TUO QUADRO</h2>
             <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0 }}>
-              Tutti i 6 livelli sbloccati! Clicca su un quadro o premi il numero <kbd>1</kbd>-<kbd>6</kbd>.
+              Tutti i 10 livelli sbloccati! Clicca su un quadro o premi il numero <kbd>1</kbd>-<kbd>9</kbd>, <kbd>0</kbd>.
             </p>
           </div>
           <button
@@ -461,7 +497,7 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
           </div>
 
           <div className="menu-nav-hint level-nav-hint">
-            ⌨️ Premi <kbd>1</kbd>-<kbd>6</kbd> per avvio rapido | Frecce <kbd>◀</kbd><kbd>▶</kbd><kbd>▲</kbd><kbd>▼</kbd> + <kbd>INVIO</kbd>
+            ⌨️ Premi <kbd>1</kbd>-<kbd>9</kbd>, <kbd>0</kbd> per avvio rapido | Frecce <kbd>◀</kbd><kbd>▶</kbd><kbd>▲</kbd><kbd>▼</kbd> + <kbd>INVIO</kbd>
           </div>
         </div>
       </div>

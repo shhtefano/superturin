@@ -28,6 +28,7 @@ import { BossEnemy } from '../../entities/enemies/BossEnemy';
 import { BossPiccione } from '../../entities/enemies/BossPiccione';
 import { BossNutria } from '../../entities/enemies/BossNutria';
 import { BossComau } from '../../entities/enemies/BossComau';
+import { BossToro } from '../../entities/enemies/BossToro';
 import { Bullet } from '../../entities/projectiles/Bullet';
 import { GianduiottoBomb } from '../../entities/projectiles/GianduiottoBomb';
 import { LevelData, CollectibleType, COLLECTIBLE_META } from '../../levels/types';
@@ -162,6 +163,8 @@ export class GameEngine {
           return new BossNutria(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
         case 'bossComau':
           return new BossComau(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'bossToro':
+          return new BossToro(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
         default:
           return new Pigeon(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
       }
@@ -541,7 +544,12 @@ export class GameEngine {
     SaveManager.recordScore(this.currentLevel.id, this.score, this.gianduiottiCount);
 
     this.emitHudUpdate(true);
-    this.callbacks.onStateChange('levelComplete');
+    if (this.currentLevel.id >= 10) {
+      this.status = 'gameVictory';
+      this.callbacks.onStateChange('gameVictory');
+    } else {
+      this.callbacks.onStateChange('levelComplete');
+    }
   }
 
   public update(dt: number): void {

@@ -1,8 +1,8 @@
 import { LevelData } from './types';
 
 export const level5_superga: LevelData = {
-  id: 5,
-  title: 'Livello 5 — Superga e la Tranvia a Dentiera',
+  id: 8,
+  title: 'Livello 8 — Superga e la Tranvia a Dentiera',
   subtitle: 'La Grande Salita della Collina, Rotaie della Dentiera e la Basilica',
   theme: 'superga',
   width: 6800,

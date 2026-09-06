@@ -1,8 +1,8 @@
 import { LevelData } from './types';
 
 export const level6_lingotto: LevelData = {
-  id: 6,
-  title: 'Livello 6 — Lingotto e la Pista sul Tetto',
+  id: 9,
+  title: 'Livello 9 — Lingotto e la Pista sul Tetto',
   subtitle: 'La Pista 500, Curve Paraboliche della FIAT e la Bolla di Cristallo',
   theme: 'lingotto',
   width: 7600,

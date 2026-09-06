@@ -1,7 +1,18 @@
 import { PlatformStyle } from '../entities/Platform';
 import { PowerUpType } from '../types/game';
 
-export type LevelTheme = 'centro' | 'mole' | 'valentino' | 'notte' | 'murazzi' | 'superga' | 'lingotto';
+export type LevelTheme =
+  | 'centro'
+  | 'mercato'
+  | 'valentino'
+  | 'notte'
+  | 'murazzi'
+  | 'sancarlo'
+  | 'mole'
+  | 'egizio'
+  | 'superga'
+  | 'lingotto'
+  | 'alchimia';
 
 export type CollectibleType = 'gianduiotto' | 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 
@@ -117,7 +128,8 @@ export type EnemyType =
   | 'robotLingotto'
   | 'bossPiccione'
   | 'bossNutria'
-  | 'bossComau';
+  | 'bossComau'
+  | 'bossToro';
 
 export interface EnemyConfig {
   id: string;

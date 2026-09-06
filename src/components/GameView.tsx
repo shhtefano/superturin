@@ -7,6 +7,7 @@ import { MainMenu } from './MainMenu';
 import { PauseModal } from './PauseModal';
 import { GameOverModal } from './GameOverModal';
 import { LevelCompleteModal } from './LevelCompleteModal';
+import { GameVictoryModal } from './GameVictoryModal';
 import { HowToPlayModal } from './HowToPlayModal';
 import { SettingsModal } from './SettingsModal';
 import { LevelSelect } from './LevelSelect';
@@ -275,6 +276,17 @@ export const GameView: React.FC = () => {
               timeLeft={hudData.timeLeft}
               onNextLevel={handleNextLevel}
               onRestart={handleRestart}
+              onQuitToMenu={handleQuitToMenu}
+            />
+          )}
+
+          {status === 'gameVictory' && (
+            <GameVictoryModal
+              score={hudData.score}
+              gianduiotti={hudData.gianduiotti}
+              timeLeft={hudData.timeLeft}
+              onRestart={() => handleSelectLevel(1)}
+              onOpenMap={() => setStatus('levelSelect')}
               onQuitToMenu={handleQuitToMenu}
             />
           )}
