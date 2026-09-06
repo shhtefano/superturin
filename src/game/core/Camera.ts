@@ -8,9 +8,9 @@ export class Camera {
   public levelWidth: number = 5000;
   public levelHeight: number = 720;
 
-  // Offset verticale per sollevare la linea di terra sopra i controlli touch mobile
-  // 140px = zona sicura: i bottoni (80px altezza + 12px padding + run btn 30px) stanno tutti sotto
-  public readonly verticalGroundOffset: number = 140;
+  // Offset verticale per calibrare l'inquadratura di terra:
+  // Valore bilanciato (20px) per mantenere la porzione sotto i piedi del giocatore abbassata e naturale
+  public readonly verticalGroundOffset: number = 20;
 
   // Smoothing e lookahead graduale
   private targetX: number = 0;
@@ -58,10 +58,10 @@ export class Camera {
     this.targetX = focusX - this.width * 0.35 + this.currentLookAhead;
 
     // Deadzone verticale: quando il giocatore salta o atterra, se la variazione è entro 65px
-    // la telecamera NON sussulta su e giù, eliminando il mal di mare e rendendo lo sfondo immobile
-    // Focus a 0.52 (invece di 0.6) → il personaggio appare più in alto nel frame,
-    // lasciando più spazio visibile al terreno sotto e sopra i controlli mobile
-    const desiredY = focusY - this.height * 0.52;
+    // la telecamera NON sussulta su e giù, eliminando il mal di mare e rendendo lo sfondo immobile.
+    // Focus a 0.60 per mantenere la porzione sotto i piedi del giocatore abbassata
+    // e garantire massima visibilità verso l'alto (piattaforme, ostacoli e cielo).
+    const desiredY = focusY - this.height * 0.60;
     const diffY = desiredY - this.targetY;
     const deadzoneY = 65;
     if (Math.abs(diffY) > deadzoneY) {
@@ -88,11 +88,7 @@ export class Camera {
 
   private clampToBounds(): void {
     const maxX = Math.max(0, this.levelWidth - this.width);
-    // Il clamp verticale deve tenere conto del verticalGroundOffset:
-    // il transform applica -y -verticalGroundOffset, quindi y=0 significa
-    // che il top del livello è visibile; non vogliamo scendere oltre
-    // (levelHeight - height + verticalGroundOffset) o lo sfondo mostra il vuoto.
-    const maxY = Math.max(0, this.levelHeight - this.height + this.verticalGroundOffset);
+    const maxY = Math.max(0, this.levelHeight - this.height);
 
     if (this.x < 0) this.x = 0;
     if (this.x > maxX) this.x = maxX;

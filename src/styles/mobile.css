@@ -43,9 +43,9 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: rgba(255, 255, 255, 0.70);
-  font-size: 1.1rem;
-  width: 40px;
-  height: 40px;
+  font-size: 1.25rem;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -63,9 +63,9 @@
 }
 
 .btn-mobile-pause-corner {
-  width: 44px;
-  height: 44px;
-  font-size: 1.2rem;
+  width: 50px;
+  height: 50px;
+  font-size: 1.35rem;
   background: rgba(255, 255, 255, 0.06);
   border: 1.5px solid rgba(255, 183, 3, 0.32);
   box-shadow: none;
@@ -114,7 +114,7 @@
 /* Pulsanti Direzionali Sinistra & Destra Ultra-Trasparenti e Ingranditi */
 .joypad-dpad {
   display: flex;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
   background: transparent;
   padding: 0;
@@ -123,13 +123,13 @@
 }
 
 .joypad-btn {
-  width: 80px;
-  height: 80px;
+  width: 94px;
+  height: 94px;
   background: rgba(255, 255, 255, 0.04);
   border: 1.5px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   color: rgba(255, 255, 255, 0.60);
-  font-size: 1.9rem;
+  font-size: 2.2rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -161,13 +161,13 @@
 /* Arco delle Abilità Speciali (Pistola, Bomba, Special) — Tasti ingranditi e ultra-trasparenti */
 .joypad-skills-arc {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .joypad-skill-btn {
   position: relative;
-  width: 66px;
-  height: 66px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   border: 1.5px solid rgba(255, 255, 255, 0.25);
@@ -194,19 +194,19 @@
 }
 
 .skill-btn-icon {
-  font-size: 1.45rem;
+  font-size: 1.65rem;
   line-height: 1;
   opacity: 0.65;
 }
 
 .skill-btn-badge {
   position: absolute;
-  top: 2px;
-  right: 4px;
+  top: 3px;
+  right: 5px;
   background: rgba(255, 183, 3, 0.65);
   color: #0f172a;
   font-family: var(--font-display);
-  font-size: 0.52rem;
+  font-size: 0.58rem;
   font-weight: 900;
   padding: 1px 4px;
   border-radius: 3px;
@@ -250,7 +250,7 @@
   background: rgba(15, 23, 42, 0.60);
   color: #f87171;
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -260,8 +260,8 @@
 
 /* Grande Tasto Salto Arcade Ultra-Trasparente Ingrandito (Senza lettera A) */
 .joypad-btn-jump {
-  width: 104px;
-  height: 104px;
+  width: 122px;
+  height: 122px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.04);
   border: 2px solid rgba(255, 255, 255, 0.30);
@@ -286,7 +286,7 @@
 
 .jump-label {
   font-family: var(--font-display);
-  font-size: 0.92rem;
+  font-size: 1.05rem;
   font-weight: 900;
   letter-spacing: 1px;
 }
@@ -381,27 +381,31 @@
   }
 
   .joypad-btn {
-    width: 72px;
-    height: 72px;
-    font-size: 1.7rem;
+    width: 84px;
+    height: 84px;
+    font-size: 1.95rem;
+  }
+
+  .joypad-skills-arc {
+    gap: 8px;
   }
 
   .joypad-skill-btn {
-    width: 58px;
-    height: 58px;
+    width: 68px;
+    height: 68px;
   }
 
   .skill-btn-icon {
-    font-size: 1.3rem;
+    font-size: 1.45rem;
   }
 
   .joypad-btn-jump {
-    width: 92px;
-    height: 92px;
+    width: 108px;
+    height: 108px;
   }
 
   .jump-label {
-    font-size: 0.86rem;
+    font-size: 0.95rem;
   }
 
   .modal-card {
