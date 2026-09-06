@@ -182,7 +182,7 @@ export const level2_mole: LevelData = {
     { id: 'mole_gabbiano_spire', type: 'gabbiano', x: 4520, y: 240, patrolLeft: 4320, patrolRight: 4780 },
     { id: 'mole_pig_4', type: 'pigeon', x: 4740, y: 284, patrolLeft: 4720, patrolRight: 4790 },
 
-    // MINI BOSS DEL LIVELLO 2: RE PICCIONE DELLA MOLE ANTONELLIANA (4 HP) — Grande Arena Aerea
+    // BOSS DEL LIVELLO 2: CONCETTINA A PILUSA — Grande Arena Aerea della Mole
     { id: 'mole_mini_boss', type: 'bossPiccione', x: 5460, y: 340, patrolLeft: 5160, patrolRight: 5880 },
   ],
 

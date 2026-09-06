@@ -233,7 +233,7 @@ export const level6_lingotto: LevelData = {
     // 5. Tetto Bolla di Renzo Piano: Gabbiano d'alta quota
     { id: 'l6_gabbiano_bolla', type: 'gabbiano', x: 6580, y: 350, patrolLeft: 6480, patrolRight: 6850 },
 
-    // MINI BOSS DEL LIVELLO 6: COMAU TITAN FIAT ROBOGATE (6 HP) — Grande Arena Industriale
+    // BOSS DEL LIVELLO 6: PIETRO NUTELLA — Grande Arena Industriale del Lingotto
     { id: 'lingotto_mini_boss', type: 'bossComau', x: 6850, y: 412, patrolLeft: 6520, patrolRight: 7360 },
   ],
 

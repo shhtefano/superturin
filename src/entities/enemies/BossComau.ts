@@ -17,8 +17,8 @@ export class BossComau extends BossEnemy {
       patrolRight,
       130, // moveSpeed
       4,   // maxHp (4 colpi)
-      'Comau Titan FIAT Robogate',
-      'Braccio Robotico Saldatore della Catena di Montaggio Lingotto'
+      'Pietro Nutella',
+      'Il Colosso d\'Acciaio della Pista e delle Officine del Lingotto'
     );
   }
 
@@ -102,7 +102,7 @@ export class BossComau extends BossEnemy {
     ctx.fillStyle = '#f8fafc';
     ctx.font = 'bold 7px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('COMAU 500', 0, 7);
+    ctx.fillText('P. NUTELLA', 0, 7);
 
     // Testa con torretta a sensori e visore laser rosso
     ctx.fillStyle = '#475569';

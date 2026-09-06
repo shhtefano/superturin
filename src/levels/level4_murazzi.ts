@@ -197,7 +197,7 @@ export const level4_murazzi: LevelData = {
     { id: 'm4_vigile_monte', type: 'vigile', x: 5120, y: 516, patrolLeft: 5020, patrolRight: 5350 },
     { id: 'm4_nutria_monte', type: 'nutria', x: 5380, y: 538, patrolLeft: 5240, patrolRight: 5580 },
 
-    // MINI BOSS DEL LIVELLO 4: REGINA DELLE NUTRIE DEI MURAZZI (5 HP) — Grande Arena Fluviale
+    // BOSS DEL LIVELLO 4: PINOFICAFICA — Grande Arena Fluviale dei Murazzi
     { id: 'murazzi_mini_boss', type: 'bossNutria', x: 6180, y: 482, patrolLeft: 5900, patrolRight: 6620 },
   ],
 
