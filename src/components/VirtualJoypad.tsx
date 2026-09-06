@@ -59,8 +59,8 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
     vibrate(12);
   };
 
-  // --- SKILL (1, 2, 3) ---
-  const handleSkillTrigger = (skillNum: 1 | 2 | 3) => {
+  // --- SKILL (1: Pistola, 2: Bomba) ---
+  const handleSkillTrigger = (skillNum: 1 | 2) => {
     if (!inputManager) return;
     vibrate(20);
     inputManager.triggerTouchSkill(skillNum);
@@ -182,57 +182,39 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
 
       {/* Cluster Destro: Salto Principale + Tasti Skill */}
       <div className="joypad-right-cluster">
-        {/* Arco Skill Tasti (1, 2, 3) */}
+        {/* Arco Skill Tasti (1: Pistola, 2: Bomba, SPZ: Special) */}
         <div className="joypad-skills-arc">
-          {/* Skill 1: Scivolata */}
-          <button
-            type="button"
-            className={`joypad-skill-btn ${skills?.slideReady ?? true ? 'is-ready' : 'is-cooldown'}`}
-            onTouchStart={(e) => {
-              e.preventDefault();
-              handleSkillTrigger(1);
-            }}
-            onMouseDown={() => handleSkillTrigger(1)}
-            title="[1] Scivolata"
-          >
-            <span className="skill-btn-icon">💨</span>
-            <span className="skill-btn-badge">1</span>
-            {!(skills?.slideReady ?? true) && (
-              <span className="skill-btn-cd">{(skills?.slideTimeLeft ?? 0).toFixed(1)}s</span>
-            )}
-          </button>
-
-          {/* Skill 2: Pistola */}
+          {/* Skill 1: Pistola */}
           <button
             type="button"
             className={`joypad-skill-btn ${skills?.shootReady ?? true ? 'is-ready' : 'is-cooldown'}`}
             onTouchStart={(e) => {
               e.preventDefault();
-              handleSkillTrigger(2);
+              handleSkillTrigger(1);
             }}
-            onMouseDown={() => handleSkillTrigger(2)}
-            title="[2] Pistola Sabauda"
+            onMouseDown={() => handleSkillTrigger(1)}
+            title="[1] Pistola Sabauda"
           >
             <span className="skill-btn-icon">🔫</span>
-            <span className="skill-btn-badge">2</span>
+            <span className="skill-btn-badge">1</span>
             {!(skills?.shootReady ?? true) && (
               <span className="skill-btn-cd">{(skills?.shootTimeLeft ?? 0).toFixed(1)}s</span>
             )}
           </button>
 
-          {/* Skill 3: Bomba Gianduiotto */}
+          {/* Skill 2: Bomba Gianduiotto */}
           <button
             type="button"
             className={`joypad-skill-btn ${skills?.bombReady ?? true ? 'is-ready' : 'is-cooldown'}`}
             onTouchStart={(e) => {
               e.preventDefault();
-              handleSkillTrigger(3);
+              handleSkillTrigger(2);
             }}
-            onMouseDown={() => handleSkillTrigger(3)}
-            title="[3] Bomba Gianduiotto"
+            onMouseDown={() => handleSkillTrigger(2)}
+            title="[2] Bomba Gianduiotto"
           >
             <span className="skill-btn-icon">💣</span>
-            <span className="skill-btn-badge">3</span>
+            <span className="skill-btn-badge">2</span>
             {!(skills?.bombReady ?? true) && (
               <span className="skill-btn-cd">{(skills?.bombTimeLeft ?? 0).toFixed(1)}s</span>
             )}

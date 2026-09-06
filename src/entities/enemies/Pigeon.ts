@@ -5,8 +5,8 @@ export class Pigeon extends Enemy {
   private walkTimer: number = 0;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
-    // Dimensioni piccione
-    super(id, x, y, 32, 26, patrolLeft, patrolRight, 90, true);
+    // Dimensioni piccione torinese (più vispo e dinamico)
+    super(id, x, y, 32, 26, patrolLeft, patrolRight, 115, true);
   }
 
   public update(dt: number): void {

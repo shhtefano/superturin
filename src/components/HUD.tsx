@@ -133,31 +133,14 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
           ⏸ PAUSA
         </button>
 
-        {/* Hotbar delle Skill con Tastierino Numerico */}
+        {/* Hotbar delle Skill (Tasti 1 e 2 + SPAZIO) */}
         {data.skills && (
           <div className="hud-skills-bar">
             <div
-              className={`skill-slot ${data.skills.slideReady ? 'is-ready' : 'is-cooldown'}`}
-              title="[1] o Num1: Scivolata veloce (abbassa l'hitbox e stende i nemici)"
+              className={`skill-slot ${data.skills.shootReady ? 'is-ready' : 'is-cooldown'}`}
+              title="[1] o Num1 / J: Sparo Pistola (colpisce nemici e blocchi ? a distanza)"
             >
               <div className="skill-badge-key">1</div>
-              <div className="skill-icon">💨</div>
-              <div className="skill-name">SCIVOLATA</div>
-              {!data.skills.slideReady && (
-                <div
-                  className="skill-cooldown-fill"
-                  style={{ height: `${Math.round((data.skills.slideCooldownRatio ?? 0) * 100)}%` }}
-                >
-                  <span className="skill-cd-text">{(data.skills.slideTimeLeft ?? 0).toFixed(1)}s</span>
-                </div>
-              )}
-            </div>
-
-            <div
-              className={`skill-slot ${data.skills.shootReady ? 'is-ready' : 'is-cooldown'}`}
-              title="[2] o Num2: Sparo Pistola (colpisce nemici e blocchi ? a distanza)"
-            >
-              <div className="skill-badge-key">2</div>
               <div className="skill-icon">🔫</div>
               <div className="skill-name">PISTOLA</div>
               {!data.skills.shootReady && (
@@ -172,9 +155,9 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
 
             <div
               className={`skill-slot ${data.skills.bombReady ? 'is-ready' : 'is-cooldown'}`}
-              title="[3] o Num3: Bomba Gianduiotto (esplosione parabolica dorata ad area)"
+              title="[2] o Num2 / K: Bomba Gianduiotto (esplosione parabolica dorata ad area)"
             >
-              <div className="skill-badge-key">3</div>
+              <div className="skill-badge-key">2</div>
               <div className="skill-icon">💣</div>
               <div className="skill-name">BOMBA 🍫</div>
               {!data.skills.bombReady && (

@@ -42,9 +42,6 @@ export interface SynergyInfo {
 }
 
 export interface SkillInfo {
-  slideReady: boolean;
-  slideCooldownRatio: number;
-  slideTimeLeft: number;
   shootReady: boolean;
   shootCooldownRatio: number;
   shootTimeLeft: number;

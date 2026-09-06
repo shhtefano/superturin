@@ -7,7 +7,7 @@ export const level4_murazzi: LevelData = {
   theme: 'murazzi',
   width: 6400,
   height: 720,
-  timeLimit: 360,
+  timeLimit: 260,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -169,14 +169,17 @@ export const level4_murazzi: LevelData = {
     // Docks dei Club
     { id: 'm4_angry_2', type: 'angryLocal', x: 1720, y: 536, patrolLeft: 1600, patrolRight: 2150 },
     { id: 'm4_pigeon_2', type: 'pigeon', x: 2060, y: 374, patrolLeft: 2040, patrolRight: 2180 },
+    { id: 'm4_angry_2b', type: 'angryLocal', x: 2200, y: 536, patrolLeft: 2050, patrolRight: 2400 },
 
     // Ponte Vittorio Emanuele (Tram notturno in corsa)
     { id: 'm4_tram_night', type: 'tram', x: 3200, y: 530, patrolLeft: 3120, patrolRight: 3850 },
     { id: 'm4_angry_3', type: 'angryLocal', x: 3760, y: 376, patrolLeft: 3740, patrolRight: 3880 },
+    { id: 'm4_pigeon_ponte', type: 'pigeon', x: 3500, y: 324, patrolLeft: 3450, patrolRight: 3600 },
 
     // Monte dei Cappuccini
     { id: 'm4_pigeon_3', type: 'pigeon', x: 5140, y: 414, patrolLeft: 5110, patrolRight: 5240 },
     { id: 'm4_angry_4', type: 'angryLocal', x: 5350, y: 516, patrolLeft: 5080, patrolRight: 5550 },
+    { id: 'm4_angry_5', type: 'angryLocal', x: 5600, y: 516, patrolLeft: 5450, patrolRight: 5800 },
   ],
 
   goal: {

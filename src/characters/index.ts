@@ -108,7 +108,7 @@ export const CHARACTERS: Record<CharacterId, CharacterConfig> = {
   },
   benedetta: {
     id: 'benedetta',
-    name: 'Benedetta',
+    name: 'Bennipi',
     subtitle: 'La Duchessa Reale dei Portici',
     description: 'Elegante nobildonna dei salotti torinesi e campionessa sabauda. Unisce grazia aristocratica e tempestosi incanti magnetici.',
     skillName: 'Incanto Reale & Pioggia di Cuori',

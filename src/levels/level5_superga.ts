@@ -7,7 +7,7 @@ export const level5_superga: LevelData = {
   theme: 'superga',
   width: 6800,
   height: 720,
-  timeLimit: 380,
+  timeLimit: 280,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -179,9 +179,11 @@ export const level5_superga: LevelData = {
   enemies: [
     // Stazione Sassi
     { id: 's5_pigeon_1', type: 'pigeon', x: 520, y: 554, patrolLeft: 400, patrolRight: 750 },
+    { id: 's5_squirrel_sassi', type: 'squirrel', x: 780, y: 554, patrolLeft: 650, patrolRight: 980 },
 
     // Pian di Sassi
     { id: 's5_squirrel_1', type: 'squirrel', x: 1720, y: 524, patrolLeft: 1600, patrolRight: 2050 },
+    { id: 's5_angry_sassi', type: 'angryLocal', x: 2200, y: 506, patrolLeft: 2050, patrolRight: 2380 },
 
     // Binari Dentiera (Tram storico a dentiera velocissimo in discesa)
     { id: 's5_dentiera_tram', type: 'tram', x: 3180, y: 490, patrolLeft: 3080, patrolRight: 3820 },
@@ -190,6 +192,7 @@ export const level5_superga: LevelData = {
     // Piazzale Superga
     { id: 's5_angry_1', type: 'angryLocal', x: 5320, y: 476, patrolLeft: 5200, patrolRight: 5600 },
     { id: 's5_squirrel_2', type: 'squirrel', x: 5600, y: 484, patrolLeft: 5450, patrolRight: 5900 },
+    { id: 's5_pigeon_basilica', type: 'pigeon', x: 6100, y: 434, patrolLeft: 6050, patrolRight: 6220 },
     { id: 's5_angry_2', type: 'angryLocal', x: 6350, y: 456, patrolLeft: 6280, patrolRight: 6550 },
   ],
 

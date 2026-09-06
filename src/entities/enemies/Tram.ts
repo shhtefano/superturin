@@ -3,8 +3,8 @@ import { Sprites } from '../../game/graphics/Sprites';
 
 export class Tram extends Enemy {
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
-    // Dimensioni tram storico GTT
-    super(id, x, y, 140, 50, patrolLeft, patrolRight, 130, false); // isStompable = false!
+    // Dimensioni tram storico GTT (più rapido nei viali)
+    super(id, x, y, 140, 50, patrolLeft, patrolRight, 170, false); // isStompable = false!
   }
 
   public update(dt: number): void {

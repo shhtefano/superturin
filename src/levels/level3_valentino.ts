@@ -7,7 +7,7 @@ export const level3_valentino: LevelData = {
   theme: 'valentino',
   width: 6000,
   height: 720,
-  timeLimit: 360,
+  timeLimit: 260,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -177,13 +177,16 @@ export const level3_valentino: LevelData = {
 
     // Isolotto pescatori
     { id: 'val_squirrel_2', type: 'squirrel', x: 1750, y: 544, patrolLeft: 1620, patrolRight: 2100 },
+    { id: 'val_angry_fish', type: 'angryLocal', x: 1950, y: 526, patrolLeft: 1850, patrolRight: 2200 },
 
     // Giardino Roccioso
+    { id: 'val_squirrel_rock', type: 'squirrel', x: 2950, y: 544, patrolLeft: 2880, patrolRight: 3180 },
     { id: 'val_angry_1', type: 'angryLocal', x: 3200, y: 526, patrolLeft: 3080, patrolRight: 3500 },
     { id: 'val_pigeon_2', type: 'pigeon', x: 3480, y: 374, patrolLeft: 3450, patrolRight: 3590 },
 
     // Borgo Medievale
     { id: 'val_squirrel_3', type: 'squirrel', x: 4450, y: 534, patrolLeft: 4300, patrolRight: 4800 },
+    { id: 'val_pigeon_borgo', type: 'pigeon', x: 4580, y: 394, patrolLeft: 4550, patrolRight: 4680 },
     { id: 'val_angry_2', type: 'angryLocal', x: 4720, y: 346, patrolLeft: 4680, patrolRight: 4820 },
     { id: 'val_angry_3', type: 'angryLocal', x: 5600, y: 516, patrolLeft: 5420, patrolRight: 5800 },
   ],

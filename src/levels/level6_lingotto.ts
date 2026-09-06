@@ -7,7 +7,7 @@ export const level6_lingotto: LevelData = {
   theme: 'lingotto',
   width: 7200,
   height: 720,
-  timeLimit: 400,
+  timeLimit: 300,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -19,9 +19,9 @@ export const level6_lingotto: LevelData = {
     { id: 'l6_q_1', x: 396, y: 440, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
     { id: 'l6_brick_2', x: 432, y: 440, width: 36, height: 36, style: 'brick' },
 
-    // Passaggio basso per testare la SCIVOLATA (Skill [1]): soffitto ribassato
-    { id: 'l6_slide_roof', x: 600, y: 480, width: 220, height: 30, style: 'steel_beam' },
-    { id: 'l6_q_slide', x: 700, y: 390, width: 36, height: 36, isQuestionBlock: true, questionContent: 'gianduiotto' },
+    // Passaggio trave ribassata industriale dello stabilimento
+    { id: 'l6_slide_roof', x: 600, y: 460, width: 220, height: 26, style: 'steel_beam' },
+    { id: 'l6_q_slide', x: 700, y: 380, width: 36, height: 36, isQuestionBlock: true, questionContent: 'gianduiotto' },
 
     // Salita della Rampa: gradoni metallici verso il tetto
     { id: 'l6_ramp_step_1', x: 860, y: 490, width: 120, height: 24, isOneWay: true, style: 'steel_beam' },
@@ -210,15 +210,18 @@ export const level6_lingotto: LevelData = {
 
     // Tetto Nord: prototipo FIAT / Tram veloce in collaudo sulla pista!
     { id: 'l6_tram_1', type: 'tram', x: 2000, y: 456, patrolLeft: 1780, patrolRight: 2400 },
+    { id: 'l6_angry_track_n', type: 'angryLocal', x: 2280, y: 456, patrolLeft: 2150, patrolRight: 2500 },
 
     // Giardino pensile: scoiattoli dei giardini del Lingotto e collaudatore
     { id: 'l6_squirrel_1', type: 'squirrel', x: 3450, y: 444, patrolLeft: 3300, patrolRight: 3700 },
     { id: 'l6_pigeon_2', type: 'pigeon', x: 3900, y: 440, patrolLeft: 3820, patrolRight: 4020 },
     { id: 'l6_squirrel_2', type: 'squirrel', x: 4280, y: 444, patrolLeft: 4150, patrolRight: 4420 },
+    { id: 'l6_angry_pensile', type: 'angryLocal', x: 4600, y: 444, patrolLeft: 4450, patrolRight: 4750 },
 
     // Parabolica Sud: tram di prova e collaudatore furioso
     { id: 'l6_tram_2', type: 'tram', x: 5350, y: 476, patrolLeft: 5120, patrolRight: 5800 },
     { id: 'l6_angry_2', type: 'angryLocal', x: 5720, y: 236, patrolLeft: 5680, patrolRight: 5800 },
+    { id: 'l6_pigeon_parabolica', type: 'pigeon', x: 5850, y: 440, patrolLeft: 5750, patrolRight: 5950 },
 
     // Tetto Bolla finale
     { id: 'l6_pigeon_3', type: 'pigeon', x: 6550, y: 450, patrolLeft: 6480, patrolRight: 6680 },

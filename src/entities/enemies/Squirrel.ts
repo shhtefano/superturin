@@ -5,7 +5,8 @@ export class Squirrel extends Enemy {
   private isJumping: boolean = false;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
-    super(id, x, y, 28, 26, patrolLeft, patrolRight, 130, true);
+    // Scoiattolo scattante del Parco del Valentino
+    super(id, x, y, 28, 26, patrolLeft, patrolRight, 155, true);
   }
 
   public update(dt: number): void {

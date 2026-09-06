@@ -505,7 +505,7 @@ export class GameEngine {
         continue;
       }
 
-      // Incanto Reale di Benedetta: respinge e sconfigge i nemici al tocco
+      // Incanto Reale di Bennipi: respinge e sconfigge i nemici al tocco
       if (this.player.isCharmActive && !enemy.isDead && CollisionSystem.checkAABB(playerBox, enemy.getHitbox())) {
         enemy.die();
         this.score += 200 * scoreMultiplier;
@@ -529,22 +529,11 @@ export class GameEngine {
           continue;
         }
 
-        // Controllo se il giocatore è in scivolata (Skill 1: Scivolata atterra i nemici)
-        if (this.player.isSliding && enemy.isStompable) {
-          enemy.die();
-          this.score += 250 * scoreMultiplier;
-          this.camera.triggerShake(6, 0.15);
-          this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 12);
-          this.audio.playStomp();
-          this.emitHudUpdate(true);
-          continue;
-        }
+        // Controllo se il giocatore lo ha calpestato dall'alto (Stomp - generoso per controlli semplici)
+        const isFalling = this.player.vy > 0;
+        const hitFromAbove = (this.player.y + this.player.height) <= enemy.y + enemy.height * 0.45 || prevBottom <= enemy.y + 24;
 
-        // Controllo se il giocatore lo ha calpestato dall'alto (Stomp)
-        const isFalling = this.player.vy > 50;
-        const hitFromAbove = prevBottom <= enemy.y + 20;
-
-        if (enemy.isStompable && isFalling && hitFromAbove) {
+        if (enemy.isStompable && (isFalling || hitFromAbove)) {
           enemy.die();
           this.player.bounce();
           this.score += 200 * scoreMultiplier;

@@ -7,7 +7,7 @@ export const level2_mole: LevelData = {
   theme: 'mole',
   width: 5600,
   height: 720,
-  timeLimit: 360,
+  timeLimit: 260,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -148,6 +148,7 @@ export const level2_mole: LevelData = {
   enemies: [
     // Base Mole
     { id: 'mole_pig_1', type: 'pigeon', x: 520, y: 554, patrolLeft: 420, patrolRight: 750 },
+    { id: 'mole_angry_base', type: 'angryLocal', x: 680, y: 536, patrolLeft: 580, patrolRight: 820 },
 
     // Terrazza 1
     { id: 'mole_angry_1', type: 'angryLocal', x: 1260, y: 306, patrolLeft: 1120, patrolRight: 1600 },
@@ -156,9 +157,11 @@ export const level2_mole: LevelData = {
     // Cupola
     { id: 'mole_angry_2', type: 'angryLocal', x: 2420, y: 386, patrolLeft: 2320, patrolRight: 2680 },
     { id: 'mole_pig_3', type: 'pigeon', x: 2800, y: 234, patrolLeft: 2750, patrolRight: 2890 },
+    { id: 'mole_pig_3b', type: 'pigeon', x: 3050, y: 324, patrolLeft: 2950, patrolRight: 3150 },
 
     // Tempietto Superiore
     { id: 'mole_angry_3', type: 'angryLocal', x: 3650, y: 336, patrolLeft: 3560, patrolRight: 4100 },
+    { id: 'mole_angry_3b', type: 'angryLocal', x: 3950, y: 336, patrolLeft: 3800, patrolRight: 4200 },
     { id: 'mole_pig_4', type: 'pigeon', x: 4740, y: 284, patrolLeft: 4720, patrolRight: 4790 },
   ],
 

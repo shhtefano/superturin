@@ -4,7 +4,7 @@ export class AngryLocal extends Enemy {
   private stepTimer: number = 0;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
-    super(id, x, y, 28, 44, patrolLeft, patrolRight, 110, true);
+    super(id, x, y, 28, 44, patrolLeft, patrolRight, 140, true);
   }
 
   public update(dt: number): void {

@@ -49,13 +49,7 @@ export class Player extends Entity {
   public onJackpotShower?: (x: number, y: number) => void;
   public onCharmBurst?: (x: number, y: number, radius: number) => void;
 
-  // --- SISTEMA SKILL TATTICHE (Tastierino Numerico 1, 2, 3) ---
-  public isSliding: boolean = false;
-  public slideTimer: number = 0;
-  public slideCooldown: number = 0;
-  public readonly SLIDE_DURATION: number = 0.35;
-  public readonly SLIDE_COOLDOWN_MAX: number = 0.7;
-
+  // --- SISTEMA SKILL TATTICHE (Tasti 1 e 2) ---
   public shootCooldown: number = 0;
   public readonly SHOOT_COOLDOWN_MAX: number = 0.35;
 
@@ -107,28 +101,23 @@ export class Player extends Entity {
   }
 
   public override getHitbox(): Hitbox {
-    if (this.isSliding) {
-      return {
-        x: this.x,
-        y: this.y + 24,
-        width: this.width,
-        height: 24,
-      };
-    }
-    return super.getHitbox();
+    // Leggero inset laterale per evitare di incastrarsi o subire danni ingiusti sui bordi delle piattaforme
+    const insetX = 3;
+    return {
+      x: this.x + insetX,
+      y: this.y,
+      width: this.width - insetX * 2,
+      height: this.height,
+    };
   }
 
   public getSkillInfo(): SkillInfo {
-    const slideTimeLeft = Math.max(0, this.slideCooldown);
     const shootTimeLeft = Math.max(0, this.shootCooldown);
     const bombTimeLeft = Math.max(0, this.bombCooldown);
     const specialTimeLeft = Math.max(0, this.specialSkillCooldown);
     const charConfig = getCharacterConfig(this.characterId);
 
     return {
-      slideReady: slideTimeLeft <= 0,
-      slideCooldownRatio: this.SLIDE_COOLDOWN_MAX > 0 ? slideTimeLeft / this.SLIDE_COOLDOWN_MAX : 0,
-      slideTimeLeft,
       shootReady: shootTimeLeft <= 0,
       shootCooldownRatio: this.SHOOT_COOLDOWN_MAX > 0 ? shootTimeLeft / this.SHOOT_COOLDOWN_MAX : 0,
       shootTimeLeft,
@@ -477,12 +466,12 @@ export class Player extends Entity {
     this.state = 'dead';
     this.vy = -520;
     this.vx = 0;
-    this.isSliding = false;
-    this.slideTimer = 0;
     this.isMatrixActive = false;
     this.isGliding = false;
+    this.bioAuraTimer = 0;
     this.isBioAuraActive = false;
     this.isGhostActive = false;
+    this.ghostTimer = 0;
     this.isCharmActive = false;
     this.charmTimer = 0;
     this.activePowerUps.clear();
@@ -494,12 +483,12 @@ export class Player extends Entity {
     this.y = this.respawnPoint.y;
     this.vx = 0;
     this.vy = 0;
-    this.isSliding = false;
-    this.slideTimer = 0;
     this.isMatrixActive = false;
     this.isGliding = false;
+    this.bioAuraTimer = 0;
     this.isBioAuraActive = false;
     this.isGhostActive = false;
+    this.ghostTimer = 0;
     this.isCharmActive = false;
     this.charmTimer = 0;
     this.state = 'idle';
@@ -519,7 +508,6 @@ export class Player extends Entity {
     if (this.state === 'dead' || this.state === 'victory') return;
 
     // --- AGGIORNAMENTO COOLDOWN DELLE SKILL ---
-    this.slideCooldown = Math.max(0, this.slideCooldown - dt);
     this.shootCooldown = Math.max(0, this.shootCooldown - dt);
     this.bombCooldown = Math.max(0, this.bombCooldown - dt);
     this.specialSkillCooldown = Math.max(0, this.specialSkillCooldown - dt);
@@ -547,38 +535,18 @@ export class Player extends Entity {
       this.triggerSpecialSkill();
     }
 
-    // SKILL 1: SCIVOLATA (Numpad 1 / 1 / J)
-    if (this.isGrounded && !this.isSliding && this.slideCooldown <= 0 && input.consumeSkill1()) {
-      this.isSliding = true;
-      this.slideTimer = this.SLIDE_DURATION;
-      this.slideCooldown = this.SLIDE_COOLDOWN_MAX;
-      this.audio.playSlide();
-      this.particles.emitDust(this.x + this.width / 2, this.y + this.height, 10);
-    }
-
-    if (this.isSliding) {
-      this.slideTimer -= dt;
-      this.vx = (this.facingRight ? 1 : -1) * Physics.WALK_SPEED * 1.85 * speedMult;
-      if (Math.random() < 0.35) {
-        this.particles.emitDust(this.x + (this.facingRight ? 0 : this.width), this.y + this.height, 2);
-      }
-      if (this.slideTimer <= 0) {
-        this.isSliding = false;
-      }
-    }
-
-    // SKILL 2: SPARO CON LA PISTOLA (Numpad 2 / 2 / K)
-    if (this.shootCooldown <= 0 && input.consumeSkill2()) {
+    // SKILL 1: SPARO CON LA PISTOLA (Tasto 1 / Num1 / J / Touch 🔫)
+    if (this.shootCooldown <= 0 && input.consumeSkill1()) {
       this.shootCooldown = this.SHOOT_COOLDOWN_MAX;
       this.audio.playShoot();
       const bulletX = this.facingRight ? this.x + this.width + 4 : this.x - 16;
-      const bulletY = this.y + (this.isSliding ? 28 : 18);
+      const bulletY = this.y + 18;
       this.onShoot?.(bulletX, bulletY, this.facingRight);
       this.particles.emitGoldSparks(bulletX, bulletY, 6);
     }
 
-    // SKILL 3: BOMBA AL GIANDUIOTTO (Numpad 3 / 3 / L)
-    if (this.bombCooldown <= 0 && input.consumeSkill3()) {
+    // SKILL 2: BOMBA AL GIANDUIOTTO (Tasto 2 / Num2 / K / Touch 💣)
+    if (this.bombCooldown <= 0 && input.consumeSkill2()) {
       this.bombCooldown = this.BOMB_COOLDOWN_MAX;
       this.audio.playJump();
       const bombX = this.facingRight ? this.x + this.width + 4 : this.x - 18;
@@ -587,43 +555,42 @@ export class Player extends Entity {
       this.particles.emitGoldSparks(bombX, bombY, 8);
     }
 
-    if (!this.isSliding) {
-      const baseSpeed = input.isRun() ? Physics.RUN_SPEED : Physics.WALK_SPEED;
-      const targetSpeed = baseSpeed * speedMult;
+    // MOVIMENTO ORIZZONTALE
+    const baseSpeed = input.isRun() ? Physics.RUN_SPEED : Physics.WALK_SPEED;
+    const targetSpeed = baseSpeed * speedMult;
 
-      // ACCELERAZIONE & DECELERAZIONE (Malus MD scivolamento)
-      let accel = this.isGrounded ? Physics.ACCELERATION_GROUND : Physics.ACCELERATION_AIR;
-      let decel = this.isGrounded ? Physics.DECELERATION_GROUND : Physics.DECELERATION_AIR;
+    // ACCELERAZIONE & DECELERAZIONE (Reattività migliorata per game feel eccezionale)
+    let accel = this.isGrounded ? Physics.ACCELERATION_GROUND : Physics.ACCELERATION_AIR;
+    let decel = this.isGrounded ? Physics.DECELERATION_GROUND : Physics.DECELERATION_AIR;
 
-      if (this.hasPowerUp('md')) {
-        decel *= 0.18; // Scivola come sul ghiaccio!
-      }
+    if (this.hasPowerUp('md')) {
+      decel *= 0.18; // Scivola come sul ghiaccio!
+    }
 
-      if (input.isLeft()) {
-        this.facingRight = false;
-        if (this.vx > 0) {
-          this.vx -= decel * dt;
-        } else {
-          this.vx = Math.max(-targetSpeed, this.vx - accel * dt);
-        }
-      } else if (input.isRight()) {
-        this.facingRight = true;
-        if (this.vx < 0) {
-          this.vx += decel * dt;
-        } else {
-          this.vx = Math.min(targetSpeed, this.vx + accel * dt);
-        }
+    if (input.isLeft()) {
+      this.facingRight = false;
+      if (this.vx > 0) {
+        this.vx -= decel * dt;
       } else {
-        if (this.vx > 0) {
-          this.vx = Math.max(0, this.vx - decel * dt);
-        } else if (this.vx < 0) {
-          this.vx = Math.min(0, this.vx + decel * dt);
-        }
+        this.vx = Math.max(-targetSpeed, this.vx - accel * dt);
       }
+    } else if (input.isRight()) {
+      this.facingRight = true;
+      if (this.vx < 0) {
+        this.vx += decel * dt;
+      } else {
+        this.vx = Math.min(targetSpeed, this.vx + accel * dt);
+      }
+    } else {
+      if (this.vx > 0) {
+        this.vx = Math.max(0, this.vx - decel * dt);
+      } else if (this.vx < 0) {
+        this.vx = Math.min(0, this.vx + decel * dt);
+      }
+    }
 
-      if (Math.abs(this.vx) < Physics.MIN_MOVE_EPSILON) {
-        this.vx = 0;
-      }
+    if (Math.abs(this.vx) < Physics.MIN_MOVE_EPSILON) {
+      this.vx = 0;
     }
 
     // COYOTE TIME & RESET DOPPIO SALTO
@@ -670,9 +637,6 @@ export class Player extends Entity {
     }
 
     // Cooldown delle abilità attive
-    if (this.slideCooldown > 0) {
-      this.slideCooldown = Math.max(0, this.slideCooldown - dt);
-    }
     if (this.shootCooldown > 0) {
       this.shootCooldown = Math.max(0, this.shootCooldown - dt);
     }
@@ -759,7 +723,7 @@ export class Player extends Entity {
       this.vy,
       this.invincibleTimer,
       this.activePowerUps,
-      this.isSliding,
+      false,
       this.characterId,
       this.isGhostActive,
       this.isBioAuraActive,

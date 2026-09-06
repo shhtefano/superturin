@@ -2,12 +2,11 @@ export class InputManager {
   private keysDown: Set<string> = new Set();
   private jumpBuffered: boolean = false;
   private jumpBufferTimer: number = 0;
-  private readonly JUMP_BUFFER_DURATION = 0.14; // 140ms di jump buffering
+  private readonly JUMP_BUFFER_DURATION = 0.18; // 180ms di jump buffering per controlli ultra-reattivi
 
-  // Buffer per le Skill da tastierino numerico / tasti 1, 2, 3
+  // Buffer per le Skill (1: Pistola, 2: Bomba Gianduiotto)
   private skill1Buffered: boolean = false;
   private skill2Buffered: boolean = false;
-  private skill3Buffered: boolean = false;
 
   // Buffer per la Super-Abilità speciale del personaggio (Barra Spaziatrice / Mobile ⭐)
   private specialSkillBuffered: boolean = false;
@@ -56,19 +55,14 @@ export class InputManager {
         this.specialSkillBuffered = true;
       }
 
-      // SKILL 1: Scivolata (Numpad 1, Digit 1, J, Z)
-      if (['Digit1', 'Numpad1', 'KeyJ', 'KeyZ'].includes(e.code)) {
+      // SKILL 1: Sparo Pistola Sabauda (Numpad 1, Digit 1, J)
+      if (['Digit1', 'Numpad1', 'KeyJ'].includes(e.code)) {
         this.skill1Buffered = true;
       }
 
-      // SKILL 2: Sparo Pistola (Numpad 2, Digit 2, K, X)
-      if (['Digit2', 'Numpad2', 'KeyK', 'KeyX'].includes(e.code)) {
+      // SKILL 2: Bomba Gianduiotto (Numpad 2, Digit 2, K)
+      if (['Digit2', 'Numpad2', 'KeyK'].includes(e.code)) {
         this.skill2Buffered = true;
-      }
-
-      // SKILL 3: Bomba Gianduiotto (Numpad 3, Digit 3, L, C)
-      if (['Digit3', 'Numpad3', 'KeyL', 'KeyC'].includes(e.code)) {
-        this.skill3Buffered = true;
       }
     }
   }
@@ -143,14 +137,6 @@ export class InputManager {
     return false;
   }
 
-  public consumeSkill3(): boolean {
-    if (this.skill3Buffered) {
-      this.skill3Buffered = false;
-      return true;
-    }
-    return false;
-  }
-
   public consumeSpecialSkill(): boolean {
     if (this.specialSkillBuffered) {
       this.specialSkillBuffered = false;
@@ -186,10 +172,9 @@ export class InputManager {
     this.isJumpHeld = false;
   }
 
-  public triggerTouchSkill(skillNum: 1 | 2 | 3): void {
+  public triggerTouchSkill(skillNum: 1 | 2): void {
     if (skillNum === 1) this.skill1Buffered = true;
     if (skillNum === 2) this.skill2Buffered = true;
-    if (skillNum === 3) this.skill3Buffered = true;
   }
 
   public triggerTouchSpecialSkill(): void {
@@ -203,7 +188,6 @@ export class InputManager {
     this.isJumpHeld = false;
     this.skill1Buffered = false;
     this.skill2Buffered = false;
-    this.skill3Buffered = false;
     this.specialSkillBuffered = false;
     this.touchLeft = false;
     this.touchRight = false;

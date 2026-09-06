@@ -7,7 +7,7 @@ export const level1_centro: LevelData = {
   theme: 'centro',
   width: 5800,
   height: 720,
-  timeLimit: 340,
+  timeLimit: 250,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -116,14 +116,17 @@ export const level1_centro: LevelData = {
   enemies: [
     // Piazza Castello
     { id: 'pigeon_1', type: 'pigeon', x: 500, y: 554, patrolLeft: 380, patrolRight: 750 },
+    { id: 'pigeon_1b', type: 'pigeon', x: 920, y: 354, patrolLeft: 880, patrolRight: 1010 },
     { id: 'angry_1', type: 'angryLocal', x: 880, y: 536, patrolLeft: 780, patrolRight: 1050 },
 
     // Piazzetta Reale
     { id: 'pigeon_2', type: 'pigeon', x: 1680, y: 554, patrolLeft: 1560, patrolRight: 1950 },
+    { id: 'angry_1b', type: 'angryLocal', x: 2020, y: 536, patrolLeft: 1940, patrolRight: 2260 },
 
     // Via Po: Tram 1 veloce a terra, Tram 2 di pattuglia
     { id: 'tram_1', type: 'tram', x: 2600, y: 530, patrolLeft: 2540, patrolRight: 3100 },
     { id: 'pigeon_3', type: 'pigeon', x: 2920, y: 324, patrolLeft: 2880, patrolRight: 3040 },
+    { id: 'angry_via_po', type: 'angryLocal', x: 3300, y: 536, patrolLeft: 3200, patrolRight: 3520 },
 
     // Piazza San Carlo
     { id: 'angry_2', type: 'angryLocal', x: 4200, y: 536, patrolLeft: 4050, patrolRight: 4500 },

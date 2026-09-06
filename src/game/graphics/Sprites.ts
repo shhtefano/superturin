@@ -197,7 +197,7 @@ export class Sprites {
       ctx.restore();
     }
 
-    // 8. EFFETTO INCANTO REALE (Benedetta)
+    // 8. EFFETTO INCANTO REALE (Bennipi)
     if (isCharmActive) {
       ctx.save();
       const pulse = Math.sin(Date.now() * 0.01) * 4;
@@ -209,7 +209,7 @@ export class Sprites {
       ctx.ellipse(0, 0, width * 0.6 + pulse, height * 0.55 + pulse, 0, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Cuoricini luminosi fluttuanti attorno a Benedetta
+      // Cuoricini luminosi fluttuanti attorno a Bennipi
       ctx.fillStyle = '#ec4899';
       const time = Date.now() * 0.004;
       for (let i = 0; i < 4; i++) {
