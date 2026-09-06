@@ -295,6 +295,7 @@ export const GameView: React.FC = () => {
             <LevelSelect
               unlockedLevels={saveData.unlockedLevels}
               bestScores={saveData.bestScores}
+              characterId={saveData.selectedCharacter}
               onSelectLevel={handleSelectLevel}
               onClose={() => setStatus('menu')}
             />

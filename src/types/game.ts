@@ -71,6 +71,15 @@ export interface SkillInfo {
   specialSkillTimeLeft: number;
 }
 
+export interface CollectedNotification {
+  name: string;
+  popupLabel: string;
+  icon: string;
+  color: string;
+  description: string;
+  timestamp: number;
+}
+
 export interface HudData {
   lives: number;
   maxLives: number;
@@ -82,6 +91,7 @@ export interface HudData {
   activePowerUps: ActivePowerUpInfo[];
   activeSynergies: SynergyInfo[];
   skills?: SkillInfo;
+  lastCollected?: CollectedNotification;
 }
 
 export interface GameSettings {

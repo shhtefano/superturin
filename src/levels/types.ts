@@ -5,6 +5,59 @@ export type LevelTheme = 'centro' | 'mole' | 'valentino' | 'notte' | 'murazzi' |
 
 export type CollectibleType = 'gianduiotto' | 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 
+export interface CollectibleMeta {
+  name: string;
+  popupLabel: string;
+  icon: string;
+  color: string;
+  description: string;
+}
+
+export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
+  gianduiotto: {
+    name: 'Gianduiotto d\'Oro',
+    popupLabel: '+1 GIANDUIOTTO',
+    icon: '🍫',
+    color: '#ffb703',
+    description: '+100 Punti',
+  },
+  cocaina: {
+    name: 'Cocaina Sabauda',
+    popupLabel: 'COCAINA (+Sprint)',
+    icon: '⚡',
+    color: '#38bdf8',
+    description: 'Sprint & Velocità Massima',
+  },
+  marijuana: {
+    name: 'Marijuana dei Murazzi',
+    popupLabel: 'MARIJUANA (+Scudo)',
+    icon: '🌿',
+    color: '#4ade80',
+    description: 'Scudo Protettivo & Difesa',
+  },
+  md: {
+    name: 'MDMA Elettronica',
+    popupLabel: 'MDMA (+Magnete x2)',
+    icon: '✨',
+    color: '#f472b6',
+    description: 'Magnete Monete & Punti Doppi',
+  },
+  lsd: {
+    name: 'LSD Psichedelico',
+    popupLabel: 'LSD (+Doppio Salto)',
+    icon: '👁️',
+    color: '#c084fc',
+    description: 'Doppio Salto Acrobatico',
+  },
+  funghetti: {
+    name: 'Funghetti Allucinogeni',
+    popupLabel: 'FUNGHETTI (+Super Salto)',
+    icon: '🍄',
+    color: '#fb923c',
+    description: 'Super Salto & Gravità Ridotta',
+  },
+};
+
 export interface PlatformConfig {
   id: string;
   x: number;

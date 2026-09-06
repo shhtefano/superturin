@@ -8,6 +8,9 @@ export class Camera {
   public levelWidth: number = 5000;
   public levelHeight: number = 720;
 
+  // Offset verticale per sollevare la linea di terra sopra i controlli touch mobile
+  public readonly verticalGroundOffset: number = 85;
+
   // Smoothing e lookahead graduale
   private targetX: number = 0;
   private targetY: number = 0;
@@ -95,7 +98,7 @@ export class Camera {
     ctx.save();
     ctx.translate(
       -Math.round(this.x + this.offsetX),
-      -Math.round(this.y + this.offsetY)
+      -Math.round(this.y + this.offsetY + this.verticalGroundOffset)
     );
   }
 

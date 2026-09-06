@@ -1,0 +1,361 @@
+/* =========================================================
+   TORINO WORLD MAP — Super Mario Overworld Styling
+   ========================================================= */
+
+.worldmap-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(5, 8, 15, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  overflow: hidden;
+}
+
+.worldmap-wrapper {
+  position: relative;
+  width: 96vw;
+  max-width: 1280px;
+  aspect-ratio: 16 / 9;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #020617;
+  border: 2px solid var(--color-oro-reale, #ffb703);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 183, 3, 0.25);
+  overflow: hidden;
+}
+
+.worldmap-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  image-rendering: auto;
+  cursor: pointer;
+}
+
+/* Header della Mappa */
+.worldmap-top-bar {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.worldmap-title-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1.5px solid var(--color-oro-reale, #ffb703);
+  border-radius: 20px;
+  padding: 6px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+}
+
+.worldmap-mario-coin {
+  font-size: 1.15rem;
+  animation: coinSpin 1.8s infinite ease-in-out;
+}
+
+@keyframes coinSpin {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2) rotate(15deg); }
+}
+
+.worldmap-title-text {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.worldmap-sub-text {
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  color: var(--color-oro-reale, #ffb703);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.worldmap-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.btn-map-switch {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1.5px solid rgba(56, 189, 248, 0.7);
+  color: #38bdf8;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.btn-map-switch:hover {
+  background: rgba(56, 189, 248, 0.2);
+  transform: translateY(-1px);
+  border-color: #38bdf8;
+}
+
+.btn-map-close {
+  background: rgba(15, 23, 42, 0.88);
+  border: 1.5px solid rgba(239, 68, 68, 0.6);
+  color: #f87171;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+.btn-map-close:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Scheda Fluttuante del Livello Selezionato (Super Mario World style) */
+.worldmap-level-card {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 640px;
+  background: rgba(15, 23, 42, 0.94);
+  border: 2px solid var(--color-oro-reale, #ffb703);
+  border-radius: 16px;
+  padding: 10px 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.85), 0 0 16px rgba(255, 183, 3, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  z-index: 30;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: cardSlideUp 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.map-card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.map-card-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffb703;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 900;
+  box-shadow: 0 0 12px rgba(255, 183, 3, 0.7);
+  flex-shrink: 0;
+}
+
+.map-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.map-card-title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-card-sub {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+  font-size: 0.62rem;
+}
+
+.map-card-diff {
+  color: #fde047;
+}
+
+.map-card-score {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.map-card-play-btn {
+  background: linear-gradient(135deg, #ffb703, #fb8500);
+  border: 1.5px solid #fff;
+  color: #0f172a;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  padding: 10px 20px;
+  border-radius: 24px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(251, 133, 0, 0.5);
+  transition: all 0.12s ease;
+  flex-shrink: 0;
+}
+
+.map-card-play-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 20px rgba(251, 133, 0, 0.7);
+}
+
+.map-card-play-btn:active {
+  transform: scale(0.96);
+}
+
+/* Suggerimenti Comandi Rapidi Mappa */
+.worldmap-hints-bar {
+  position: absolute;
+  top: 56px;
+  left: 14px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 3px 8px;
+  font-family: var(--font-display);
+  font-size: 0.52rem;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.worldmap-hints-bar kbd {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #ffb703;
+}
+
+/* Adattabilità Schermi Compatti / Landscape Mobile */
+@media screen and (max-height: 520px) {
+  .worldmap-wrapper {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+
+  .worldmap-top-bar {
+    top: 6px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .worldmap-title-badge {
+    padding: 3px 8px;
+  }
+
+  .worldmap-title-text {
+    font-size: 0.62rem;
+  }
+
+  .worldmap-sub-text {
+    display: none;
+  }
+
+  .worldmap-level-card {
+    bottom: 6px;
+    padding: 6px 10px;
+    max-width: 520px;
+    border-radius: 12px;
+  }
+
+  .map-card-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .map-card-title {
+    font-size: 0.68rem;
+  }
+
+  .map-card-sub {
+    font-size: 0.54rem;
+  }
+
+  .map-card-play-btn {
+    padding: 6px 12px;
+    font-size: 0.64rem;
+  }
+
+  .worldmap-hints-bar {
+    display: none;
+  }
+}

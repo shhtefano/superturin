@@ -18,7 +18,6 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
   const timeFormatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
   const activePowerUps = data.activePowerUps || [];
-  const activeSynergies = data.activeSynergies || [];
 
   return (
     <div className="hud-container">
@@ -40,35 +39,8 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
         </div>
 
         {/* Indicatori Compatti Effetti Attivi (Icone Valore Bonus / Malus Arcade) */}
-        {(activeSynergies.length > 0 || activePowerUps.length > 0) && (
+        {activePowerUps.length > 0 && (
           <div className="status-effects-bar">
-            {/* Sinergie attive in pillola compatta con icone */}
-            {activeSynergies.map((synergy) => (
-              <div
-                key={synergy.id}
-                className="status-pill synergy-pill"
-                style={{
-                  borderColor: synergy.color,
-                  boxShadow: `0 0 10px ${synergy.color}66`,
-                }}
-                title={`${synergy.name}: ${synergy.description}`}
-              >
-                <span className="status-pill-badge" style={{ backgroundColor: synergy.color }}>
-                  {synergy.badge}
-                </span>
-                {synergy.badges?.map((b, i) => (
-                  <span
-                    key={i}
-                    className={`status-pill-value val-${b.type}`}
-                    title={b.tooltip || b.label}
-                  >
-                    <span className="val-icon">{b.icon}</span>
-                    <span className="val-label">{b.label}</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-
             {/* Power-up attivi con icone valore Bonus/Malus e timer */}
             {activePowerUps.map((powerUp) => (
               <div
@@ -127,6 +99,26 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
           </div>
         )}
       </div>
+
+      {/* Pop-up Notifica Momentanea Collezionabile Raccolto */}
+      {data.lastCollected && (
+        <div
+          key={data.lastCollected.timestamp}
+          className="hud-collected-toast"
+          style={{
+            borderColor: data.lastCollected.color,
+            boxShadow: `0 0 16px ${data.lastCollected.color}55`,
+          }}
+        >
+          <span className="toast-icon">{data.lastCollected.icon}</span>
+          <div className="toast-body">
+            <span className="toast-name" style={{ color: data.lastCollected.color }}>
+              {data.lastCollected.name}
+            </span>
+            <span className="toast-desc">{data.lastCollected.description}</span>
+          </div>
+        </div>
+      )}
 
       <div className="hud-right">
         <button className="btn-pause-round" onClick={onPause} title="Pausa">

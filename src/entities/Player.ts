@@ -417,79 +417,10 @@ export class Player extends Entity {
   }
 
   /**
-   * Rileva combinazioni sinergiche speciali tra sostanze assunte insieme!
+   * Ritorna sinergie attive (disattivate per mantenere solo gli effetti individuali cumulabili)
    */
   public getActiveSynergies(): SynergyInfo[] {
-    const synergies: SynergyInfo[] = [];
-
-    const hasCocaina = this.hasPowerUp('cocaina');
-    const hasMarijuana = this.hasPowerUp('marijuana');
-    const hasMD = this.hasPowerUp('md');
-    const hasLSD = this.hasPowerUp('lsd');
-    const hasFunghetti = this.hasPowerUp('funghetti');
-
-    // 1. SINERGIA SPEEDBALL SABAUDO (Cocaina + Marijuana)
-    if (hasCocaina && hasMarijuana) {
-      synergies.push({
-        id: 'speedball',
-        name: 'SPEEDBALL',
-        description: 'Immunità totale ai nemici con super velocità e salto amplificato!',
-        badge: '⚡🌿 SPEEDBALL',
-        color: '#10b981',
-        badges: [
-          { icon: '🛡️', label: 'IMMUNE', type: 'bonus', tooltip: 'Immunità totale nemici' },
-          { icon: '⚡', label: 'SPD++', type: 'bonus', tooltip: 'Super velocità combinata' },
-        ],
-      });
-    }
-
-    // 2. SINERGIA CANDYFLIP (MD + LSD)
-    if (hasMD && hasLSD) {
-      synergies.push({
-        id: 'candyflip',
-        name: 'CANDYFLIP',
-        description: 'Doppio salto fluttuante con magnetismo dorato totale e punti x2!',
-        badge: '✨🌀 CANDYFLIP',
-        color: '#f43f5e',
-        badges: [
-          { icon: '⭐', label: 'x2 PTS', type: 'bonus', tooltip: 'Punti raddoppiati' },
-          { icon: '🧲', label: 'MAG++', type: 'bonus', tooltip: 'Magnete dorato' },
-          { icon: '🌀', label: 'FLOAT', type: 'bonus', tooltip: 'Doppio salto fluttuante' },
-        ],
-      });
-    }
-
-    // 3. SINERGIA MEGA-TRIP (Funghetti + LSD)
-    if (hasFunghetti && hasLSD) {
-      synergies.push({
-        id: 'megatrip',
-        name: 'MEGA-TRIP',
-        description: 'Gigante con doppio salto a mezz\'aria inarrestabile!',
-        badge: '🍄🌀 MEGA-TRIP',
-        color: '#8b5cf6',
-        badges: [
-          { icon: '🍄', label: 'TITAN', type: 'bonus', tooltip: 'Statura titanica' },
-          { icon: '🌀', label: 'DOUBLE', type: 'bonus', tooltip: 'Doppio salto gigante' },
-        ],
-      });
-    }
-
-    // 4. SINERGIA ULTRA POLYDOPING (3 o più sostanze attive insieme!)
-    if (this.activePowerUps.size >= 3) {
-      synergies.push({
-        id: 'polydoping',
-        name: 'POLYDOPING',
-        description: 'Potere sovrano sabaudo: Moltiplicatore punti moltiplicato a x3!',
-        badge: '👑 POLYDOPING',
-        color: '#ffb703',
-        badges: [
-          { icon: '⭐', label: 'x3 PTS', type: 'bonus', tooltip: 'Punti triplicati' },
-          { icon: '👑', label: 'ROYAL', type: 'bonus', tooltip: 'Sovranità sabauda' },
-        ],
-      });
-    }
-
-    return synergies;
+    return [];
   }
 
   public takeDamage(): boolean {

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { LEVELS } from '../levels';
+import { CharacterId } from '../types/game';
+import { TorinoWorldMap } from './TorinoWorldMap';
 
 interface LevelSelectProps {
   unlockedLevels?: number;
   bestScores: Record<number, number>;
+  characterId?: CharacterId;
   onSelectLevel: (levelId: number) => void;
   onClose: () => void;
 }
@@ -304,15 +307,20 @@ const LEVEL_METADATA: Record<number, { tag: string; diff: string; nemici: string
 };
 
 export const LevelSelect: React.FC<LevelSelectProps> = ({
+  unlockedLevels,
   bestScores,
+  characterId,
   onSelectLevel,
   onClose,
 }) => {
   const levelList = Object.values(LEVELS);
+  const [viewMode, setViewMode] = useState<'map' | 'gallery'>('map');
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  // Scorciatoie da tastiera immediate (1-6 lancia subito il livello!)
+  // Scorciatoie da tastiera immediate per la galleria a quadri
   useEffect(() => {
+    if (viewMode !== 'gallery') return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       // Tasti numerici 1, 2, 3, 4, 5, 6 (tastiera normale e tastierino numerico) per avvio istantaneo
       if (['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5', 'Numpad6'].includes(e.code)) {
@@ -350,15 +358,41 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedIndex, levelList, onSelectLevel, onClose]);
+  }, [viewMode, selectedIndex, levelList, onSelectLevel, onClose]);
+
+  // Visualizzazione predefinita: Mappa del Mondo di Torino (Super Mario World style)
+  if (viewMode === 'map') {
+    return (
+      <TorinoWorldMap
+        initialLevelId={levelList[selectedIndex]?.id || 1}
+        bestScores={bestScores}
+        unlockedLevels={unlockedLevels}
+        characterId={characterId}
+        onSelectLevel={onSelectLevel}
+        onSwitchToGallery={() => setViewMode('gallery')}
+        onClose={onClose}
+      />
+    );
+  }
 
   return (
     <div className="modal-backdrop">
       <div className="modal-card level-select-card" style={{ maxWidth: '900px', width: '95%' }}>
-        <h2 className="modal-title level-modal-title">SCEGLI IL TUO QUADRO</h2>
-        <p className="modal-subtitle level-modal-subtitle">
-          Tutti i 6 livelli sbloccati! Clicca su un quadro o premi il numero <kbd>1</kbd>-<kbd>6</kbd> per giocare subito.
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+          <div>
+            <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px' }}>SCEGLI IL TUO QUADRO</h2>
+            <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0 }}>
+              Tutti i 6 livelli sbloccati! Clicca su un quadro o premi il numero <kbd>1</kbd>-<kbd>6</kbd>.
+            </p>
+          </div>
+          <button
+            className="btn-arcade"
+            style={{ padding: '6px 14px', fontSize: '0.66rem', background: '#ffb703', color: '#0f172a', whiteSpace: 'nowrap' }}
+            onClick={() => setViewMode('map')}
+          >
+            🗺️ TORNA ALLA MAPPA
+          </button>
+        </div>
 
         {/* Griglia a Quadri con Anteprima d'Arte */}
         <div className="level-gallery-grid">
@@ -411,12 +445,20 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
 
         {/* Pulsante Indietro & Hint comandi */}
         <div className="level-select-footer">
-          <button
-            className="btn-arcade btn-arcade-secondary level-btn-back"
-            onClick={onClose}
-          >
-            ◀ TORNA AL MENU (ESC)
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              className="btn-arcade btn-arcade-secondary level-btn-back"
+              onClick={() => setViewMode('map')}
+            >
+              🗺️ VISTA MAPPA
+            </button>
+            <button
+              className="btn-arcade btn-arcade-secondary level-btn-back"
+              onClick={onClose}
+            >
+              ◀ TORNA AL MENU (ESC)
+            </button>
+          </div>
 
           <div className="menu-nav-hint level-nav-hint">
             ⌨️ Premi <kbd>1</kbd>-<kbd>6</kbd> per avvio rapido | Frecce <kbd>◀</kbd><kbd>▶</kbd><kbd>▲</kbd><kbd>▼</kbd> + <kbd>INVIO</kbd>

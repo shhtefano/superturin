@@ -386,9 +386,12 @@ export class Platform extends Entity {
     // =========================================================================
     // 6. STILI DI PIATTAFORMA AMBIENTALI STANDARD
     // =========================================================================
+    const isGroundBase = (this.y + this.height >= 690) || (this.height >= 120 && this.y >= 500);
+    const fillHeight = isGroundBase ? this.height + 250 : this.height;
+
     if (this.style === 'ground_grass') {
       ctx.fillStyle = '#92400e';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#22c55e';
       ctx.fillRect(renderX, renderY, this.width, 8);
       ctx.fillStyle = '#16a34a';
@@ -397,7 +400,7 @@ export class Platform extends Entity {
       }
     } else if (this.style === 'ground_pave') {
       ctx.fillStyle = '#334155';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#64748b';
       ctx.fillRect(renderX, renderY, this.width, 6);
       ctx.fillStyle = '#1e293b';
@@ -407,16 +410,18 @@ export class Platform extends Entity {
       }
     } else if (this.style === 'stone_portico') {
       ctx.fillStyle = '#94a3b8';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#e2e8f0';
       ctx.fillRect(renderX, renderY, this.width, 4);
-      ctx.fillStyle = '#475569';
-      for (let mx = renderX + 4; mx < renderX + this.width - 4; mx += 16) {
-        ctx.fillRect(mx, renderY + this.height - 4, 8, 4);
+      if (!isGroundBase) {
+        ctx.fillStyle = '#475569';
+        for (let mx = renderX + 4; mx < renderX + this.width - 4; mx += 16) {
+          ctx.fillRect(mx, renderY + this.height - 4, 8, 4);
+        }
       }
     } else if (this.style === 'brick') {
       ctx.fillStyle = '#991b1b';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#f87171';
       ctx.fillRect(renderX, renderY, this.width, 3);
       ctx.fillStyle = '#450a0a';
@@ -426,37 +431,41 @@ export class Platform extends Entity {
       }
     } else if (this.style === 'wood_dock') {
       ctx.fillStyle = '#854d0e';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#a16207';
       ctx.fillRect(renderX, renderY, this.width, 3);
       ctx.fillStyle = '#422006';
       for (let wx = renderX + 16; wx < renderX + this.width; wx += 20) {
-        ctx.fillRect(wx, renderY + 2, 4, this.height);
+        ctx.fillRect(wx, renderY + 2, 4, isGroundBase ? fillHeight : this.height);
       }
     } else if (this.style === 'steel_beam') {
       ctx.fillStyle = '#475569';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#94a3b8';
       ctx.fillRect(renderX, renderY, this.width, 3);
-      ctx.fillStyle = '#1e293b';
-      ctx.fillRect(renderX, renderY + this.height - 3, this.width, 3);
+      if (!isGroundBase) {
+        ctx.fillStyle = '#1e293b';
+        ctx.fillRect(renderX, renderY + this.height - 3, this.width, 3);
+      }
       ctx.fillStyle = '#cbd5e1';
       for (let bx = renderX + 8; bx < renderX + this.width - 8; bx += 24) {
         ctx.fillRect(bx, renderY + 4, 3, 3);
       }
     } else if (this.style === 'dentiera_rail') {
       ctx.fillStyle = '#3e2723';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#94a3b8';
       ctx.fillRect(renderX, renderY, this.width, 2);
-      ctx.fillRect(renderX, renderY + this.height - 2, this.width, 2);
+      if (!isGroundBase) {
+        ctx.fillRect(renderX, renderY + this.height - 2, this.width, 2);
+      }
       ctx.fillStyle = '#e2e8f0';
       for (let rx = renderX + 2; rx < renderX + this.width - 4; rx += 8) {
         ctx.fillRect(rx, renderY + Math.floor(this.height / 2) - 2, 4, 4);
       }
     } else if (this.style === 'lingotto_track') {
       ctx.fillStyle = '#1e293b';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       for (let cx = renderX; cx < renderX + this.width; cx += 16) {
         const isRed = Math.floor((cx - renderX) / 16) % 2 === 0;
         ctx.fillStyle = isRed ? '#ef4444' : '#ffffff';
@@ -468,11 +477,13 @@ export class Platform extends Entity {
       }
     } else {
       ctx.fillStyle = '#e2e8f0';
-      ctx.fillRect(renderX, renderY, this.width, this.height);
+      ctx.fillRect(renderX, renderY, this.width, fillHeight);
       ctx.fillStyle = '#f8fafc';
       ctx.fillRect(renderX, renderY, this.width, 3);
-      ctx.fillStyle = '#cbd5e1';
-      ctx.fillRect(renderX, renderY + this.height - 3, this.width, 3);
+      if (!isGroundBase) {
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillRect(renderX, renderY + this.height - 3, this.width, 3);
+      }
     }
 
     if (this.isOneWay) {

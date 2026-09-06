@@ -389,3 +389,71 @@
     display: none;
   }
 }
+
+/* =========================================================
+   POPOVER / TOAST RACCOLTA COLLEZIONABILE ARCADE
+   ========================================================= */
+.hud-collected-toast {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1.5px solid #ffb703;
+  padding: 6px 16px;
+  border-radius: 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+  z-index: 100;
+  animation: hudToastPop 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes hudToastPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -18px) scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, 2px) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.toast-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+}
+
+.toast-body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast-name {
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.6px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.toast-desc {
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  padding-left: 8px;
+  white-space: nowrap;
+}

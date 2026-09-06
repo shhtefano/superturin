@@ -1,4 +1,4 @@
-import { EngineCallbacks, GameStatus, HudData, CharacterId, PowerUpType } from '../../types/game';
+import { EngineCallbacks, GameStatus, HudData, CharacterId, PowerUpType, CollectedNotification } from '../../types/game';
 import { GameLoop } from './GameLoop';
 import { InputManager } from './InputManager';
 import { Camera } from './Camera';
@@ -30,7 +30,7 @@ import { BossNutria } from '../../entities/enemies/BossNutria';
 import { BossComau } from '../../entities/enemies/BossComau';
 import { Bullet } from '../../entities/projectiles/Bullet';
 import { GianduiottoBomb } from '../../entities/projectiles/GianduiottoBomb';
-import { LevelData } from '../../levels/types';
+import { LevelData, CollectibleType, COLLECTIBLE_META } from '../../levels/types';
 import { getLevelById, LEVELS } from '../../levels';
 
 export class GameEngine {
@@ -64,6 +64,7 @@ export class GameEngine {
   public timeLeft: number = 0;
   private hudThrottleTimer: number = 0;
   private deathDelayTimer: number = 0;
+  private lastCollectedItem: CollectedNotification | null = null;
 
   constructor(canvas: HTMLCanvasElement, callbacks: EngineCallbacks) {
     this.canvas = canvas;
@@ -599,13 +600,8 @@ export class GameEngine {
       }
     }
 
-    // Calcolo moltiplicatore punteggio (x3 se Polydoping >= 3 sostanze, x2 se MD)
-    let scoreMultiplier = 1;
-    if (this.player.activePowerUps.size >= 3) {
-      scoreMultiplier = 3;
-    } else if (this.player.hasPowerUp('md')) {
-      scoreMultiplier = 2;
-    }
+    // Calcolo moltiplicatore punteggio (x2 se attivo MD)
+    const scoreMultiplier = this.player.hasPowerUp('md') ? 2 : 1;
 
     // --- RISOLUZIONE COLLISIONI FISICHE DEL GIOCATORE ---
     const prevBottom = this.player.y + this.player.height;
@@ -701,9 +697,11 @@ export class GameEngine {
             this.gianduiottiCount += 1;
             this.audio.playCoin();
             this.particles.emitGoldSparks(plat.x + plat.width / 2, plat.y - 12, 12);
+            this.triggerCollectibleCollected(plat.x + plat.width / 2, plat.y - 28, 'gianduiotto');
           } else if (reward) {
             this.player.activatePowerUp(reward);
             this.camera.triggerShake(7, 0.25);
+            this.triggerCollectibleCollected(plat.x + plat.width / 2, plat.y - 28, reward);
           }
           this.emitHudUpdate(true);
         }
@@ -713,7 +711,7 @@ export class GameEngine {
     this.player.update(dt);
 
     // Caduta nel vuoto / fuori mappa
-    if (this.player.y > this.currentLevel.height + 40 && this.player.state !== 'dead') {
+    if (this.player.y > this.currentLevel.height + 120 && this.player.state !== 'dead') {
       const isGameOver = this.player.takeDamage();
       if (isGameOver) {
         this.handlePlayerDeath();
@@ -751,6 +749,11 @@ export class GameEngine {
               this.player.activatePowerUp(col.itemType);
               this.camera.triggerShake(7, 0.25);
             }
+            this.triggerCollectibleCollected(
+              col.x + col.width / 2,
+              Math.min(col.y, this.player ? this.player.y : col.y) - 16,
+              col.itemType
+            );
           }
           this.emitHudUpdate(true);
         }
@@ -794,6 +797,7 @@ export class GameEngine {
         this.gianduiottiCount += 1;
         this.camera.triggerShake(6, 0.15);
         this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 14);
+        this.triggerCollectibleCollected(enemy.x + enemy.width / 2, enemy.y - 16, 'gianduiotto');
         this.audio.playCoin();
         this.emitHudUpdate(true);
         continue;
@@ -1047,7 +1051,33 @@ export class GameEngine {
     }
   }
 
+  private triggerCollectibleCollected(x: number, y: number, type: CollectibleType): void {
+    const meta = COLLECTIBLE_META[type];
+    if (!meta) return;
+
+    // 1. Popup fluttuante in-game nel mondo 2D
+    this.particles.emitFloatingPopup(
+      x,
+      y,
+      meta.popupLabel,
+      meta.color,
+      meta.icon,
+      1.35
+    );
+
+    // 2. Notifica momentanea in cima all'HUD
+    this.lastCollectedItem = {
+      name: meta.name,
+      popupLabel: meta.popupLabel,
+      icon: meta.icon,
+      color: meta.color,
+      description: meta.description,
+      timestamp: Date.now(),
+    };
+  }
+
   private emitHudUpdate(_immediate: boolean): void {
+    const isToastActive = !!this.lastCollectedItem && (Date.now() - this.lastCollectedItem.timestamp < 2000);
     const data: HudData = {
       lives: this.player ? this.player.lives : 3,
       maxLives: this.player ? this.player.maxLives : 3,
@@ -1059,6 +1089,7 @@ export class GameEngine {
       activePowerUps: this.player ? this.player.getActivePowerUpsList() : [],
       activeSynergies: this.player ? this.player.getActiveSynergies() : [],
       skills: this.player ? this.player.getSkillInfo() : undefined,
+      lastCollected: isToastActive ? this.lastCollectedItem! : undefined,
     };
     this.callbacks.onHudUpdate(data);
   }

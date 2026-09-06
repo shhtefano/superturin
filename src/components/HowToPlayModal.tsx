@@ -53,8 +53,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
           • <strong>💊 MDMA:</strong> Punti raddoppiati (x2) & Magnete Gianduiotti | <em>Malus:</em> Scivoli sul ghiaccio.<br />
           • <strong>🌀 LSD:</strong> Sblocca il DOPPIO SALTO a mezz'aria | <em>Malus:</em> Distorsione psichedelica.<br />
           • <strong>🍄 Funghetti:</strong> Diventi GIGANTE e schiacci i nemici frontalmente | <em>Malus:</em> Corpo enorme e caduta pesante.<br />
-          • <strong>❓ Blocchi Sorpresa:</strong> Colpiscili da sotto con la testa per estrarre le sostanze!<br />
-          • <strong>💥 COMBINAZIONI MULTIPLE & SINERGIE:</strong> Puoi accumulare più sostanze insieme! Effetti cumulativi e sblocco di sinergie leggendarie come <em>⚡🌿 Speedball Sabaudo</em>, <em>✨🌀 Candyflip Cosmico</em>, <em>🍄🌀 Colosso Psichedelico</em> e <em>🔥👑 Polydoping dei Murazzi (x3 Punti!)</em>.
+          • <strong>💥 EFFETTI CUMULATIVI:</strong> Puoi raccogliere e avere attive più sostanze contemporaneamente (es. Cocaina per correre veloce + LSD per il doppio salto + MDMA per il magnete)!
         </div>
 
         <button className="btn-arcade btn-arcade-primary is-selected" onClick={onClose}>
