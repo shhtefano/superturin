@@ -431,7 +431,7 @@ export class Platform extends Entity {
       ctx.fillRect(renderX, renderY, this.width, 3);
       ctx.fillStyle = '#422006';
       for (let wx = renderX + 16; wx < renderX + this.width; wx += 20) {
-        ctx.fillRect(wx, renderY + 2, this.height);
+        ctx.fillRect(wx, renderY + 2, 4, this.height);
       }
     } else if (this.style === 'steel_beam') {
       ctx.fillStyle = '#475569';

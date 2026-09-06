@@ -3,7 +3,6 @@ import { BossEnemy } from './BossEnemy';
 export class BossNutria extends BossEnemy {
   private jumpTimer: number = 0;
   private isJumping: boolean = false;
-  private vy: number = 0;
   private groundY: number;
   private runAnimTimer: number = 0;
 
