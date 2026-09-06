@@ -10,7 +10,7 @@ export class Camera {
 
   // Offset verticale per calibrare l'inquadratura di terra:
   // Alza l'asse orizzontale di terra (asse X) e allarga la porzione visibile sotto i piedi del giocatore
-  public readonly verticalGroundOffset: number = 45;
+  public readonly verticalGroundOffset: number = 90;
 
   // Smoothing e lookahead graduale
   private targetX: number = 0;

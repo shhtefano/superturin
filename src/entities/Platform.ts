@@ -387,7 +387,7 @@ export class Platform extends Entity {
     // 6. STILI DI PIATTAFORMA AMBIENTALI STANDARD
     // =========================================================================
     const isGroundBase = (this.y + this.height >= 690) || (this.height >= 120 && this.y >= 500);
-    const fillHeight = isGroundBase ? this.height + 250 : this.height;
+    const fillHeight = isGroundBase ? this.height + 400 : this.height;
 
     if (this.style === 'ground_grass') {
       ctx.fillStyle = '#92400e';
