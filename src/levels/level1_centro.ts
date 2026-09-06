@@ -25,6 +25,12 @@ export const level1_centro: LevelData = {
     { id: 'c1_portico_2', x: 880, y: 380, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
     { id: 'c1_portico_3', x: 1080, y: 300, width: 130, height: 22, isOneWay: true, style: 'stone_portico' },
 
+    // OSTACOLO INTERATTIVO: Cassa di rifornimento sabauda distruggibile
+    { id: 'c1_crate_1', x: 590, y: 544, width: 36, height: 36, isBreakable: true },
+
+    // OSTACOLO INTERATTIVO: Molla Sabauda a rimbalzo (proietta in alto sui tetti di Palazzo Madama)
+    { id: 'c1_bouncer_1', x: 1020, y: 560, width: 44, height: 20, isBouncer: true },
+
     // Fossa 1: Baratro stradale con piattaforma mobile
     {
       id: 'c1_moving_1',
@@ -64,9 +70,13 @@ export const level1_centro: LevelData = {
     // 3. Settore Binari di Via Po - TRAM MULTIPLI, RIDER & PORTICI ALTI
     { id: 'c1_ground_tram_1', x: 2540, y: 580, width: 950, height: 140, style: 'ground_pave' },
     { id: 'c1_roof_tram_1', x: 2650, y: 430, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
+    // OSTACOLO INTERATTIVO: Dissuasori stradali acuminati in ghisa tra le rotaie
+    { id: 'c1_spikes_1', x: 2780, y: 562, width: 68, height: 18, isSpikeHazard: true },
     { id: 'c1_roof_tram_2', x: 2880, y: 350, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 'c1_q_4', x: 2950, y: 230, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
     { id: 'c1_roof_tram_3', x: 3120, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
+    // OSTACOLO INTERATTIVO: Molla Sabauda per raggiungere i tetti di Via Po
+    { id: 'c1_bouncer_2', x: 3340, y: 560, width: 44, height: 20, isBouncer: true },
 
     // Fossa 3: Doppio baratro con gradini stretti
     { id: 'c1_pillar_1', x: 3560, y: 480, width: 75, height: 240, style: 'stone_portico' },
@@ -75,6 +85,9 @@ export const level1_centro: LevelData = {
 
     // 4. Sezione Piazza San Carlo - Portici Monumentali
     { id: 'c1_ground_sancarlo', x: 4030, y: 580, width: 800, height: 140, style: 'ground_pave' },
+    // OSTACOLO INTERATTIVO: Casse di rifornimento sabaude distruggibili
+    { id: 'c1_crate_2', x: 4110, y: 544, width: 36, height: 36, isBreakable: true },
+    { id: 'c1_crate_3', x: 4146, y: 544, width: 36, height: 36, isBreakable: true },
     { id: 'c1_sc_step_1', x: 4180, y: 470, width: 140, height: 22, isOneWay: true, style: 'marble' },
     { id: 'c1_sc_q_5', x: 4340, y: 340, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
     { id: 'c1_sc_step_2', x: 4420, y: 410, width: 150, height: 22, isOneWay: true, style: 'marble' },

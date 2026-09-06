@@ -129,8 +129,8 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
       </div>
 
       <div className="hud-right">
-        <button className="btn-pause" onClick={onPause}>
-          ⏸ PAUSA
+        <button className="btn-pause-round" onClick={onPause} title="Pausa">
+          ⏸
         </button>
 
         {/* Hotbar delle Skill (Tasti 1 e 2 + SPAZIO) */}

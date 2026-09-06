@@ -24,6 +24,10 @@ import { Gabbiano } from '../../entities/enemies/Gabbiano';
 import { Rider } from '../../entities/enemies/Rider';
 import { Cinghiale } from '../../entities/enemies/Cinghiale';
 import { RobotLingotto } from '../../entities/enemies/RobotLingotto';
+import { BossEnemy } from '../../entities/enemies/BossEnemy';
+import { BossPiccione } from '../../entities/enemies/BossPiccione';
+import { BossNutria } from '../../entities/enemies/BossNutria';
+import { BossComau } from '../../entities/enemies/BossComau';
 import { Bullet } from '../../entities/projectiles/Bullet';
 import { GianduiottoBomb } from '../../entities/projectiles/GianduiottoBomb';
 import { LevelData } from '../../levels/types';
@@ -96,7 +100,7 @@ export class GameEngine {
     this.timeLeft = levelData.timeLimit;
     this.particles.reset();
 
-    // 1. Inizializza Piattaforme (con blocchi interrogativi e piattaforme mobili)
+    // 1. Inizializza Piattaforme (con blocchi interrogativi, piattaforme mobili e ostacoli interattivi)
     this.platforms = levelData.platforms.map(
       (p) =>
         new Platform(
@@ -112,7 +116,11 @@ export class GameEngine {
           p.isMoving ?? false,
           p.moveAxis ?? 'x',
           p.moveRange ?? 0,
-          p.moveSpeed ?? 1.5
+          p.moveSpeed ?? 1.5,
+          p.isBouncer ?? false,
+          p.isCrumbling ?? false,
+          p.isSpikeHazard ?? false,
+          p.isBreakable ?? false
         )
     );
 
@@ -126,7 +134,7 @@ export class GameEngine {
       return new PowerUpItem(c.id, c.type, c.x, c.y);
     });
 
-    // 4. Inizializza Nemici (Piccioni, Tram, Torinese, Scoiattolo, Vigile, Nutria, Gabbiano, Rider, Cinghiale, Robot)
+    // 4. Inizializza Nemici (inclusi i 3 Mini Boss torinesi)
     this.enemies = levelData.enemies.map((e) => {
       switch (e.type) {
         case 'tram':
@@ -147,13 +155,21 @@ export class GameEngine {
           return new Cinghiale(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
         case 'robotLingotto':
           return new RobotLingotto(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'bossPiccione':
+          return new BossPiccione(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'bossNutria':
+          return new BossNutria(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'bossComau':
+          return new BossComau(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
         default:
           return new Pigeon(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
       }
     });
 
-    // 5. Inizializza Goal
+    // 5. Inizializza Goal (bloccato finché il boss del livello non viene sconfitto)
+    const hasBoss = this.enemies.some((e) => e instanceof BossEnemy);
     this.goal = new Goal('level_goal', levelData.goal.x, levelData.goal.y);
+    this.goal.isLocked = hasBoss;
 
     this.bullets = [];
     this.bombs = [];
@@ -187,9 +203,20 @@ export class GameEngine {
         if (enemy.active && !enemy.isDead) {
           const eX = enemy.x + enemy.width / 2;
           if (Math.abs(eX - x) <= radius) {
-            enemy.die();
-            this.score += 250;
-            this.particles.emitFeathers(eX, enemy.y + enemy.height / 2, 14);
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(2); // Ground slam fa 2 danni al Boss!
+              this.particles.emitGoldSparks(eX, enemy.y + enemy.height / 2, 20);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, enemy.y + enemy.height / 2, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 250;
+              this.particles.emitFeathers(eX, enemy.y + enemy.height / 2, 14);
+            }
             hitAny = true;
           }
         }
@@ -235,10 +262,21 @@ export class GameEngine {
           const eY = enemy.y + enemy.height / 2;
           const dist = Math.hypot(eX - x, eY - y);
           if (dist <= radius) {
-            enemy.die();
-            this.score += 250;
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(1);
+              this.particles.emitGoldSparks(eX, eY, 20);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, eY, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 250;
+              this.particles.emitGoldSparks(eX, eY, 16);
+            }
             this.gianduiottiCount += 1;
-            this.particles.emitGoldSparks(eX, eY, 16);
             hitAny = true;
           }
         }
@@ -384,6 +422,11 @@ export class GameEngine {
       scoreMultiplier = 2;
     }
 
+    // Aggiorna piattaforme (blocchi rimbalzanti, piattaforme mobili, crolli)
+    for (const plat of this.platforms) {
+      plat.update(dt);
+    }
+
     // --- RISOLUZIONE COLLISIONI FISICHE DEL GIOCATORE ---
     const prevBottom = this.player.y + this.player.height;
 
@@ -407,6 +450,8 @@ export class GameEngine {
     playerBox = this.player.getHitbox();
 
     for (const plat of this.platforms) {
+      if (!plat.active) continue;
+
       const res = CollisionSystem.resolveVertical(
         playerBox,
         this.player.vy,
@@ -423,6 +468,43 @@ export class GameEngine {
 
         if (plat.isMoving && plat.moveAxis === 'x') {
           this.player.x += plat.vx * dt;
+        }
+
+        // Interazione 1: Molla Sabauda (Bouncer) - Super salto elastico
+        if (plat.isBouncer) {
+          plat.triggerBounce();
+          this.player.vy = -860;
+          this.player.isGrounded = false;
+          this.audio.playJump();
+          this.particles.emitGoldSparks(this.player.x + this.player.width / 2, plat.y, 14);
+          this.camera.triggerShake(6, 0.15);
+        }
+
+        // Interazione 2: Piattaforma Traballante (Crumbling) - Inizia a tremare e crolla
+        if (plat.isCrumbling) {
+          plat.stepOn();
+        }
+
+        // Interazione 3: Dissuasori / Spuntoni Acuminati (Spike Hazard) - Danno e respingimento
+        if (plat.isSpikeHazard) {
+          const dead = this.player.takeDamage();
+          this.player.vy = -380;
+          this.player.isGrounded = false;
+          this.camera.triggerShake(12, 0.25);
+          if (dead) {
+            this.handlePlayerDeath();
+          }
+          this.emitHudUpdate(true);
+        }
+
+        // Interazione 4: Cassa Distruggibile (Breakable) - Si frantuma all'atterraggio
+        if (plat.isBreakable) {
+          plat.shatter();
+          this.score += 150 * scoreMultiplier;
+          this.audio.playStomp();
+          this.particles.emitFeathers(plat.x + plat.width / 2, plat.y + plat.height / 2, 14);
+          this.player.bounce();
+          this.emitHudUpdate(true);
         }
       } else if (res.hitCeiling) {
         this.player.y = res.resolvedY;
@@ -538,36 +620,69 @@ export class GameEngine {
       }
 
       if (!enemy.isDead && CollisionSystem.checkAABB(playerBox, enemy.getHitbox())) {
-        // BONUS FUNGHETTI: schiaccia qualsiasi nemico anche frontalmente al tocco (Mega Mario)!
+        // BONUS FUNGHETTI: schiaccia qualsiasi nemico o danneggia il boss anche frontalmente al tocco!
         if (this.player.hasPowerUp('funghetti')) {
-          enemy.die();
-          this.score += 200 * scoreMultiplier;
-          this.camera.triggerShake(8, 0.2);
-          this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 15);
-          this.audio.playStomp();
+          if (enemy instanceof BossEnemy) {
+            const defeated = enemy.takeHit(1);
+            this.camera.triggerShake(12, 0.25);
+            this.audio.playStomp();
+            this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 20);
+            if (defeated) {
+              this.score += 2500 * scoreMultiplier;
+              this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 40);
+              this.audio.playLevelComplete();
+              this.goal.isLocked = false;
+            }
+          } else {
+            enemy.die();
+            this.score += 200 * scoreMultiplier;
+            this.camera.triggerShake(8, 0.2);
+            this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 15);
+            this.audio.playStomp();
+          }
           this.emitHudUpdate(true);
           continue;
         }
 
-        // Controllo se il giocatore lo ha calpestato dall'alto (Stomp - generoso per controlli semplici)
+        // Controllo se il giocatore lo ha calpestato dall'alto (Stomp)
         const isFalling = this.player.vy > 0;
         const hitFromAbove = (this.player.y + this.player.height) <= enemy.y + enemy.height * 0.45 || prevBottom <= enemy.y + 24;
 
         if (enemy.isStompable && (isFalling || hitFromAbove)) {
-          enemy.die();
-          this.player.bounce();
-          this.score += 200 * scoreMultiplier;
-          this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 10);
-          this.emitHudUpdate(true);
-        } else {
-          // Collisione dannosa per il giocatore (annullata se sotto Marijuana!)
-          const dead = this.player.takeDamage();
-          if (dead) {
-            this.handlePlayerDeath();
-          } else if (!this.player.hasPowerUp('marijuana')) {
-            this.camera.triggerShake(10, 0.25);
+          if (enemy instanceof BossEnemy) {
+            const defeated = enemy.takeHit(1);
+            this.player.bounce();
+            this.camera.triggerShake(12, 0.25);
+            this.audio.playStomp();
+            this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 18);
+            if (defeated) {
+              this.score += 2500 * scoreMultiplier;
+              this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 45);
+              this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 30);
+              this.audio.playLevelComplete();
+              this.goal.isLocked = false;
+            }
+          } else {
+            enemy.die();
+            this.player.bounce();
+            this.score += 200 * scoreMultiplier;
+            this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 10);
           }
           this.emitHudUpdate(true);
+        } else {
+          // Collisione dannosa per il giocatore (annullata se sotto Marijuana o se il Boss è in i-frames)
+          if (enemy instanceof BossEnemy && enemy.invulnerableTimer > 0) {
+            // Nessun danno al giocatore durante il rinculo post-hit del boss
+            this.player.vx = this.player.x < enemy.x ? -160 : 160;
+          } else {
+            const dead = this.player.takeDamage();
+            if (dead) {
+              this.handlePlayerDeath();
+            } else if (!this.player.hasPowerUp('marijuana')) {
+              this.camera.triggerShake(10, 0.25);
+            }
+            this.emitHudUpdate(true);
+          }
         }
       }
     }
@@ -579,10 +694,18 @@ export class GameEngine {
 
       const bBox = bullet.getHitbox();
 
-      // Collisione proiettile con piattaforme e blocchi sorpresa
+      // Collisione proiettile con piattaforme, blocchi sorpresa e casse distruggibili
       for (const plat of this.platforms) {
+        if (!plat.active) continue;
+
         if (CollisionSystem.checkAABB(bBox, plat.getHitbox())) {
-          if (plat.isQuestionBlock && !plat.isHit) {
+          if (plat.isBreakable) {
+            plat.shatter();
+            this.score += 150 * scoreMultiplier;
+            this.audio.playExplosion();
+            this.particles.emitGoldSparks(plat.x + plat.width / 2, plat.y + plat.height / 2, 12);
+            this.emitHudUpdate(true);
+          } else if (plat.isQuestionBlock && !plat.isHit) {
             const reward = plat.bump();
             this.camera.triggerShake(5, 0.15);
             if (reward === 'gianduiotto') {
@@ -604,15 +727,29 @@ export class GameEngine {
 
       if (!bullet.active) continue;
 
-      // Collisione proiettile con nemici
+      // Collisione proiettile con nemici e Boss
       for (const enemy of this.enemies) {
         if (enemy.active && !enemy.isDead && CollisionSystem.checkAABB(bBox, enemy.getHitbox())) {
-          enemy.die();
           bullet.active = false;
-          this.score += 200 * scoreMultiplier;
-          this.camera.triggerShake(7, 0.15);
-          this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 12);
-          this.audio.playStomp();
+          if (enemy instanceof BossEnemy) {
+            const defeated = enemy.takeHit(1);
+            this.camera.triggerShake(8, 0.2);
+            this.audio.playStomp();
+            this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 16);
+            if (defeated) {
+              this.score += 2500 * scoreMultiplier;
+              this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 45);
+              this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 35);
+              this.audio.playLevelComplete();
+              this.goal.isLocked = false;
+            }
+          } else {
+            enemy.die();
+            this.score += 200 * scoreMultiplier;
+            this.camera.triggerShake(7, 0.15);
+            this.particles.emitFeathers(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 12);
+            this.audio.playStomp();
+          }
           this.emitHudUpdate(true);
           break;
         }
@@ -635,22 +772,47 @@ export class GameEngine {
         }
       }
 
-      // Se appena esplosa, applica danni ad area (AoE) e feedback audiovisivo
+      // Se appena esplosa, applica danni ad area (AoE) su nemici, boss e casse
       if (bomb.hasExploded && bomb.lifeTime <= 0.15) {
         this.audio.playExplosion();
         this.camera.triggerShake(14, 0.35);
         this.particles.emitGoldSparks(bomb.x, bomb.y, 25);
         this.particles.emitWaterDroplets(bomb.x, bomb.y, 15);
 
+        // Rompe casse breakable nel raggio d'azione
+        for (const plat of this.platforms) {
+          if (plat.active && plat.isBreakable) {
+            const dist = Math.hypot(plat.x + plat.width / 2 - bomb.x, plat.y + plat.height / 2 - bomb.y);
+            if (dist <= bomb.explosionRadius) {
+              plat.shatter();
+              this.score += 150 * scoreMultiplier;
+              this.particles.emitGoldSparks(plat.x + plat.width / 2, plat.y + plat.height / 2, 12);
+            }
+          }
+        }
+
+        // Colpisce nemici e boss nell'area
         for (const enemy of this.enemies) {
           if (enemy.active && !enemy.isDead) {
             const eCenterX = enemy.x + enemy.width / 2;
             const eCenterY = enemy.y + enemy.height / 2;
             const dist = Math.hypot(eCenterX - bomb.x, eCenterY - bomb.y);
             if (dist <= bomb.explosionRadius) {
-              enemy.die();
-              this.score += 300 * scoreMultiplier;
-              this.particles.emitFeathers(eCenterX, eCenterY, 15);
+              if (enemy instanceof BossEnemy) {
+                const defeated = enemy.takeHit(2); // La bomba infligge 2 danni al Boss!
+                this.camera.triggerShake(16, 0.35);
+                this.particles.emitGoldSparks(eCenterX, eCenterY, 25);
+                if (defeated) {
+                  this.score += 2500 * scoreMultiplier;
+                  this.particles.emitFeathers(eCenterX, eCenterY, 50);
+                  this.audio.playLevelComplete();
+                  this.goal.isLocked = false;
+                }
+              } else {
+                enemy.die();
+                this.score += 300 * scoreMultiplier;
+                this.particles.emitFeathers(eCenterX, eCenterY, 15);
+              }
               this.emitHudUpdate(true);
             }
           }
@@ -661,8 +823,14 @@ export class GameEngine {
 
     // --- TRAGUARDO (GOAL) ---
     if (CollisionSystem.checkAABB(playerBox, this.goal.getHitbox())) {
-      this.completeLevel();
-      return;
+      if (this.goal.isLocked) {
+        // Se il boss è ancora in vita, respingi delicatamente il giocatore
+        this.player.x -= 4;
+        this.player.vx = -120;
+      } else {
+        this.completeLevel();
+        return;
+      }
     }
 
     // Aggiornamento particelle e camera
@@ -755,6 +923,12 @@ export class GameEngine {
 
     // 11. Ripristina coordinate della Camera
     this.camera.restoreTransform(this.ctx);
+
+    // 12. Disegna Barra Boss Arcade in coordinate assolute HUD a schermo
+    const activeBoss = this.enemies.find((e): e is BossEnemy => e instanceof BossEnemy && !e.isDead);
+    if (activeBoss) {
+      activeBoss.renderBossHealthBar(this.ctx, this.canvas.width);
+    }
 
     // Ripristina filtri canvas
     this.ctx.filter = 'none';

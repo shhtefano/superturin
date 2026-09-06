@@ -93,9 +93,13 @@ export const level6_lingotto: LevelData = {
 
     // 3. Il Giardino Pensile "La Pista 500" (Aiuole verdi, alberi nani e fiori d'alta quota)
     { id: 'l6_pista500_garden', x: 3200, y: 480, width: 1250, height: 240, style: 'ground_grass' },
+    // OSTACOLO INTERATTIVO: Pistone idraulico FIAT a molla per saltare sulle aiuole
+    { id: 'l6_bouncer_garden', x: 3240, y: 460, width: 44, height: 20, isBouncer: true },
     { id: 'l6_garden_dock_1', x: 3350, y: 370, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
     { id: 'l6_q_3', x: 3550, y: 260, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
     { id: 'l6_garden_dock_2', x: 3750, y: 330, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
+    // OSTACOLO INTERATTIVO: Cassa di ricambi industriali distruggibile
+    { id: 'l6_crate_garden', x: 3920, y: 444, width: 36, height: 36, isBreakable: true },
     { id: 'l6_garden_dock_3', x: 4000, y: 360, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
     { id: 'l6_q_4', x: 4200, y: 270, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
 
@@ -129,33 +133,37 @@ export const level6_lingotto: LevelData = {
       moveRange: 105,
       moveSpeed: 2.8,
     },
+    // OSTACOLO INTERATTIVO: Passerella di collaudo traballante
+    { id: 'l6_crumb_test', x: 4940, y: 380, width: 80, height: 20, isCrumbling: true },
 
     // 4. La Grande Curva Parabolica Sud (Pedane sopraelevate inclinate per test aerodinamici)
     { id: 'l6_parabolica_base', x: 5050, y: 520, width: 900, height: 200, style: 'lingotto_track' },
-    { id: 'l6_parabolica_tier1', x: 5200, y: 430, width: 130, height: 24, isOneWay: true, style: 'steel_beam' },
+    // OSTACOLO INTERATTIVO: Rotaia elettrificata pericolosa
+    { id: 'l6_spikes_track', x: 5180, y: 502, width: 68, height: 18, isSpikeHazard: true },
+    { id: 'l6_parabolica_tier1', x: 5260, y: 430, width: 130, height: 24, isOneWay: true, style: 'steel_beam' },
     { id: 'l6_parabolica_tier2', x: 5400, y: 360, width: 130, height: 24, isOneWay: true, style: 'steel_beam' },
     { id: 'l6_q_5', x: 5550, y: 240, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
     { id: 'l6_parabolica_tier3', x: 5680, y: 290, width: 140, height: 24, isOneWay: true, style: 'steel_beam' },
 
     // Il Grande Baratro dell'Eliporto: doppia piattaforma mobile
     {
-      id: 'l6_heli_plat_1',
-      x: 6020,
-      y: 370,
+      id: 'l6_heli_lift_1',
+      x: 5950,
+      y: 400,
       width: 100,
       height: 22,
       isOneWay: true,
-      style: 'wood_dock',
+      style: 'steel_beam',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 95,
-      moveSpeed: 2.7,
+      moveRange: 110,
+      moveSpeed: 2.9,
     },
     {
-      id: 'l6_heli_plat_2',
-      x: 6240,
-      y: 330,
-      width: 100,
+      id: 'l6_heli_lift_2',
+      x: 6200,
+      y: 350,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
@@ -222,13 +230,15 @@ export const level6_lingotto: LevelData = {
     { id: 'l6_rider_parabolica', type: 'rider', x: 5500, y: 472, patrolLeft: 5350, patrolRight: 5850 },
     { id: 'l6_robot_parabolica', type: 'robotLingotto', x: 5720, y: 476, patrolLeft: 5640, patrolRight: 5920 },
 
-    // 5. Tetto Bolla di Renzo Piano: Gabbiano d'alta quota e Collaudatore furioso
+    // 5. Tetto Bolla di Renzo Piano: Gabbiano d'alta quota
     { id: 'l6_gabbiano_bolla', type: 'gabbiano', x: 6580, y: 350, patrolLeft: 6480, patrolRight: 6850 },
-    { id: 'l6_angry_bolla', type: 'angryLocal', x: 6780, y: 436, patrolLeft: 6680, patrolRight: 7000 },
+
+    // MINI BOSS DEL LIVELLO 6: COMAU TITAN FIAT ROBOGATE (6 HP)
+    { id: 'lingotto_mini_boss', type: 'bossComau', x: 6720, y: 412, patrolLeft: 6500, patrolRight: 6980 },
   ],
 
   goal: {
-    x: 7020,
+    x: 7060,
     y: 280,
   },
 };

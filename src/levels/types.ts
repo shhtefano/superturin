@@ -19,6 +19,10 @@ export interface PlatformConfig {
   moveAxis?: 'x' | 'y';
   moveRange?: number;
   moveSpeed?: number;
+  isBouncer?: boolean;       // Molla Sabauda (lancia in alto)
+  isCrumbling?: boolean;     // Piattaforma traballante che crolla dopo 0.6s
+  isSpikeHazard?: boolean;   // Spuntoni/dissuasori appuntiti
+  isBreakable?: boolean;     // Cassa/barile distruttibile con salti/spari/bombe
 }
 
 export interface CheckpointConfig {
@@ -44,7 +48,10 @@ export type EnemyType =
   | 'gabbiano'
   | 'rider'
   | 'cinghiale'
-  | 'robotLingotto';
+  | 'robotLingotto'
+  | 'bossPiccione'
+  | 'bossNutria'
+  | 'bossComau';
 
 export interface EnemyConfig {
   id: string;

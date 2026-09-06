@@ -23,6 +23,9 @@ export const level5_superga: LevelData = {
     { id: 's5_step_1', x: 640, y: 470, width: 130, height: 22, isOneWay: true, style: 'marble' },
     { id: 's5_step_2', x: 840, y: 400, width: 140, height: 22, isOneWay: true, style: 'marble' },
 
+    // OSTACOLO INTERATTIVO: Molla montana sabauda (per balzare verso la cremagliera)
+    { id: 's5_bouncer_1', x: 950, y: 560, width: 44, height: 20, isBouncer: true },
+
     // PRIMA FOSSA DELLA COLLINA: Piattaforma-cremagliera mobile su asse X e Y
     {
       id: 's5_rack_1',
@@ -51,11 +54,18 @@ export const level5_superga: LevelData = {
       moveSpeed: 2.1,
     },
 
+    // OSTACOLO INTERATTIVO: Roccia friabile di collina franabile (cede dopo 0.65s!)
+    { id: 's5_crumb_1', x: 1450, y: 470, width: 75, height: 20, isCrumbling: true },
+
     // 2. Primo Terrapieno Collinare (Fermata Pian di Sassi)
     { id: 's5_ground_sassi', x: 1540, y: 560, width: 750, height: 160, style: 'ground_grass' },
+    // OSTACOLO INTERATTIVO: Cassa di provviste montana distruggibile
+    { id: 's5_crate_1', x: 1600, y: 524, width: 36, height: 36, isBreakable: true },
     { id: 's5_sassi_step_1', x: 1680, y: 450, width: 130, height: 22, isOneWay: true, style: 'stone_portico' },
-    { id: 's5_q_2', x: 1840, y: 330, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' }, // Per i doppi salti tra crepacci
+    { id: 's5_q_2', x: 1840, y: 330, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
     { id: 's5_sassi_step_2', x: 1980, y: 390, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
+    // OSTACOLO INTERATTIVO: Rovi spinosi di collina pericolosi
+    { id: 's5_spikes_1', x: 2150, y: 542, width: 68, height: 18, isSpikeHazard: true },
 
     // SECONDA FOSSA DEL BOSCO: Salto tra 3 funivie/piattaforme mobili veloci
     {
@@ -101,14 +111,20 @@ export const level5_superga: LevelData = {
     // 3. Settore Rotaie Dentiera in Pendenza ripida
     { id: 's5_ground_tracks', x: 3020, y: 540, width: 950, height: 180, style: 'dentiera_rail' },
     { id: 's5_track_bridge_1', x: 3160, y: 410, width: 150, height: 22, isOneWay: true, style: 'dentiera_rail' },
+    // OSTACOLO INTERATTIVO: Rovi sui binari
+    { id: 's5_spikes_tracks', x: 3340, y: 522, width: 64, height: 18, isSpikeHazard: true },
     { id: 's5_track_bridge_roof', x: 3400, y: 310, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 's5_q_3', x: 3480, y: 190, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
     { id: 's5_track_bridge_2', x: 3660, y: 390, width: 150, height: 22, isOneWay: true, style: 'dentiera_rail' },
+    // OSTACOLO INTERATTIVO: Molla montana per superare il burrone
+    { id: 's5_bouncer_2', x: 3840, y: 520, width: 44, height: 20, isBouncer: true },
 
     // IL GRANDE BURRONE PANORAMICO: 3 Pilastri di roccia scoscesa nel vuoto
     { id: 's5_cliff_1', x: 4080, y: 480, width: 68, height: 240, style: 'brick' },
     { id: 's5_cliff_2', x: 4280, y: 400, width: 68, height: 320, style: 'brick' },
     { id: 's5_cliff_3', x: 4480, y: 320, width: 68, height: 400, style: 'brick' },
+    // OSTACOLO INTERATTIVO: Roccia traballante franabile verso la basilica
+    { id: 's5_crumb_cliff', x: 4580, y: 340, width: 75, height: 20, isCrumbling: true },
 
     // Piattaforma-ascensore rapida verso l'Altopiano di Superga
     {

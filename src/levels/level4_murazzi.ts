@@ -19,9 +19,15 @@ export const level4_murazzi: LevelData = {
     { id: 'm4_q_1', x: 416, y: 440, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' }, // Neon MD
     { id: 'm4_brick_2', x: 452, y: 440, width: 36, height: 36, style: 'brick' },
 
+    // OSTACOLO INTERATTIVO: Barile di Vermouth torinese distruggibile
+    { id: 'm4_barrel_1', x: 550, y: 544, width: 36, height: 36, isBreakable: true },
+
     // Passerella dell'antico approdo
     { id: 'm4_dock_1', x: 650, y: 460, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
     { id: 'm4_dock_2', x: 860, y: 390, width: 140, height: 22, isOneWay: true, style: 'wood_dock' },
+
+    // OSTACOLO INTERATTIVO: Bouncer Subwoofer dei Murazzi a ritmo di cassa
+    { id: 'm4_bouncer_sub', x: 1000, y: 560, width: 44, height: 20, isBouncer: true },
 
     // PRIMA FOSSA NOTTURNA SUL PO: 2 Barche mobili nel buio
     {
@@ -51,11 +57,15 @@ export const level4_murazzi: LevelData = {
       moveSpeed: 2.4,
     },
 
-    // 2. Arcata dei Club e Docks Sotterranei
-    { id: 'm4_club_ground', x: 1580, y: 580, width: 780, height: 140, style: 'stone_portico' },
-    { id: 'm4_club_step_1', x: 1750, y: 470, width: 130, height: 22, isOneWay: true, style: 'marble' },
-    { id: 'm4_q_2', x: 1920, y: 340, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' }, // Psichedelia
-    { id: 'm4_club_step_2', x: 2050, y: 410, width: 140, height: 22, isOneWay: true, style: 'marble' },
+    // OSTACOLO INTERATTIVO: Passerella bagnata traballante sul Po
+    { id: 'm4_crumb_dock', x: 1520, y: 510, width: 75, height: 20, isCrumbling: true },
+
+    // 2. Banchina Centrale dei Docks e Discoteche
+    { id: 'm4_central_ground', x: 1600, y: 570, width: 780, height: 150, style: 'ground_pave' },
+    // OSTACOLO INTERATTIVO: Barile di Vermouth
+    { id: 'm4_barrel_2', x: 1720, y: 534, width: 36, height: 36, isBreakable: true },
+    { id: 'm4_q_2', x: 1820, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
+    { id: 'm4_docks_step', x: 1980, y: 440, width: 130, height: 22, isOneWay: true, style: 'stone_portico' },
 
     // SECONDA FOSSA: Attraversamento delle Rimesse dei Canottieri (3 piattaforme oscillanti)
     {
@@ -84,9 +94,11 @@ export const level4_murazzi: LevelData = {
       moveRange: 85,
       moveSpeed: 2.3,
     },
+    // OSTACOLO INTERATTIVO: Pedana cedevole dei canottieri
+    { id: 'm4_crumb_canottieri', x: 2800, y: 460, width: 70, height: 20, isCrumbling: true },
     {
       id: 'm4_barge_5',
-      x: 2880,
+      x: 2950,
       y: 410,
       width: 105,
       height: 22,
@@ -104,6 +116,8 @@ export const level4_murazzi: LevelData = {
     { id: 'm4_bridge_roof', x: 3480, y: 340, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 'm4_q_3', x: 3550, y: 220, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
     { id: 'm4_bridge_portico_2', x: 3740, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
+    // OSTACOLO INTERATTIVO: Bouncer alla Diga
+    { id: 'm4_bouncer_dam', x: 3950, y: 560, width: 44, height: 20, isBouncer: true },
 
     // FOSSA DELLA DIGA DEI MURAZZI: Salto tra piloni strettissimi nell'acqua vorticosa
     { id: 'm4_dam_pillar_1', x: 4160, y: 490, width: 70, height: 230, style: 'stone_portico' },
@@ -141,12 +155,12 @@ export const level4_murazzi: LevelData = {
       isOneWay: true,
       style: 'marble',
       isMoving: true,
-      moveAxis: 'y',
-      moveRange: 85,
-      moveSpeed: 2.3,
+      moveAxis: 'x',
+      moveRange: 90,
+      moveSpeed: 2.2,
     },
 
-    // 5. Terrazza Belvedere Panoramica con Faro Luminoso
+    // Terrazza Panoramica Finale del Monte & Arena Mini Boss
     { id: 'm4_final_terrace', x: 5880, y: 540, width: 520, height: 180, style: 'marble' },
   ],
 
@@ -156,9 +170,9 @@ export const level4_murazzi: LevelData = {
   ],
 
   collectibles: [
-    { id: 'm4_g_1', type: 'gianduiotto', x: 880, y: 350 },  // Alto sull'approdo di legno
-    { id: 'm4_g_2', type: 'gianduiotto', x: 3500, y: 300 }, // Sul tetto del ponte Vittorio
-    { id: 'm4_g_3', type: 'gianduiotto', x: 4370, y: 380 }, // In bilico sul pilone della diga
+    { id: 'm4_g_1', type: 'gianduiotto', x: 880, y: 350 },
+    { id: 'm4_g_2', type: 'gianduiotto', x: 3500, y: 300 },
+    { id: 'm4_g_3', type: 'gianduiotto', x: 4370, y: 380 },
   ],
 
   enemies: [
@@ -183,14 +197,16 @@ export const level4_murazzi: LevelData = {
     // Fossa della Diga: Gabbiano ad alta quota sopra i piloni stretti
     { id: 'm4_gabbiano_dam', type: 'gabbiano', x: 4420, y: 320, patrolLeft: 4200, patrolRight: 4700 },
 
-    // 4. Monte dei Cappuccini: Nutria di risalita, Torinesi notturni e Vigile della movida
+    // 4. Monte dei Cappuccini: Nutria di risalita e Vigile della movida
     { id: 'm4_vigile_monte', type: 'vigile', x: 5120, y: 516, patrolLeft: 5020, patrolRight: 5350 },
     { id: 'm4_nutria_monte', type: 'nutria', x: 5380, y: 538, patrolLeft: 5240, patrolRight: 5580 },
-    { id: 'm4_angry_5', type: 'angryLocal', x: 5600, y: 516, patrolLeft: 5450, patrolRight: 5800 },
+
+    // MINI BOSS DEL LIVELLO 4: REGINA DELLE NUTRIE DEI MURAZZI (5 HP)
+    { id: 'murazzi_mini_boss', type: 'bossNutria', x: 5980, y: 482, patrolLeft: 5880, patrolRight: 6240 },
   ],
 
   goal: {
-    x: 6220,
+    x: 6280,
     y: 460,
   },
 };

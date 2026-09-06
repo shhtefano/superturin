@@ -22,6 +22,9 @@ export const level2_mole: LevelData = {
     // Scalini di marmo per raggiungere il primo ascensore
     { id: 'm_step_1', x: 620, y: 480, width: 130, height: 22, isOneWay: true, style: 'marble' },
 
+    // OSTACOLO INTERATTIVO: Molla della Mole (lancia verso l'ascensore nel vuoto)
+    { id: 'm_bouncer_1', x: 770, y: 460, width: 44, height: 20, isBouncer: true },
+
     // ASCENSORE 1: Salita verticale rapida sopra il baratro
     {
       id: 'm_lift_1',
@@ -41,6 +44,9 @@ export const level2_mole: LevelData = {
     { id: 'm_terrace_1', x: 1080, y: 350, width: 680, height: 370, style: 'brick' },
     { id: 'm_q_2', x: 1280, y: 220, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
     { id: 'm_step_2', x: 1480, y: 250, width: 130, height: 22, isOneWay: true, style: 'marble' },
+
+    // OSTACOLO INTERATTIVO: Passerella di mattoni traballante nel vuoto (cede dopo 0.65s!)
+    { id: 'm_crumb_1', x: 1680, y: 360, width: 110, height: 20, isCrumbling: true },
 
     // Fossa dei Mattoni: Doppio ascensore sincronizzato in controfase
     {
@@ -76,6 +82,9 @@ export const level2_mole: LevelData = {
     { id: 'm_q_3', x: 2620, y: 200, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
     { id: 'm_cupola_step_2', x: 2750, y: 260, width: 140, height: 22, isOneWay: true, style: 'marble' },
 
+    // OSTACOLO INTERATTIVO: Molla della Cupola per salire al tempietto
+    { id: 'm_bouncer_cupola', x: 2980, y: 410, width: 44, height: 20, isBouncer: true },
+
     // Baratro del Tempietto: 2 Piattaforme mobili su assi incrociati
     {
       id: 'm_lift_3',
@@ -109,6 +118,9 @@ export const level2_mole: LevelData = {
     { id: 'm_step_tempietto', x: 3720, y: 270, width: 130, height: 22, isOneWay: true, style: 'marble' },
     { id: 'm_q_4', x: 3900, y: 150, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
 
+    // OSTACOLO INTERATTIVO: Pedana traballante verso la Guglia
+    { id: 'm_crumb_spire', x: 4180, y: 370, width: 100, height: 20, isCrumbling: true },
+
     // Baratro della Guglia: Serie di 3 pilastri stretti nel vuoto
     { id: 'm_spire_pillar_1', x: 4320, y: 460, width: 68, height: 260, style: 'brick' },
     { id: 'm_spire_pillar_2', x: 4520, y: 380, width: 68, height: 340, style: 'brick' },
@@ -129,7 +141,7 @@ export const level2_mole: LevelData = {
       moveSpeed: 2.6,
     },
 
-    // 5. Terrazza Panoramica Sommitale con la Guglia e Toro d'Oro
+    // 5. Terrazza Panoramica Sommitale con la Guglia e Arena del Boss
     { id: 'm_spire_summit', x: 5120, y: 400, width: 480, height: 320, style: 'marble' },
   ],
 
@@ -139,9 +151,9 @@ export const level2_mole: LevelData = {
   ],
 
   collectibles: [
-    { id: 'm_g_1', type: 'gianduiotto', x: 920, y: 260 },  // In aria sopra l'ascensore 1
-    { id: 'm_g_2', type: 'gianduiotto', x: 2790, y: 210 }, // Vertice alto della cupola
-    { id: 'm_g_3', type: 'gianduiotto', x: 4540, y: 330 }, // In cima al pilastro stretto nel vuoto
+    { id: 'm_g_1', type: 'gianduiotto', x: 920, y: 260 },
+    { id: 'm_g_2', type: 'gianduiotto', x: 2790, y: 210 },
+    { id: 'm_g_3', type: 'gianduiotto', x: 4540, y: 330 },
   ],
 
   enemies: [
@@ -174,12 +186,12 @@ export const level2_mole: LevelData = {
     { id: 'mole_gabbiano_spire', type: 'gabbiano', x: 4520, y: 240, patrolLeft: 4320, patrolRight: 4780 },
     { id: 'mole_pig_4', type: 'pigeon', x: 4740, y: 284, patrolLeft: 4720, patrolRight: 4790 },
 
-    // Scalone finale prima del Toro dorato
-    { id: 'mole_angry_summit', type: 'angryLocal', x: 5240, y: 356, patrolLeft: 5140, patrolRight: 5380 },
+    // MINI BOSS DEL LIVELLO 2: RE PICCIONE DELLA MOLE ANTONELLIANA (4 HP)
+    { id: 'mole_mini_boss', type: 'bossPiccione', x: 5260, y: 310, patrolLeft: 5140, patrolRight: 5500 },
   ],
 
   goal: {
-    x: 5440,
+    x: 5500,
     y: 320,
   },
 };

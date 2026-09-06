@@ -23,6 +23,9 @@ export const level3_valentino: LevelData = {
     { id: 'v_tree_1', x: 640, y: 460, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
     { id: 'v_tree_2', x: 840, y: 390, width: 140, height: 22, isOneWay: true, style: 'wood_dock' },
 
+    // OSTACOLO INTERATTIVO: Geyser del Toret a Molla (spinge in alto sui rami del Valentino)
+    { id: 'v_bouncer_1', x: 920, y: 560, width: 44, height: 20, isBouncer: true },
+
     // PRIMA FOSSA FIUME PO: 2 Barconi mobili oscillanti sull'acqua
     {
       id: 'v_barge_1',
@@ -51,10 +54,17 @@ export const level3_valentino: LevelData = {
       moveSpeed: 2.0,
     },
 
+    // OSTACOLO INTERATTIVO: Pontile galleggiante traballante che cede sotto i piedi
+    { id: 'v_crumb_1', x: 1460, y: 510, width: 70, height: 20, isCrumbling: true },
+
     // 2. Isolotto Verde dei Pescatori
     { id: 'v_island_1', x: 1540, y: 570, width: 680, height: 150, style: 'ground_grass' },
+    // OSTACOLO INTERATTIVO: Cassa di provviste dei pescatori distruggibile
+    { id: 'v_crate_1', x: 1640, y: 534, width: 36, height: 36, isBreakable: true },
     { id: 'v_q_2', x: 1720, y: 430, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
     { id: 'v_step_island', x: 1900, y: 440, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
+    // OSTACOLO INTERATTIVO: Tronco spinoso del parco dannoso al tocco
+    { id: 'v_spikes_1', x: 2150, y: 552, width: 64, height: 18, isSpikeHazard: true },
 
     // SECONDA FOSSA FIUME PO: Attraversamento mobile ad altezza d'acqua
     {
@@ -102,6 +112,8 @@ export const level3_valentino: LevelData = {
     { id: 'v_rock_step_1', x: 3160, y: 460, width: 120, height: 22, isOneWay: true, style: 'stone_portico' },
     { id: 'v_q_3', x: 3320, y: 340, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
     { id: 'v_rock_step_2', x: 3450, y: 400, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
+    // OSTACOLO INTERATTIVO: Molla del Giardino Roccioso
+    { id: 'v_bouncer_2', x: 3660, y: 550, width: 44, height: 20, isBouncer: true },
 
     // FOSSA DEL FOSSATO DEL CASTELLO: Pontili di legno alti
     {
@@ -130,6 +142,9 @@ export const level3_valentino: LevelData = {
       moveRange: 65,
       moveSpeed: 2.1,
     },
+
+    // OSTACOLO INTERATTIVO: Passerella traballante delle mura medievali
+    { id: 'v_crumb_castle', x: 4180, y: 430, width: 75, height: 20, isCrumbling: true },
 
     // 4. Castello e Mura del Borgo Medievale
     { id: 'v_castle_ground', x: 4260, y: 560, width: 850, height: 160, style: 'stone_portico' },
