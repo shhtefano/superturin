@@ -22,32 +22,45 @@ export class CollisionSystem {
 
   /**
    * Risolve la collisione orizzontale di un'entità con una piattaforma solida.
+   * Evita il bug delle "pareti invisibili" sui giunti dei pavimenti e tiene conto dell'inset.
    */
   public static resolveHorizontal(
     entityBox: Hitbox,
     vx: number,
-    platformBox: Hitbox
+    platformBox: Hitbox,
+    insetX: number = 0
   ): { resolvedX: number; collided: boolean } {
     if (!this.checkAABB(entityBox, platformBox)) {
-      return { resolvedX: entityBox.x, collided: false };
+      return { resolvedX: entityBox.x - insetX, collided: false };
     }
 
-    // Se si muoveva verso destra
+    // Un pavimento NON deve bloccare orizzontalmente chi vi cammina sopra!
+    // È una vera collisione con un muro SOLO se l'entità penetra verticalmente nel blocco
+    // oltre una soglia di tolleranza di gradino (8px).
+    const stepTolerance = 8;
+    const isAbovePlatform = entityBox.y + entityBox.height <= platformBox.y + stepTolerance;
+    const isBelowPlatform = entityBox.y >= platformBox.y + platformBox.height - stepTolerance;
+
+    if (isAbovePlatform || isBelowPlatform) {
+      return { resolvedX: entityBox.x - insetX, collided: false };
+    }
+
+    // Se si muoveva verso destra: posiziona l'entità esattamente a filo sinistro del muro
     if (vx > 0) {
       return {
-        resolvedX: platformBox.x - entityBox.width,
+        resolvedX: platformBox.x - entityBox.width - insetX,
         collided: true,
       };
     }
-    // Se si muoveva verso sinistra
+    // Se si muoveva verso sinistra: posiziona l'entità esattamente a filo destro del muro
     if (vx < 0) {
       return {
-        resolvedX: platformBox.x + platformBox.width,
+        resolvedX: platformBox.x + platformBox.width - insetX,
         collided: true,
       };
     }
 
-    return { resolvedX: entityBox.x, collided: false };
+    return { resolvedX: entityBox.x - insetX, collided: false };
   }
 
   /**
@@ -70,9 +83,7 @@ export class CollisionSystem {
 
     // Caso 1: Piattaforma One-Way (semisolida)
     if (isOneWay) {
-      // Si collide con la piattaforma one-way SOLO se il player stava cadendo (vy >= 0)
-      // e nel frame precedente i suoi piedi erano sopra o a livello della superficie superiore
-      const tolerance = 8;
+      const tolerance = 14;
       if (vy >= 0 && prevBottom <= platformBox.y + tolerance) {
         return {
           resolvedY: platformBox.y - entityBox.height,
@@ -80,24 +91,33 @@ export class CollisionSystem {
           hitCeiling: false,
         };
       }
-      // Altrimenti la ignora (ci passa attraverso dal basso o dai lati)
       return { resolvedY: entityBox.y, grounded: false, hitCeiling: false };
     }
 
     // Caso 2: Piattaforma Solida Standard
-    if (vy > 0) {
-      // Caduta su una piattaforma (atterraggio)
+    const penetrationFromTop = currentBottom - platformBox.y;
+    const penetrationFromBottom = platformBox.y + platformBox.height - entityBox.y;
+
+    if (vy >= 0 && prevBottom <= platformBox.y + 16) {
+      // Atterraggio affidabile
       return {
         resolvedY: platformBox.y - entityBox.height,
         grounded: true,
         hitCeiling: false,
       };
-    } else if (vy < 0) {
-      // Salto contro il soffitto
+    } else if (vy < 0 && penetrationFromBottom < penetrationFromTop) {
+      // Urto contro soffitto
       return {
         resolvedY: platformBox.y + platformBox.height,
         grounded: false,
         hitCeiling: true,
+      };
+    } else if (vy >= 0 && penetrationFromTop < penetrationFromBottom) {
+      // Atterraggio standard
+      return {
+        resolvedY: platformBox.y - entityBox.height,
+        grounded: true,
+        hitCeiling: false,
       };
     }
 

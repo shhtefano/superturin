@@ -1,4 +1,5 @@
 import { Entity } from '../Entity';
+import { Hitbox } from '../../types/physics';
 
 export abstract class Enemy extends Entity {
   public isStompable: boolean;
@@ -8,6 +9,17 @@ export abstract class Enemy extends Entity {
   public movingRight: boolean = true;
   public isDead: boolean = false;
   protected deathTimer: number = 0;
+
+  public override getHitbox(): Hitbox {
+    // Inset perimetrale generoso: evita che sfiorare un nemico di 1px tolga vita ingiustamente
+    const insetX = 4;
+    return {
+      x: this.x + insetX,
+      y: this.y + 2,
+      width: Math.max(12, this.width - insetX * 2),
+      height: Math.max(12, this.height - 2),
+    };
+  }
 
   constructor(
     id: string,

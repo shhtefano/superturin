@@ -14,7 +14,7 @@ export const Physics = {
   // Salto potenziato molto più alto e reattivo (stile Super Mario)
   JUMP_FORCE: -830,        // Salto potenziato e arioso
   JUMP_CUT_LIMIT: -320,    // Taglio salto variabile per salti controllati
-  COYOTE_TIME: 0.18,       // 180ms di tolleranza bordo generosa per giocabilità semplice
+  COYOTE_TIME: 0.22,       // 220ms di tolleranza bordo generosa per salti facili e immediati
   BOUNCE_FORCE: -560,      // Rimbalzo dopo stomp nemici
 
   // Limiti generali

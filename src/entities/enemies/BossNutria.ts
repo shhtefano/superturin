@@ -16,7 +16,7 @@ export class BossNutria extends BossEnemy {
       patrolLeft,
       patrolRight,
       140, // moveSpeed
-      5,   // maxHp (5 colpi)
+      4,   // maxHp (4 colpi)
       'Regina delle Nutrie dei Murazzi',
       'Signora Indiscussa dei Fondali del Po e dei Club Underground'
     );

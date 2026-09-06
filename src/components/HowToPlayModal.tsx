@@ -48,8 +48,8 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
         <div className="lore-box" style={{ marginBottom: '20px', maxHeight: '220px', overflowY: 'auto' }}>
           <strong>Collezionabili (Durata 12s - Bonus & Malus):</strong><br />
           • <strong>🍫 Gianduiotto:</strong> Punteggio base classico (+100).<br />
-          • <strong>⚡ Cocaina:</strong> Super Velocità (+70%) & Salto Stellare | <em>Malus:</em> Cuore fragile (danni doppi) e tremolio.<br />
-          • <strong>🌿 Marijuana:</strong> +1 Cuore & Invulnerabilità totale ai nemici | <em>Malus:</em> Movimenti e riflessi lenti (-35%).<br />
+          • <strong>⚡ Cocaina:</strong> Super Velocità (+50%) & Salto Stellare | <em>Malus:</em> Leggero tremolio della vista.<br />
+          • <strong>🌿 Marijuana:</strong> +1 Cuore & Invulnerabilità totale ai nemici | <em>Malus:</em> Ritmo rilassato (-15% velocità, salti sempre pieni).<br />
           • <strong>💊 MDMA:</strong> Punti raddoppiati (x2) & Magnete Gianduiotti | <em>Malus:</em> Scivoli sul ghiaccio.<br />
           • <strong>🌀 LSD:</strong> Sblocca il DOPPIO SALTO a mezz'aria | <em>Malus:</em> Distorsione psichedelica.<br />
           • <strong>🍄 Funghetti:</strong> Diventi GIGANTE e schiacci i nemici frontalmente | <em>Malus:</em> Corpo enorme e caduta pesante.<br />

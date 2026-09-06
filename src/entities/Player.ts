@@ -58,17 +58,17 @@ export class Player extends Entity {
 
   // --- SISTEMA SKILL TATTICHE (Tasti 1 e 2) ---
   public shootCooldown: number = 0;
-  public readonly SHOOT_COOLDOWN_MAX: number = 0.35;
+  public readonly SHOOT_COOLDOWN_MAX: number = 0.28;
 
   public bombCooldown: number = 0;
-  public readonly BOMB_COOLDOWN_MAX: number = 1.3;
+  public readonly BOMB_COOLDOWN_MAX: number = 0.75;
 
   public onShoot?: (x: number, y: number, facingRight: boolean) => void;
   public onBomb?: (x: number, y: number, facingRight: boolean) => void;
 
-  // Salute e checkpoint
-  public lives: number = 3;
-  public readonly maxLives: number = 3;
+  // Salute e checkpoint (4 vite per un gameplay accessibile e rilassante)
+  public lives: number = 4;
+  public readonly maxLives: number = 4;
   public respawnPoint: Vector2D;
 
   // Riferimenti ai sistemi
@@ -333,13 +333,13 @@ export class Player extends Entity {
             icon: '⚡',
             durationLeft,
             durationPercent: percent,
-            bonusText: '⚡ Super Velocità (+70%) & Super Salto (+25%)',
-            malusText: '⚠️ Cuore fragile: danni subiti raddoppiati!',
+            bonusText: '⚡ Super Velocità (+50%) & Super Salto (+25%)',
+            malusText: '⚠️ Frenesia visiva arcade',
             color: '#06b6d4',
             badges: [
-              { icon: '⚡', label: '+70% SPD', type: 'bonus', tooltip: 'Velocità corsa +70%' },
+              { icon: '⚡', label: '+50% SPD', type: 'bonus', tooltip: 'Velocità corsa +50%' },
               { icon: '⬆️', label: '+25% JMP', type: 'bonus', tooltip: 'Salto +25%' },
-              { icon: '💔', label: 'x2 DMG', type: 'malus', tooltip: 'Danno raddoppiato' },
+              { icon: '🌀', label: 'RUSH', type: 'malus', tooltip: 'Frenesia visiva' },
             ],
           });
           break;
@@ -351,12 +351,12 @@ export class Player extends Entity {
             durationLeft,
             durationPercent: percent,
             bonusText: '🛡️ +1 Vita & Nemici completamente innocui',
-            malusText: '🐌 Movimenti rallentati (-35%)',
+            malusText: '🐌 Ritmo rilassato (-15% velocità)',
             color: '#22c55e',
             badges: [
               { icon: '❤️', label: '+1 HP', type: 'bonus', tooltip: '+1 Cuore vita' },
               { icon: '🛡️', label: 'CALM', type: 'bonus', tooltip: 'Nemici innocui' },
-              { icon: '🐌', label: '-35% SPD', type: 'malus', tooltip: 'Velocità -35%' },
+              { icon: '🐌', label: '-15% SPD', type: 'malus', tooltip: 'Velocità -15%' },
             ],
           });
           break;
@@ -493,7 +493,7 @@ export class Player extends Entity {
   }
 
   public takeDamage(): boolean {
-    if (this.invincibleTimer > 0 || this.state === 'dead' || this.state === 'victory' || this.isGhostActive || this.isCharmActive) {
+    if (this.invincibleTimer > 0 || this.state === 'dead' || this.state === 'victory' || this.isGhostActive || this.isCharmActive || this.isBrambleActive) {
       return false;
     }
 
@@ -506,15 +506,14 @@ export class Player extends Entity {
     // SE HA FUNGHETTI ATTIVI: assorbe il danno tornando di dimensioni normali, salvando le vite
     if (this.hasPowerUp('funghetti')) {
       this.activePowerUps.delete('funghetti');
-      this.invincibleTimer = 1.4;
+      this.invincibleTimer = 1.8;
       this.audio.playHurt();
       this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 14);
       return false;
     }
 
-    // SE HA COCAINA ATTIVA: cuore fragile, subisce danno doppio (perde 2 vite)!
-    const damage = this.hasPowerUp('cocaina') ? 2 : 1;
-    this.lives -= damage;
+    // Danno equo: 1 vita (cocaina velocizza ma non punisce con morte istantanea)
+    this.lives -= 1;
     this.audio.playHurt();
     this.particles.emitFeathers(this.x + this.width / 2, this.y + this.height / 2, 10);
 
@@ -522,7 +521,7 @@ export class Player extends Entity {
       this.die();
       return true;
     } else {
-      this.invincibleTimer = 1.8;
+      this.invincibleTimer = 2.2; // Generosi 2.2s di invulnerabilità post-danno per allontanarsi in sicurezza
       this.vy = -380;
       return false;
     }
@@ -563,7 +562,7 @@ export class Player extends Entity {
     this.isBrambleActive = false;
     this.brambleTimer = 0;
     this.state = 'idle';
-    this.invincibleTimer = 1.5;
+    this.invincibleTimer = 2.5; // 2.5s di scudo all'atterraggio per non essere sorpresi
     this.activePowerUps.clear();
   }
 
@@ -593,11 +592,11 @@ export class Player extends Entity {
       }
     }
 
-    // CALCOLO VELOCITÀ COMBINATA
+    // CALCOLO VELOCITÀ COMBINATA (calibrata per massimo controllo e giocabilità)
     let speedMult = 1.0;
-    if (this.hasPowerUp('cocaina')) speedMult *= 1.7; // +70%
-    if (this.hasPowerUp('marijuana')) speedMult *= 0.65; // -35%
-    if (this.hasPowerUp('funghetti')) speedMult *= 0.9; // un po' più pesante
+    if (this.hasPowerUp('cocaina')) speedMult *= 1.5; // +50% veloce ma perfettamente controllabile
+    if (this.hasPowerUp('marijuana')) speedMult *= 0.85; // leggermente rilassato (-15%), salti sempre precisi
+    if (this.hasPowerUp('funghetti')) speedMult *= 0.95;
     if (this.isMatrixActive) speedMult *= 1.8; // Shhte Matrix Overclock
     if (this.isGhostActive) speedMult *= 1.6; // Devis Phantom Dash
 
@@ -676,7 +675,7 @@ export class Player extends Entity {
     // FORZA DEL SALTO COMBINATA
     let jumpMult = 1.0;
     if (this.hasPowerUp('cocaina')) jumpMult *= 1.25; // Salto super con cocaina
-    if (this.hasPowerUp('marijuana')) jumpMult *= 0.92; // Salto morbido con marijuana
+    if (this.hasPowerUp('marijuana')) jumpMult *= 1.0; // Salto pieno per superare qualsiasi baratro con facilità
 
     const currentJumpForce = Physics.JUMP_FORCE * jumpMult;
 

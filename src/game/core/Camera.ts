@@ -52,11 +52,19 @@ export class Camera {
     this.currentLookAhead += (targetLookAhead - this.currentLookAhead) * 0.05;
 
     this.targetX = focusX - this.width * 0.35 + this.currentLookAhead;
-    this.targetY = focusY - this.height * 0.6;
+
+    // Deadzone verticale: quando il giocatore salta o atterra, se la variazione è entro 65px
+    // la telecamera NON sussulta su e giù, eliminando il mal di mare e rendendo lo sfondo immobile
+    const desiredY = focusY - this.height * 0.6;
+    const diffY = desiredY - this.targetY;
+    const deadzoneY = 65;
+    if (Math.abs(diffY) > deadzoneY) {
+      this.targetY += Math.sign(diffY) * (Math.abs(diffY) - deadzoneY);
+    }
 
     // Movimento morbido (lerp) verso il target
     this.x += (this.targetX - this.x) * this.lerpFactor;
-    this.y += (this.targetY - this.y) * this.lerpFactor;
+    this.y += (this.targetY - this.y) * (this.lerpFactor * 0.7);
 
     this.clampToBounds();
 

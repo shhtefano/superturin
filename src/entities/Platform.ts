@@ -95,7 +95,7 @@ export class Platform extends Entity {
    */
   public stepOn(): void {
     if (this.isCrumbling && this.crumbleTimer < 0 && !this.isFallen) {
-      this.crumbleTimer = 0.65; // Trema per 650ms prima di cadere
+      this.crumbleTimer = 0.9; // 900ms generosi di avviso prima del crollo
     }
   }
 

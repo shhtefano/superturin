@@ -617,11 +617,10 @@ export class GameEngine {
 
     // 1. Spostamento orizzontale e collisione con muri
     this.player.x += this.player.vx * dt;
-    let playerBox = this.player.getHitbox();
-
+    const insetX = 3;
     for (const plat of this.platforms) {
-      if (plat.isOneWay) continue;
-      const res = CollisionSystem.resolveHorizontal(playerBox, this.player.vx, plat.getHitbox());
+      if (plat.isOneWay || !plat.active) continue;
+      const res = CollisionSystem.resolveHorizontal(playerBox, this.player.vx, plat.getHitbox(), insetX);
       if (res.collided) {
         this.player.x = res.resolvedX;
         this.player.vx = 0;
@@ -850,9 +849,9 @@ export class GameEngine {
           continue;
         }
 
-        // Controllo se il giocatore lo ha calpestato dall'alto (Stomp)
-        const isFalling = this.player.vy > 0;
-        const hitFromAbove = (this.player.y + this.player.height) <= enemy.y + enemy.height * 0.45 || prevBottom <= enemy.y + 24;
+        // Controllo se il giocatore lo ha calpestato dall'alto (Stomp) - generoso e soddisfacente
+        const isFalling = this.player.vy >= -50;
+        const hitFromAbove = (this.player.y + this.player.height) <= enemy.y + enemy.height * 0.70 || prevBottom <= enemy.y + 28;
 
         if (enemy.isStompable && (isFalling || hitFromAbove)) {
           if (enemy instanceof BossEnemy) {

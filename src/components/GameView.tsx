@@ -203,6 +203,7 @@ export const GameView: React.FC = () => {
             inputManager={engineRef.current ? engineRef.current.input : null}
             skills={hudData.skills}
             onPause={handlePause}
+            isFullscreen={fullscreen}
           />
         )}
 

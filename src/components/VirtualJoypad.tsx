@@ -7,12 +7,14 @@ interface VirtualJoypadProps {
   inputManager: InputManager | null;
   skills?: SkillInfo;
   onPause?: () => void;
+  isFullscreen?: boolean;
 }
 
 export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
   inputManager,
   skills,
   onPause,
+  isFullscreen = false,
 }) => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
 
@@ -81,12 +83,22 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
 
   return (
     <div className="virtual-joypad-overlay">
-      {/* Barra superiore comandi mobile */}
-      <div className="mobile-top-bar">
-        {onPause && (
+      {/* Barra superiore comandi mobile: a schermo intero il bottone schermo intero sparisce e pausa va nell'angolo destro */}
+      <div className={`mobile-top-bar ${isFullscreen ? 'is-fullscreen' : ''}`}>
+        {!isFullscreen && (
           <button
             type="button"
             className="btn-mobile-icon"
+            onClick={handleFullscreen}
+            title="Schermo Intero Orizzontale"
+          >
+            ⛶
+          </button>
+        )}
+        {onPause && (
+          <button
+            type="button"
+            className={`btn-mobile-icon ${isFullscreen ? 'btn-mobile-pause-corner' : ''}`}
             onClick={() => {
               vibrate(10);
               onPause();
@@ -96,14 +108,6 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
             ⏸
           </button>
         )}
-        <button
-          type="button"
-          className="btn-mobile-icon"
-          onClick={handleFullscreen}
-          title="Schermo Intero Orizzontale"
-        >
-          ⛶
-        </button>
       </div>
 
       {/* D-Pad Sinistro (Movimento Orrizzontale + Giù + Corsa) */}
@@ -160,9 +164,9 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
         </div>
       </div>
 
-      {/* Cluster Destro: Salto Principale + Tasti Skill */}
+      {/* Cluster Destro (Abilità 1, Abilità 2, Special Eroe + Grande Tasto Salto Arcade) */}
       <div className="joypad-right-cluster">
-        {/* Arco Skill Tasti (1: Pistola, 2: Bomba, SPZ: Special) */}
+        {/* Arco delle Skill (Pistola, Bomba, Special Eroe) */}
         <div className="joypad-skills-arc">
           {/* Skill 1: Pistola */}
           <button
@@ -173,7 +177,7 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
               handleSkillTrigger(1);
             }}
             onMouseDown={() => handleSkillTrigger(1)}
-            title="[1] Pistola Sabauda"
+            title="[1] Colpo di Pistola"
           >
             <span className="skill-btn-icon">🔫</span>
             <span className="skill-btn-badge">1</span>
@@ -219,7 +223,7 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
           </button>
         </div>
 
-        {/* Pulsante Grande Salto Arcade */}
+        {/* Pulsante Grande Salto Arcade (senza lettera A) */}
         <button
           type="button"
           className="joypad-btn-jump"
@@ -237,7 +241,6 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
           title="SALTO (Tieni premuto per salto alto)"
         >
           <span className="jump-label">SALTO</span>
-          <span className="jump-key">A</span>
         </button>
       </div>
     </div>

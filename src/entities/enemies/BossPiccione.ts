@@ -16,7 +16,7 @@ export class BossPiccione extends BossEnemy {
       patrolLeft,
       patrolRight,
       130, // moveSpeed
-      4,   // maxHp (4 colpi)
+      3,   // maxHp (3 colpi per scontro rapido e divertente)
       'Re Piccione della Mole',
       'Sovrano dei Tetti e delle Guglie Sabaude'
     );

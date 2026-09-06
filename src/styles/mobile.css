@@ -24,26 +24,34 @@
 /* Top bar for mobile quick controls */
 .mobile-top-bar {
   position: absolute;
-  top: 14px;
-  right: 180px; /* Non copre il tasto pausa del HUD */
+  top: max(12px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
   display: flex;
+  align-items: center;
   gap: 10px;
   pointer-events: auto;
+  z-index: 70;
+}
+
+.mobile-top-bar.is-fullscreen {
+  top: max(12px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  justify-content: flex-end;
 }
 
 .btn-mobile-icon {
-  background: rgba(15, 23, 42, 0.40);
-  border: 1px solid rgba(255, 183, 3, 0.3);
+  background: rgba(15, 23, 42, 0.22);
+  border: 1.5px solid rgba(255, 183, 3, 0.25);
   color: #f8fafc;
-  font-size: 0.95rem;
-  width: 34px;
-  height: 34px;
+  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   transition: all 0.15s ease;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -52,7 +60,16 @@
 .btn-mobile-icon:active {
   transform: scale(0.92);
   border-color: #ffb703;
-  background: #1e293b;
+  background: rgba(30, 41, 59, 0.45);
+}
+
+.btn-mobile-pause-corner {
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+  background: rgba(15, 23, 42, 0.22);
+  border: 1.5px solid rgba(255, 183, 3, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 183, 3, 0.2);
 }
 
 /* Pulsante Rapido Schermo Intero nei Menu per Mobile */
@@ -96,55 +113,55 @@
 }
 
 .btn-joypad-run {
-  background: rgba(15, 23, 42, 0.32);
-  border: 1px solid rgba(255, 183, 3, 0.25);
-  color: rgba(148, 163, 184, 0.85);
+  background: rgba(15, 23, 42, 0.20);
+  border: 1px solid rgba(255, 183, 3, 0.22);
+  color: rgba(248, 250, 252, 0.85);
   font-family: var(--font-display);
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 0.4px;
-  padding: 4px 12px;
+  letter-spacing: 0.5px;
+  padding: 5px 14px;
   border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.15s ease;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .btn-joypad-run.is-active {
   border-color: #ffb703;
   color: #0f172a;
-  background: rgba(255, 183, 3, 0.75);
-  box-shadow: 0 0 12px rgba(255, 183, 3, 0.5);
+  background: rgba(255, 183, 3, 0.65);
+  box-shadow: 0 0 12px rgba(255, 183, 3, 0.4);
 }
 
 .btn-joypad-run:active {
   transform: scale(0.94);
 }
 
-/* Pulsanti Direzionali Sinistra & Destra Semitrasparenti (Nessuna freccia giù) */
+/* Pulsanti Direzionali Sinistra & Destra Semitrasparenti e Ingranditi */
 .joypad-dpad {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
-  background: rgba(10, 15, 26, 0.28);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  padding: 6px 10px;
-  border-radius: 36px;
+  background: rgba(10, 15, 26, 0.16);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 6px 12px;
+  border-radius: 46px;
   border: 1.5px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .joypad-btn {
-  width: 68px;
-  height: 68px;
-  background: rgba(30, 41, 59, 0.32);
-  border: 1.5px solid rgba(255, 183, 3, 0.25);
+  width: 80px;
+  height: 80px;
+  background: rgba(15, 23, 42, 0.18);
+  border: 1.5px solid rgba(255, 183, 3, 0.22);
   border-radius: 50%;
   color: rgba(248, 250, 252, 0.85);
-  font-size: 1.65rem;
+  font-size: 1.9rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -152,18 +169,18 @@
   cursor: pointer;
   touch-action: none;
   transition: all 0.08s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 .joypad-btn:active,
 .joypad-btn.is-pressed {
-  background: rgba(13, 71, 161, 0.65);
+  background: rgba(13, 71, 161, 0.45);
   border-color: #ffb703;
   color: #ffb703;
   transform: scale(0.92);
-  box-shadow: 0 0 14px rgba(255, 183, 3, 0.6);
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.5);
 }
 
 /* --- CLUSTER DESTRO (SALTO & SKILL) --- */
@@ -171,62 +188,62 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px;
+  gap: 12px;
   pointer-events: auto;
 }
 
-/* Arco delle Abilità Speciali (Pistola, Bomba, Special) — Tasti ingranditi e semitrasparenti */
+/* Arco delle Abilità Speciali (Pistola, Bomba, Special) — Tasti ingranditi e trasparenti */
 .joypad-skills-arc {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .joypad-skill-btn {
   position: relative;
-  width: 56px;
-  height: 56px;
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.32);
-  border: 1.5px solid rgba(255, 183, 3, 0.45);
+  background: rgba(15, 23, 42, 0.18);
+  border: 1.5px solid rgba(255, 183, 3, 0.32);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   touch-action: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.12s ease;
   overflow: hidden;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .joypad-skill-btn.is-ready:active {
   transform: scale(0.9);
-  background: rgba(255, 183, 3, 0.65);
-  box-shadow: 0 0 14px rgba(255, 183, 3, 0.7);
+  background: rgba(255, 183, 3, 0.55);
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.6);
 }
 
 .joypad-skill-btn.is-cooldown {
-  opacity: 0.45;
-  border-color: rgba(148, 163, 184, 0.25);
+  opacity: 0.38;
+  border-color: rgba(148, 163, 184, 0.2);
   filter: grayscale(0.5);
 }
 
 .skill-btn-icon {
-  font-size: 1.2rem;
+  font-size: 1.45rem;
   line-height: 1;
 }
 
 .skill-btn-badge {
   position: absolute;
-  top: 1px;
-  right: 3px;
-  background: rgba(255, 183, 3, 0.9);
+  top: 2px;
+  right: 4px;
+  background: rgba(255, 183, 3, 0.85);
   color: #0f172a;
   font-family: var(--font-display);
-  font-size: 0.48rem;
+  font-size: 0.52rem;
   font-weight: 900;
-  padding: 1px 3px;
+  padding: 1px 4px;
   border-radius: 3px;
 }
 
@@ -237,20 +254,20 @@
 
 /* Tasto Super-Abilità Eroe Mobile Joypad Semitrasparente */
 .joypad-skill-btn.joypad-special-btn {
-  border-color: rgba(56, 189, 248, 0.55);
-  background: rgba(8, 28, 54, 0.36);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(8, 28, 54, 0.22);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.20), 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .joypad-skill-btn.joypad-special-btn.is-ready {
-  border-color: rgba(56, 189, 248, 0.8);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
 }
 
 .joypad-skill-btn.joypad-special-btn.is-ready:active {
   transform: scale(0.9);
-  background: rgba(56, 189, 248, 0.7);
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+  background: rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.7);
 }
 
 .joypad-skill-btn.joypad-special-btn .skill-btn-badge {
@@ -268,7 +285,7 @@
   background: rgba(15, 23, 42, 0.75);
   color: #f87171;
   font-family: var(--font-display);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -276,45 +293,37 @@
   text-shadow: 0 0 4px #000;
 }
 
-/* Grande Tasto Salto Arcade Semitrasparente Ingrandito */
+/* Grande Tasto Salto Arcade Semitrasparente Ingrandito (Senza lettera A) */
 .joypad-btn-jump {
-  width: 92px;
-  height: 92px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(255, 209, 102, 0.42), rgba(255, 183, 3, 0.32) 65%, rgba(212, 139, 0, 0.28) 100%);
-  border: 2.5px solid rgba(255, 255, 255, 0.65);
+  background: radial-gradient(circle at 35% 35%, rgba(255, 209, 102, 0.25), rgba(255, 183, 3, 0.18) 65%, rgba(212, 139, 0, 0.14) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.45);
   color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   touch-action: none;
-  box-shadow: 0 4px 16px rgba(255, 183, 3, 0.35), inset 0 1px 3px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(255, 183, 3, 0.20), inset 0 1px 2px rgba(255, 255, 255, 0.3);
   transition: all 0.08s ease;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .joypad-btn-jump:active {
   transform: scale(0.92);
-  background: radial-gradient(circle at 45% 45%, rgba(255, 183, 3, 0.65), rgba(212, 139, 0, 0.55) 80%);
-  box-shadow: 0 0 22px rgba(255, 183, 3, 0.7), inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  background: radial-gradient(circle at 45% 45%, rgba(255, 183, 3, 0.50), rgba(212, 139, 0, 0.40) 80%);
+  box-shadow: 0 0 20px rgba(255, 183, 3, 0.55), inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .jump-label {
   font-family: var(--font-display);
-  font-size: 0.68rem;
+  font-size: 0.92rem;
   font-weight: 900;
-  letter-spacing: 0.5px;
-}
-
-.jump-key {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 800;
-  opacity: 0.85;
+  letter-spacing: 1px;
 }
 
 /* =========================================================
@@ -396,29 +405,38 @@
     padding-bottom: max(10px, env(safe-area-inset-bottom));
   }
 
+  .mobile-top-bar {
+    top: max(8px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+  }
+
   .joypad-dpad {
-    gap: 6px;
-    padding: 4px 8px;
+    gap: 8px;
+    padding: 5px 10px;
   }
 
   .joypad-btn {
-    width: 52px;
-    height: 52px;
-    font-size: 1.35rem;
+    width: 72px;
+    height: 72px;
+    font-size: 1.7rem;
   }
 
   .joypad-skill-btn {
-    width: 42px;
-    height: 42px;
+    width: 58px;
+    height: 58px;
   }
 
   .skill-btn-icon {
-    font-size: 1.05rem;
+    font-size: 1.3rem;
   }
 
   .joypad-btn-jump {
-    width: 72px;
-    height: 72px;
+    width: 92px;
+    height: 92px;
+  }
+
+  .jump-label {
+    font-size: 0.86rem;
   }
 
   .modal-card {

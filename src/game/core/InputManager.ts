@@ -2,7 +2,7 @@ export class InputManager {
   private keysDown: Set<string> = new Set();
   private jumpBuffered: boolean = false;
   private jumpBufferTimer: number = 0;
-  private readonly JUMP_BUFFER_DURATION = 0.18; // 180ms di jump buffering per controlli ultra-reattivi
+  private readonly JUMP_BUFFER_DURATION = 0.22; // 220ms di jump buffering per reattività immediata e comandi morbidi
 
   // Buffer per le Skill (1: Pistola, 2: Bomba Gianduiotto)
   private skill1Buffered: boolean = false;
@@ -43,8 +43,8 @@ export class InputManager {
     if (!this.keysDown.has(e.code)) {
       this.keysDown.add(e.code);
 
-      // Trigger del jump buffer su nuova pressione (W, Freccia Su)
-      if (e.code === 'KeyW' || e.code === 'ArrowUp') {
+      // Trigger del jump buffer su nuova pressione (W, Freccia Su, Z, C)
+      if (['KeyW', 'ArrowUp', 'KeyZ', 'KeyC'].includes(e.code)) {
         this.jumpBuffered = true;
         this.jumpBufferTimer = this.JUMP_BUFFER_DURATION;
         this.isJumpHeld = true;
@@ -70,7 +70,7 @@ export class InputManager {
   private handleKeyUp(e: KeyboardEvent): void {
     this.keysDown.delete(e.code);
 
-    if (e.code === 'KeyW' || e.code === 'ArrowUp') {
+    if (['KeyW', 'ArrowUp', 'KeyZ', 'KeyC'].includes(e.code)) {
       this.isJumpHeld = false;
     }
   }

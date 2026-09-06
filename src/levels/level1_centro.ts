@@ -28,9 +28,6 @@ export const level1_centro: LevelData = {
     // OSTACOLO INTERATTIVO: Cassa di rifornimento sabauda distruggibile
     { id: 'c1_crate_1', x: 590, y: 544, width: 36, height: 36, isBreakable: true },
 
-    // OSTACOLO INTERATTIVO: Molla Sabauda a rimbalzo (proietta in alto sui tetti di Palazzo Madama)
-    { id: 'c1_bouncer_1', x: 1020, y: 560, width: 44, height: 20, isBouncer: true },
-
     // Fossa 1: Baratro stradale con piattaforma mobile
     {
       id: 'c1_moving_1',
@@ -75,9 +72,6 @@ export const level1_centro: LevelData = {
     { id: 'c1_roof_tram_2', x: 2880, y: 350, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 'c1_q_4', x: 2950, y: 230, width: 36, height: 36, isQuestionBlock: true, questionContent: 'lsd' },
     { id: 'c1_roof_tram_3', x: 3120, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
-    // OSTACOLO INTERATTIVO: Molla Sabauda per raggiungere i tetti di Via Po
-    { id: 'c1_bouncer_2', x: 3340, y: 560, width: 44, height: 20, isBouncer: true },
-
     // Fossa 3: Doppio baratro con gradini stretti
     { id: 'c1_pillar_1', x: 3560, y: 480, width: 75, height: 240, style: 'stone_portico' },
     { id: 'c1_pillar_2', x: 3720, y: 410, width: 75, height: 310, style: 'stone_portico' },

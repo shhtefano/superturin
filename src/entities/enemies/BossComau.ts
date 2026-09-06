@@ -16,7 +16,7 @@ export class BossComau extends BossEnemy {
       patrolLeft,
       patrolRight,
       130, // moveSpeed
-      6,   // maxHp (6 colpi)
+      4,   // maxHp (4 colpi)
       'Comau Titan FIAT Robogate',
       'Braccio Robotico Saldatore della Catena di Montaggio Lingotto'
     );
