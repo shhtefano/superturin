@@ -216,10 +216,6 @@
   box-shadow: 0 0 4px currentColor;
 }
 
-/* Pillola Sinergia Speciale */
-.synergy-pill {
-  animation: synergyPulse 1.8s infinite alternate, slideDown 0.15s ease-out;
-}
 
 .status-pill-badge {
   font-family: var(--font-display);
@@ -235,11 +231,6 @@
 @keyframes pulse {
   from { opacity: 1; }
   to { opacity: 0.4; }
-}
-
-@keyframes synergyPulse {
-  0% { transform: scale(1); filter: brightness(1); }
-  100% { transform: scale(1.015); filter: brightness(1.2); }
 }
 
 @keyframes slideDown {

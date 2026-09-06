@@ -102,39 +102,13 @@
   color: #0f172a;
 }
 
-/* --- CLUSTER SINISTRO (D-PAD & CORSA) --- */
+/* --- CLUSTER SINISTRO (D-PAD) --- */
 .joypad-left-cluster {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
   pointer-events: auto;
-}
-
-.btn-joypad-run {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: rgba(255, 255, 255, 0.65);
-  font-family: var(--font-display);
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  padding: 5px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  box-shadow: none;
-  transition: all 0.15s ease;
-}
-
-.btn-joypad-run.is-active {
-  border-color: #ffb703;
-  color: #0f172a;
-  background: rgba(255, 183, 3, 0.65);
-  box-shadow: 0 0 10px rgba(255, 183, 3, 0.35);
-}
-
-.btn-joypad-run:active {
-  transform: scale(0.94);
 }
 
 /* Pulsanti Direzionali Sinistra & Destra Ultra-Trasparenti e Ingranditi */

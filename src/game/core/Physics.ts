@@ -4,8 +4,7 @@ export const Physics = {
   MAX_FALL_SPEED: 950,     // px/s (velocità terminale)
 
   // Movimento orizzontale reattivo e fluido
-  WALK_SPEED: 290,         // px/s
-  RUN_SPEED: 450,          // px/s con tasto Shift
+  WALK_SPEED: 310,         // px/s (leggermente aumentato senza corsa)
   ACCELERATION_GROUND: 2250,
   DECELERATION_GROUND: 2600,
   ACCELERATION_AIR: 1650,  // Maggiore manovrabilità in aria

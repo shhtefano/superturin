@@ -9,6 +9,12 @@ export abstract class BossEnemy extends Enemy {
   public invulnerableTimer: number = 0;
   public isDefeated: boolean = false;
 
+  // Diventa true quando il boss entra per la prima volta nel viewport della camera.
+  // La barra HP rimane nascosta finché il giocatore non raggiunge l'arena.
+  public hasBeenEncountered: boolean = false;
+  // Timer per il fade-in della barra (0 = nascosta, 1 = completamente visibile)
+  public encounterAlpha: number = 0;
+
   constructor(
     id: string,
     x: number,
@@ -52,6 +58,10 @@ export abstract class BossEnemy extends Enemy {
     if (this.invulnerableTimer > 0) {
       this.invulnerableTimer -= dt;
     }
+    // Avanza l'alpha del fade-in fino a 1 se il boss è già stato incontrato
+    if (this.hasBeenEncountered && this.encounterAlpha < 1) {
+      this.encounterAlpha = Math.min(1, this.encounterAlpha + dt * 3); // ~0.33s fade-in
+    }
   }
 
   /**
@@ -59,8 +69,11 @@ export abstract class BossEnemy extends Enemy {
    */
   public renderBossHealthBar(ctx: CanvasRenderingContext2D, screenWidth: number = 1280): void {
     if (this.isDead) return;
+    // Non mostrare la barra finché il boss non è stato incontrato
+    if (!this.hasBeenEncountered || this.encounterAlpha <= 0) return;
 
     ctx.save();
+    ctx.globalAlpha = this.encounterAlpha; // Fade-in fluido all'incontro
     const barWidth = 360;
     const barHeight = 18;
     const barX = (screenWidth - barWidth) / 2;

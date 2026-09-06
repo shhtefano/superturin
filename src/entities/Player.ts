@@ -556,8 +556,8 @@ export class Player extends Entity {
       this.particles.emitGoldSparks(bombX, bombY, 8);
     }
 
-    // MOVIMENTO ORIZZONTALE
-    const baseSpeed = input.isRun() ? Physics.RUN_SPEED : Physics.WALK_SPEED;
+    // MOVIMENTO ORIZZONTALE — velocità fissa (corsa rimossa)
+    const baseSpeed = Physics.WALK_SPEED;
     const targetSpeed = baseSpeed * speedMult;
 
     // ACCELERAZIONE & DECELERAZIONE (Reattività migliorata per game feel eccezionale)

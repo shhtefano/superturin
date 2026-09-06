@@ -84,11 +84,11 @@ export class InputManager {
     }
   }
 
-  // Touch / Mobile Virtual Controls
   public touchLeft: boolean = false;
   public touchRight: boolean = false;
   public touchDown: boolean = false;
-  public touchRun: boolean = false;
+
+  // --- QUERY INPUT CORRENTE ---
 
   public isLeft(): boolean {
     return this.keysDown.has('KeyA') || this.keysDown.has('ArrowLeft') || this.touchLeft;
@@ -100,10 +100,6 @@ export class InputManager {
 
   public isDown(): boolean {
     return this.keysDown.has('KeyS') || this.keysDown.has('ArrowDown') || this.touchDown;
-  }
-
-  public isRun(): boolean {
-    return this.keysDown.has('ShiftLeft') || this.keysDown.has('ShiftRight') || this.touchRun;
   }
 
   /**
@@ -158,10 +154,6 @@ export class InputManager {
     }
   }
 
-  public setTouchRun(active: boolean): void {
-    this.touchRun = active;
-  }
-
   public pressTouchJump(): void {
     this.jumpBuffered = true;
     this.jumpBufferTimer = this.JUMP_BUFFER_DURATION;
@@ -192,6 +184,5 @@ export class InputManager {
     this.touchLeft = false;
     this.touchRight = false;
     this.touchDown = false;
-    this.touchRun = false;
   }
 }

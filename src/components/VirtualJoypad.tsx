@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { InputManager } from '../game/core/InputManager';
 import { SkillInfo } from '../types/game';
 import { toggleFullscreen } from '../utils/fullscreen';
@@ -16,7 +16,6 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
   onPause,
   isFullscreen = false,
 }) => {
-  const [isRunning, setIsRunning] = useState<boolean>(false);
 
   const vibrate = (ms: number = 12) => {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
@@ -50,15 +49,6 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
   const handleJumpEnd = () => {
     if (!inputManager) return;
     inputManager.releaseTouchJump();
-  };
-
-  // --- CORSA / SPRINT ---
-  const toggleRun = () => {
-    if (!inputManager) return;
-    const next = !isRunning;
-    setIsRunning(next);
-    inputManager.setTouchRun(next);
-    vibrate(12);
   };
 
   // --- SKILL (1: Pistola, 2: Bomba) ---
@@ -110,17 +100,8 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
         )}
       </div>
 
-      {/* D-Pad Sinistro (Movimento Orrizzontale + Giù + Corsa) */}
+      {/* D-Pad Sinistro (Movimento Orizzontale) */}
       <div className="joypad-left-cluster">
-        <button
-          type="button"
-          className={`btn-joypad-run ${isRunning ? 'is-active' : ''}`}
-          onClick={toggleRun}
-          title="Attiva/Disattiva Corsa Veloce"
-        >
-          🏃 {isRunning ? 'CORSA ON' : 'CORSA'}
-        </button>
-
         <div className="joypad-dpad">
           {/* Tasto Sinistra */}
           <button
