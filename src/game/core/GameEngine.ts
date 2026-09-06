@@ -607,16 +607,12 @@ export class GameEngine {
       scoreMultiplier = 2;
     }
 
-    // Aggiorna piattaforme (blocchi rimbalzanti, piattaforme mobili, crolli)
-    for (const plat of this.platforms) {
-      plat.update(dt);
-    }
-
     // --- RISOLUZIONE COLLISIONI FISICHE DEL GIOCATORE ---
     const prevBottom = this.player.y + this.player.height;
 
     // 1. Spostamento orizzontale e collisione con muri
     this.player.x += this.player.vx * dt;
+    let playerBox = this.player.getHitbox();
     const insetX = 3;
     for (const plat of this.platforms) {
       if (plat.isOneWay || !plat.active) continue;
