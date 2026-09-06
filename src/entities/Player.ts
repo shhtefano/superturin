@@ -41,6 +41,8 @@ export class Player extends Entity {
   public ghostTimer: number = 0;
   public isCharmActive: boolean = false;
   public charmTimer: number = 0;
+  public isBrambleActive: boolean = false; // Prato: Scudo di rovi
+  public brambleTimer: number = 0;
 
   // Callbacks per GameEngine
   public onSpecialSkill?: (characterId: CharacterId) => void;
@@ -48,6 +50,11 @@ export class Player extends Entity {
   public onSpreadShot?: (x: number, y: number, facingRight: boolean) => void;
   public onJackpotShower?: (x: number, y: number) => void;
   public onCharmBurst?: (x: number, y: number, radius: number) => void;
+  public onGlamourBeam?: (x: number, y: number, facingRight: boolean) => void;
+  public onEmpBurst?: (x: number, y: number, radius: number) => void;
+  public onAlpineDash?: (x: number, y: number, facingRight: boolean) => void;
+  public onTitanSmash?: (x: number, y: number, radius: number) => void;
+  public onBassDrop?: (x: number, y: number, radius: number) => void;
 
   // --- SISTEMA SKILL TATTICHE (Tasti 1 e 2) ---
   public shootCooldown: number = 0;
@@ -98,6 +105,8 @@ export class Player extends Entity {
     this.ghostTimer = 0;
     this.isCharmActive = false;
     this.charmTimer = 0;
+    this.isBrambleActive = false;
+    this.brambleTimer = 0;
   }
 
   public override getHitbox(): Hitbox {
@@ -208,6 +217,64 @@ export class Player extends Entity {
         this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 30);
         this.onCharmBurst?.(this.x + this.width / 2, this.y + this.height / 2, 380);
         this.onSpecialSkill?.('benedetta');
+        break;
+
+      case 'alessiuccia':
+        // Fascio Glamour & Raggio Arcobaleno (abbaglia i nemici e cura +1 Cuore)
+        if (this.lives < this.maxLives) {
+          this.lives++;
+        }
+        this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 35);
+        this.onGlamourBeam?.(this.x + (this.facingRight ? this.width : 0), this.y + 16, this.facingRight);
+        this.onSpecialSkill?.('alessiuccia');
+        break;
+
+      case 'ludo':
+        // EMP Glitch Sonico (scarica a 360° e ricarica istantanea colpi)
+        this.shootCooldown = 0;
+        this.bombCooldown = 0;
+        this.particles.emitWaterDroplets(this.x + this.width / 2, this.y + this.height / 2, 25);
+        this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 25);
+        this.onEmpBurst?.(this.x + this.width / 2, this.y + this.height / 2, 420);
+        this.onSpecialSkill?.('ludo');
+        break;
+
+      case 'ariannuccia':
+        // Scatto Fionda Alpina (super spinta e invulnerabilità per 3s)
+        this.vx = (this.facingRight ? 1 : -1) * 780;
+        this.vy = -380;
+        this.isGrounded = false;
+        this.invincibleTimer = 3.0;
+        this.particles.emitDust(this.x + this.width / 2, this.y + this.height, 20);
+        this.onAlpineDash?.(this.x, this.y + this.height / 2, this.facingRight);
+        this.onSpecialSkill?.('ariannuccia');
+        break;
+
+      case 'prato':
+        // Scudo di Rovi Rampicanti (barriera protettiva per 5s e cura +1)
+        this.isBrambleActive = true;
+        this.brambleTimer = 5.0;
+        if (this.lives < this.maxLives) {
+          this.lives++;
+        }
+        this.particles.emitWaterDroplets(this.x + this.width / 2, this.y + this.height / 2, 30);
+        this.onSpecialSkill?.('prato');
+        break;
+
+      case 'sandrone':
+        // Maglio Sismico d'Acciaio FIAT (schianto tellurico a terra nel raggio di 520px)
+        this.particles.emitDust(this.x + this.width / 2, this.y + this.height, 40);
+        this.onTitanSmash?.(this.x + this.width / 2, this.y + this.height, 520);
+        this.onSpecialSkill?.('sandrone');
+        break;
+
+      case 'vinzert':
+        // Subwoofer Bass Drop 808 (drop a 360° e magnete monete x2 per 6s)
+        this.isCharmActive = true;
+        this.charmTimer = 6.0;
+        this.particles.emitGoldSparks(this.x + this.width / 2, this.y + this.height / 2, 40);
+        this.onBassDrop?.(this.x + this.width / 2, this.y + this.height / 2, 420);
+        this.onSpecialSkill?.('vinzert');
         break;
     }
   }
@@ -474,6 +541,8 @@ export class Player extends Entity {
     this.ghostTimer = 0;
     this.isCharmActive = false;
     this.charmTimer = 0;
+    this.isBrambleActive = false;
+    this.brambleTimer = 0;
     this.activePowerUps.clear();
     this.audio.playDeath();
   }
@@ -491,6 +560,8 @@ export class Player extends Entity {
     this.ghostTimer = 0;
     this.isCharmActive = false;
     this.charmTimer = 0;
+    this.isBrambleActive = false;
+    this.brambleTimer = 0;
     this.state = 'idle';
     this.invincibleTimer = 1.5;
     this.activePowerUps.clear();
@@ -668,6 +739,10 @@ export class Player extends Entity {
       this.charmTimer -= dt;
       if (this.charmTimer <= 0) this.isCharmActive = false;
     }
+    if (this.isBrambleActive) {
+      this.brambleTimer -= dt;
+      if (this.brambleTimer <= 0) this.isBrambleActive = false;
+    }
 
     // Effetto planata morbida ad aria di Jari
     if (this.isGliding && this.vy > 35) {
@@ -727,7 +802,8 @@ export class Player extends Entity {
       this.characterId,
       this.isGhostActive,
       this.isBioAuraActive,
-      this.isCharmActive
+      this.isCharmActive,
+      this.isBrambleActive
     );
   }
 }

@@ -68,7 +68,8 @@ const CharacterPreviewCanvas: React.FC<{ heroId: CharacterId; isSelected: boolea
         heroId, // characterId
         heroId === 'devis' && isSelected, // isGhostActive
         heroId === 'krebs' && isSelected, // isBioAuraActive
-        heroId === 'benedetta' && isSelected // isCharmActive
+        heroId === 'benedetta' && isSelected, // isCharmActive
+        heroId === 'prato' && isSelected // isBrambleActive
       );
 
       animFrameId = requestAnimationFrame(render);

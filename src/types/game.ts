@@ -9,7 +9,21 @@ export type GameStatus =
   | 'gameOver'
   | 'levelComplete';
 
-export type CharacterId = 'shhte' | 'ugo' | 'jari' | 'jonson' | 'krebs' | 'devis' | 'willy' | 'benedetta';
+export type CharacterId =
+  | 'shhte'
+  | 'ugo'
+  | 'jari'
+  | 'jonson'
+  | 'krebs'
+  | 'devis'
+  | 'willy'
+  | 'benedetta'
+  | 'alessiuccia'
+  | 'ludo'
+  | 'ariannuccia'
+  | 'prato'
+  | 'sandrone'
+  | 'vinzert';
 
 export type PowerUpType = 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 

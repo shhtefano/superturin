@@ -58,7 +58,8 @@ export class Sprites {
     characterId: CharacterId = 'shhte',
     isGhostActive: boolean = false,
     isBioAuraActive: boolean = false,
-    isCharmActive: boolean = false
+    isCharmActive: boolean = false,
+    isBrambleActive: boolean = false
   ): void {
     // Lampeggio se invincibile dopo un danno
     if (invincibleTimer > 0 && Math.floor(invincibleTimer * 20) % 2 === 0) {
@@ -223,12 +224,38 @@ export class Sprites {
       ctx.restore();
     }
 
+    // 9. EFFETTO SCUDO DI ROVI (Prato)
+    if (isBrambleActive) {
+      ctx.save();
+      const thornPulse = Math.sin(Date.now() * 0.008) * 3;
+      const rot = Date.now() * 0.003;
+      ctx.strokeStyle = '#15803d';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = '#4ade80';
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      ctx.arc(0, 0, width * 0.9 + thornPulse, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Rovi rotanti e spine fogliacee
+      for (let i = 0; i < 6; i++) {
+        const a = rot + (i * Math.PI) / 3;
+        const tx = Math.cos(a) * (width * 0.9 + thornPulse);
+        const ty = Math.sin(a) * (width * 0.9 + thornPulse);
+        ctx.fillStyle = '#84cc16';
+        ctx.fillRect(tx - 2, ty - 2, 4, 4);
+        ctx.fillStyle = '#166534';
+        ctx.fillRect(tx - 1, ty - 4, 2, 3);
+      }
+      ctx.restore();
+    }
+
     const halfW = width / 2;
     const halfH = height / 2;
     const legPhase = isGrounded && Math.abs(vx) > 10 ? Math.sin(Date.now() * 0.018) * 6 : 0;
 
     // =========================================================================
-    // RENDERING DISTINTIVO DEGLI 8 PERSONAGGI GIOCABILI
+    // RENDERING DISTINTIVO DEI 14 PERSONAGGI GIOCABILI
     // =========================================================================
 
     // 1. GAMBE / PANTALONI E SCARPE
@@ -259,6 +286,24 @@ export class Sprites {
     } else if (characterId === 'benedetta') {
       pantsColor = '#3b0764'; // Calze raffinate velluto scuro
       shoeColor = '#be185d'; // Stivaletti nobiliari fucsia con tacco
+    } else if (characterId === 'alessiuccia') {
+      pantsColor = '#fce7f3'; // Pantaloni skinny chic bianco-rosato
+      shoeColor = '#f43f5e'; // Tacchi alti glamour magenta/rosa
+    } else if (characterId === 'ludo') {
+      pantsColor = '#2e1065'; // Cargo punk strappati viola scuro
+      shoeColor = '#a855f7'; // Anfibi da combattimento con lacci viola fluo
+    } else if (characterId === 'ariannuccia') {
+      pantsColor = '#14532d'; // Pantaloni da trekking verde bosco
+      shoeColor = '#ea580c'; // Scarponcini da montagna con lacci arancio
+    } else if (characterId === 'prato') {
+      pantsColor = '#365314'; // Pantaloni da giardiniere verde terra
+      shoeColor = '#292524'; // Scarpe da lavoro idrorepellenti
+    } else if (characterId === 'sandrone') {
+      pantsColor = '#334155'; // Pantaloni da fonderia grigio acciaio rinforzati
+      shoeColor = '#0f172a'; // Scarponi antinfortunistici d'acciaio
+    } else if (characterId === 'vinzert') {
+      pantsColor = '#18181b'; // Pantaloni streetwear baggy nero notte
+      shoeColor = '#facc15'; // Sneakers limited edition oro/giallo neon
     }
 
     ctx.fillStyle = pantsColor;
@@ -347,6 +392,96 @@ export class Sprites {
       ctx.fillRect(-halfW + 1, 9, width - 2, 8);
       ctx.fillStyle = '#ffd166';
       ctx.fillRect(-halfW + 1, 16, width - 2, 2); // Bordo dorato
+    } else if (characterId === 'alessiuccia') {
+      // Blazer sartoriale cropped rosa cipria / magenta glamour e top in seta
+      ctx.fillStyle = '#fb7185';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      // Top interno bianco seta
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(-4, -6, 8, 10);
+      // Revers e bottoni in oro metallico
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillRect(-halfW + 4, -4, 4, 8);
+      ctx.fillRect(halfW - 8, -4, 4, 8);
+      ctx.fillRect(-1, 6, 2, 2);
+      // Tracolla borsetta griffata diagonale
+      ctx.fillStyle = '#be185d';
+      ctx.fillRect(-halfW + 4, -6, 2, 18);
+      ctx.fillStyle = '#ffd166';
+      ctx.fillRect(-halfW + 3, 10, 4, 5); // Fibbia borsetta
+    } else if (characterId === 'ludo') {
+      // Bomber hacker cyberpunk viola scuro con linee glitch al neon
+      ctx.fillStyle = '#2e1065';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      // Circuiti al neon glitcher ciano e viola
+      ctx.fillStyle = '#8b5cf6';
+      ctx.fillRect(-halfW + 4, 2, width - 8, 3);
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(-halfW + 6, -2, 3, 12);
+      ctx.fillRect(halfW - 9, 6, 3, 8);
+      // Equalizzatore audio sul petto
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(-2, 8, 2, 4);
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(1, 6, 2, 6);
+    } else if (characterId === 'ariannuccia') {
+      // Giacca a vento trekking verde bosco con colletto caldo e moschettone
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      // Colletto in pile caldo crema
+      ctx.fillStyle = '#fef08a';
+      ctx.fillRect(-6, -6, 12, 4);
+      // Tracolla zaino escursionistico arancione fluo con moschettone
+      ctx.fillStyle = '#ea580c';
+      ctx.fillRect(-5, -6, 3, 20);
+      ctx.fillRect(2, -6, 3, 20);
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillRect(2, 6, 4, 5); // Moschettone metallico
+    } else if (characterId === 'prato') {
+      // Camicia a quadri da giardiniere con grembiule da botanico
+      ctx.fillStyle = '#15803d';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      ctx.fillStyle = '#166534';
+      ctx.fillRect(-halfW + 3, 0, width - 6, 4);
+      // Grembiule / bretelle in cuoio
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(-5, -6, 2, 22);
+      ctx.fillRect(3, -6, 2, 22);
+      ctx.fillRect(-halfW + 4, 8, width - 8, 8);
+      // Piantina / germoglio che spunta dal taschino
+      ctx.fillStyle = '#84cc16';
+      ctx.fillRect(halfW - 8, 4, 3, 4);
+      ctx.fillRect(halfW - 6, 2, 3, 3);
+    } else if (characterId === 'sandrone') {
+      // Canotta rinforzata da fonderia grigio fumo e cintura FIAT con attrezzi
+      ctx.fillStyle = '#475569';
+      ctx.fillRect(-halfW + 4, -6, width - 8, 22);
+      // Spalline robuste
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(-halfW + 3, -6, 3, 22);
+      ctx.fillRect(halfW - 6, -6, 3, 22);
+      // Cinturone da meccanico pesante
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(-halfW + 3, 8, width - 6, 5);
+      // Chiave inglese d'acciaio
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillRect(-halfW + 6, 6, 3, 9);
+      ctx.fillRect(-halfW + 5, 5, 5, 3);
+    } else if (characterId === 'vinzert') {
+      // Track jacket underground street nera con bande racing gialle e catena d'oro
+      ctx.fillStyle = '#09090b';
+      ctx.fillRect(-halfW + 3, -6, width - 6, 22);
+      // Bande gialle neon sportive
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(-halfW + 3, -6, 2, 22);
+      ctx.fillRect(halfW - 5, -6, 2, 22);
+      ctx.fillRect(-halfW + 4, 12, width - 8, 3);
+      // Catena d'oro massiccio da DJ
+      ctx.fillStyle = '#facc15';
+      ctx.fillRect(-4, -4, 8, 2);
+      ctx.fillRect(-5, -2, 2, 4);
+      ctx.fillRect(3, -2, 2, 4);
+      ctx.fillRect(-2, 2, 4, 4); // Medaglione d'oro
     } else {
       // Default Cappotto Blu Savoia
       ctx.fillStyle = '#0d47a1';
@@ -388,6 +523,55 @@ export class Sprites {
       // Rossetto rubino delicato
       ctx.fillStyle = '#f43f5e';
       ctx.fillRect(2, -halfH + 19, 4, 2);
+    } else if (characterId === 'alessiuccia') {
+      // Occhi azzurro zaffiro con eyeliner e ciglia lunghe
+      ctx.fillStyle = '#0284c7';
+      ctx.fillRect(2, -halfH + 13, 3, 3);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(1, -halfH + 12, 5, 1);
+      ctx.fillRect(5, -halfH + 11, 2, 1);
+      // Rossetto rosa chic
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillRect(2, -halfH + 19, 4, 2);
+    } else if (characterId === 'ludo') {
+      // Occhi viola digitale cyber-punk con trucco scuro ad ala
+      ctx.fillStyle = '#a855f7';
+      ctx.fillRect(2, -halfH + 13, 3, 3);
+      ctx.fillStyle = '#09090b';
+      ctx.fillRect(1, -halfH + 12, 6, 1);
+      ctx.fillRect(6, -halfH + 11, 2, 2);
+      // Rossetto scuro punk
+      ctx.fillStyle = '#581c87';
+      ctx.fillRect(2, -halfH + 19, 3, 2);
+    } else if (characterId === 'ariannuccia') {
+      // Occhi verde bosco luminosi e lentiggini montane
+      ctx.fillStyle = '#15803d';
+      ctx.fillRect(2, -halfH + 13, 3, 3);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(1, -halfH + 12, 4, 1);
+      // Lentiggini
+      ctx.fillStyle = '#b45309';
+      ctx.fillRect(-2, -halfH + 16, 2, 1);
+      ctx.fillRect(3, -halfH + 16, 2, 1);
+      ctx.fillRect(6, -halfH + 17, 2, 1);
+    } else if (characterId === 'sandrone') {
+      // Occhi decisi con sopracciglia d'acciaio
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(2, -halfH + 13, 4, 3);
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(0, -halfH + 11, 6, 2);
+    } else if (characterId === 'vinzert') {
+      // Occhiali da sole neri da DJ con riflesso e montatura dorata
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(0, -halfH + 12, 8, 5);
+      ctx.fillStyle = '#09090b';
+      ctx.fillRect(1, -halfH + 13, 6, 3);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(2, -halfH + 13, 2, 1); // Riflesso
+    } else if (characterId === 'prato') {
+      // Occhi caldi nocciola-verde
+      ctx.fillStyle = '#3f6212';
+      ctx.fillRect(2, -halfH + 13, 3, 3);
     } else {
       ctx.fillStyle = '#0f172a';
       ctx.fillRect(2, -halfH + 13, 3, 4);
@@ -405,7 +589,27 @@ export class Sprites {
       ctx.arc(4, -halfH + 14, 4, 0, Math.PI * 2);
       ctx.lineWidth = 1;
       ctx.stroke();
-    } else if (characterId !== 'devis' && characterId !== 'shhte' && characterId !== 'benedetta') {
+    } else if (characterId === 'sandrone') {
+      // Barba folta da operaio/fabbro FIAT
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(-2, -halfH + 17, 12, 6);
+      ctx.fillRect(-4, -halfH + 19, 14, 4);
+    } else if (characterId === 'prato') {
+      // Barbetta leggera curata
+      ctx.fillStyle = '#713f12';
+      ctx.fillRect(1, -halfH + 20, 6, 2);
+    } else if (characterId === 'vinzert') {
+      // Pizzo urbano street style
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(2, -halfH + 20, 4, 3);
+    } else if (
+      characterId !== 'devis' &&
+      characterId !== 'shhte' &&
+      characterId !== 'benedetta' &&
+      characterId !== 'alessiuccia' &&
+      characterId !== 'ludo' &&
+      characterId !== 'ariannuccia'
+    ) {
       // Baffetti classici
       ctx.fillStyle = '#3e2723';
       ctx.fillRect(0, -halfH + 19, 9, 3);
@@ -473,6 +677,81 @@ export class Sprites {
       ctx.fillRect(-2, -halfH - 2, 4, 4);
       ctx.fillStyle = '#f43f5e';
       ctx.fillRect(-1, -halfH - 1, 2, 2);
+    } else if (characterId === 'alessiuccia') {
+      // Coda di cavallo alta biondo platino con fiocco rosa glamour
+      ctx.fillStyle = '#fef08a';
+      ctx.fillRect(-11, -halfH + 2, 22, 6);
+      ctx.fillRect(-7, -halfH - 2, 14, 5);
+      // Coda fluente dietro
+      ctx.fillRect(-13, -halfH + 4, 5, 16);
+      ctx.fillRect(-15, -halfH + 10, 4, 12);
+      // Fiocco di raso rosa
+      ctx.fillStyle = '#fb7185';
+      ctx.fillRect(-10, -halfH + 1, 4, 4);
+      ctx.fillRect(-12, -halfH - 1, 3, 3);
+      // Orecchino pendente perlato
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(-8, -halfH + 16, 2, 3);
+    } else if (characterId === 'ludo') {
+      // Undercut asimmetrico turchese/ciano fluo con cuffione da DJ viola
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(-11, -halfH + 2, 22, 5);
+      ctx.fillRect(-8, -halfH - 2, 16, 5);
+      ctx.fillRect(-12, -halfH + 4, 4, 10); // Ciocca laterale cyberpunk
+      // Fascia e cuffie da studio audio viola
+      ctx.fillStyle = '#3b0764';
+      ctx.fillRect(-10, -halfH, 20, 3);
+      ctx.fillStyle = '#a855f7';
+      ctx.fillRect(-12, -halfH + 8, 4, 7); // Padiglione sinistro
+      ctx.fillRect(7, -halfH + 8, 4, 7); // Padiglione destro
+      ctx.fillStyle = '#c084fc';
+      ctx.fillRect(8, -halfH + 10, 2, 3);
+    } else if (characterId === 'ariannuccia') {
+      // Berretto di lana alpino giallo senape e treccia castana
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(-12, -halfH + 1, 24, 7);
+      ctx.fillRect(-9, -halfH - 4, 18, 6);
+      // Pompon del berretto
+      ctx.fillStyle = '#fef08a';
+      ctx.fillRect(-3, -halfH - 7, 6, 4);
+      // Treccia laterale morbida castano caldo
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(-12, -halfH + 7, 4, 18);
+      ctx.fillStyle = '#ea580c';
+      ctx.fillRect(-12, -halfH + 22, 4, 3); // Elastico treccia arancione
+    } else if (characterId === 'prato') {
+      // Capelli spettinati da botanico e fogliolina verde
+      ctx.fillStyle = '#543618';
+      ctx.fillRect(-11, -halfH + 2, 22, 6);
+      ctx.fillRect(-8, -halfH - 2, 16, 5);
+      ctx.fillRect(6, -halfH + 3, 4, 7);
+      // Rametto d'edera / foglia che spunta tra i capelli
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(-4, -halfH - 6, 4, 5);
+      ctx.fillStyle = '#84cc16';
+      ctx.fillRect(-2, -halfH - 5, 4, 3);
+    } else if (characterId === 'sandrone') {
+      // Capelli scuri e occhiali di protezione da fonderia sulla fronte
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(-11, -halfH + 2, 22, 6);
+      ctx.fillRect(-8, -halfH - 2, 16, 5);
+      // Occhialoni da saldatore dorati alzati
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(-8, -halfH + 4, 17, 4);
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(-6, -halfH + 4, 5, 4);
+      ctx.fillRect(2, -halfH + 4, 5, 4);
+    } else if (characterId === 'vinzert') {
+      // Cappellino snapback al contrario oro e nero
+      ctx.fillStyle = '#eab308';
+      ctx.fillRect(-11, -halfH + 2, 22, 7);
+      ctx.fillRect(-8, -halfH - 3, 16, 6);
+      // Visiera piatta girata all'indietro
+      ctx.fillStyle = '#18181b';
+      ctx.fillRect(-14, -halfH + 4, 5, 3);
+      // Ciocche di capelli scuri sotto il cappellino
+      ctx.fillStyle = '#09090b';
+      ctx.fillRect(3, -halfH + 7, 5, 4);
     } else {
       // Coppola Torinese
       ctx.fillStyle = '#334155';

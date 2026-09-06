@@ -286,6 +286,191 @@ export class GameEngine {
       }
     };
 
+    // 1. Alessiuccia: Fascio Glamour & Raggio Arcobaleno
+    this.player.onGlamourBeam = (x, y, facingRight) => {
+      this.camera.triggerShake(14, 0.3);
+      this.audio.playLevelComplete();
+      const beamLength = 650;
+      const minX = facingRight ? x : x - beamLength;
+      const maxX = facingRight ? x + beamLength : x;
+      for (let offset = 0; offset <= beamLength; offset += 35) {
+        const px = facingRight ? x + offset : x - offset;
+        this.particles.emitGoldSparks(px, y, 6);
+      }
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          const eY = enemy.y + enemy.height / 2;
+          if (eX >= minX && eX <= maxX && Math.abs(eY - y) <= 45) {
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(2);
+              this.particles.emitGoldSparks(eX, eY, 25);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, eY, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 300;
+              this.particles.emitGoldSparks(eX, eY, 18);
+            }
+            hitAny = true;
+          }
+        }
+      }
+      if (hitAny) {
+        this.emitHudUpdate(true);
+      }
+    };
+
+    // 2. Ludo: EMP Glitch Sonico
+    this.player.onEmpBurst = (x, y, radius) => {
+      this.camera.triggerShake(16, 0.4);
+      this.audio.playExplosion();
+      this.particles.emitGoldSparks(x, y, 35);
+      this.particles.emitWaterDroplets(x, y, 30);
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          const eY = enemy.y + enemy.height / 2;
+          if (Math.hypot(eX - x, eY - y) <= radius) {
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(2);
+              this.particles.emitGoldSparks(eX, eY, 25);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, eY, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 300;
+              this.particles.emitWaterDroplets(eX, eY, 16);
+            }
+            hitAny = true;
+          }
+        }
+      }
+      if (hitAny) {
+        this.emitHudUpdate(true);
+      }
+    };
+
+    // 3. Ariannuccia: Scatto Fionda Alpina
+    this.player.onAlpineDash = (x, y, facingRight) => {
+      this.camera.triggerShake(10, 0.25);
+      this.audio.playJump();
+      const dashLength = 260;
+      const minX = facingRight ? x : x - dashLength;
+      const maxX = facingRight ? x + dashLength : x;
+      for (let offset = 0; offset <= dashLength; offset += 30) {
+        const px = facingRight ? x + offset : x - offset;
+        this.particles.emitDust(px, y + 10, 4);
+      }
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          const eY = enemy.y + enemy.height / 2;
+          if (eX >= minX && eX <= maxX && Math.abs(eY - y) <= 45) {
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(2);
+              this.particles.emitGoldSparks(eX, eY, 20);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, eY, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 250;
+              this.particles.emitDust(eX, eY, 14);
+            }
+            hitAny = true;
+          }
+        }
+      }
+      if (hitAny) {
+        this.emitHudUpdate(true);
+      }
+    };
+
+    // 4. Sandrone: Maglio Sismico d'Acciaio FIAT
+    this.player.onTitanSmash = (x, y, radius) => {
+      this.camera.triggerShake(24, 0.5);
+      this.audio.playExplosion();
+      this.particles.emitDust(x, y, 45);
+      this.particles.emitGoldSparks(x, y - 20, 25);
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          const eY = enemy.y + enemy.height / 2;
+          if (Math.abs(eX - x) <= radius && Math.abs(eY - y) <= 120) {
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(3);
+              this.particles.emitGoldSparks(eX, eY, 30);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, eY, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 350;
+              this.particles.emitDust(eX, eY, 20);
+            }
+            hitAny = true;
+          }
+        }
+      }
+      if (hitAny) {
+        this.emitHudUpdate(true);
+      }
+    };
+
+    // 5. Vinzert: Subwoofer Bass Drop 808
+    this.player.onBassDrop = (x, y, radius) => {
+      this.camera.triggerShake(20, 0.45);
+      this.audio.playStomp();
+      this.audio.playCoin();
+      this.particles.emitGoldSparks(x, y, 40);
+      this.gianduiottiCount += 3;
+      this.score += 300;
+      let hitAny = false;
+      for (const enemy of this.enemies) {
+        if (enemy.active && !enemy.isDead) {
+          const eX = enemy.x + enemy.width / 2;
+          const eY = enemy.y + enemy.height / 2;
+          if (Math.hypot(eX - x, eY - y) <= radius) {
+            if (enemy instanceof BossEnemy) {
+              const defeated = enemy.takeHit(2);
+              this.particles.emitGoldSparks(eX, eY, 25);
+              if (defeated) {
+                this.score += 2500;
+                this.particles.emitFeathers(eX, eY, 45);
+                this.audio.playLevelComplete();
+                this.goal.isLocked = false;
+              }
+            } else {
+              enemy.die();
+              this.score += 300;
+              this.particles.emitGoldSparks(eX, eY, 15);
+            }
+            hitAny = true;
+          }
+        }
+      }
+      this.emitHudUpdate(true);
+    };
+
     this.camera.setPositionImmediate(this.player.x, this.player.y);
     this.emitHudUpdate(true);
   }
@@ -615,6 +800,27 @@ export class GameEngine {
         this.camera.triggerShake(6, 0.15);
         this.particles.emitGoldSparks(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 14);
         this.audio.playCoin();
+        this.emitHudUpdate(true);
+        continue;
+      }
+
+      // Scudo di Rovi di Prato: barriera di spine che trafigge e annienta i nemici al contatto
+      if (this.player.isBrambleActive && !enemy.isDead && CollisionSystem.checkAABB(playerBox, enemy.getHitbox())) {
+        if (enemy instanceof BossEnemy) {
+          const defeated = enemy.takeHit(1);
+          this.particles.emitWaterDroplets(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 18);
+          if (defeated) {
+            this.score += 2500 * scoreMultiplier;
+            this.audio.playLevelComplete();
+            this.goal.isLocked = false;
+          }
+        } else {
+          enemy.die();
+          this.score += 200 * scoreMultiplier;
+          this.particles.emitWaterDroplets(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 16);
+          this.audio.playStomp();
+        }
+        this.camera.triggerShake(6, 0.15);
         this.emitHudUpdate(true);
         continue;
       }
