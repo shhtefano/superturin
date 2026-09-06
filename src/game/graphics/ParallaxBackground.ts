@@ -35,6 +35,15 @@ export class ParallaxBackground {
     this.cameraX = cameraX;
   }
 
+  /**
+   * Helper per calcolare l'offset orizzontale in modo matematicamente sicuro.
+   * Evita il bug del modulo negativo in JavaScript e salti visivi dello sfondo.
+   */
+  private getOffset(speed: number, spacing: number): number {
+    const raw = (this.cameraX * speed) % spacing;
+    return ((raw % spacing) + spacing) % spacing;
+  }
+
   public render(ctx: CanvasRenderingContext2D): void {
     switch (this.theme) {
       case 'mole':
@@ -84,27 +93,27 @@ export class ParallaxBackground {
     ctx.fill();
     ctx.restore();
 
-    // 3. Nuvole Mario
-    this.renderMarioClouds(ctx, 0.08, 'rgba(255, 255, 255, 0.95)');
+    // 3. Nuvole Mario (parallasse quasi statico 0.02)
+    this.renderMarioClouds(ctx, 0.02, 'rgba(255, 255, 255, 0.95)');
 
-    // 4. Catena Alpina con picchi innevati (parallasse 0.12)
-    this.renderCleanMountains(ctx, 0.12, '#93c5fd', '#dbeafe');
+    // 4. Catena Alpina con picchi innevati (parallasse 0.02 - maestose e statiche all'orizzonte)
+    this.renderCleanMountains(ctx, 0.02, '#93c5fd', '#dbeafe');
 
-    // 5. Colline di Torino con Superga in lontananza (parallasse 0.2)
-    this.renderRollingHills(ctx, 0.2, '#22c55e', '#16a34a', true);
+    // 5. Colline di Torino con Superga in lontananza (parallasse 0.04)
+    this.renderRollingHills(ctx, 0.04, '#22c55e', '#16a34a', true);
 
-    // 6. Palazzo Madama monumentale (facciata juvarriana con stemma sabaudo e statue)
-    this.drawPalazzoMadama(ctx, 0.26);
+    // 6. Palazzo Madama monumentale (parallasse 0.07)
+    this.drawPalazzoMadama(ctx, 0.07);
 
-    // 7. Monumento equestre "Caval 'd Brôns" di Piazza San Carlo
-    this.drawCavalDBrons(ctx, 0.3);
+    // 7. Monumento equestre "Caval 'd Brôns" di Piazza San Carlo (parallasse 0.09)
+    this.drawCavalDBrons(ctx, 0.09);
 
-    // 8. Portici storici di Via Po con lanterne dorate e volte in pietra
-    this.drawPorticiViaPo(ctx, 0.38);
+    // 8. Portici storici di Via Po con lanterne dorate e volte in pietra (parallasse 0.11)
+    this.drawPorticiViaPo(ctx, 0.11);
 
-    // 9. Tram 7 Storico GTT (verde bicolore anni '30) e fontana Toret
-    this.drawTram7GTT(ctx, 0.44);
-    this.drawToretTorinese(ctx, 0.48);
+    // 9. Tram 7 Storico GTT e fontana Toret (parallasse 0.13 e 0.14)
+    this.drawTram7GTT(ctx, 0.13);
+    this.drawToretTorinese(ctx, 0.14);
   }
 
   // =========================================================================
@@ -125,13 +134,14 @@ export class ParallaxBackground {
     ctx.fillRect(0, 0, this.width, this.height);
 
     // 2. Stelle della sera e luna
-    this.renderStars(ctx, 0.02);
+    this.renderStars(ctx, 0.01);
 
-    // 3. Tetti storici di Torino in controluce (parallasse 0.08)
-    this.drawTorinoRooftops(ctx, 0.08);
+    // 3. Tetti storici di Torino in controluce (parallasse 0.03)
+    this.drawTorinoRooftops(ctx, 0.03);
 
-    // 4. La Mole Antonelliana in primo piano con i mattoni rossi
-    const moleCx = this.width / 2 - ((this.cameraX * 0.16) % (this.width + 600));
+    // 4. La Mole Antonelliana in primo piano con i mattoni rossi (parallasse calmo 0.05)
+    const moleOffset = this.getOffset(0.05, this.width + 700);
+    const moleCx = this.width / 2 - moleOffset + 350;
     const cx = moleCx < -300 ? moleCx + this.width + 700 : moleCx;
 
     this.drawMoleMonument(ctx, cx);
@@ -156,25 +166,25 @@ export class ParallaxBackground {
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, this.width, this.height);
 
-    this.renderMarioClouds(ctx, 0.08, 'rgba(255, 255, 255, 0.92)');
+    this.renderMarioClouds(ctx, 0.02, 'rgba(255, 255, 255, 0.92)');
 
-    // 2. Collina del Po e sagoma di Villa della Regina (parallasse 0.14)
-    this.renderRollingHills(ctx, 0.14, '#15803d', '#166534', false);
+    // 2. Collina del Po e sagoma di Villa della Regina (parallasse 0.04)
+    this.renderRollingHills(ctx, 0.04, '#15803d', '#166534', false);
 
-    // 3. Borgo Medievale & Rocca del Valentino con torri, merli e stendardi sabaudi
-    this.drawBorgoMedievale(ctx, 0.22);
+    // 3. Borgo Medievale & Rocca del Valentino con torri, merli e stendardi sabaudi (parallasse 0.06)
+    this.drawBorgoMedievale(ctx, 0.06);
 
-    // 4. Fontana dei Dodici Mesi con balaustra classica
-    this.drawFontanaDodiciMesi(ctx, 0.3);
+    // 4. Fontana dei Dodici Mesi con balaustra classica (parallasse 0.08)
+    this.drawFontanaDodiciMesi(ctx, 0.08);
 
-    // 5. Alberi platani storici e foliage del parco
-    this.renderMarioTrees(ctx, 0.36);
+    // 5. Alberi platani storici e foliage del parco (parallasse 0.10)
+    this.renderMarioTrees(ctx, 0.10);
 
-    // 6. Fiume Po con onde azzurre e i leggendari Canottieri in barca (Cerea 1863)
-    this.renderRiverPoWithRowers(ctx, 0.42);
+    // 6. Fiume Po con onde azzurre e i leggendari Canottieri in barca (parallasse 0.12)
+    this.renderRiverPoWithRowers(ctx, 0.12);
 
-    // 7. La celebre "Panchina dei Lampioni Innamorati" (due lampioni abbracciati)
-    this.drawLampioniInnamorati(ctx, 0.46);
+    // 7. La celebre "Panchina dei Lampioni Innamorati" (due lampioni abbracciati, parallasse 0.13)
+    this.drawLampioniInnamorati(ctx, 0.13);
   }
 
   // =========================================================================
@@ -195,22 +205,22 @@ export class ParallaxBackground {
     ctx.fillRect(0, 0, this.width, this.height);
 
     // 2. Stelle e Luna
-    this.renderStars(ctx, 0.02);
+    this.renderStars(ctx, 0.01);
 
-    // 3. Installazioni "Luci d'Artista" sospese con cavi in cielo
-    this.drawLuciArtistaMurazzi(ctx, 0.08);
+    // 3. Installazioni "Luci d'Artista" sospese con cavi in cielo (parallasse 0.03)
+    this.drawLuciArtistaMurazzi(ctx, 0.03);
 
-    // 4. La maestosa Chiesa della Gran Madre di Dio illuminata oltre il Po
-    this.drawGranMadreDiDio(ctx, 0.16);
+    // 4. La maestosa Chiesa della Gran Madre di Dio illuminata oltre il Po (parallasse 0.05)
+    this.drawGranMadreDiDio(ctx, 0.05);
 
-    // 5. Ponte Vittorio Emanuele I a cinque arcate in pietra con lampioni dorati
-    this.drawPonteVittorio(ctx, 0.28);
+    // 5. Ponte Vittorio Emanuele I a cinque arcate in pietra con lampioni dorati (parallasse 0.08)
+    this.drawPonteVittorio(ctx, 0.08);
 
-    // 6. Fiume Po notturno con riflessi al neon colorati (fucsia, ciano, oro)
-    this.drawMurazziWaterReflections(ctx, 0.38);
+    // 6. Fiume Po notturno con riflessi al neon colorati (fucsia, ciano, oro) (parallasse 0.10)
+    this.drawMurazziWaterReflections(ctx, 0.10);
 
-    // 7. Arcate dei Murazzi con insegne dei club storici ("GIANCARLO", "MAGAZZINI")
-    this.drawMurazziVaults(ctx, 0.48);
+    // 7. Arcate dei Murazzi con insegne dei club storici (parallasse 0.12)
+    this.drawMurazziVaults(ctx, 0.12);
   }
 
   // =========================================================================
@@ -240,19 +250,19 @@ export class ParallaxBackground {
     ctx.fill();
     ctx.restore();
 
-    this.renderMarioClouds(ctx, 0.06, 'rgba(255, 255, 255, 0.95)');
+    this.renderMarioClouds(ctx, 0.02, 'rgba(255, 255, 255, 0.95)');
 
-    // 3. Catena delle Alpi Occidentali con il leggendario MONVISO (piramide aguzza)
-    this.drawAlpsWithMonviso(ctx, 0.12);
+    // 3. Catena delle Alpi Occidentali con il leggendario MONVISO (parallasse 0.02 - statico e maestoso)
+    this.drawAlpsWithMonviso(ctx, 0.02);
 
-    // 4. Colle di Superga con la Basilica monumentale di Juvarra
-    this.drawSupergaMonumental(ctx, 0.22);
+    // 4. Colle di Superga con la Basilica monumentale di Juvarra (parallasse 0.05)
+    this.drawSupergaMonumental(ctx, 0.05);
 
-    // 5. Lapide commemorativa del Grande Torino con stendardo granata
-    this.drawGrandeTorinoMemorial(ctx, 0.3);
+    // 5. Lapide commemorativa del Grande Torino con stendardo granata (parallasse 0.08)
+    this.drawGrandeTorinoMemorial(ctx, 0.08);
 
-    // 6. Rotaia a cremagliera e vettura storica della Tranvia Dentiera Sassi-Superga
-    this.drawDentieraTramTrain(ctx, 0.42);
+    // 6. Rotaia a cremagliera e vettura storica della Tranvia Dentiera Sassi-Superga (parallasse 0.11)
+    this.drawDentieraTramTrain(ctx, 0.11);
   }
 
   // =========================================================================
@@ -272,20 +282,20 @@ export class ParallaxBackground {
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, this.width, this.height);
 
-    // 2. Profilo montuoso innevato in lontananza
-    this.renderCleanMountains(ctx, 0.1, '#64748b', '#cbd5e1');
+    // 2. Profilo montuoso innevato in lontananza (parallasse 0.02 - statico)
+    this.renderCleanMountains(ctx, 0.02, '#64748b', '#cbd5e1');
 
-    // 3. Facciata industriale iconica del Lingotto (griglia razionalista a finestre)
-    this.drawLingottoIndustrialFacade(ctx, 0.2);
+    // 3. Facciata industriale iconica del Lingotto (griglia razionalista a finestre, parallasse 0.05)
+    this.drawLingottoIndustrialFacade(ctx, 0.05);
 
-    // 4. "Lo Scrigno" della Pinacoteca Agnelli sospeso sopra il tetto
-    this.drawAgnelliScrigno(ctx, 0.28);
+    // 4. "Lo Scrigno" della Pinacoteca Agnelli sospeso sopra il tetto (parallasse 0.08)
+    this.drawAgnelliScrigno(ctx, 0.08);
 
-    // 5. "La Bolla" di cristallo di Renzo Piano con la piazzola dell'Eliporto ("H")
-    this.drawRenzoPianoBolla(ctx, 0.35);
+    // 5. "La Bolla" di cristallo di Renzo Piano con la piazzola dell'Eliporto ("H", parallasse 0.10)
+    this.drawRenzoPianoBolla(ctx, 0.10);
 
-    // 6. La Curva Parabolica inclinata della Pista 500 con cordoli e Fiat 500
-    this.drawCurvaParabolicaFiat(ctx, 0.46);
+    // 6. La Curva Parabolica inclinata della Pista 500 con cordoli e Fiat 500 (parallasse 0.12)
+    this.drawCurvaParabolicaFiat(ctx, 0.12);
   }
 
   // =========================================================================
@@ -298,7 +308,7 @@ export class ParallaxBackground {
    */
   private drawPalazzoMadama(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1600;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const baseX = 380 - offset;
     const baseY = this.height - 150;
 
@@ -377,7 +387,7 @@ export class ParallaxBackground {
    */
   private drawPorticiViaPo(ctx: CanvasRenderingContext2D, speed: number): void {
     const archWidth = 140;
-    const offset = (this.cameraX * speed) % archWidth;
+    const offset = this.getOffset(speed, archWidth);
     const baseY = this.height - 80;
 
     ctx.save();
@@ -430,7 +440,9 @@ export class ParallaxBackground {
     }
 
     // Insegne storiche "PORTICI DI VIA PO"
-    const signX = (1100 - (this.cameraX * speed)) % (this.width + 1200);
+    const signSpacing = this.width + 1200;
+    const signOffset = this.getOffset(speed, signSpacing);
+    const signX = (1100 - signOffset) % signSpacing;
     if (signX > -200 && signX < this.width + 200) {
       ctx.fillStyle = '#1e3a8a';
       ctx.fillRect(signX, baseY - 138, 180, 22);
@@ -452,9 +464,8 @@ export class ParallaxBackground {
    */
   private drawTram7GTT(ctx: CanvasRenderingContext2D, speed: number): void {
     const loopDist = 2400;
-    // Il tram si sposta lentamente anche per conto suo lungo i binari!
-    const tramSelfMove = (Date.now() * 0.02) % loopDist;
-    const tx = (1400 - (this.cameraX * speed) - tramSelfMove) % loopDist;
+    const offset = this.getOffset(speed, loopDist);
+    const tx = (1400 - offset) % loopDist;
     const renderX = tx < -260 ? tx + loopDist : tx;
     const ty = this.height - 105;
 
@@ -540,7 +551,7 @@ export class ParallaxBackground {
    */
   private drawToretTorinese(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 950;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const tx = 620 - offset;
     const ty = this.height - 85;
 
@@ -592,7 +603,7 @@ export class ParallaxBackground {
    */
   private drawCavalDBrons(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 2200;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const bx = 1180 - offset;
     const by = this.height - 120;
 
@@ -834,7 +845,7 @@ export class ParallaxBackground {
    */
   private drawTorinoRooftops(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 120;
-    const offset = (this.cameraX * speed) % (spacing * 10);
+    const offset = this.getOffset(speed, spacing * 10);
     const baseY = this.height - 40;
 
     ctx.save();
@@ -865,7 +876,7 @@ export class ParallaxBackground {
    */
   private drawBorgoMedievale(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1900;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const bx = 450 - offset;
     const by = this.height - 120;
 
@@ -961,7 +972,7 @@ export class ParallaxBackground {
    */
   private drawLampioniInnamorati(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1500;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const lx = 920 - offset;
     const ly = this.height - 90;
 
@@ -1035,7 +1046,7 @@ export class ParallaxBackground {
    */
   private renderRiverPoWithRowers(ctx: CanvasRenderingContext2D, speed: number): void {
     // 1. Acqua del Po
-    const offset = (this.cameraX * speed + Date.now() * 0.03) % 80;
+    const offset = this.getOffset(speed, 60);
     const baseY = this.height - 45;
 
     ctx.save();
@@ -1052,8 +1063,8 @@ export class ParallaxBackground {
 
     // 2. Barca a remi da canottaggio olimpico (Canottieri Cerea 1863)
     const rowerLoop = 1800;
-    const boatMove = (Date.now() * 0.04) % rowerLoop;
-    const bx = (1200 - (this.cameraX * speed) - boatMove) % rowerLoop;
+    const boatOffset = this.getOffset(speed, rowerLoop);
+    const bx = (1200 - boatOffset) % rowerLoop;
     const renderBx = bx < -200 ? bx + rowerLoop : bx;
 
     if (renderBx > -150 && renderBx < this.width + 150) {
@@ -1103,7 +1114,7 @@ export class ParallaxBackground {
    */
   private drawFontanaDodiciMesi(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 2400;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const fx = 1550 - offset;
     const fy = this.height - 110;
 
@@ -1137,7 +1148,7 @@ export class ParallaxBackground {
    */
   private drawMurazziVaults(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 180;
-    const offset = (this.cameraX * speed) % (spacing * 10);
+    const offset = this.getOffset(speed, spacing * 10);
     const baseY = this.height - 70;
 
     const clubNames = [
@@ -1192,7 +1203,7 @@ export class ParallaxBackground {
    */
   private drawGranMadreDiDio(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 2200;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const gx = 650 - offset;
     const gy = this.height - 180;
 
@@ -1240,7 +1251,7 @@ export class ParallaxBackground {
    */
   private drawPonteVittorio(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1800;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const px = 200 - offset;
     const py = this.height - 85;
 
@@ -1286,9 +1297,10 @@ export class ParallaxBackground {
 
     // Strisce di riflesso al neon colorate mosse dalla corrente del Po
     const neonColors = ['#ec4899', '#06b6d4', '#ffd166', '#a855f7'];
+    const rxOffset = this.getOffset(speed, this.width);
     for (let i = 0; i < 16; i++) {
-      const rx = ((i * 90) - this.cameraX * speed) % this.width;
-      const x = rx < 0 ? rx + this.width : rx;
+      const rawX = ((i * 90) - rxOffset) % this.width;
+      const x = rawX < 0 ? rawX + this.width : rawX;
       const col = neonColors[i % neonColors.length];
 
       ctx.strokeStyle = col;
@@ -1313,8 +1325,9 @@ export class ParallaxBackground {
     ctx.shadowColor = '#06b6d4';
     ctx.shadowBlur = 12;
 
-    const offset = (this.cameraX * speed) % 700;
-    for (let x = -offset + 80; x < this.width + 700; x += 350) {
+    const spacing = 700;
+    const offset = this.getOffset(speed, spacing);
+    for (let x = -offset + 80; x < this.width + spacing; x += 350) {
       // Stella geometrica di Daniel Buren / Mario Airò
       ctx.beginPath();
       ctx.moveTo(x, 100);
@@ -1348,7 +1361,7 @@ export class ParallaxBackground {
    */
   private drawAlpsWithMonviso(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1400;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const mx = 640 - offset;
     const my = this.height - 180;
 
@@ -1396,7 +1409,7 @@ export class ParallaxBackground {
    */
   private drawSupergaMonumental(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1800;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const sx = 950 - offset;
     const sy = this.height - 210;
 
@@ -1479,7 +1492,7 @@ export class ParallaxBackground {
    */
   private drawGrandeTorinoMemorial(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1800;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const mx = 1200 - offset;
     const my = this.height - 110;
 
@@ -1525,8 +1538,8 @@ export class ParallaxBackground {
    */
   private drawDentieraTramTrain(ctx: CanvasRenderingContext2D, speed: number): void {
     const loop = 2200;
-    const selfMove = (Date.now() * 0.025) % loop;
-    const dx = (1500 - (this.cameraX * speed) - selfMove) % loop;
+    const offset = this.getOffset(speed, loop);
+    const dx = (1500 - offset) % loop;
     const renderDx = dx < -260 ? dx + loop : dx;
     const dy = this.height - 120;
 
@@ -1557,37 +1570,34 @@ export class ParallaxBackground {
     ctx.rotate(-0.16); // Inclinazione della salita di Superga
 
     // Corpo inferiore rosso granata / pompeiano
-    ctx.fillStyle = '#b91c1c';
-    ctx.fillRect(-60, 0, 140, 22);
-
-    // Fascia superiore avorio / crema
+    ctx.fillStyle = '#991b1b';
+    ctx.fillRect(-60, 0, 150, 22);
+    // Fascia superiore crema
     ctx.fillStyle = '#fef08a';
-    ctx.fillRect(-60, -20, 140, 20);
+    ctx.fillRect(-60, -18, 150, 18);
+    // Tetto sagomato bianco
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(-58, -24, 146, 6);
 
-    // Tetto sagomato grigio
-    ctx.fillStyle = '#64748b';
-    ctx.fillRect(-55, -25, 130, 6);
-
-    // Finestre con montanti in legno
+    // Finestrini ad arco storici
     ctx.fillStyle = '#0f172a';
     for (let w = 0; w < 5; w++) {
-      ctx.fillRect(-50 + w * 24, -16, 18, 14);
+      ctx.fillRect(-48 + w * 28, -14, 20, 14);
       ctx.fillStyle = '#93c5fd';
-      ctx.fillRect(-48 + w * 24, -14, 6, 10);
+      ctx.fillRect(-46 + w * 28, -12, 6, 10);
       ctx.fillStyle = '#0f172a';
     }
 
-    // Scritta "SASSI - SUPERGA"
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 6px "Press Start 2P", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('SASSI - SUPERGA', 10, 14);
-
-    // Faro rotondo d'epoca
+    // Faro anteriore tondo ottone
     ctx.fillStyle = '#fde047';
     ctx.beginPath();
-    ctx.arc(78, 8, 5, 0, Math.PI * 2);
+    ctx.arc(88, 10, 4, 0, Math.PI * 2);
     ctx.fill();
+
+    // Targa "DENTIERA 1934"
+    ctx.fillStyle = '#fef08a';
+    ctx.font = 'bold 6px "Press Start 2P", monospace';
+    ctx.fillText('SASSI-SUPERGA', -40, -2);
 
     // Ruote dentate a cremagliera
     ctx.fillStyle = '#1e293b';
@@ -1604,7 +1614,7 @@ export class ParallaxBackground {
    */
   private drawLingottoIndustrialFacade(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 180;
-    const offset = (this.cameraX * speed) % (spacing * 6);
+    const offset = this.getOffset(speed, spacing * 6);
     const baseY = this.height - 60;
 
     ctx.save();
@@ -1644,7 +1654,7 @@ export class ParallaxBackground {
    */
   private drawAgnelliScrigno(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 2200;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const sx = 800 - offset;
     const sy = this.height - 230;
 
@@ -1688,7 +1698,7 @@ export class ParallaxBackground {
    */
   private drawRenzoPianoBolla(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 2200;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const bx = 1450 - offset;
     const by = this.height - 250;
 
@@ -1762,7 +1772,7 @@ export class ParallaxBackground {
    */
   private drawCurvaParabolicaFiat(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 1800;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
     const px = 500 - offset;
     const py = this.height - 130;
 
@@ -1796,10 +1806,9 @@ export class ParallaxBackground {
     ctx.quadraticCurveTo(px + 140, py - 46, px + 280, py - 76);
     ctx.stroke();
 
-    // 4. Fiat 500 d'epoca in collaudo a tutta velocità! (Gialla e celeste)
-    const carMove = (Date.now() * 0.05) % 400;
-    const carX = px + 60 + carMove;
-    const carY = py - 15 - (carMove * 0.15);
+    // 4. Fiat 500 d'epoca in assetto da collaudo parabolico
+    const carX = px + 140;
+    const carY = py - 27;
 
     if (carX > px && carX < px + 250) {
       // Fiat 500 vintage gialla
@@ -1856,9 +1865,13 @@ export class ParallaxBackground {
     ctx.save();
     ctx.fillStyle = color;
 
+    const wrapW = this.width + 400;
+    const camOffset = this.getOffset(speed, wrapW);
+
     for (const c of this.clouds) {
-      const screenX = (c.x - this.cameraX * speed) % (this.width + 400);
-      const x = screenX < -150 ? screenX + this.width + 500 : screenX;
+      const rawX = (c.x - camOffset) % wrapW;
+      const screenX = (rawX + wrapW) % wrapW;
+      const x = screenX - 200;
       const y = c.y;
       const s = c.scale;
 
@@ -1884,7 +1897,7 @@ export class ParallaxBackground {
    */
   private renderCleanMountains(ctx: CanvasRenderingContext2D, speed: number, baseCol: string, snowCol: string): void {
     const spacing = 380;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
 
     ctx.save();
     for (let x = -offset - spacing; x < this.width + spacing; x += spacing) {
@@ -1919,7 +1932,7 @@ export class ParallaxBackground {
     includeLandmarks: boolean
   ): void {
     const patternWidth = 1200;
-    const offset = (this.cameraX * speed) % patternWidth;
+    const offset = this.getOffset(speed, patternWidth);
 
     ctx.save();
 
@@ -2022,7 +2035,7 @@ export class ParallaxBackground {
    */
   private renderMarioTrees(ctx: CanvasRenderingContext2D, speed: number): void {
     const spacing = 320;
-    const offset = (this.cameraX * speed) % spacing;
+    const offset = this.getOffset(speed, spacing);
 
     ctx.save();
     for (let x = -offset - spacing; x < this.width + spacing; x += spacing) {
@@ -2050,10 +2063,11 @@ export class ParallaxBackground {
   private renderStars(ctx: CanvasRenderingContext2D, speed: number): void {
     ctx.save();
     ctx.fillStyle = '#ffffff';
+    const starOffset = this.getOffset(speed, this.width);
     for (let i = 0; i < 45; i++) {
-      const sx = ((i * 137 + 50) - this.cameraX * speed) % this.width;
+      const rawX = ((i * 137 + 50) - starOffset) % this.width;
+      const px = (rawX + this.width) % this.width;
       const sy = (i * 83) % (this.height * 0.6);
-      const px = sx < 0 ? sx + this.width : sx;
       const size = (i % 3 === 0) ? 2.5 : 1.5;
       ctx.fillRect(px, sy, size, size);
     }

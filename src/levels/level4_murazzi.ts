@@ -7,7 +7,7 @@ export const level4_murazzi: LevelData = {
   theme: 'murazzi',
   width: 6400,
   height: 720,
-  timeLimit: 260,
+  timeLimit: 230,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -28,27 +28,27 @@ export const level4_murazzi: LevelData = {
       id: 'm4_barge_1',
       x: 1120,
       y: 530,
-      width: 120,
+      width: 115,
       height: 24,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 55,
-      moveSpeed: 2.1,
+      moveRange: 60,
+      moveSpeed: 2.2,
     },
     {
       id: 'm4_barge_2',
       x: 1360,
       y: 490,
-      width: 120,
+      width: 115,
       height: 24,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 2.3,
+      moveRange: 95,
+      moveSpeed: 2.4,
     },
 
     // 2. Arcata dei Club e Docks Sotterranei
@@ -62,40 +62,40 @@ export const level4_murazzi: LevelData = {
       id: 'm4_barge_3',
       x: 2430,
       y: 520,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 50,
-      moveSpeed: 2.0,
+      moveRange: 55,
+      moveSpeed: 2.1,
     },
     {
       id: 'm4_barge_4',
       x: 2650,
       y: 460,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 80,
-      moveSpeed: 2.2,
+      moveRange: 85,
+      moveSpeed: 2.3,
     },
     {
       id: 'm4_barge_5',
       x: 2880,
       y: 410,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 60,
-      moveSpeed: 2.1,
+      moveRange: 65,
+      moveSpeed: 2.2,
     },
 
     // 3. Ponte Vittorio Emanuele I (Binari e Tram Notturno)
@@ -106,23 +106,23 @@ export const level4_murazzi: LevelData = {
     { id: 'm4_bridge_portico_2', x: 3740, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
 
     // FOSSA DELLA DIGA DEI MURAZZI: Salto tra piloni strettissimi nell'acqua vorticosa
-    { id: 'm4_dam_pillar_1', x: 4160, y: 490, width: 75, height: 230, style: 'stone_portico' },
-    { id: 'm4_dam_pillar_2', x: 4360, y: 420, width: 75, height: 300, style: 'stone_portico' },
-    { id: 'm4_dam_pillar_3', x: 4560, y: 350, width: 75, height: 370, style: 'stone_portico' },
+    { id: 'm4_dam_pillar_1', x: 4160, y: 490, width: 70, height: 230, style: 'stone_portico' },
+    { id: 'm4_dam_pillar_2', x: 4360, y: 420, width: 70, height: 300, style: 'stone_portico' },
+    { id: 'm4_dam_pillar_3', x: 4560, y: 350, width: 70, height: 370, style: 'stone_portico' },
 
     // Piattaforma mobile alta sopra la cascata d'acqua
     {
       id: 'm4_dam_lift',
       x: 4760,
       y: 380,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 100,
-      moveSpeed: 2.4,
+      moveRange: 105,
+      moveSpeed: 2.5,
     },
 
     // 4. Salita verso il Monte dei Cappuccini Notturno
@@ -136,14 +136,14 @@ export const level4_murazzi: LevelData = {
       id: 'm4_final_lift',
       x: 5650,
       y: 420,
-      width: 120,
+      width: 115,
       height: 22,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 80,
-      moveSpeed: 2.2,
+      moveRange: 85,
+      moveSpeed: 2.3,
     },
 
     // 5. Terrazza Belvedere Panoramica con Faro Luminoso
@@ -162,23 +162,30 @@ export const level4_murazzi: LevelData = {
   ],
 
   enemies: [
-    // Banchina iniziale
-    { id: 'm4_pigeon_1', type: 'pigeon', x: 540, y: 554, patrolLeft: 420, patrolRight: 800 },
-    { id: 'm4_angry_1', type: 'angryLocal', x: 880, y: 536, patrolLeft: 750, patrolRight: 1020 },
+    // 1. Banchina iniziale: Nutria veloce e Rider notturno su monopattino!
+    { id: 'm4_nutria_1', type: 'nutria', x: 480, y: 558, patrolLeft: 380, patrolRight: 680 },
+    { id: 'm4_rider_murazzi', type: 'rider', x: 680, y: 532, patrolLeft: 560, patrolRight: 1020 },
+    { id: 'm4_angry_1', type: 'angryLocal', x: 920, y: 536, patrolLeft: 840, patrolRight: 1040 },
 
-    // Docks dei Club
-    { id: 'm4_angry_2', type: 'angryLocal', x: 1720, y: 536, patrolLeft: 1600, patrolRight: 2150 },
-    { id: 'm4_pigeon_2', type: 'pigeon', x: 2060, y: 374, patrolLeft: 2040, patrolRight: 2180 },
-    { id: 'm4_angry_2b', type: 'angryLocal', x: 2200, y: 536, patrolLeft: 2050, patrolRight: 2400 },
+    // Fossa Barconi notturni: Gabbiano del Po che taglia la rotta
+    { id: 'm4_gabbiano_fossa1', type: 'gabbiano', x: 1250, y: 440, patrolLeft: 1120, patrolRight: 1480 },
 
-    // Ponte Vittorio Emanuele (Tram notturno in corsa)
+    // 2. Docks dei Club: Nutria gigante delle arcate e Torinese della movida
+    { id: 'm4_nutria_docks', type: 'nutria', x: 1680, y: 558, patrolLeft: 1580, patrolRight: 1950 },
+    { id: 'm4_angry_2', type: 'angryLocal', x: 1880, y: 536, patrolLeft: 1720, patrolRight: 2150 },
+    { id: 'm4_rider_docks', type: 'rider', x: 2100, y: 532, patrolLeft: 1980, patrolRight: 2350 },
+
+    // 3. Ponte Vittorio: Tram notturno sferragliante, Rider e Gabbiano sul ponte
     { id: 'm4_tram_night', type: 'tram', x: 3200, y: 530, patrolLeft: 3120, patrolRight: 3850 },
+    { id: 'm4_gabbiano_bridge', type: 'gabbiano', x: 3450, y: 280, patrolLeft: 3300, patrolRight: 3680 },
     { id: 'm4_angry_3', type: 'angryLocal', x: 3760, y: 376, patrolLeft: 3740, patrolRight: 3880 },
-    { id: 'm4_pigeon_ponte', type: 'pigeon', x: 3500, y: 324, patrolLeft: 3450, patrolRight: 3600 },
 
-    // Monte dei Cappuccini
-    { id: 'm4_pigeon_3', type: 'pigeon', x: 5140, y: 414, patrolLeft: 5110, patrolRight: 5240 },
-    { id: 'm4_angry_4', type: 'angryLocal', x: 5350, y: 516, patrolLeft: 5080, patrolRight: 5550 },
+    // Fossa della Diga: Gabbiano ad alta quota sopra i piloni stretti
+    { id: 'm4_gabbiano_dam', type: 'gabbiano', x: 4420, y: 320, patrolLeft: 4200, patrolRight: 4700 },
+
+    // 4. Monte dei Cappuccini: Nutria di risalita, Torinesi notturni e Vigile della movida
+    { id: 'm4_vigile_monte', type: 'vigile', x: 5120, y: 516, patrolLeft: 5020, patrolRight: 5350 },
+    { id: 'm4_nutria_monte', type: 'nutria', x: 5380, y: 538, patrolLeft: 5240, patrolRight: 5580 },
     { id: 'm4_angry_5', type: 'angryLocal', x: 5600, y: 516, patrolLeft: 5450, patrolRight: 5800 },
   ],
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useMenuKeyboard } from '../hooks/useMenuKeyboard';
 import { CharacterId } from '../types/game';
 import { getCharacterConfig } from '../characters';
+import { openPWAInstallModal } from '../utils/fullscreen';
 
 interface MainMenuProps {
   onStartGame: () => void;
@@ -32,6 +33,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
     { label: '3. SELEZIONA LIVELLO', action: onOpenLevelSelect, primary: false },
     { label: '4. COME GIOCARE', action: onOpenHowToPlay, primary: false },
     { label: '5. IMPOSTAZIONI', action: onOpenSettings, primary: false },
+    { label: '6. 📱 SCHERMO INTERO / INSTALLA PWA', action: openPWAInstallModal, primary: false },
   ];
 
   const { selectedIndex, setSelectedIndex } = useMenuKeyboard(
@@ -41,11 +43,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-card">
-        <h1 className="modal-title" style={{ fontSize: '2rem', marginBottom: '8px' }}>
+      <div className="modal-card main-menu-card">
+        <h1 className="modal-title main-modal-title">
           TORINO RUN
         </h1>
-        <p className="modal-subtitle">
+        <p className="modal-subtitle main-modal-subtitle">
           Il Platformer Sabaudo ambientato tra Piazza Castello e la Mole
         </p>
 
@@ -85,7 +87,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         </div>
 
         <div className="menu-nav-hint">
-          ⌨️ Usa <kbd>▲</kbd> <kbd>▼</kbd> o <kbd>W</kbd>/<kbd>S</kbd> e <kbd>INVIO</kbd> (oppure i tasti <kbd>1-5</kbd>)
+          ⌨️ Usa <kbd>▲</kbd> <kbd>▼</kbd> o <kbd>W</kbd>/<kbd>S</kbd> e <kbd>INVIO</kbd> (oppure i tasti <kbd>1-6</kbd>)
         </div>
       </div>
     </div>

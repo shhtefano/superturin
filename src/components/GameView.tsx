@@ -13,9 +13,10 @@ import { LevelSelect } from './LevelSelect';
 import { CharacterSelectModal } from './CharacterSelectModal';
 import { VirtualJoypad } from './VirtualJoypad';
 import { OrientationPrompt } from './OrientationPrompt';
+import { PWAInstallModal } from './PWAInstallModal';
 import { LEVELS } from '../levels';
 import { CharacterId } from '../types/game';
-import { toggleFullscreen, isFullscreenActive } from '../utils/fullscreen';
+import { toggleFullscreen, isFullscreenActive, openPWAInstallModal } from '../utils/fullscreen';
 
 export const GameView: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -24,6 +25,7 @@ export const GameView: React.FC = () => {
   const [status, setStatus] = useState<GameStatus>('menu');
   const [saveData, setSaveData] = useState<SaveData>(() => SaveManager.load());
   const [fullscreen, setFullscreen] = useState<boolean>(isFullscreenActive);
+  const [showPWAModal, setShowPWAModal] = useState<boolean>(false);
   const [showVirtualJoypad, setShowVirtualJoypad] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 1024;
@@ -90,14 +92,19 @@ export const GameView: React.FC = () => {
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, [status]);
 
-  // Listener cambio stato schermo intero
+  // Listener cambio stato schermo intero e PWA modal
   useEffect(() => {
     const handleFsChange = () => setFullscreen(isFullscreenActive());
+    const handleOpenPWA = () => setShowPWAModal(true);
+
     document.addEventListener('fullscreenchange', handleFsChange);
     document.addEventListener('webkitfullscreenchange', handleFsChange);
+    window.addEventListener('open-pwa-install-modal', handleOpenPWA);
+
     return () => {
       document.removeEventListener('fullscreenchange', handleFsChange);
       document.removeEventListener('webkitfullscreenchange', handleFsChange);
+      window.removeEventListener('open-pwa-install-modal', handleOpenPWA);
     };
   }, []);
 
@@ -291,6 +298,12 @@ export const GameView: React.FC = () => {
               onClose={() => setStatus('menu')}
             />
           )}
+
+          {/* Modale Guida PWA / Schermo Intero per iOS e Android */}
+          <PWAInstallModal
+            isOpen={showPWAModal}
+            onClose={() => setShowPWAModal(false)}
+          />
         </div>
       </div>
     </div>

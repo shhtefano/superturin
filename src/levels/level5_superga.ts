@@ -7,7 +7,7 @@ export const level5_superga: LevelData = {
   theme: 'superga',
   width: 6800,
   height: 720,
-  timeLimit: 280,
+  timeLimit: 250,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -28,27 +28,27 @@ export const level5_superga: LevelData = {
       id: 's5_rack_1',
       x: 1080,
       y: 450,
-      width: 120,
+      width: 115,
       height: 22,
       isOneWay: true,
       style: 'dentiera_rail',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 100,
-      moveSpeed: 2.2,
+      moveRange: 105,
+      moveSpeed: 2.3,
     },
     {
       id: 's5_rack_2',
       x: 1320,
       y: 420,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'dentiera_rail',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 70,
-      moveSpeed: 2.0,
+      moveRange: 75,
+      moveSpeed: 2.1,
     },
 
     // 2. Primo Terrapieno Collinare (Fermata Pian di Sassi)
@@ -62,40 +62,40 @@ export const level5_superga: LevelData = {
       id: 's5_lift_forest_1',
       x: 2360,
       y: 440,
-      width: 100,
+      width: 95,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 80,
-      moveSpeed: 2.4,
+      moveRange: 85,
+      moveSpeed: 2.5,
     },
     {
       id: 's5_lift_forest_2',
       x: 2580,
       y: 380,
-      width: 100,
+      width: 95,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 2.2,
+      moveRange: 95,
+      moveSpeed: 2.3,
     },
     {
       id: 's5_lift_forest_3',
       x: 2800,
       y: 320,
-      width: 100,
+      width: 95,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 90,
-      moveSpeed: 2.5,
+      moveRange: 95,
+      moveSpeed: 2.6,
     },
 
     // 3. Settore Rotaie Dentiera in Pendenza ripida
@@ -106,36 +106,36 @@ export const level5_superga: LevelData = {
     { id: 's5_track_bridge_2', x: 3660, y: 390, width: 150, height: 22, isOneWay: true, style: 'dentiera_rail' },
 
     // IL GRANDE BURRONE PANORAMICO: 3 Pilastri di roccia scoscesa nel vuoto
-    { id: 's5_cliff_1', x: 4080, y: 480, width: 70, height: 240, style: 'brick' },
-    { id: 's5_cliff_2', x: 4280, y: 400, width: 70, height: 320, style: 'brick' },
-    { id: 's5_cliff_3', x: 4480, y: 320, width: 70, height: 400, style: 'brick' },
+    { id: 's5_cliff_1', x: 4080, y: 480, width: 68, height: 240, style: 'brick' },
+    { id: 's5_cliff_2', x: 4280, y: 400, width: 68, height: 320, style: 'brick' },
+    { id: 's5_cliff_3', x: 4480, y: 320, width: 68, height: 400, style: 'brick' },
 
     // Piattaforma-ascensore rapida verso l'Altopiano di Superga
     {
       id: 's5_superga_lift_1',
       x: 4680,
       y: 350,
-      width: 110,
+      width: 105,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 120,
-      moveSpeed: 2.6,
+      moveRange: 125,
+      moveSpeed: 2.7,
     },
     {
       id: 's5_superga_lift_2',
       x: 4900,
       y: 280,
-      width: 110,
+      width: 105,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 2.3,
+      moveRange: 95,
+      moveSpeed: 2.4,
     },
 
     // 4. Piazzale del Parco di Superga
@@ -150,14 +150,14 @@ export const level5_superga: LevelData = {
       id: 's5_final_lift',
       x: 6020,
       y: 360,
-      width: 120,
+      width: 115,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 90,
-      moveSpeed: 2.5,
+      moveRange: 95,
+      moveSpeed: 2.6,
     },
 
     // 5. Sagrato Trionfale della Basilica di Superga
@@ -177,23 +177,29 @@ export const level5_superga: LevelData = {
   ],
 
   enemies: [
-    // Stazione Sassi
-    { id: 's5_pigeon_1', type: 'pigeon', x: 520, y: 554, patrolLeft: 400, patrolRight: 750 },
-    { id: 's5_squirrel_sassi', type: 'squirrel', x: 780, y: 554, patrolLeft: 650, patrolRight: 980 },
+    // 1. Stazione Sassi: Scoiattolo dei boschi e primo Cinghiale selvaggio (NON calpestabile!)
+    { id: 's5_squirrel_sassi', type: 'squirrel', x: 540, y: 554, patrolLeft: 420, patrolRight: 750 },
+    { id: 's5_cinghiale_sassi', type: 'cinghiale', x: 820, y: 548, patrolLeft: 680, patrolRight: 1020 },
 
-    // Pian di Sassi
-    { id: 's5_squirrel_1', type: 'squirrel', x: 1720, y: 524, patrolLeft: 1600, patrolRight: 2050 },
+    // 2. Pian di Sassi: Cinghiale in carica fra i cespugli e Scoiattolo
+    { id: 's5_cinghiale_bosco', type: 'cinghiale', x: 1780, y: 528, patrolLeft: 1600, patrolRight: 2050 },
+    { id: 's5_squirrel_1', type: 'squirrel', x: 1960, y: 524, patrolLeft: 1850, patrolRight: 2250 },
     { id: 's5_angry_sassi', type: 'angryLocal', x: 2200, y: 506, patrolLeft: 2050, patrolRight: 2380 },
 
-    // Binari Dentiera (Tram storico a dentiera velocissimo in discesa)
+    // 3. Binari Dentiera: Tranvia a Dentiera a tutta velocità in discesa!
     { id: 's5_dentiera_tram', type: 'tram', x: 3180, y: 490, patrolLeft: 3080, patrolRight: 3820 },
-    { id: 's5_pigeon_2', type: 'pigeon', x: 3680, y: 354, patrolLeft: 3660, patrolRight: 3800 },
+    { id: 's5_pigeon_tracks', type: 'pigeon', x: 3680, y: 354, patrolLeft: 3660, patrolRight: 3800 },
 
-    // Piazzale Superga
-    { id: 's5_angry_1', type: 'angryLocal', x: 5320, y: 476, patrolLeft: 5200, patrolRight: 5600 },
-    { id: 's5_squirrel_2', type: 'squirrel', x: 5600, y: 484, patrolLeft: 5450, patrolRight: 5900 },
-    { id: 's5_pigeon_basilica', type: 'pigeon', x: 6100, y: 434, patrolLeft: 6050, patrolRight: 6220 },
-    { id: 's5_angry_2', type: 'angryLocal', x: 6350, y: 456, patrolLeft: 6280, patrolRight: 6550 },
+    // Burrone Panoramico: Gabbiano montano sopra il vuoto
+    { id: 's5_gabbiano_cliff', type: 'gabbiano', x: 4320, y: 270, patrolLeft: 4120, patrolRight: 4580 },
+
+    // 4. Piazzale Superga: Cinghiale alfa di Superga, Scoiattolo e Torinese escursionista
+    { id: 's5_cinghiale_piazzale', type: 'cinghiale', x: 5350, y: 488, patrolLeft: 5180, patrolRight: 5650 },
+    { id: 's5_squirrel_2', type: 'squirrel', x: 5620, y: 484, patrolLeft: 5480, patrolRight: 5880 },
+    { id: 's5_angry_1', type: 'angryLocal', x: 5800, y: 476, patrolLeft: 5650, patrolRight: 5950 },
+
+    // Sagrato Basilica: Vigile montano e Torinese finale
+    { id: 's5_vigile_basilica', type: 'vigile', x: 6320, y: 456, patrolLeft: 6250, patrolRight: 6520 },
   ],
 
   goal: {

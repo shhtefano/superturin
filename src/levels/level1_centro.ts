@@ -7,7 +7,7 @@ export const level1_centro: LevelData = {
   theme: 'centro',
   width: 5800,
   height: 720,
-  timeLimit: 250,
+  timeLimit: 220,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -30,14 +30,14 @@ export const level1_centro: LevelData = {
       id: 'c1_moving_1',
       x: 1280,
       y: 460,
-      width: 120,
+      width: 115,
       height: 22,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 100,
-      moveSpeed: 1.6,
+      moveRange: 110,
+      moveSpeed: 1.8,
     },
 
     // 2. Zona Piazzetta Reale (Terreno 2)
@@ -51,17 +51,17 @@ export const level1_centro: LevelData = {
       id: 'c1_moving_2',
       x: 2360,
       y: 470,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'stone_portico',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 70,
-      moveSpeed: 1.8,
+      moveRange: 75,
+      moveSpeed: 2.0,
     },
 
-    // 3. Settore Binari di Via Po - TRAM MULTIPLI & PORTICI ALTI
+    // 3. Settore Binari di Via Po - TRAM MULTIPLI, RIDER & PORTICI ALTI
     { id: 'c1_ground_tram_1', x: 2540, y: 580, width: 950, height: 140, style: 'ground_pave' },
     { id: 'c1_roof_tram_1', x: 2650, y: 430, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
     { id: 'c1_roof_tram_2', x: 2880, y: 350, width: 160, height: 22, isOneWay: true, style: 'marble' },
@@ -69,9 +69,9 @@ export const level1_centro: LevelData = {
     { id: 'c1_roof_tram_3', x: 3120, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
 
     // Fossa 3: Doppio baratro con gradini stretti
-    { id: 'c1_pillar_1', x: 3560, y: 480, width: 80, height: 240, style: 'stone_portico' },
-    { id: 'c1_pillar_2', x: 3720, y: 410, width: 80, height: 310, style: 'stone_portico' },
-    { id: 'c1_pillar_3', x: 3880, y: 460, width: 80, height: 260, style: 'stone_portico' },
+    { id: 'c1_pillar_1', x: 3560, y: 480, width: 75, height: 240, style: 'stone_portico' },
+    { id: 'c1_pillar_2', x: 3720, y: 410, width: 75, height: 310, style: 'stone_portico' },
+    { id: 'c1_pillar_3', x: 3880, y: 460, width: 75, height: 260, style: 'stone_portico' },
 
     // 4. Sezione Piazza San Carlo - Portici Monumentali
     { id: 'c1_ground_sancarlo', x: 4030, y: 580, width: 800, height: 140, style: 'ground_pave' },
@@ -85,14 +85,14 @@ export const level1_centro: LevelData = {
       id: 'c1_moving_3',
       x: 4900,
       y: 430,
-      width: 120,
+      width: 110,
       height: 22,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 2.0,
+      moveRange: 95,
+      moveSpeed: 2.2,
     },
 
     // Traguardo Finale Palazzo Reale
@@ -105,7 +105,6 @@ export const level1_centro: LevelData = {
     { id: 'toret_2', x: 4080, y: 532 },
   ],
 
-  // Rari collezionabili posizionati in punti elevati / rischiosi
   collectibles: [
     { id: 'c1_g_1', type: 'gianduiotto', x: 1090, y: 260 }, // Alto sul portico
     { id: 'c1_g_2', type: 'gianduiotto', x: 2900, y: 310 }, // Sopra il tetto tram
@@ -114,24 +113,34 @@ export const level1_centro: LevelData = {
   ],
 
   enemies: [
-    // Piazza Castello
-    { id: 'pigeon_1', type: 'pigeon', x: 500, y: 554, patrolLeft: 380, patrolRight: 750 },
-    { id: 'pigeon_1b', type: 'pigeon', x: 920, y: 354, patrolLeft: 880, patrolRight: 1010 },
-    { id: 'angry_1', type: 'angryLocal', x: 880, y: 536, patrolLeft: 780, patrolRight: 1050 },
+    // 1. Piazza Castello: Piccioni, Torinese imbruttito e Vigile col fischietto
+    { id: 'pigeon_1', type: 'pigeon', x: 460, y: 554, patrolLeft: 360, patrolRight: 620 },
+    { id: 'vigile_castello', type: 'vigile', x: 740, y: 536, patrolLeft: 640, patrolRight: 920 },
+    { id: 'pigeon_1b', type: 'pigeon', x: 920, y: 354, patrolLeft: 890, patrolRight: 1010 },
+    { id: 'angry_1', type: 'angryLocal', x: 980, y: 536, patrolLeft: 850, patrolRight: 1080 },
 
-    // Piazzetta Reale
-    { id: 'pigeon_2', type: 'pigeon', x: 1680, y: 554, patrolLeft: 1560, patrolRight: 1950 },
+    // Fossa 1: Gabbiano volante sopra la piattaforma mobile
+    { id: 'gabbiano_fossa1', type: 'gabbiano', x: 1320, y: 360, patrolLeft: 1240, patrolRight: 1440 },
+
+    // 2. Piazzetta Reale: Torinese e Piccione
+    { id: 'pigeon_2', type: 'pigeon', x: 1680, y: 554, patrolLeft: 1560, patrolRight: 1850 },
     { id: 'angry_1b', type: 'angryLocal', x: 2020, y: 536, patrolLeft: 1940, patrolRight: 2260 },
 
-    // Via Po: Tram 1 veloce a terra, Tram 2 di pattuglia
-    { id: 'tram_1', type: 'tram', x: 2600, y: 530, patrolLeft: 2540, patrolRight: 3100 },
-    { id: 'pigeon_3', type: 'pigeon', x: 2920, y: 324, patrolLeft: 2880, patrolRight: 3040 },
-    { id: 'angry_via_po', type: 'angryLocal', x: 3300, y: 536, patrolLeft: 3200, patrolRight: 3520 },
+    // Fossa 2: Gabbiano volante sopra il baratro
+    { id: 'gabbiano_fossa2', type: 'gabbiano', x: 2380, y: 360, patrolLeft: 2320, patrolRight: 2480 },
 
-    // Piazza San Carlo
-    { id: 'angry_2', type: 'angryLocal', x: 4200, y: 536, patrolLeft: 4050, patrolRight: 4500 },
+    // 3. Via Po: Tram 7 a rotaia, Rider su monopattino a 220px/s, Torinese e Vigile!
+    { id: 'tram_1', type: 'tram', x: 2600, y: 530, patrolLeft: 2540, patrolRight: 3100 },
+    { id: 'rider_viapo', type: 'rider', x: 2750, y: 532, patrolLeft: 2620, patrolRight: 3450 },
+    { id: 'pigeon_3', type: 'pigeon', x: 2920, y: 324, patrolLeft: 2880, patrolRight: 3040 },
+    { id: 'vigile_viapo', type: 'vigile', x: 3320, y: 536, patrolLeft: 3180, patrolRight: 3480 },
+
+    // 4. Piazza San Carlo: Rider che corre sui portici, Torinese e Vigile monumentale
+    { id: 'angry_2', type: 'angryLocal', x: 4180, y: 536, patrolLeft: 4050, patrolRight: 4380 },
     { id: 'pigeon_4', type: 'pigeon', x: 4440, y: 384, patrolLeft: 4420, patrolRight: 4570 },
+    { id: 'vigile_sancarlo', type: 'vigile', x: 4550, y: 536, patrolLeft: 4420, patrolRight: 4800 },
     { id: 'angry_3', type: 'angryLocal', x: 5300, y: 536, patrolLeft: 5120, patrolRight: 5520 },
+    { id: 'gabbiano_finale', type: 'gabbiano', x: 4940, y: 330, patrolLeft: 4880, patrolRight: 5040 },
   ],
 
   goal: {

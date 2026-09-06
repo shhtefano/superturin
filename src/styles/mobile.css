@@ -32,19 +32,21 @@
 }
 
 .btn-mobile-icon {
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(255, 183, 3, 0.4);
+  background: rgba(15, 23, 42, 0.40);
+  border: 1px solid rgba(255, 183, 3, 0.3);
   color: #f8fafc;
-  font-size: 1.1rem;
-  width: 38px;
-  height: 38px;
+  font-size: 0.95rem;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.15s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .btn-mobile-icon:active {
@@ -89,22 +91,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   pointer-events: auto;
 }
 
 .btn-joypad-run {
-  background: rgba(15, 23, 42, 0.55);
-  border: 1.5px solid rgba(255, 183, 3, 0.35);
-  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.32);
+  border: 1px solid rgba(255, 183, 3, 0.25);
+  color: rgba(148, 163, 184, 0.85);
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 800;
-  letter-spacing: 0.5px;
-  padding: 6px 14px;
+  letter-spacing: 0.4px;
+  padding: 4px 12px;
   border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.15s ease;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -113,38 +115,36 @@
 .btn-joypad-run.is-active {
   border-color: #ffb703;
   color: #0f172a;
-  background: rgba(255, 183, 3, 0.85);
-  box-shadow: 0 0 14px rgba(255, 183, 3, 0.6);
+  background: rgba(255, 183, 3, 0.75);
+  box-shadow: 0 0 12px rgba(255, 183, 3, 0.5);
 }
 
 .btn-joypad-run:active {
   transform: scale(0.94);
 }
 
-/* Croce Direzionale Arcade Ingrandita e Semitrasparente */
+/* Pulsanti Direzionali Sinistra & Destra Semitrasparenti (Nessuna freccia giù) */
 .joypad-dpad {
-  display: grid;
-  grid-template-columns: 66px 66px 66px;
-  grid-template-rows: 66px;
+  display: flex;
   gap: 8px;
   align-items: center;
-  background: rgba(10, 15, 26, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 8px;
-  border-radius: 42px;
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  background: rgba(10, 15, 26, 0.28);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 6px 10px;
+  border-radius: 36px;
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .joypad-btn {
-  width: 66px;
-  height: 66px;
-  background: rgba(30, 41, 59, 0.52);
-  border: 2px solid rgba(255, 183, 3, 0.35);
+  width: 60px;
+  height: 60px;
+  background: rgba(30, 41, 59, 0.32);
+  border: 1.5px solid rgba(255, 183, 3, 0.25);
   border-radius: 50%;
-  color: #f8fafc;
-  font-size: 1.6rem;
+  color: rgba(248, 250, 252, 0.85);
+  font-size: 1.5rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -152,18 +152,18 @@
   cursor: pointer;
   touch-action: none;
   transition: all 0.08s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 .joypad-btn:active,
 .joypad-btn.is-pressed {
-  background: rgba(13, 71, 161, 0.75);
+  background: rgba(13, 71, 161, 0.65);
   border-color: #ffb703;
   color: #ffb703;
   transform: scale(0.92);
-  box-shadow: 0 0 16px rgba(255, 183, 3, 0.7);
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.6);
 }
 
 /* --- CLUSTER DESTRO (SALTO & SKILL) --- */
@@ -171,29 +171,29 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: 10px;
   pointer-events: auto;
 }
 
-/* Arco delle Abilità Speciali (Pistola, Bomba, Special) */
+/* Arco delle Abilità Speciali (Pistola, Bomba, Special) — Più compatto e trasparente */
 .joypad-skills-arc {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .joypad-skill-btn {
   position: relative;
-  width: 58px;
-  height: 58px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(15, 23, 42, 0.52);
-  border: 2px solid rgba(255, 183, 3, 0.75);
+  background: rgba(15, 23, 42, 0.32);
+  border: 1.5px solid rgba(255, 183, 3, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   touch-action: none;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   transition: all 0.12s ease;
   overflow: hidden;
   backdrop-filter: blur(6px);
@@ -202,32 +202,32 @@
 
 .joypad-skill-btn.is-ready:active {
   transform: scale(0.9);
-  background: rgba(255, 183, 3, 0.75);
-  box-shadow: 0 0 16px rgba(255, 183, 3, 0.8);
+  background: rgba(255, 183, 3, 0.65);
+  box-shadow: 0 0 14px rgba(255, 183, 3, 0.7);
 }
 
 .joypad-skill-btn.is-cooldown {
-  opacity: 0.55;
-  border-color: rgba(148, 163, 184, 0.35);
+  opacity: 0.45;
+  border-color: rgba(148, 163, 184, 0.25);
   filter: grayscale(0.5);
 }
 
 .skill-btn-icon {
-  font-size: 1.45rem;
+  font-size: 1.2rem;
   line-height: 1;
 }
 
 .skill-btn-badge {
   position: absolute;
-  top: 2px;
-  right: 4px;
-  background: #ffb703;
+  top: 1px;
+  right: 3px;
+  background: rgba(255, 183, 3, 0.9);
   color: #0f172a;
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.48rem;
   font-weight: 900;
-  padding: 1px 4px;
-  border-radius: 4px;
+  padding: 1px 3px;
+  border-radius: 3px;
 }
 
 .joypad-skill-btn.is-cooldown .skill-btn-badge {
@@ -237,20 +237,20 @@
 
 /* Tasto Super-Abilità Eroe Mobile Joypad Semitrasparente */
 .joypad-skill-btn.joypad-special-btn {
-  border-color: rgba(56, 189, 248, 0.85);
-  background: rgba(8, 28, 54, 0.58);
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.35), 0 4px 14px rgba(0, 0, 0, 0.4);
+  border-color: rgba(56, 189, 248, 0.55);
+  background: rgba(8, 28, 54, 0.36);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .joypad-skill-btn.joypad-special-btn.is-ready {
-  border-color: #38bdf8;
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.5);
+  border-color: rgba(56, 189, 248, 0.8);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 }
 
 .joypad-skill-btn.joypad-special-btn.is-ready:active {
   transform: scale(0.9);
-  background: rgba(56, 189, 248, 0.8);
-  box-shadow: 0 0 20px rgba(56, 189, 248, 0.9);
+  background: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
 }
 
 .joypad-skill-btn.joypad-special-btn .skill-btn-badge {
@@ -268,7 +268,7 @@
   background: rgba(15, 23, 42, 0.75);
   color: #f87171;
   font-family: var(--font-display);
-  font-size: 0.65rem;
+  font-size: 0.58rem;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -276,14 +276,14 @@
   text-shadow: 0 0 4px #000;
 }
 
-/* Grande Tasto Salto Arcade Semitrasparente e Ingrandito */
+/* Grande Tasto Salto Arcade Semitrasparente */
 .joypad-btn-jump {
-  width: 88px;
-  height: 88px;
+  width: 82px;
+  height: 82px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(255, 209, 102, 0.65), rgba(255, 183, 3, 0.55) 65%, rgba(212, 139, 0, 0.5) 100%);
-  border: 2.5px solid rgba(255, 255, 255, 0.75);
-  color: #ffffff;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 209, 102, 0.42), rgba(255, 183, 3, 0.32) 65%, rgba(212, 139, 0, 0.28) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
@@ -291,7 +291,7 @@
   justify-content: center;
   cursor: pointer;
   touch-action: none;
-  box-shadow: 0 6px 20px rgba(255, 183, 3, 0.35), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 14px rgba(255, 183, 3, 0.25), inset 0 1px 3px rgba(255, 255, 255, 0.4);
   transition: all 0.08s ease;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -299,22 +299,22 @@
 
 .joypad-btn-jump:active {
   transform: scale(0.92);
-  background: radial-gradient(circle at 45% 45%, rgba(255, 183, 3, 0.85), rgba(212, 139, 0, 0.75) 80%);
-  box-shadow: 0 0 25px rgba(255, 183, 3, 0.8), inset 0 2px 6px rgba(0, 0, 0, 0.5);
+  background: radial-gradient(circle at 45% 45%, rgba(255, 183, 3, 0.65), rgba(212, 139, 0, 0.55) 80%);
+  box-shadow: 0 0 20px rgba(255, 183, 3, 0.6), inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .jump-label {
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.5px;
 }
 
 .jump-key {
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 /* =========================================================
@@ -397,57 +397,357 @@
   }
 
   .joypad-dpad {
-    grid-template-columns: 58px 58px 58px;
-    grid-template-rows: 58px;
-    padding: 6px;
+    gap: 6px;
+    padding: 4px 8px;
   }
 
   .joypad-btn {
-    width: 58px;
-    height: 58px;
-    font-size: 1.4rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.35rem;
   }
 
   .joypad-skill-btn {
-    width: 52px;
-    height: 52px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .skill-btn-icon {
+    font-size: 1.05rem;
   }
 
   .joypad-btn-jump {
-    width: 78px;
-    height: 78px;
+    width: 72px;
+    height: 72px;
   }
 
   .modal-card {
-    padding: 14px 20px;
-    max-height: 94vh;
+    padding: 10px 14px;
+    max-height: 96vh;
     overflow-y: auto;
   }
 
   .modal-title {
-    font-size: 1.15rem;
-    margin-bottom: 6px;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
   }
 
   .modal-subtitle {
-    font-size: 0.8rem;
-    margin-bottom: 12px;
+    font-size: 0.72rem;
+    margin-bottom: 8px;
   }
 
   .btn-arcade {
-    padding: 10px 14px;
-    font-size: 0.7rem;
+    padding: 7px 12px;
+    font-size: 0.66rem;
+  }
+
+  /* --- SELEZIONE EROE COMPATTA (TUTTI E GLI 8 EROI SU SCHERMO) --- */
+  .char-select-card {
+    padding: 8px 12px;
+    max-width: 96vw;
+    max-height: 96vh;
+  }
+
+  .char-select-header {
+    margin-bottom: 4px;
+  }
+
+  .char-modal-title {
+    font-size: 0.95rem;
+    margin: 0 0 2px 0;
+  }
+
+  .char-modal-subtitle {
+    font-size: 0.62rem;
+    margin: 0 0 6px 0;
+  }
+
+  .char-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
+  .char-card {
+    padding: 4px 6px;
+    border-radius: 6px;
+    border-width: 1.5px;
+  }
+
+  .char-key-badge {
+    width: 15px;
+    height: 15px;
+    font-size: 0.52rem;
+    top: 3px;
+    left: 3px;
+  }
+
+  .char-avatar-box {
+    height: 38px;
+    margin-top: 0;
+  }
+
+  .char-preview-canvas {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .char-info {
+    margin-bottom: 2px;
+  }
+
+  .char-tag {
+    font-size: 0.46rem;
+    margin-bottom: 0;
+  }
+
+  .char-name {
+    font-size: 0.74rem;
+  }
+
+  .char-role {
+    font-size: 0.52rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .char-skill-preview {
+    padding: 2px 4px;
+    margin-bottom: 2px;
+    border-left-width: 2px;
+    border-radius: 3px;
+  }
+
+  .char-skill-title {
+    font-size: 0.54rem;
+    margin-bottom: 1px;
+  }
+
+  .char-skill-star {
+    font-size: 0.56rem;
+  }
+
+  .char-skill-cd {
+    font-size: 0.5rem;
+  }
+
+  .char-skill-desc {
+    font-size: 0.48rem;
+    line-height: 1.15;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .char-select-indicator {
+    font-size: 0.48rem;
+    padding-top: 1px;
+  }
+
+  .char-summary-bar {
+    padding: 4px 10px;
+    margin-bottom: 4px;
+    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 6px;
+  }
+
+  .char-summary-left {
+    text-align: left;
+    gap: 1px;
+  }
+
+  .char-summary-name {
+    font-size: 0.68rem;
+  }
+
+  .char-summary-lore {
+    font-size: 0.55rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 340px;
+  }
+
+  .char-confirm-btn {
+    padding: 5px 12px;
+    font-size: 0.65rem;
+    min-width: 140px;
+    width: auto;
+  }
+
+  .char-select-footer {
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .char-select-footer .btn-close-modal {
+    padding: 4px 10px;
+    font-size: 0.58rem;
+  }
+
+  .char-select-footer .menu-nav-hint {
+    display: none;
+  }
+
+  /* --- SELEZIONE LIVELLO COMPATTA (QUADRI) --- */
+  .level-select-card {
+    padding: 8px 12px;
+    max-width: 96vw;
+    max-height: 96vh;
+  }
+
+  .level-modal-title {
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+
+  .level-modal-subtitle {
+    font-size: 0.62rem;
+    margin-bottom: 6px;
   }
 
   .level-gallery-grid {
     grid-template-columns: repeat(3, 1fr);
-    max-height: 58vh;
+    max-height: 56vh;
     overflow-y: auto;
-    gap: 8px;
+    gap: 6px;
+    padding: 2px;
+    margin-bottom: 4px;
+  }
+
+  .level-quadro {
+    padding: 4px 6px;
+    gap: 3px;
+    border-radius: 6px;
   }
 
   .level-quadro-art {
-    height: 60px;
+    height: 48px;
+    border-radius: 4px;
+  }
+
+  .level-quadro-tag {
+    font-size: 0.44rem;
+    padding: 1px 4px;
+    top: 3px;
+    left: 3px;
+  }
+
+  .level-quadro-diff {
+    font-size: 0.44rem;
+    padding: 1px 3px;
+    top: 3px;
+    right: 3px;
+  }
+
+  .level-quadro-info {
+    gap: 1px;
+  }
+
+  .level-quadro-title {
+    font-size: 0.62rem;
+  }
+
+  .level-quadro-sub {
+    font-size: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .level-quadro-enemies {
+    font-size: 0.46rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
+  }
+
+  .level-quadro-footer {
+    font-size: 0.54rem;
+    margin-top: 1px;
+    padding-top: 3px;
+  }
+
+  .level-quadro-score {
+    font-size: 0.54rem;
+  }
+
+  .level-quadro-play-btn {
+    font-size: 0.5rem;
+    padding: 2px 5px;
+  }
+
+  .level-select-footer {
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .level-btn-back {
+    padding: 4px 10px;
+    font-size: 0.58rem;
+    width: auto;
+  }
+
+  .level-nav-hint {
+    display: none;
+  }
+
+  /* --- MENU PRINCIPALE COMPATTO --- */
+  .main-menu-card {
+    padding: 10px 16px;
+    max-width: 440px;
+  }
+
+  .main-modal-title {
+    font-size: 1.15rem;
+    margin-bottom: 2px;
+  }
+
+  .main-modal-subtitle {
+    font-size: 0.62rem;
+    margin-bottom: 6px;
+  }
+
+  .main-menu-card .btn-group {
+    gap: 5px;
+  }
+
+  .main-menu-card .btn-arcade {
+    padding: 6px 10px;
+    font-size: 0.64rem;
+  }
+
+  .main-menu-card .menu-nav-hint {
+    display: none;
+  }
+
+  /* --- COME GIOCARE (CONTROLLI E LORE) --- */
+  .controls-grid {
+    padding: 6px 10px;
+    gap: 4px 10px;
+    font-size: 0.62rem;
+    margin-bottom: 6px;
+  }
+
+  .key-badge {
+    font-size: 0.52rem;
+    padding: 2px 4px;
+  }
+
+  .lore-box {
+    font-size: 0.62rem;
+    line-height: 1.3;
+    padding: 6px 8px;
+    max-height: 85px;
+    margin-bottom: 6px;
   }
 
   /* Barra status-effects-bar compatta su mobile landscape */
@@ -488,6 +788,37 @@
 
   .val-label {
     font-size: 0.5rem;
+  }
+}
+
+/* Ottimizzazione Mobile Portrait / Schermi stretti */
+@media screen and (max-width: 680px) {
+  .char-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px;
+  }
+
+  .char-preview-canvas {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .char-summary-bar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .char-summary-left {
+    text-align: center;
+  }
+
+  .char-confirm-btn {
+    width: 100%;
+  }
+
+  .level-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
   }
 }
 

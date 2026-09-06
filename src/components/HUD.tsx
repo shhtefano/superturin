@@ -8,7 +8,7 @@ interface HUDProps {
 
 export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
   const hearts = Array.from({ length: data.maxLives }, (_, i) => (
-    <span key={i} style={{ opacity: i < data.lives ? 1 : 0.25 }}>
+    <span key={i} className="hud-heart" style={{ opacity: i < data.lives ? 1 : 0.25 }}>
       ❤️
     </span>
   ));

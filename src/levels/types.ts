@@ -34,9 +34,21 @@ export interface CollectibleConfig {
   y: number;
 }
 
+export type EnemyType =
+  | 'pigeon'
+  | 'tram'
+  | 'angryLocal'
+  | 'squirrel'
+  | 'vigile'
+  | 'nutria'
+  | 'gabbiano'
+  | 'rider'
+  | 'cinghiale'
+  | 'robotLingotto';
+
 export interface EnemyConfig {
   id: string;
-  type: 'pigeon' | 'tram' | 'angryLocal' | 'squirrel';
+  type: EnemyType;
   x: number;
   y: number;
   patrolLeft: number;

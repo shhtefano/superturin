@@ -7,7 +7,7 @@ export const level2_mole: LevelData = {
   theme: 'mole',
   width: 5600,
   height: 720,
-  timeLimit: 260,
+  timeLimit: 230,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -27,14 +27,14 @@ export const level2_mole: LevelData = {
       id: 'm_lift_1',
       x: 880,
       y: 460,
-      width: 110,
+      width: 105,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 150,
-      moveSpeed: 2.2,
+      moveRange: 155,
+      moveSpeed: 2.3,
     },
 
     // 2. Terrazza Intermedia 1 (Loggiato Alto)
@@ -47,27 +47,27 @@ export const level2_mole: LevelData = {
       id: 'm_lift_2a',
       x: 1840,
       y: 360,
-      width: 100,
+      width: 95,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 1.8,
+      moveRange: 95,
+      moveSpeed: 2.0,
     },
     {
       id: 'm_lift_2b',
       x: 2100,
       y: 400,
-      width: 100,
+      width: 95,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 130,
-      moveSpeed: 2.0,
+      moveRange: 135,
+      moveSpeed: 2.2,
     },
 
     // 3. Settore Cupola - Piattaforme a gradoni e pilastri stretti
@@ -81,27 +81,27 @@ export const level2_mole: LevelData = {
       id: 'm_lift_3',
       x: 3120,
       y: 320,
-      width: 110,
+      width: 105,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 140,
-      moveSpeed: 2.3,
+      moveRange: 145,
+      moveSpeed: 2.4,
     },
     {
       id: 'm_lift_4',
       x: 3320,
       y: 260,
-      width: 110,
+      width: 105,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 110,
-      moveSpeed: 2.1,
+      moveRange: 115,
+      moveSpeed: 2.2,
     },
 
     // 4. Balconata del Tempietto Superiore
@@ -109,24 +109,24 @@ export const level2_mole: LevelData = {
     { id: 'm_step_tempietto', x: 3720, y: 270, width: 130, height: 22, isOneWay: true, style: 'marble' },
     { id: 'm_q_4', x: 3900, y: 150, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
 
-    // Baratro della Guglia: Serie di 3 pilastri strettissimi nel vuoto
-    { id: 'm_spire_pillar_1', x: 4320, y: 460, width: 70, height: 260, style: 'brick' },
-    { id: 'm_spire_pillar_2', x: 4520, y: 380, width: 70, height: 340, style: 'brick' },
-    { id: 'm_spire_pillar_3', x: 4720, y: 310, width: 70, height: 410, style: 'brick' },
+    // Baratro della Guglia: Serie di 3 pilastri stretti nel vuoto
+    { id: 'm_spire_pillar_1', x: 4320, y: 460, width: 68, height: 260, style: 'brick' },
+    { id: 'm_spire_pillar_2', x: 4520, y: 380, width: 68, height: 340, style: 'brick' },
+    { id: 'm_spire_pillar_3', x: 4720, y: 310, width: 68, height: 410, style: 'brick' },
 
     // ASCENSORE FINALE: Salita rapida verso la vetta della Guglia
     {
       id: 'm_lift_final',
       x: 4920,
       y: 350,
-      width: 110,
+      width: 105,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 160,
-      moveSpeed: 2.5,
+      moveRange: 165,
+      moveSpeed: 2.6,
     },
 
     // 5. Terrazza Panoramica Sommitale con la Guglia e Toro d'Oro
@@ -138,7 +138,6 @@ export const level2_mole: LevelData = {
     { id: 'toret_mole_2', x: 3600, y: 332 },
   ],
 
-  // Rari collezionabili posizionati nei punti più vertiginosi
   collectibles: [
     { id: 'm_g_1', type: 'gianduiotto', x: 920, y: 260 },  // In aria sopra l'ascensore 1
     { id: 'm_g_2', type: 'gianduiotto', x: 2790, y: 210 }, // Vertice alto della cupola
@@ -146,23 +145,37 @@ export const level2_mole: LevelData = {
   ],
 
   enemies: [
-    // Base Mole
+    // Base Mole: Piccione e Torinese
     { id: 'mole_pig_1', type: 'pigeon', x: 520, y: 554, patrolLeft: 420, patrolRight: 750 },
     { id: 'mole_angry_base', type: 'angryLocal', x: 680, y: 536, patrolLeft: 580, patrolRight: 820 },
 
-    // Terrazza 1
-    { id: 'mole_angry_1', type: 'angryLocal', x: 1260, y: 306, patrolLeft: 1120, patrolRight: 1600 },
-    { id: 'mole_pig_2', type: 'pigeon', x: 1520, y: 224, patrolLeft: 1480, patrolRight: 1610 },
+    // Ascensore 1: Gabbiano volante a picco nel vano ascensore!
+    { id: 'mole_gabbiano_1', type: 'gabbiano', x: 920, y: 330, patrolLeft: 850, patrolRight: 1040 },
 
-    // Cupola
+    // Terrazza 1: Vigile che controlla i biglietti e piccione
+    { id: 'mole_vigile_1', type: 'vigile', x: 1260, y: 306, patrolLeft: 1120, patrolRight: 1480 },
+    { id: 'mole_pig_2', type: 'pigeon', x: 1540, y: 224, patrolLeft: 1480, patrolRight: 1610 },
+
+    // Fossa doppio ascensore: Gabbiano ad alta quota
+    { id: 'mole_gabbiano_2', type: 'gabbiano', x: 1980, y: 260, patrolLeft: 1850, patrolRight: 2200 },
+
+    // Cupola: Torinese con ombrello e piccioni
     { id: 'mole_angry_2', type: 'angryLocal', x: 2420, y: 386, patrolLeft: 2320, patrolRight: 2680 },
     { id: 'mole_pig_3', type: 'pigeon', x: 2800, y: 234, patrolLeft: 2750, patrolRight: 2890 },
-    { id: 'mole_pig_3b', type: 'pigeon', x: 3050, y: 324, patrolLeft: 2950, patrolRight: 3150 },
 
-    // Tempietto Superiore
-    { id: 'mole_angry_3', type: 'angryLocal', x: 3650, y: 336, patrolLeft: 3560, patrolRight: 4100 },
-    { id: 'mole_angry_3b', type: 'angryLocal', x: 3950, y: 336, patrolLeft: 3800, patrolRight: 4200 },
+    // Baratro del Tempietto: Gabbiano in volo sinusoidale
+    { id: 'mole_gabbiano_3', type: 'gabbiano', x: 3250, y: 210, patrolLeft: 3120, patrolRight: 3450 },
+
+    // Tempietto Superiore: Vigile severo col fischietto e Torinese imbruttito
+    { id: 'mole_vigile_2', type: 'vigile', x: 3750, y: 336, patrolLeft: 3600, patrolRight: 3950 },
+    { id: 'mole_angry_3b', type: 'angryLocal', x: 4020, y: 336, patrolLeft: 3850, patrolRight: 4200 },
+
+    // Serie di Pilastri della Guglia: Gabbiano che incrocia i salti
+    { id: 'mole_gabbiano_spire', type: 'gabbiano', x: 4520, y: 240, patrolLeft: 4320, patrolRight: 4780 },
     { id: 'mole_pig_4', type: 'pigeon', x: 4740, y: 284, patrolLeft: 4720, patrolRight: 4790 },
+
+    // Scalone finale prima del Toro dorato
+    { id: 'mole_angry_summit', type: 'angryLocal', x: 5240, y: 356, patrolLeft: 5140, patrolRight: 5380 },
   ],
 
   goal: {

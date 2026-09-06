@@ -8,11 +8,12 @@ export class Camera {
   public levelWidth: number = 5000;
   public levelHeight: number = 720;
 
-  // Smoothing e lookahead
+  // Smoothing e lookahead graduale
   private targetX: number = 0;
   private targetY: number = 0;
   private readonly lerpFactor: number = 0.08; // Transizione morbida
-  private lookAheadDistance: number = 80;
+  private currentLookAhead: number = 0;
+  private readonly maxLookAhead: number = 18; // Lookahead calibrato e non invasivo
 
   // Screen shake
   private shakeTimer: number = 0;
@@ -31,6 +32,7 @@ export class Camera {
   }
 
   public setPositionImmediate(targetX: number, targetY: number): void {
+    this.currentLookAhead = 0;
     this.x = targetX - this.width * 0.35;
     this.y = targetY - this.height * 0.6;
     this.clampToBounds();
@@ -41,10 +43,15 @@ export class Camera {
     this.shakeTimer = duration;
   }
 
-  public update(dt: number, focusX: number, focusY: number, facingRight: boolean): void {
-    // Look ahead in base alla direzione in cui guarda il giocatore
-    const lookAhead = facingRight ? this.lookAheadDistance : -this.lookAheadDistance;
-    this.targetX = focusX - this.width * 0.35 + lookAhead;
+  public update(dt: number, focusX: number, focusY: number, facingRight: boolean, vx: number = 0): void {
+    // Look ahead morbido attivo solo quando il giocatore si muove orizzontalmente con una certa velocità.
+    // Quando si sale, si salta sul posto o ci si gira da fermi, il lookahead rimane fisso a 0
+    // per eliminare qualsiasi movimento o tremolio fastidioso delle montagne e dello sfondo!
+    const isMovingFast = Math.abs(vx) > 50;
+    const targetLookAhead = isMovingFast ? (facingRight ? this.maxLookAhead : -this.maxLookAhead) : 0;
+    this.currentLookAhead += (targetLookAhead - this.currentLookAhead) * 0.05;
+
+    this.targetX = focusX - this.width * 0.35 + this.currentLookAhead;
     this.targetY = focusY - this.height * 0.6;
 
     // Movimento morbido (lerp) verso il target

@@ -18,6 +18,12 @@ import { Pigeon } from '../../entities/enemies/Pigeon';
 import { Tram } from '../../entities/enemies/Tram';
 import { AngryLocal } from '../../entities/enemies/AngryLocal';
 import { Squirrel } from '../../entities/enemies/Squirrel';
+import { Vigile } from '../../entities/enemies/Vigile';
+import { Nutria } from '../../entities/enemies/Nutria';
+import { Gabbiano } from '../../entities/enemies/Gabbiano';
+import { Rider } from '../../entities/enemies/Rider';
+import { Cinghiale } from '../../entities/enemies/Cinghiale';
+import { RobotLingotto } from '../../entities/enemies/RobotLingotto';
 import { Bullet } from '../../entities/projectiles/Bullet';
 import { GianduiottoBomb } from '../../entities/projectiles/GianduiottoBomb';
 import { LevelData } from '../../levels/types';
@@ -120,16 +126,30 @@ export class GameEngine {
       return new PowerUpItem(c.id, c.type, c.x, c.y);
     });
 
-    // 4. Inizializza Nemici (Piccioni, Tram, Torinese, Scoiattolo)
+    // 4. Inizializza Nemici (Piccioni, Tram, Torinese, Scoiattolo, Vigile, Nutria, Gabbiano, Rider, Cinghiale, Robot)
     this.enemies = levelData.enemies.map((e) => {
-      if (e.type === 'tram') {
-        return new Tram(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
-      } else if (e.type === 'angryLocal') {
-        return new AngryLocal(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
-      } else if (e.type === 'squirrel') {
-        return new Squirrel(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+      switch (e.type) {
+        case 'tram':
+          return new Tram(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'angryLocal':
+          return new AngryLocal(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'squirrel':
+          return new Squirrel(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'vigile':
+          return new Vigile(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'nutria':
+          return new Nutria(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'gabbiano':
+          return new Gabbiano(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'rider':
+          return new Rider(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'cinghiale':
+          return new Cinghiale(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'robotLingotto':
+          return new RobotLingotto(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        default:
+          return new Pigeon(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
       }
-      return new Pigeon(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
     });
 
     // 5. Inizializza Goal
@@ -647,7 +667,7 @@ export class GameEngine {
 
     // Aggiornamento particelle e camera
     this.particles.update(dt);
-    this.camera.update(dt, this.player.x, this.player.y, this.player.facingRight);
+    this.camera.update(dt, this.player.x, this.player.y, this.player.facingRight, this.player.vx);
     this.parallax.update(this.camera.x);
 
     // Throttled HUD update a circa 10Hz per non pesare su React

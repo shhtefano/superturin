@@ -7,7 +7,7 @@ export const level3_valentino: LevelData = {
   theme: 'valentino',
   width: 6000,
   height: 720,
-  timeLimit: 260,
+  timeLimit: 230,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -28,27 +28,27 @@ export const level3_valentino: LevelData = {
       id: 'v_barge_1',
       x: 1080,
       y: 530,
-      width: 130,
-      height: 24,
-      isOneWay: true,
-      style: 'wood_dock',
-      isMoving: true,
-      moveAxis: 'y',
-      moveRange: 45,
-      moveSpeed: 1.6,
-    },
-    {
-      id: 'v_barge_2',
-      x: 1320,
-      y: 510,
       width: 120,
       height: 24,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
-      moveAxis: 'x',
-      moveRange: 75,
+      moveAxis: 'y',
+      moveRange: 50,
       moveSpeed: 1.8,
+    },
+    {
+      id: 'v_barge_2',
+      x: 1320,
+      y: 510,
+      width: 115,
+      height: 24,
+      isOneWay: true,
+      style: 'wood_dock',
+      isMoving: true,
+      moveAxis: 'x',
+      moveRange: 80,
+      moveSpeed: 2.0,
     },
 
     // 2. Isolotto Verde dei Pescatori
@@ -61,40 +61,40 @@ export const level3_valentino: LevelData = {
       id: 'v_barge_3',
       x: 2320,
       y: 540,
-      width: 120,
+      width: 110,
       height: 24,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 50,
-      moveSpeed: 2.0,
+      moveRange: 55,
+      moveSpeed: 2.2,
     },
     {
       id: 'v_barge_4',
       x: 2540,
       y: 490,
-      width: 120,
+      width: 110,
       height: 24,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 2.2,
+      moveRange: 95,
+      moveSpeed: 2.3,
     },
     {
       id: 'v_barge_5',
       x: 2780,
       y: 520,
-      width: 120,
+      width: 110,
       height: 24,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 40,
-      moveSpeed: 1.7,
+      moveRange: 45,
+      moveSpeed: 1.9,
     },
 
     // 3. Riva del Giardino Roccioso
@@ -108,27 +108,27 @@ export const level3_valentino: LevelData = {
       id: 'v_barge_6',
       x: 3840,
       y: 450,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 80,
-      moveSpeed: 2.0,
+      moveRange: 85,
+      moveSpeed: 2.2,
     },
     {
       id: 'v_barge_7',
       x: 4050,
       y: 390,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 60,
-      moveSpeed: 1.9,
+      moveRange: 65,
+      moveSpeed: 2.1,
     },
 
     // 4. Castello e Mura del Borgo Medievale
@@ -143,14 +143,14 @@ export const level3_valentino: LevelData = {
       id: 'v_final_drawbridge',
       x: 5150,
       y: 430,
-      width: 130,
+      width: 120,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 80,
-      moveSpeed: 2.2,
+      moveRange: 85,
+      moveSpeed: 2.3,
     },
 
     // 5. Terrazza del Porticciolo Reale Finale
@@ -163,7 +163,6 @@ export const level3_valentino: LevelData = {
     { id: 'toret_valentino_2', x: 4320, y: 512 },
   ],
 
-  // Pochi collezionabili rari sospesi sull'acqua e tra le mura
   collectibles: [
     { id: 'v_g_1', type: 'gianduiotto', x: 1200, y: 440 }, // In volo sopra il primo barcone sul Po
     { id: 'v_g_2', type: 'gianduiotto', x: 2660, y: 410 }, // Tra i due barconi mobili
@@ -171,24 +170,36 @@ export const level3_valentino: LevelData = {
   ],
 
   enemies: [
-    // Parco iniziale
-    { id: 'val_squirrel_1', type: 'squirrel', x: 540, y: 554, patrolLeft: 420, patrolRight: 800 },
+    // 1. Parco iniziale: Scoiattolo scattante, Nutria del Po lungo il prato
+    { id: 'val_squirrel_1', type: 'squirrel', x: 500, y: 554, patrolLeft: 380, patrolRight: 720 },
+    { id: 'val_nutria_1', type: 'nutria', x: 740, y: 558, patrolLeft: 660, patrolRight: 960 },
     { id: 'val_pigeon_1', type: 'pigeon', x: 860, y: 364, patrolLeft: 840, patrolRight: 980 },
 
-    // Isolotto pescatori
-    { id: 'val_squirrel_2', type: 'squirrel', x: 1750, y: 544, patrolLeft: 1620, patrolRight: 2100 },
-    { id: 'val_angry_fish', type: 'angryLocal', x: 1950, y: 526, patrolLeft: 1850, patrolRight: 2200 },
+    // Fossa 1 Barconi sul Po: Gabbiano che scende in picchiata sull'acqua
+    { id: 'val_gabbiano_po1', type: 'gabbiano', x: 1200, y: 430, patrolLeft: 1080, patrolRight: 1420 },
 
-    // Giardino Roccioso
-    { id: 'val_squirrel_rock', type: 'squirrel', x: 2950, y: 544, patrolLeft: 2880, patrolRight: 3180 },
-    { id: 'val_angry_1', type: 'angryLocal', x: 3200, y: 526, patrolLeft: 3080, patrolRight: 3500 },
-    { id: 'val_pigeon_2', type: 'pigeon', x: 3480, y: 374, patrolLeft: 3450, patrolRight: 3590 },
+    // 2. Isolotto pescatori: Nutria bagnata e Torinese pescatore
+    { id: 'val_nutria_island', type: 'nutria', x: 1680, y: 548, patrolLeft: 1560, patrolRight: 1880 },
+    { id: 'val_squirrel_2', type: 'squirrel', x: 1850, y: 544, patrolLeft: 1720, patrolRight: 2150 },
+    { id: 'val_angry_fish', type: 'angryLocal', x: 2020, y: 526, patrolLeft: 1920, patrolRight: 2200 },
 
-    // Borgo Medievale
-    { id: 'val_squirrel_3', type: 'squirrel', x: 4450, y: 534, patrolLeft: 4300, patrolRight: 4800 },
-    { id: 'val_pigeon_borgo', type: 'pigeon', x: 4580, y: 394, patrolLeft: 4550, patrolRight: 4680 },
+    // Fossa 2 Barconi mobili: Gabbiano ad ala tesa sopra i barconi
+    { id: 'val_gabbiano_po2', type: 'gabbiano', x: 2620, y: 420, patrolLeft: 2420, patrolRight: 2850 },
+
+    // 3. Giardino Roccioso: Scoiattoli acrobatici e Nutria delle sorgenti
+    { id: 'val_squirrel_rock', type: 'squirrel', x: 3080, y: 544, patrolLeft: 3010, patrolRight: 3300 },
+    { id: 'val_nutria_rock', type: 'nutria', x: 3350, y: 548, patrolLeft: 3220, patrolRight: 3580 },
+    { id: 'val_angry_1', type: 'angryLocal', x: 3520, y: 526, patrolLeft: 3420, patrolRight: 3720 },
+
+    // 4. Borgo Medievale: Vigile all'ingresso, Scoiattoli sui bastioni e Torinese
+    { id: 'val_vigile_borgo', type: 'vigile', x: 4350, y: 516, patrolLeft: 4280, patrolRight: 4580 },
+    { id: 'val_squirrel_3', type: 'squirrel', x: 4620, y: 534, patrolLeft: 4500, patrolRight: 4850 },
+    { id: 'val_gabbiano_castle', type: 'gabbiano', x: 4780, y: 310, patrolLeft: 4680, patrolRight: 5020 },
     { id: 'val_angry_2', type: 'angryLocal', x: 4720, y: 346, patrolLeft: 4680, patrolRight: 4820 },
-    { id: 'val_angry_3', type: 'angryLocal', x: 5600, y: 516, patrolLeft: 5420, patrolRight: 5800 },
+
+    // Pontile d'attracco finale: Nutria gigante e Torinese dei canottieri Cerea
+    { id: 'val_nutria_final', type: 'nutria', x: 5460, y: 538, patrolLeft: 5390, patrolRight: 5750 },
+    { id: 'val_angry_3', type: 'angryLocal', x: 5680, y: 516, patrolLeft: 5540, patrolRight: 5880 },
   ],
 
   goal: {

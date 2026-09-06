@@ -282,6 +282,18 @@
   line-height: 1.25;
 }
 
+.level-quadro-enemies {
+  font-size: 0.67rem;
+  color: #cbd5e1;
+  line-height: 1.25;
+  margin-top: 2px;
+}
+
+.level-enemies-label {
+  color: #f59e0b;
+  font-weight: bold;
+}
+
 .level-quadro-footer {
   display: flex;
   justify-content: space-between;
@@ -328,6 +340,42 @@
 .char-select-header {
   text-align: center;
   margin-bottom: 12px;
+}
+
+.char-modal-title {
+  font-size: 1.65rem;
+  margin: 0 0 4px 0;
+}
+
+.char-modal-subtitle {
+  font-size: 0.88rem;
+  margin: 0 0 16px 0;
+}
+
+.main-modal-title {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.main-modal-subtitle {
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+}
+
+.level-modal-title {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.level-modal-subtitle {
+  font-size: 0.88rem;
+  margin-bottom: 14px;
+}
+
+.char-preview-canvas {
+  width: 64px;
+  height: 64px;
+  display: block;
 }
 
 .char-grid {
@@ -505,6 +553,18 @@
   width: auto;
   padding: 8px 18px;
   font-size: 0.72rem;
+}
+
+.level-select-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.level-btn-back {
+  width: auto;
+  padding: 10px 24px;
 }
 
 @media screen and (max-width: 768px) {

@@ -294,13 +294,13 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
   }
 };
 
-const LEVEL_METADATA: Record<number, { tag: string; diff: string }> = {
-  1: { tag: '🏛️ CENTRO STORICO', diff: '⭐⭐' },
-  2: { tag: '🗼 SCALATA VERTICALE', diff: '⭐⭐⭐⭐' },
-  3: { tag: '🌳 NATURA & FIUME', diff: '⭐⭐⭐' },
-  4: { tag: '🌙 RAVE NOTTURNO', diff: '⭐⭐⭐⭐' },
-  5: { tag: '👑 TRANVIA SUPERGA', diff: '⭐⭐⭐⭐⭐' },
-  6: { tag: '🏎️ PISTA SUL TETTO', diff: '⭐⭐⭐⭐⭐' },
+const LEVEL_METADATA: Record<number, { tag: string; diff: string; nemici: string }> = {
+  1: { tag: '🏛️ CENTRO STORICO', diff: '⭐⭐⭐', nemici: 'Piccioni, Vigili con Paletta, Rider & Tram 7' },
+  2: { tag: '🗼 MOLE ANTONELLIANA', diff: '⭐⭐⭐⭐', nemici: 'Gabbiani in picchiata, Vigili & Ascensori nel vuoto' },
+  3: { tag: '🌳 PARCO VALENTINO', diff: '⭐⭐⭐', nemici: 'Nutrie del Po, Scoiattoli balzanti & Barconi' },
+  4: { tag: '🌙 MURAZZI DI NOTTE', diff: '⭐⭐⭐⭐', nemici: 'Rider su Monopattino, Nutrie giganti & Tram notturno' },
+  5: { tag: '🐗 COLLINA SUPERGA', diff: '⭐⭐⭐⭐⭐', nemici: 'Cinghiali feroci in carica (NO Stomp) & Dentiera' },
+  6: { tag: '🤖 LINGOTTO FIAT', diff: '⭐⭐⭐⭐⭐', nemici: 'Robot Saldatori Comau (NO Stomp) & Rider supersonici' },
 };
 
 export const LevelSelect: React.FC<LevelSelectProps> = ({
@@ -354,9 +354,9 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-card" style={{ maxWidth: '900px', width: '95%' }}>
-        <h2 className="modal-title">SCEGLI IL TUO QUADRO</h2>
-        <p className="modal-subtitle" style={{ marginBottom: '16px' }}>
+      <div className="modal-card level-select-card" style={{ maxWidth: '900px', width: '95%' }}>
+        <h2 className="modal-title level-modal-title">SCEGLI IL TUO QUADRO</h2>
+        <p className="modal-subtitle level-modal-subtitle">
           Tutti i 6 livelli sbloccati! Clicca su un quadro o premi il numero <kbd>1</kbd>-<kbd>6</kbd> per giocare subito.
         </p>
 
@@ -364,7 +364,7 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
         <div className="level-gallery-grid">
           {levelList.map((level, idx) => {
             const isSelected = selectedIndex === idx;
-            const meta = LEVEL_METADATA[level.id] || { tag: 'TORINO', diff: '⭐⭐⭐' };
+            const meta = LEVEL_METADATA[level.id] || { tag: 'TORINO', diff: '⭐⭐⭐', nemici: 'Ostacoli torinesi' };
             const bestScore = bestScores[level.id] || 0;
 
             return (
@@ -390,6 +390,9 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
                     <span>{level.id}. {level.title.replace(`Livello ${level.id} — `, '')}</span>
                   </div>
                   <div className="level-quadro-sub">{level.subtitle}</div>
+                  <div className="level-quadro-enemies">
+                    <span className="level-enemies-label">Nemici:</span> {meta.nemici}
+                  </div>
                 </div>
 
                 {/* Punteggio e Pulsante Gioca */}
@@ -407,16 +410,15 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
         </div>
 
         {/* Pulsante Indietro & Hint comandi */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
+        <div className="level-select-footer">
           <button
-            className="btn-arcade btn-arcade-secondary"
-            style={{ width: 'auto', padding: '10px 24px' }}
+            className="btn-arcade btn-arcade-secondary level-btn-back"
             onClick={onClose}
           >
             ◀ TORNA AL MENU (ESC)
           </button>
 
-          <div className="menu-nav-hint" style={{ margin: 0 }}>
+          <div className="menu-nav-hint level-nav-hint">
             ⌨️ Premi <kbd>1</kbd>-<kbd>6</kbd> per avvio rapido | Frecce <kbd>◀</kbd><kbd>▶</kbd><kbd>▲</kbd><kbd>▼</kbd> + <kbd>INVIO</kbd>
           </div>
         </div>

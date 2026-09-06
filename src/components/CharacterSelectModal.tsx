@@ -88,8 +88,6 @@ const CharacterPreviewCanvas: React.FC<{ heroId: CharacterId; isSelected: boolea
       height={64}
       className="char-preview-canvas"
       style={{
-        width: '64px',
-        height: '64px',
         imageRendering: 'pixelated',
       }}
     />
@@ -179,10 +177,10 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
       <div className="modal-card char-select-card">
         {/* Header Modale */}
         <div className="char-select-header">
-          <h1 className="modal-title" style={{ fontSize: '1.7rem', margin: '0 0 4px 0' }}>
+          <h1 className="modal-title char-modal-title">
             SCEGLI IL TUO EROE
           </h1>
-          <p className="modal-subtitle" style={{ margin: '0 0 16px 0', fontSize: '0.88rem' }}>
+          <p className="modal-subtitle char-modal-subtitle">
             Ogni eroe sabaudo possiede una <strong style={{ color: '#ffd166' }}>Super-Abilità unica</strong> attivabile con <kbd className="arcade-kbd">SPAZIO</kbd> o con il tasto ⭐ del Joypad!
           </p>
         </div>

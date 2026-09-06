@@ -26,14 +26,14 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
     }
   };
 
-  // --- CONTROLLI DIREZIONALI ---
-  const handleDirStart = (dir: 'left' | 'right' | 'down') => {
+  // --- CONTROLLI DIREZIONALI (Solo Sinistra e Destra) ---
+  const handleDirStart = (dir: 'left' | 'right') => {
     if (!inputManager) return;
     vibrate(10);
     inputManager.setTouchDirection(dir, true);
   };
 
-  const handleDirEnd = (dir: 'left' | 'right' | 'down') => {
+  const handleDirEnd = (dir: 'left' | 'right') => {
     if (!inputManager) return;
     inputManager.setTouchDirection(dir, false);
   };
@@ -136,26 +136,6 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
             title="Sinistra"
           >
             ◀
-          </button>
-
-          {/* Tasto Giù */}
-          <button
-            type="button"
-            className="joypad-btn btn-down"
-            onTouchStart={(e) => {
-              e.preventDefault();
-              handleDirStart('down');
-            }}
-            onTouchEnd={(e) => {
-              e.preventDefault();
-              handleDirEnd('down');
-            }}
-            onMouseDown={() => handleDirStart('down')}
-            onMouseUp={() => handleDirEnd('down')}
-            onMouseLeave={() => handleDirEnd('down')}
-            title="Giù / Accovacciati"
-          >
-            ▼
           </button>
 
           {/* Tasto Destra */}

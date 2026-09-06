@@ -7,7 +7,7 @@ export const level6_lingotto: LevelData = {
   theme: 'lingotto',
   width: 7200,
   height: 720,
-  timeLimit: 300,
+  timeLimit: 260,
   playerStart: { x: 120, y: 500 },
 
   platforms: [
@@ -32,27 +32,27 @@ export const level6_lingotto: LevelData = {
       id: 'l6_lift_1',
       x: 1200,
       y: 430,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 80,
-      moveSpeed: 2.2,
+      moveRange: 85,
+      moveSpeed: 2.3,
     },
     {
       id: 'l6_lift_2',
       x: 1400,
       y: 370,
-      width: 110,
+      width: 105,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 90,
-      moveSpeed: 2.4,
+      moveRange: 95,
+      moveSpeed: 2.5,
     },
 
     // 2. Uscita sul Tetto del Lingotto (Quota +28m) - Inizio Pista Asfalto Nord
@@ -68,27 +68,27 @@ export const level6_lingotto: LevelData = {
       id: 'l6_shuttle_1',
       x: 2680,
       y: 380,
-      width: 100,
+      width: 95,
       height: 22,
       isOneWay: true,
       style: 'steel_beam',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 120,
-      moveSpeed: 2.8,
+      moveRange: 125,
+      moveSpeed: 2.9,
     },
     {
       id: 'l6_shuttle_2',
       x: 2950,
       y: 340,
-      width: 100,
+      width: 95,
       height: 22,
       isOneWay: true,
       style: 'steel_beam',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 75,
-      moveSpeed: 2.5,
+      moveRange: 80,
+      moveSpeed: 2.6,
     },
 
     // 3. Il Giardino Pensile "La Pista 500" (Aiuole verdi, alberi nani e fiori d'alta quota)
@@ -99,7 +99,7 @@ export const level6_lingotto: LevelData = {
     { id: 'l6_garden_dock_3', x: 4000, y: 360, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
     { id: 'l6_q_4', x: 4200, y: 270, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
 
-    // Cunicolo stretto con tubature industriali: richiede SCIVOLATA o BOMBARDAMENTO nemici
+    // Cunicolo stretto con tubature industriali
     { id: 'l6_pipe_roof', x: 4320, y: 410, width: 190, height: 24, style: 'steel_beam' },
 
     // Fossa del collaudo: piattaforme oscillanti sincronizzate
@@ -107,27 +107,27 @@ export const level6_lingotto: LevelData = {
       id: 'l6_sway_1',
       x: 4580,
       y: 440,
-      width: 95,
+      width: 90,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 85,
-      moveSpeed: 2.6,
+      moveRange: 90,
+      moveSpeed: 2.7,
     },
     {
       id: 'l6_sway_2',
       x: 4800,
       y: 380,
-      width: 95,
+      width: 90,
       height: 20,
       isOneWay: true,
       style: 'marble',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 100,
-      moveSpeed: 2.7,
+      moveRange: 105,
+      moveSpeed: 2.8,
     },
 
     // 4. La Grande Curva Parabolica Sud (Pedane sopraelevate inclinate per test aerodinamici)
@@ -142,27 +142,27 @@ export const level6_lingotto: LevelData = {
       id: 'l6_heli_plat_1',
       x: 6020,
       y: 370,
-      width: 105,
+      width: 100,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'y',
-      moveRange: 90,
-      moveSpeed: 2.6,
+      moveRange: 95,
+      moveSpeed: 2.7,
     },
     {
       id: 'l6_heli_plat_2',
       x: 6240,
       y: 330,
-      width: 105,
+      width: 100,
       height: 22,
       isOneWay: true,
       style: 'wood_dock',
       isMoving: true,
       moveAxis: 'x',
-      moveRange: 80,
-      moveSpeed: 2.5,
+      moveRange: 85,
+      moveSpeed: 2.6,
     },
 
     // 5. La Bolla di Renzo Piano (Tetto Sud e Eliporto panoramico)
@@ -172,9 +172,7 @@ export const level6_lingotto: LevelData = {
   ],
 
   checkpoints: [
-    // Checkpoint 1: Inizio Pista sul Tetto (Toret 1)
     { id: 'l6_toret_1', x: 1720, y: 440 },
-    // Checkpoint 2: Ingresso Parabolica Sud (Toret 2)
     { id: 'l6_toret_2', x: 5120, y: 460 },
   ],
 
@@ -204,28 +202,29 @@ export const level6_lingotto: LevelData = {
   ],
 
   enemies: [
-    // Rampa iniziale: piccioni industriali e collaudatore arrabbiato
-    { id: 'l6_pigeon_1', type: 'pigeon', x: 520, y: 540, patrolLeft: 460, patrolRight: 580 },
+    // 1. Rampa iniziale: Robot FIAT/Comau saldatore (NON calpestabile!) e collaudatore
+    { id: 'l6_robot_ramp', type: 'robotLingotto', x: 520, y: 536, patrolLeft: 460, patrolRight: 680 },
     { id: 'l6_angry_1', type: 'angryLocal', x: 880, y: 526, patrolLeft: 840, patrolRight: 960 },
 
-    // Tetto Nord: prototipo FIAT / Tram veloce in collaudo sulla pista!
-    { id: 'l6_tram_1', type: 'tram', x: 2000, y: 456, patrolLeft: 1780, patrolRight: 2400 },
-    { id: 'l6_angry_track_n', type: 'angryLocal', x: 2280, y: 456, patrolLeft: 2150, patrolRight: 2500 },
+    // 2. Tetto Nord: Prototipo FIAT in collaudo, Robot e Rider supersonico!
+    { id: 'l6_tram_1', type: 'tram', x: 1900, y: 456, patrolLeft: 1750, patrolRight: 2350 },
+    { id: 'l6_rider_north', type: 'rider', x: 2150, y: 452, patrolLeft: 2000, patrolRight: 2550 },
+    { id: 'l6_robot_north', type: 'robotLingotto', x: 2400, y: 456, patrolLeft: 2300, patrolRight: 2580 },
 
-    // Giardino pensile: scoiattoli dei giardini del Lingotto e collaudatore
-    { id: 'l6_squirrel_1', type: 'squirrel', x: 3450, y: 444, patrolLeft: 3300, patrolRight: 3700 },
-    { id: 'l6_pigeon_2', type: 'pigeon', x: 3900, y: 440, patrolLeft: 3820, patrolRight: 4020 },
-    { id: 'l6_squirrel_2', type: 'squirrel', x: 4280, y: 444, patrolLeft: 4150, patrolRight: 4420 },
-    { id: 'l6_angry_pensile', type: 'angryLocal', x: 4600, y: 444, patrolLeft: 4450, patrolRight: 4750 },
+    // 3. Giardino pensile Pista 500: Vigile della sicurezza Lingotto, Scoiattoli e Torinese
+    { id: 'l6_vigile_garden', type: 'vigile', x: 3350, y: 436, patrolLeft: 3260, patrolRight: 3550 },
+    { id: 'l6_squirrel_1', type: 'squirrel', x: 3620, y: 444, patrolLeft: 3450, patrolRight: 3850 },
+    { id: 'l6_robot_garden', type: 'robotLingotto', x: 4120, y: 436, patrolLeft: 4020, patrolRight: 4300 },
+    { id: 'l6_angry_pensile', type: 'angryLocal', x: 4450, y: 444, patrolLeft: 4350, patrolRight: 4680 },
 
-    // Parabolica Sud: tram di prova e collaudatore furioso
-    { id: 'l6_tram_2', type: 'tram', x: 5350, y: 476, patrolLeft: 5120, patrolRight: 5800 },
-    { id: 'l6_angry_2', type: 'angryLocal', x: 5720, y: 236, patrolLeft: 5680, patrolRight: 5800 },
-    { id: 'l6_pigeon_parabolica', type: 'pigeon', x: 5850, y: 440, patrolLeft: 5750, patrolRight: 5950 },
+    // 4. Parabolica Sud: Tram di collaudo, Robot saldatore e Rider a 240px/s sulla pendenza!
+    { id: 'l6_tram_2', type: 'tram', x: 5280, y: 476, patrolLeft: 5120, patrolRight: 5750 },
+    { id: 'l6_rider_parabolica', type: 'rider', x: 5500, y: 472, patrolLeft: 5350, patrolRight: 5850 },
+    { id: 'l6_robot_parabolica', type: 'robotLingotto', x: 5720, y: 476, patrolLeft: 5640, patrolRight: 5920 },
 
-    // Tetto Bolla finale
-    { id: 'l6_pigeon_3', type: 'pigeon', x: 6550, y: 450, patrolLeft: 6480, patrolRight: 6680 },
-    { id: 'l6_angry_3', type: 'angryLocal', x: 6780, y: 436, patrolLeft: 6680, patrolRight: 7000 },
+    // 5. Tetto Bolla di Renzo Piano: Gabbiano d'alta quota e Collaudatore furioso
+    { id: 'l6_gabbiano_bolla', type: 'gabbiano', x: 6580, y: 350, patrolLeft: 6480, patrolRight: 6850 },
+    { id: 'l6_angry_bolla', type: 'angryLocal', x: 6780, y: 436, patrolLeft: 6680, patrolRight: 7000 },
   ],
 
   goal: {
