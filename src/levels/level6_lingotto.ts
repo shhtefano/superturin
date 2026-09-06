@@ -5,7 +5,7 @@ export const level6_lingotto: LevelData = {
   title: 'Livello 6 — Lingotto e la Pista sul Tetto',
   subtitle: 'La Pista 500, Curve Paraboliche della FIAT e la Bolla di Cristallo',
   theme: 'lingotto',
-  width: 7200,
+  width: 7600,
   height: 720,
   timeLimit: 260,
   playerStart: { x: 120, y: 500 },
@@ -93,8 +93,6 @@ export const level6_lingotto: LevelData = {
 
     // 3. Il Giardino Pensile "La Pista 500" (Aiuole verdi, alberi nani e fiori d'alta quota)
     { id: 'l6_pista500_garden', x: 3200, y: 480, width: 1250, height: 240, style: 'ground_grass' },
-    // OSTACOLO INTERATTIVO: Pistone idraulico FIAT a molla per saltare sulle aiuole
-    { id: 'l6_bouncer_garden', x: 3240, y: 460, width: 44, height: 20, isBouncer: true },
     { id: 'l6_garden_dock_1', x: 3350, y: 370, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
     { id: 'l6_q_3', x: 3550, y: 260, width: 36, height: 36, isQuestionBlock: true, questionContent: 'funghetti' },
     { id: 'l6_garden_dock_2', x: 3750, y: 330, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
@@ -173,10 +171,11 @@ export const level6_lingotto: LevelData = {
       moveSpeed: 2.6,
     },
 
-    // 5. La Bolla di Renzo Piano (Tetto Sud e Eliporto panoramico)
-    { id: 'l6_ground_bolla', x: 6450, y: 490, width: 750, height: 230, style: 'lingotto_track' },
+    // 5. La Bolla di Renzo Piano (Tetto Sud, Eliporto e Grande Arena Finale del Collaudo)
+    { id: 'l6_ground_bolla', x: 6450, y: 490, width: 1050, height: 230, style: 'lingotto_track' },
     { id: 'l6_bolla_stand_1', x: 6600, y: 400, width: 150, height: 22, isOneWay: true, style: 'marble' },
-    { id: 'l6_bolla_stand_2', x: 6820, y: 340, width: 160, height: 24, isOneWay: true, style: 'marble' },
+    { id: 'l6_bolla_stand_2', x: 6860, y: 340, width: 160, height: 24, isOneWay: true, style: 'marble' },
+    { id: 'l6_bolla_stand_3', x: 7120, y: 400, width: 150, height: 22, isOneWay: true, style: 'steel_beam' },
   ],
 
   checkpoints: [
@@ -206,7 +205,8 @@ export const level6_lingotto: LevelData = {
 
     // Eliporto Bolla finale
     { id: 'l6_g_12', type: 'gianduiotto', x: 6670, y: 350 },
-    { id: 'l6_g_13', type: 'gianduiotto', x: 6900, y: 290 },
+    { id: 'l6_g_13', type: 'gianduiotto', x: 6940, y: 290 },
+    { id: 'l6_g_14', type: 'gianduiotto', x: 7200, y: 350 },
   ],
 
   enemies: [
@@ -233,12 +233,12 @@ export const level6_lingotto: LevelData = {
     // 5. Tetto Bolla di Renzo Piano: Gabbiano d'alta quota
     { id: 'l6_gabbiano_bolla', type: 'gabbiano', x: 6580, y: 350, patrolLeft: 6480, patrolRight: 6850 },
 
-    // MINI BOSS DEL LIVELLO 6: COMAU TITAN FIAT ROBOGATE (6 HP)
-    { id: 'lingotto_mini_boss', type: 'bossComau', x: 6720, y: 412, patrolLeft: 6500, patrolRight: 6980 },
+    // MINI BOSS DEL LIVELLO 6: COMAU TITAN FIAT ROBOGATE (6 HP) — Grande Arena Industriale
+    { id: 'lingotto_mini_boss', type: 'bossComau', x: 6850, y: 412, patrolLeft: 6520, patrolRight: 7360 },
   ],
 
   goal: {
-    x: 7060,
+    x: 7420,
     y: 280,
   },
 };

@@ -23,9 +23,6 @@ export const level5_superga: LevelData = {
     { id: 's5_step_1', x: 640, y: 470, width: 130, height: 22, isOneWay: true, style: 'marble' },
     { id: 's5_step_2', x: 840, y: 400, width: 140, height: 22, isOneWay: true, style: 'marble' },
 
-    // OSTACOLO INTERATTIVO: Molla montana sabauda (per balzare verso la cremagliera)
-    { id: 's5_bouncer_1', x: 950, y: 560, width: 44, height: 20, isBouncer: true },
-
     // PRIMA FOSSA DELLA COLLINA: Piattaforma-cremagliera mobile su asse X e Y
     {
       id: 's5_rack_1',
@@ -116,9 +113,6 @@ export const level5_superga: LevelData = {
     { id: 's5_track_bridge_roof', x: 3400, y: 310, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 's5_q_3', x: 3480, y: 190, width: 36, height: 36, isQuestionBlock: true, questionContent: 'marijuana' },
     { id: 's5_track_bridge_2', x: 3660, y: 390, width: 150, height: 22, isOneWay: true, style: 'dentiera_rail' },
-    // OSTACOLO INTERATTIVO: Molla montana per superare il burrone
-    { id: 's5_bouncer_2', x: 3840, y: 520, width: 44, height: 20, isBouncer: true },
-
     // IL GRANDE BURRONE PANORAMICO: 3 Pilastri di roccia scoscesa nel vuoto
     { id: 's5_cliff_1', x: 4080, y: 480, width: 68, height: 240, style: 'brick' },
     { id: 's5_cliff_2', x: 4280, y: 400, width: 68, height: 320, style: 'brick' },

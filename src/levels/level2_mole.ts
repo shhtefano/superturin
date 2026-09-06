@@ -5,7 +5,7 @@ export const level2_mole: LevelData = {
   title: 'Livello 2 — La Mole Antonelliana',
   subtitle: 'La Grande Scalata Verticale tra Ascensori nel Vuoto e la Guglia',
   theme: 'mole',
-  width: 5600,
+  width: 6100,
   height: 720,
   timeLimit: 230,
   playerStart: { x: 120, y: 500 },
@@ -21,9 +21,6 @@ export const level2_mole: LevelData = {
 
     // Scalini di marmo per raggiungere il primo ascensore
     { id: 'm_step_1', x: 620, y: 480, width: 130, height: 22, isOneWay: true, style: 'marble' },
-
-    // OSTACOLO INTERATTIVO: Molla della Mole (lancia verso l'ascensore nel vuoto)
-    { id: 'm_bouncer_1', x: 770, y: 460, width: 44, height: 20, isBouncer: true },
 
     // ASCENSORE 1: Salita verticale rapida sopra il baratro
     {
@@ -82,9 +79,6 @@ export const level2_mole: LevelData = {
     { id: 'm_q_3', x: 2620, y: 200, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
     { id: 'm_cupola_step_2', x: 2750, y: 260, width: 140, height: 22, isOneWay: true, style: 'marble' },
 
-    // OSTACOLO INTERATTIVO: Molla della Cupola per salire al tempietto
-    { id: 'm_bouncer_cupola', x: 2980, y: 410, width: 44, height: 20, isBouncer: true },
-
     // Baratro del Tempietto: 2 Piattaforme mobili su assi incrociati
     {
       id: 'm_lift_3',
@@ -141,8 +135,10 @@ export const level2_mole: LevelData = {
       moveSpeed: 2.6,
     },
 
-    // 5. Terrazza Panoramica Sommitale con la Guglia e Arena del Boss
-    { id: 'm_spire_summit', x: 5120, y: 400, width: 480, height: 320, style: 'marble' },
+    // 5. Terrazza Panoramica Sommitale con la Guglia e Grande Arena del Boss
+    { id: 'm_spire_summit', x: 5100, y: 420, width: 880, height: 300, style: 'marble' },
+    { id: 'm_arena_tier_1', x: 5260, y: 330, width: 140, height: 22, isOneWay: true, style: 'marble' },
+    { id: 'm_arena_tier_2', x: 5600, y: 330, width: 140, height: 22, isOneWay: true, style: 'marble' },
   ],
 
   checkpoints: [
@@ -186,12 +182,12 @@ export const level2_mole: LevelData = {
     { id: 'mole_gabbiano_spire', type: 'gabbiano', x: 4520, y: 240, patrolLeft: 4320, patrolRight: 4780 },
     { id: 'mole_pig_4', type: 'pigeon', x: 4740, y: 284, patrolLeft: 4720, patrolRight: 4790 },
 
-    // MINI BOSS DEL LIVELLO 2: RE PICCIONE DELLA MOLE ANTONELLIANA (4 HP)
-    { id: 'mole_mini_boss', type: 'bossPiccione', x: 5260, y: 310, patrolLeft: 5140, patrolRight: 5500 },
+    // MINI BOSS DEL LIVELLO 2: RE PICCIONE DELLA MOLE ANTONELLIANA (4 HP) — Grande Arena Aerea
+    { id: 'mole_mini_boss', type: 'bossPiccione', x: 5460, y: 340, patrolLeft: 5160, patrolRight: 5880 },
   ],
 
   goal: {
-    x: 5500,
+    x: 5920,
     y: 320,
   },
 };

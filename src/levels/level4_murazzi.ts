@@ -5,7 +5,7 @@ export const level4_murazzi: LevelData = {
   title: 'Livello 4 — Murazzi del Po di Notte',
   subtitle: 'Arcate dei Murazzi, Luci d\'Artista e la Darsena Notturna',
   theme: 'murazzi',
-  width: 6400,
+  width: 6800,
   height: 720,
   timeLimit: 230,
   playerStart: { x: 120, y: 500 },
@@ -25,9 +25,6 @@ export const level4_murazzi: LevelData = {
     // Passerella dell'antico approdo
     { id: 'm4_dock_1', x: 650, y: 460, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
     { id: 'm4_dock_2', x: 860, y: 390, width: 140, height: 22, isOneWay: true, style: 'wood_dock' },
-
-    // OSTACOLO INTERATTIVO: Bouncer Subwoofer dei Murazzi a ritmo di cassa
-    { id: 'm4_bouncer_sub', x: 1000, y: 560, width: 44, height: 20, isBouncer: true },
 
     // PRIMA FOSSA NOTTURNA SUL PO: 2 Barche mobili nel buio
     {
@@ -116,9 +113,6 @@ export const level4_murazzi: LevelData = {
     { id: 'm4_bridge_roof', x: 3480, y: 340, width: 160, height: 22, isOneWay: true, style: 'marble' },
     { id: 'm4_q_3', x: 3550, y: 220, width: 36, height: 36, isQuestionBlock: true, questionContent: 'cocaina' },
     { id: 'm4_bridge_portico_2', x: 3740, y: 420, width: 150, height: 22, isOneWay: true, style: 'stone_portico' },
-    // OSTACOLO INTERATTIVO: Bouncer alla Diga
-    { id: 'm4_bouncer_dam', x: 3950, y: 560, width: 44, height: 20, isBouncer: true },
-
     // FOSSA DELLA DIGA DEI MURAZZI: Salto tra piloni strettissimi nell'acqua vorticosa
     { id: 'm4_dam_pillar_1', x: 4160, y: 490, width: 70, height: 230, style: 'stone_portico' },
     { id: 'm4_dam_pillar_2', x: 4360, y: 420, width: 70, height: 300, style: 'stone_portico' },
@@ -160,8 +154,10 @@ export const level4_murazzi: LevelData = {
       moveSpeed: 2.2,
     },
 
-    // Terrazza Panoramica Finale del Monte & Arena Mini Boss
-    { id: 'm4_final_terrace', x: 5880, y: 540, width: 520, height: 180, style: 'marble' },
+    // Terrazza Panoramica Finale del Monte & Grande Arena Mini Boss
+    { id: 'm4_final_terrace', x: 5860, y: 540, width: 880, height: 180, style: 'marble' },
+    { id: 'm4_arena_tier_1', x: 6040, y: 440, width: 140, height: 22, isOneWay: true, style: 'wood_dock' },
+    { id: 'm4_arena_tier_2', x: 6380, y: 440, width: 140, height: 22, isOneWay: true, style: 'wood_dock' },
   ],
 
   checkpoints: [
@@ -201,12 +197,12 @@ export const level4_murazzi: LevelData = {
     { id: 'm4_vigile_monte', type: 'vigile', x: 5120, y: 516, patrolLeft: 5020, patrolRight: 5350 },
     { id: 'm4_nutria_monte', type: 'nutria', x: 5380, y: 538, patrolLeft: 5240, patrolRight: 5580 },
 
-    // MINI BOSS DEL LIVELLO 4: REGINA DELLE NUTRIE DEI MURAZZI (5 HP)
-    { id: 'murazzi_mini_boss', type: 'bossNutria', x: 5980, y: 482, patrolLeft: 5880, patrolRight: 6240 },
+    // MINI BOSS DEL LIVELLO 4: REGINA DELLE NUTRIE DEI MURAZZI (5 HP) — Grande Arena Fluviale
+    { id: 'murazzi_mini_boss', type: 'bossNutria', x: 6180, y: 482, patrolLeft: 5900, patrolRight: 6620 },
   ],
 
   goal: {
-    x: 6280,
+    x: 6640,
     y: 460,
   },
 };

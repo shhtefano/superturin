@@ -23,9 +23,6 @@ export const level3_valentino: LevelData = {
     { id: 'v_tree_1', x: 640, y: 460, width: 130, height: 22, isOneWay: true, style: 'wood_dock' },
     { id: 'v_tree_2', x: 840, y: 390, width: 140, height: 22, isOneWay: true, style: 'wood_dock' },
 
-    // OSTACOLO INTERATTIVO: Geyser del Toret a Molla (spinge in alto sui rami del Valentino)
-    { id: 'v_bouncer_1', x: 920, y: 560, width: 44, height: 20, isBouncer: true },
-
     // PRIMA FOSSA FIUME PO: 2 Barconi mobili oscillanti sull'acqua
     {
       id: 'v_barge_1',
@@ -112,9 +109,6 @@ export const level3_valentino: LevelData = {
     { id: 'v_rock_step_1', x: 3160, y: 460, width: 120, height: 22, isOneWay: true, style: 'stone_portico' },
     { id: 'v_q_3', x: 3320, y: 340, width: 36, height: 36, isQuestionBlock: true, questionContent: 'md' },
     { id: 'v_rock_step_2', x: 3450, y: 400, width: 140, height: 22, isOneWay: true, style: 'stone_portico' },
-    // OSTACOLO INTERATTIVO: Molla del Giardino Roccioso
-    { id: 'v_bouncer_2', x: 3660, y: 550, width: 44, height: 20, isBouncer: true },
-
     // FOSSA DEL FOSSATO DEL CASTELLO: Pontili di legno alti
     {
       id: 'v_barge_6',
