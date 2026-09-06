@@ -1118,10 +1118,26 @@ export const TorinoWorldMap: React.FC<TorinoWorldMapProps> = ({
         </div>
 
         {/* ── BARRA NAVIGAZIONE LIVELLI MOBILE ─────────────────────────────
-            Visibile solo su touch/mobile. Sostituisce il D-pad direzionale
-            con controlli diretti livello-per-livello più intuitivi.
+            Visibile solo su touch/mobile. Mostra le info del livello
+            accanto ai bottoni per selezionare il livello e al tasto GIOCA.
         ──────────────────────────────────────────────────────────────────── */}
         <div className="map-mobile-nav">
+          {/* Info del livello selezionato accanto ai controlli */}
+          <div className="map-mobile-info-badge">
+            <div className="map-mobile-info-main">
+              <span className="map-mobile-info-num">{currentNode.id}</span>
+              <span className="map-mobile-info-title">{currentNode.title}</span>
+            </div>
+            <div className="map-mobile-info-meta">
+              <span className="map-mobile-info-diff">{currentNode.diff}</span>
+              {currentBestScore > 0 ? (
+                <span className="map-mobile-info-score">⭐ {currentBestScore}</span>
+              ) : (
+                <span className="map-mobile-info-sub">{currentNode.landmark}</span>
+              )}
+            </div>
+          </div>
+
           {/* Freccia Precedente */}
           <button
             className="map-mobile-nav-arrow"
@@ -1181,11 +1197,11 @@ export const TorinoWorldMap: React.FC<TorinoWorldMapProps> = ({
             ▶
           </button>
 
-          {/* Bottone GIOCA centrale */}
+          {/* Bottone GIOCA */}
           <button
             className="map-mobile-play-btn"
-            onClick={() => onSelectLevel(currentNodeId)}
-            aria-label={`Gioca livello ${currentNodeId}`}
+            onClick={() => onSelectLevel(targetNodeId ?? currentNodeId)}
+            aria-label={`Gioca livello ${targetNodeId ?? currentNodeId}`}
           >
             ▶ GIOCA
           </button>

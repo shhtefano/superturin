@@ -17,8 +17,8 @@ export class BossPiccione extends BossEnemy {
       patrolRight,
       130, // moveSpeed
       3,   // maxHp (3 colpi per scontro rapido e divertente)
-      'Re Piccione della Mole',
-      'Sovrano dei Tetti e delle Guglie Sabaude'
+      'Concettina A Pilusa',
+      'La Terribile Regina dei Tetti Sabaudi e della Mole'
     );
     this.baseHeightY = y;
   }

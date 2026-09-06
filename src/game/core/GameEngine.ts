@@ -768,6 +768,9 @@ export class GameEngine {
 
     for (const enemy of this.enemies) {
       if (!enemy.active) continue;
+      if (enemy instanceof BossEnemy) {
+        enemy.checkEncounter(this.player.x, this.camera.x, this.canvas.width);
+      }
       enemy.update(enemyDt);
 
       // Aura Tossica di Krebs: stermina i nemici entro raggio di 85px
@@ -1072,6 +1075,8 @@ export class GameEngine {
       icon: meta.icon,
       color: meta.color,
       description: meta.description,
+      bonusIcon: meta.bonusIcon,
+      malusIcon: meta.malusIcon,
       timestamp: Date.now(),
     };
   }
@@ -1159,6 +1164,7 @@ export class GameEngine {
     // 12. Disegna Barra Boss Arcade in coordinate assolute HUD a schermo
     const activeBoss = this.enemies.find((e): e is BossEnemy => e instanceof BossEnemy && !e.isDead);
     if (activeBoss) {
+      activeBoss.checkEncounter(this.player ? this.player.x : 0, this.camera.x, this.canvas.width);
       activeBoss.renderBossHealthBar(this.ctx, this.canvas.width);
     }
 

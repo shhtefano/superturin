@@ -43,9 +43,9 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: rgba(255, 255, 255, 0.70);
-  font-size: 1.25rem;
-  width: 48px;
-  height: 48px;
+  font-size: 1.35rem;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -63,9 +63,9 @@
 }
 
 .btn-mobile-pause-corner {
-  width: 50px;
-  height: 50px;
-  font-size: 1.35rem;
+  width: 54px;
+  height: 54px;
+  font-size: 1.45rem;
   background: rgba(255, 255, 255, 0.06);
   border: 1.5px solid rgba(255, 183, 3, 0.32);
   box-shadow: none;
@@ -123,13 +123,13 @@
 }
 
 .joypad-btn {
-  width: 94px;
-  height: 94px;
+  width: 104px;
+  height: 104px;
   background: rgba(255, 255, 255, 0.04);
   border: 1.5px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   color: rgba(255, 255, 255, 0.60);
-  font-size: 2.2rem;
+  font-size: 2.35rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -166,8 +166,8 @@
 
 .joypad-skill-btn {
   position: relative;
-  width: 76px;
-  height: 76px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   border: 1.5px solid rgba(255, 255, 255, 0.25);
@@ -194,7 +194,7 @@
 }
 
 .skill-btn-icon {
-  font-size: 1.65rem;
+  font-size: 1.85rem;
   line-height: 1;
   opacity: 0.65;
 }
@@ -206,7 +206,7 @@
   background: rgba(255, 183, 3, 0.65);
   color: #0f172a;
   font-family: var(--font-display);
-  font-size: 0.58rem;
+  font-size: 0.64rem;
   font-weight: 900;
   padding: 1px 4px;
   border-radius: 3px;
@@ -250,7 +250,7 @@
   background: rgba(15, 23, 42, 0.60);
   color: #f87171;
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -260,8 +260,8 @@
 
 /* Grande Tasto Salto Arcade Ultra-Trasparente Ingrandito (Senza lettera A) */
 .joypad-btn-jump {
-  width: 122px;
-  height: 122px;
+  width: 134px;
+  height: 134px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.04);
   border: 2px solid rgba(255, 255, 255, 0.30);
@@ -286,7 +286,7 @@
 
 .jump-label {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   font-weight: 900;
   letter-spacing: 1px;
 }
@@ -381,9 +381,9 @@
   }
 
   .joypad-btn {
-    width: 84px;
-    height: 84px;
-    font-size: 1.95rem;
+    width: 92px;
+    height: 92px;
+    font-size: 2.1rem;
   }
 
   .joypad-skills-arc {
@@ -391,42 +391,73 @@
   }
 
   .joypad-skill-btn {
-    width: 68px;
-    height: 68px;
+    width: 76px;
+    height: 76px;
   }
 
   .skill-btn-icon {
-    font-size: 1.45rem;
+    font-size: 1.6rem;
   }
 
   .joypad-btn-jump {
-    width: 108px;
-    height: 108px;
+    width: 120px;
+    height: 120px;
   }
 
   .jump-label {
-    font-size: 0.95rem;
+    font-size: 1.02rem;
   }
 
+  /* Tutti i menu e modal mobile più piccoli e compatti (non zoomati) */
   .modal-card {
-    padding: 10px 14px;
-    max-height: 96vh;
+    max-width: 430px !important;
+    width: 84% !important;
+    padding: 10px 16px !important;
+    max-height: 92vh !important;
+    border-radius: 14px !important;
     overflow-y: auto;
   }
 
   .modal-title {
-    font-size: 1.05rem;
-    margin-bottom: 4px;
+    font-size: 0.95rem !important;
+    margin-bottom: 2px !important;
+    letter-spacing: 0.5px !important;
   }
 
   .modal-subtitle {
-    font-size: 0.72rem;
-    margin-bottom: 8px;
+    font-size: 0.60rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .modal-stats-box {
+    padding: 5px 10px !important;
+    margin-bottom: 8px !important;
+    gap: 4px !important;
+    font-size: 0.62rem !important;
+    border-radius: 8px !important;
+  }
+
+  .main-hero-stats {
+    padding: 4px 8px !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+    font-size: 0.58rem !important;
+    border-radius: 8px !important;
+  }
+
+  .btn-group {
+    gap: 6px !important;
   }
 
   .btn-arcade {
-    padding: 7px 12px;
-    font-size: 0.66rem;
+    padding: 6px 12px !important;
+    font-size: 0.62rem !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .menu-nav-hint {
+    display: none !important;
   }
 
   /* --- SELEZIONE EROE COMPATTA (TUTTI E GLI 8 EROI SU SCHERMO) --- */
@@ -873,5 +904,51 @@
   /* Rimuovi cursore hover dai btn arcade (non ha senso su touch) */
   .btn-arcade:hover {
     transform: none;
+  }
+
+  /* Modal e menu compatti su tutti i dispositivi touch */
+  .modal-card {
+    max-width: 430px !important;
+    width: 84% !important;
+    padding: 10px 16px !important;
+    max-height: 92vh !important;
+    border-radius: 14px !important;
+  }
+
+  .modal-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  .modal-subtitle {
+    font-size: 0.60rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .modal-stats-box {
+    padding: 5px 10px !important;
+    margin-bottom: 8px !important;
+    gap: 4px !important;
+    font-size: 0.62rem !important;
+  }
+
+  .main-hero-stats {
+    padding: 4px 8px !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+    font-size: 0.58rem !important;
+  }
+
+  .btn-group {
+    gap: 6px !important;
+  }
+
+  .btn-arcade {
+    padding: 6px 12px !important;
+    font-size: 0.62rem !important;
+  }
+
+  .menu-nav-hint {
+    display: none !important;
   }
 }

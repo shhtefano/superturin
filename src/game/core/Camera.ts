@@ -9,8 +9,8 @@ export class Camera {
   public levelHeight: number = 720;
 
   // Offset verticale per calibrare l'inquadratura di terra:
-  // Valore bilanciato (20px) per mantenere la porzione sotto i piedi del giocatore abbassata e naturale
-  public readonly verticalGroundOffset: number = 20;
+  // -15px abbassa ulteriormente la parte sottostante dove cammina il giocatore
+  public readonly verticalGroundOffset: number = -15;
 
   // Smoothing e lookahead graduale
   private targetX: number = 0;
@@ -38,7 +38,7 @@ export class Camera {
   public setPositionImmediate(targetX: number, targetY: number): void {
     this.currentLookAhead = 0;
     this.x = targetX - this.width * 0.35;
-    this.y = targetY - this.height * 0.6;
+    this.y = targetY - this.height * 0.65;
     this.clampToBounds();
   }
 
@@ -59,9 +59,9 @@ export class Camera {
 
     // Deadzone verticale: quando il giocatore salta o atterra, se la variazione è entro 65px
     // la telecamera NON sussulta su e giù, eliminando il mal di mare e rendendo lo sfondo immobile.
-    // Focus a 0.60 per mantenere la porzione sotto i piedi del giocatore abbassata
+    // Focus a 0.65 per abbassare la parte sottostante dove cammina il giocatore
     // e garantire massima visibilità verso l'alto (piattaforme, ostacoli e cielo).
-    const desiredY = focusY - this.height * 0.60;
+    const desiredY = focusY - this.height * 0.65;
     const diffY = desiredY - this.targetY;
     const deadzoneY = 65;
     if (Math.abs(diffY) > deadzoneY) {

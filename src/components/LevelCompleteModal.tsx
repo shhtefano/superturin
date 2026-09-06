@@ -35,20 +35,7 @@ export const LevelCompleteModal: React.FC<LevelCompleteModalProps> = ({
         <h2 className="modal-title">LIVELLO COMPLETATO!</h2>
         <p className="modal-subtitle">Complimenti! Hai raggiunto il traguardo reale!</p>
 
-        <div
-          style={{
-            background: 'rgba(0, 0, 0, 0.4)',
-            padding: '18px',
-            borderRadius: 'var(--radius-md)',
-            marginBottom: '24px',
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.78rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            textAlign: 'left',
-          }}
-        >
+        <div className="modal-stats-box">
           <div>⭐ Punteggio Finale: <span style={{ color: 'var(--color-oro-reale)' }}>{score}</span></div>
           <div>🍫 Gianduiotti Raccolti: <span style={{ color: '#ffe066' }}>{gianduiotti}</span></div>
           <div>⏱️ Tempo Rimanente: <span style={{ color: '#38bdf8' }}>{timeLeft}s</span></div>

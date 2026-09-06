@@ -78,6 +78,8 @@ export interface CollectedNotification {
   color: string;
   description: string;
   timestamp: number;
+  bonusIcon?: string;
+  malusIcon?: string;
 }
 
 export interface HudData {

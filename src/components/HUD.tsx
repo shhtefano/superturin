@@ -112,9 +112,25 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
         >
           <span className="toast-icon">{data.lastCollected.icon}</span>
           <div className="toast-body">
-            <span className="toast-name" style={{ color: data.lastCollected.color }}>
-              {data.lastCollected.name}
-            </span>
+            <div className="toast-header-row">
+              <span className="toast-name" style={{ color: data.lastCollected.color }}>
+                {data.lastCollected.name}
+              </span>
+              {(data.lastCollected.bonusIcon || data.lastCollected.malusIcon) && (
+                <span className="toast-badges">
+                  {data.lastCollected.bonusIcon && (
+                    <span className="toast-pill-bonus" title="Bonus">
+                      🟢 {data.lastCollected.bonusIcon}
+                    </span>
+                  )}
+                  {data.lastCollected.malusIcon && (
+                    <span className="toast-pill-malus" title="Malus">
+                      🔴 {data.lastCollected.malusIcon}
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
             <span className="toast-desc">{data.lastCollected.description}</span>
           </div>
         </div>

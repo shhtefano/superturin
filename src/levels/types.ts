@@ -11,6 +11,8 @@ export interface CollectibleMeta {
   icon: string;
   color: string;
   description: string;
+  bonusIcon?: string;
+  malusIcon?: string;
 }
 
 export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
@@ -20,6 +22,7 @@ export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
     icon: '🍫',
     color: '#ffb703',
     description: '+100 Punti',
+    bonusIcon: '⭐',
   },
   cocaina: {
     name: 'Cocaina Sabauda',
@@ -27,6 +30,8 @@ export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
     icon: '⚡',
     color: '#38bdf8',
     description: 'Sprint & Velocità Massima',
+    bonusIcon: '⚡',
+    malusIcon: '🌀',
   },
   marijuana: {
     name: 'Marijuana dei Murazzi',
@@ -34,6 +39,8 @@ export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
     icon: '🌿',
     color: '#4ade80',
     description: 'Scudo Protettivo & Difesa',
+    bonusIcon: '🛡️',
+    malusIcon: '🐌',
   },
   md: {
     name: 'MDMA Elettronica',
@@ -41,6 +48,8 @@ export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
     icon: '✨',
     color: '#f472b6',
     description: 'Magnete Monete & Punti Doppi',
+    bonusIcon: '🧲',
+    malusIcon: '🧊',
   },
   lsd: {
     name: 'LSD Psichedelico',
@@ -48,6 +57,8 @@ export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
     icon: '👁️',
     color: '#c084fc',
     description: 'Doppio Salto Acrobatico',
+    bonusIcon: '🌀',
+    malusIcon: '🌈',
   },
   funghetti: {
     name: 'Funghetti Allucinogeni',
@@ -55,6 +66,8 @@ export const COLLECTIBLE_META: Record<CollectibleType, CollectibleMeta> = {
     icon: '🍄',
     color: '#fb923c',
     description: 'Super Salto & Gravità Ridotta',
+    bonusIcon: '🦘',
+    malusIcon: '🍄',
   },
 };
 

@@ -34,18 +34,7 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({
           Boia fauss! Sei stato sopraffatto dal caos cittadino.
         </p>
 
-        <div
-          style={{
-            background: 'rgba(0, 0, 0, 0.4)',
-            padding: '16px',
-            borderRadius: 'var(--radius-md)',
-            marginBottom: '24px',
-            fontFamily: 'var(--font-display)',
-            fontSize: '0.8rem',
-            display: 'flex',
-            justifyContent: 'space-around',
-          }}
-        >
+        <div className="modal-stats-box" style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
           <div>⭐ Punteggio: {score}</div>
           <div>🍫 Gianduiotti: {gianduiotti}</div>
         </div>

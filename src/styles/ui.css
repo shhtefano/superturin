@@ -48,6 +48,35 @@
   text-align: left;
 }
 
+.modal-stats-box {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 183, 3, 0.2);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.main-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 18px;
+  font-size: 0.82rem;
+  color: var(--text-accent);
+  font-family: var(--font-display);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 183, 3, 0.15);
+}
+
 /* Pulsanti stile Arcade Sabaudo */
 .btn-group {
   display: flex;

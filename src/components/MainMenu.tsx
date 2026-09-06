@@ -51,18 +51,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
           Il Platformer Sabaudo ambientato tra Piazza Castello e la Mole
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '16px',
-            marginBottom: '22px',
-            fontSize: '0.85rem',
-            color: 'var(--text-accent)',
-            fontFamily: 'var(--font-display)',
-          }}
-        >
+        <div className="main-hero-stats">
           <span>👤 Eroe: <strong style={{ color: heroConfig.color }}>{heroConfig.name}</strong></span>
           <span>⭐ Skill: {heroConfig.skillName}</span>
           <span>🍫 Gianduiotti: {totalGianduiotti}</span>
