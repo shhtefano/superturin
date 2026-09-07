@@ -4,8 +4,8 @@ export class SaveManager {
   private static readonly STORAGE_KEY = 'superturin_save_v1';
 
   private static defaultData: SaveData = {
-    unlockedLevels: 10, // Tutti i 10 livelli sbloccati subito!
-    bestScores: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0 },
+    unlockedLevels: 14, // Tutti i 14 livelli sbloccati subito!
+    bestScores: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0 },
     totalGianduiotti: 0,
     selectedCharacter: 'shhte',
     settings: {
@@ -23,7 +23,7 @@ export class SaveManager {
       return {
         ...this.defaultData,
         ...parsed,
-        unlockedLevels: 10, // Sbloccati per tutti i giocatori
+        unlockedLevels: 14, // Sbloccati per tutti i giocatori
         selectedCharacter: parsed.selectedCharacter || 'shhte',
         bestScores: { ...this.defaultData.bestScores, ...(parsed.bestScores || {}) },
         settings: { ...this.defaultData.settings, ...parsed.settings },

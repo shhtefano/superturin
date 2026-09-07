@@ -1,9 +1,11 @@
 import { Enemy } from './Enemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
 
 export class Gabbiano extends Enemy {
   private flightTimer: number = 0;
   private baseY: number;
   private waveAmplitude: number = 34;
+  private dropCooldown: number = 1.0;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
     // Gabbiano Reale del Po, dei Murazzi e della Mole (nemico volante con traiettoria a onda)
@@ -11,7 +13,7 @@ export class Gabbiano extends Enemy {
     this.baseY = y;
   }
 
-  public update(dt: number): void {
+  public update(dt: number, playerX?: number, playerY?: number): void {
     if (this.isDead) {
       this.deathTimer -= dt;
       this.y += 180 * dt; // Cade verso il basso quando sconfitto
@@ -22,9 +24,31 @@ export class Gabbiano extends Enemy {
     }
 
     this.flightTimer += dt;
+    if (this.dropCooldown > 0) {
+      this.dropCooldown -= dt;
+    }
 
     // Volo sinusoidale ondulatorio (minaccia aerea per i salti)
     this.y = this.baseY + Math.sin(this.flightTimer * 3.4) * this.waveAmplitude;
+
+    // Sgancio di guano dall'alto se il giocatore è sotto
+    if (this.dropCooldown <= 0 && playerX !== undefined && playerY !== undefined && this.onShoot) {
+      const gCenterX = this.x + this.width / 2;
+      const isUnder = Math.abs(playerX - gCenterX) < 70 && playerY > this.y && playerY < this.y + 400;
+      if (isUnder) {
+        this.dropCooldown = 2.4; // Cooldown di 2.4s
+        this.onShoot(
+          new EnemyProjectile(
+            gCenterX - 6,
+            this.y + this.height + 2,
+            this.movingRight ? 40 : -40,
+            60,
+            'guano',
+            2.5
+          )
+        );
+      }
+    }
 
     if (this.movingRight) {
       this.x += this.moveSpeed * dt;

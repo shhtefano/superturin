@@ -1,4 +1,5 @@
 import { Enemy } from './Enemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
 
 export class Vigile extends Enemy {
   private stepTimer: number = 0;
@@ -11,7 +12,9 @@ export class Vigile extends Enemy {
     super(id, x, y, 30, 44, patrolLeft, patrolRight, 125, true);
   }
 
-  public update(dt: number): void {
+  private hasShotThisCycle: boolean = false;
+
+  public update(dt: number, playerX?: number, playerY?: number): void {
     if (this.isDead) {
       this.deathTimer -= dt;
       if (this.deathTimer <= 0) {
@@ -23,16 +26,38 @@ export class Vigile extends Enemy {
     this.whistleTimer += dt;
 
     // Ciclo di fischio e allerta
-    if (this.whistleTimer > 3.2) {
+    if (this.whistleTimer > 3.4) {
       this.whistleTimer = 0;
       this.isWhistling = true;
       this.alertTimer = 1.6;
+      this.hasShotThisCycle = false;
     }
 
     if (this.isWhistling) {
       if (this.alertTimer < 1.0) {
         this.isWhistling = false; // Ha finito di fischiare, ora cammina allertato
       }
+    }
+
+    // Lancio della Multa Sabauda verso il giocatore se è nei paraggi
+    if (!this.hasShotThisCycle && this.alertTimer > 0 && this.alertTimer < 1.1 && this.onShoot) {
+      this.hasShotThisCycle = true;
+      const isPlayerRight = playerX !== undefined ? playerX > this.x : this.movingRight;
+      // Il vigile si volta verso il giocatore se è abbastanza vicino
+      if (playerX !== undefined && Math.abs(playerX - this.x) < 460) {
+        this.movingRight = isPlayerRight;
+      }
+      const shootSpeed = this.movingRight ? 240 : -240;
+      this.onShoot(
+        new EnemyProjectile(
+          this.movingRight ? this.x + this.width + 2 : this.x - 18,
+          this.y + 12,
+          shootSpeed,
+          -40,
+          'multa',
+          2.6
+        )
+      );
     }
 
     if (this.alertTimer > 0) {

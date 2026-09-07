@@ -74,6 +74,18 @@ export class ParallaxBackground {
       case 'lingotto':
         this.renderLingottoTheme(ctx);
         break;
+      case 'palatina':
+        this.renderPalatinaTheme(ctx);
+        break;
+      case 'cappuccini':
+        this.renderCappucciniTheme(ctx);
+        break;
+      case 'venaria':
+        this.renderVenariaTheme(ctx);
+        break;
+      case 'ogr':
+        this.renderOGRTheme(ctx);
+        break;
       case 'centro':
       default:
         this.renderCentroTheme(ctx);
@@ -2269,6 +2281,437 @@ export class ParallaxBackground {
       ctx.fillStyle = '#e879f9';
       ctx.font = 'bold 9px monospace';
       ctx.fillText('☿ ♀ ♂ ♃', x + 210, this.height - 160);
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 11: PORTA PALATINA & QUADRILATERO ROMANO
+  // Dettagli: Torri poligonali in mattoni rossi di Augusta Taurinorum,
+  //           Archi romani, fiaccole infuocate e cielo crepuscolare imperiale
+  // =========================================================================
+  private renderPalatinaTheme(ctx: CanvasRenderingContext2D): void {
+    // 1. Cielo crepuscolare caldo imperiale (rosso pompeiano / arancio dorato)
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#450a0a');
+    sky.addColorStop(0.45, '#9a3412');
+    sky.addColorStop(0.8, '#ea580c');
+    sky.addColorStop(1, '#fde047');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // 2. Sole al tramonto che bacia le Alpi
+    ctx.save();
+    ctx.fillStyle = '#fef08a';
+    ctx.shadowColor = '#f97316';
+    ctx.shadowBlur = 24;
+    ctx.beginPath();
+    ctx.arc(this.width * 0.78, 110, 38, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 3. Catena alpina crepuscolare (parallasse 0.02)
+    this.renderCleanMountains(ctx, 0.02, '#7c2d12', '#b45309');
+
+    // 4. Mura di Augusta Taurinorum in mattoni rossi (parallasse 0.05)
+    ctx.save();
+    const wallSpacing = 520;
+    const wallOffset = this.getOffset(0.05, wallSpacing);
+    for (let x = -wallOffset - wallSpacing; x < this.width + wallSpacing; x += wallSpacing) {
+      // Bastione murario in mattoni rossi
+      ctx.fillStyle = '#7f1d1d';
+      ctx.fillRect(x, this.height - 230, 480, 150);
+
+      // Merlatura romana
+      for (let m = 0; m < 480; m += 36) {
+        ctx.fillStyle = '#991b1b';
+        ctx.fillRect(x + m, this.height - 250, 20, 20);
+      }
+
+      // Torri Poligonali di Porta Palatina (16 lati)
+      ctx.fillStyle = '#450a0a';
+      ctx.fillRect(x + 60, this.height - 330, 70, 250);
+      ctx.fillRect(x + 290, this.height - 330, 70, 250);
+
+      // Tetti conici delle torri
+      ctx.fillStyle = '#78350f';
+      ctx.beginPath();
+      ctx.moveTo(x + 50, this.height - 330);
+      ctx.lineTo(x + 95, this.height - 380);
+      ctx.lineTo(x + 140, this.height - 330);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(x + 280, this.height - 330);
+      ctx.lineTo(x + 325, this.height - 380);
+      ctx.lineTo(x + 370, this.height - 330);
+      ctx.closePath();
+      ctx.fill();
+
+      // Bifore e aperture ad arco romano
+      ctx.fillStyle = '#1c1917';
+      ctx.fillRect(x + 78, this.height - 300, 14, 22);
+      ctx.fillRect(x + 98, this.height - 300, 14, 22);
+      ctx.fillRect(x + 308, this.height - 300, 14, 22);
+      ctx.fillRect(x + 328, this.height - 300, 14, 22);
+
+      // Fornici centrali della Porta Palatina (passaggio carri e pedoni)
+      ctx.fillStyle = '#1e1b4b';
+      ctx.beginPath();
+      ctx.arc(x + 210, this.height - 180, 36, Math.PI, 0);
+      ctx.lineTo(x + 246, this.height - 80);
+      ctx.lineTo(x + 174, this.height - 80);
+      ctx.closePath();
+      ctx.fill();
+
+      // Fiaccole romane accese con bagliore
+      const flameP = Math.sin(Date.now() * 0.01 + x) * 2;
+      ctx.fillStyle = '#f97316';
+      ctx.beginPath();
+      ctx.arc(x + 155, this.height - 200 + flameP, 6, 0, Math.PI * 2);
+      ctx.arc(x + 265, this.height - 200 + flameP, 6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 12: MONTE DEI CAPPUCCINI & GRAN MADRE
+  // Dettagli: Convento sul colle, Gran Madre neoclassica con cupola,
+  //           Fiume Po illuminato con riflessi notturni e Mole nello skyline
+  // =========================================================================
+  private renderCappucciniTheme(ctx: CanvasRenderingContext2D): void {
+    // 1. Cielo notturno blu oltremare / zaffiro sabaudo
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#020617');
+    sky.addColorStop(0.4, '#0f172a');
+    sky.addColorStop(0.75, '#1e1b4b');
+    sky.addColorStop(1, '#312e81');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // 2. Stelle scintillanti fisse
+    ctx.fillStyle = '#f8fafc';
+    const stars = [
+      { x: 80, y: 50, r: 1.5 }, { x: 220, y: 90, r: 1.2 }, { x: 410, y: 40, r: 2.0 },
+      { x: 620, y: 75, r: 1.0 }, { x: 830, y: 110, r: 1.8 }, { x: 1040, y: 60, r: 1.4 },
+      { x: 1190, y: 85, r: 2.2 },
+    ];
+    for (const s of stars) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // 3. Luna d'argento con bagliore
+    ctx.save();
+    ctx.fillStyle = '#fef08a';
+    ctx.shadowColor = '#fef08a';
+    ctx.shadowBlur = 20;
+    ctx.beginPath();
+    ctx.arc(this.width * 0.82, 85, 28, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 4. Silhouette luminosa della Mole Antonelliana all'orizzonte (parallasse 0.03)
+    ctx.save();
+    const moleOffset = this.getOffset(0.03, 900);
+    const moleX = this.width * 0.28 - moleOffset;
+    // Guglia e Cupola Mole
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(moleX + 22, this.height - 360, 6, 90);
+    ctx.beginPath();
+    ctx.moveTo(moleX, this.height - 270);
+    ctx.lineTo(moleX + 25, this.height - 360);
+    ctx.lineTo(moleX + 50, this.height - 270);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillRect(moleX - 5, this.height - 270, 60, 190);
+    // Neon Fibonacci rosso Mario Merz
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 7px monospace';
+    ctx.fillText('1 1 2 3 5 8', moleX + 4, this.height - 240);
+    ctx.restore();
+
+    // 5. Collina del Monte dei Cappuccini con il Convento di Santa Maria (parallasse 0.06)
+    ctx.save();
+    const hillSpacing = 640;
+    const hillOffset = this.getOffset(0.06, hillSpacing);
+    for (let x = -hillOffset - hillSpacing; x < this.width + hillSpacing; x += hillSpacing) {
+      // Sagoma verde scuro della collina
+      ctx.fillStyle = '#064e3b';
+      ctx.beginPath();
+      ctx.moveTo(x, this.height - 90);
+      ctx.quadraticCurveTo(x + 220, this.height - 290, x + 440, this.height - 130);
+      ctx.lineTo(x + 440, this.height);
+      ctx.lineTo(x, this.height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Convento di Santa Maria al Monte dei Cappuccini in cima
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(x + 190, this.height - 290, 70, 48);
+      // Campanile
+      ctx.fillRect(x + 245, this.height - 330, 18, 40);
+      // Cupoletta ottagonale
+      ctx.beginPath();
+      ctx.arc(x + 225, this.height - 290, 18, Math.PI, 0);
+      ctx.fill();
+      // Finestre illuminate calde del convento
+      ctx.fillStyle = '#fef08a';
+      ctx.fillRect(x + 200, this.height - 275, 8, 12);
+      ctx.fillRect(x + 218, this.height - 275, 8, 12);
+
+      // Pantheon / Cupola della Gran Madre ai piedi della collina
+      ctx.fillStyle = '#0f172a';
+      ctx.beginPath();
+      ctx.arc(x + 490, this.height - 180, 36, Math.PI, 0);
+      ctx.fill();
+      ctx.fillRect(x + 450, this.height - 180, 80, 90);
+      // Colonne neoclassiche del pronao
+      ctx.fillStyle = '#1e293b';
+      for (let c = 0; c < 6; c++) {
+        ctx.fillRect(x + 456 + c * 12, this.height - 180, 6, 80);
+      }
+    }
+    ctx.restore();
+
+    // 6. Fiume Po con riflessi notturni blu/turchese (parallasse 0.10)
+    ctx.save();
+    ctx.fillStyle = 'rgba(14, 116, 144, 0.45)';
+    ctx.fillRect(0, this.height - 75, this.width, 75);
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+    for (let r = 0; r < this.width; r += 60) {
+      const rw = 25 + Math.sin(r + Date.now() * 0.003) * 15;
+      ctx.fillRect(r, this.height - 45, rw, 4);
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 13: REGGIA DI VENARIA REALE & I GIARDINI
+  // Dettagli: Facciata juvarriana maestosa, Galleria Grande di Diana,
+  //           Aiuole barocche geometriche, siepi e fontana d'Ercole danzante
+  // =========================================================================
+  private renderVenariaTheme(ctx: CanvasRenderingContext2D): void {
+    // 1. Cielo dorato regale al tramonto (sfumatura maestosa barocca)
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#312e81');
+    sky.addColorStop(0.35, '#6b21a8');
+    sky.addColorStop(0.7, '#c026d3');
+    sky.addColorStop(0.92, '#f59e0b');
+    sky.addColorStop(1, '#fef08a');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // 2. Sole al tramonto che illumina i tetti reali
+    ctx.save();
+    ctx.fillStyle = '#fef08a';
+    ctx.shadowColor = '#fde047';
+    ctx.shadowBlur = 25;
+    ctx.beginPath();
+    ctx.arc(this.width * 0.86, 100, 36, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // 3. Catena alpina innevata verso le Valli di Lanzo (parallasse 0.02)
+    this.renderCleanMountains(ctx, 0.02, '#9333ea', '#fdf4ff');
+
+    // 4. Facciata monumentale della Reggia di Venaria Reale (parallasse 0.06)
+    ctx.save();
+    const palaceSpacing = 580;
+    const palaceOffset = this.getOffset(0.06, palaceSpacing);
+    for (let x = -palaceOffset - palaceSpacing; x < this.width + palaceSpacing; x += palaceSpacing) {
+      // Corpo centrale della Reggia Juvarriana (intonaco caldo sabaudo)
+      ctx.fillStyle = '#fde68a';
+      ctx.fillRect(x, this.height - 270, 520, 180);
+
+      // Cornicione e balaustre con statue barocche
+      ctx.fillStyle = '#b45309';
+      ctx.fillRect(x - 10, this.height - 278, 540, 8);
+      for (let s = 0; s < 520; s += 40) {
+        ctx.fillStyle = '#fef3c7';
+        ctx.fillRect(x + s + 15, this.height - 292, 8, 14); // statue
+      }
+
+      // Grandi arcate e finestroni della Galleria Grande di Diana
+      for (let w = 0; w < 500; w += 48) {
+        ctx.fillStyle = '#1e1b4b';
+        ctx.beginPath();
+        ctx.arc(x + w + 24, this.height - 240, 12, Math.PI, 0);
+        ctx.fillRect(x + w + 12, this.height - 240, 24, 60);
+        ctx.closePath();
+        ctx.fill();
+        // Riquadro dorato
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+
+      // Paviglione d'onore centrale sopraelevato con timpano
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.moveTo(x + 200, this.height - 278);
+      ctx.lineTo(x + 260, this.height - 325);
+      ctx.lineTo(x + 320, this.height - 278);
+      ctx.closePath();
+      ctx.fill();
+      // Orologio reale nel timpano
+      ctx.fillStyle = '#f8fafc';
+      ctx.beginPath();
+      ctx.arc(x + 260, this.height - 295, 10, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 5. Giardini Reali all'italiana: siepi modellate a piramide e zampilli fontana (parallasse 0.09)
+    ctx.save();
+    const gardenSpacing = 320;
+    const gardenOffset = this.getOffset(0.09, gardenSpacing);
+    for (let x = -gardenOffset - gardenSpacing; x < this.width + gardenSpacing; x += gardenSpacing) {
+      // Siepe di bosso a cono
+      ctx.fillStyle = '#15803d';
+      ctx.beginPath();
+      ctx.moveTo(x + 40, this.height - 110);
+      ctx.lineTo(x + 65, this.height - 175);
+      ctx.lineTo(x + 90, this.height - 110);
+      ctx.closePath();
+      ctx.fill();
+
+      // Fontana d'Ercole con zampilli d'acqua
+      ctx.fillStyle = '#cbd5e1';
+      ctx.beginPath();
+      ctx.ellipse(x + 180, this.height - 105, 55, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Zampillo d'acqua danzante
+      const jet = Math.sin(Date.now() * 0.008 + x) * 12;
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(x + 180, this.height - 110);
+      ctx.quadraticCurveTo(x + 180, this.height - 170 + jet, x + 165, this.height - 130);
+      ctx.moveTo(x + 180, this.height - 110);
+      ctx.quadraticCurveTo(x + 180, this.height - 170 + jet, x + 195, this.height - 130);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // =========================================================================
+  // LIVELLO 14: OGR TORINO & LE GRANDI RIPARAZIONI
+  // Dettagli: Campate industriali in mattoni e ferro, travi metalliche a traliccio,
+  //           Locomotive storiche a vapore, riflettori concerto e luci neon
+  // =========================================================================
+  private renderOGRTheme(ctx: CanvasRenderingContext2D): void {
+    // 1. Cielo industriale notturno / techno club (blu notte scuro e viola al neon)
+    const sky = ctx.createLinearGradient(0, 0, 0, this.height);
+    sky.addColorStop(0, '#020617');
+    sky.addColorStop(0.35, '#090d16');
+    sky.addColorStop(0.7, '#1e1b4b');
+    sky.addColorStop(1, '#3b0764');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, this.width, this.height);
+
+    // 2. Fasci di luce dei riflettori da concerto delle OGR (spotlight animati)
+    ctx.save();
+    const beamAngle = Math.sin(Date.now() * 0.0015) * 0.35;
+    ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
+    ctx.beginPath();
+    ctx.moveTo(250, this.height);
+    ctx.lineTo(250 + Math.tan(beamAngle - 0.18) * this.height, 0);
+    ctx.lineTo(250 + Math.tan(beamAngle + 0.18) * this.height, 0);
+    ctx.closePath();
+    ctx.fill();
+
+    const beamAngle2 = -Math.sin(Date.now() * 0.0018 + 1) * 0.35;
+    ctx.fillStyle = 'rgba(244, 63, 94, 0.12)';
+    ctx.beginPath();
+    ctx.moveTo(950, this.height);
+    ctx.lineTo(950 + Math.tan(beamAngle2 - 0.18) * this.height, 0);
+    ctx.lineTo(950 + Math.tan(beamAngle2 + 0.18) * this.height, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // 3. Campate monumentali in mattoni e acciaio delle OGR (parallasse 0.05)
+    ctx.save();
+    const ogrSpacing = 560;
+    const ogrOffset = this.getOffset(0.05, ogrSpacing);
+    for (let x = -ogrOffset - ogrSpacing; x < this.width + ogrSpacing; x += ogrSpacing) {
+      // Parete in mattoni rossi industriali ottocenteschi
+      ctx.fillStyle = '#7f1d1d';
+      ctx.fillRect(x, this.height - 310, 500, 220);
+
+      // Tetto a capriate metalliche a dente di sega (shed industriale)
+      ctx.fillStyle = '#1e293b';
+      for (let s = 0; s < 500; s += 125) {
+        ctx.beginPath();
+        ctx.moveTo(x + s, this.height - 310);
+        ctx.lineTo(x + s + 95, this.height - 365);
+        ctx.lineTo(x + s + 125, this.height - 310);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Grandi finestre industriali ad arco con telaio in ferro nero
+      for (let w = 0; w < 440; w += 110) {
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(x + w + 55, this.height - 250, 28, Math.PI, 0);
+        ctx.fillRect(x + w + 27, this.height - 250, 56, 120);
+        ctx.closePath();
+        ctx.fill();
+
+        // Vetrate con luce interna calda da officina / sound club
+        ctx.fillStyle = 'rgba(254, 240, 138, 0.25)';
+        ctx.fillRect(x + w + 30, this.height - 248, 50, 115);
+      }
+
+      // Insegna luminosa neon "OGR TORINO"
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 13px "Outfit", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('• OGR TORINO •', x + 250, this.height - 285);
+    }
+    ctx.restore();
+
+    // 4. Carroponte industriale e binari sopraelevati (parallasse 0.08)
+    ctx.save();
+    const craneSpacing = 420;
+    const craneOffset = this.getOffset(0.08, craneSpacing);
+    for (let x = -craneOffset - craneSpacing; x < this.width + craneSpacing; x += craneSpacing) {
+      // Trave orizzontale pesante del carroponte
+      ctx.fillStyle = '#eab308'; // Giallo sicurezza industriale
+      ctx.fillRect(x, this.height - 170, 380, 16);
+
+      // Strisce nere e gialle d'avvertimento
+      ctx.fillStyle = '#0f172a';
+      for (let st = 0; st < 380; st += 32) {
+        ctx.beginPath();
+        ctx.moveTo(x + st, this.height - 170);
+        ctx.lineTo(x + st + 16, this.height - 170);
+        ctx.lineTo(x + st + 6, this.height - 154);
+        ctx.lineTo(x + st - 10, this.height - 154);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Paranco con catena e gancio d'acciaio
+      ctx.strokeStyle = '#94a3b8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x + 180, this.height - 154);
+      ctx.lineTo(x + 180, this.height - 110);
+      ctx.stroke();
+      ctx.fillStyle = '#64748b';
+      ctx.beginPath();
+      ctx.arc(x + 180, this.height - 105, 7, 0, Math.PI);
+      ctx.stroke();
     }
     ctx.restore();
   }

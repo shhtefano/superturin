@@ -29,8 +29,11 @@ import { BossPiccione } from '../../entities/enemies/BossPiccione';
 import { BossNutria } from '../../entities/enemies/BossNutria';
 import { BossComau } from '../../entities/enemies/BossComau';
 import { BossToro } from '../../entities/enemies/BossToro';
+import { BossCenturione } from '../../entities/enemies/BossCenturione';
+import { BossOGR } from '../../entities/enemies/BossOGR';
 import { Bullet } from '../../entities/projectiles/Bullet';
 import { GianduiottoBomb } from '../../entities/projectiles/GianduiottoBomb';
+import { EnemyProjectile } from '../../entities/projectiles/EnemyProjectile';
 import { LevelData, CollectibleType, COLLECTIBLE_META } from '../../levels/types';
 import { getLevelById, LEVELS } from '../../levels';
 
@@ -55,6 +58,7 @@ export class GameEngine {
   public enemies: Enemy[] = [];
   public bullets: Bullet[] = [];
   public bombs: GianduiottoBomb[] = [];
+  public enemyProjectiles: EnemyProjectile[] = [];
   public goal!: Goal;
   public currentLevel!: LevelData;
 
@@ -165,10 +169,22 @@ export class GameEngine {
           return new BossComau(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
         case 'bossToro':
           return new BossToro(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'bossCenturione':
+          return new BossCenturione(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
+        case 'bossOGR':
+          return new BossOGR(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
         default:
           return new Pigeon(e.id, e.x, e.y, e.patrolLeft, e.patrolRight);
       }
     });
+
+    // Connetti gli attacchi di sparo/proiettile di tutti i nemici e i boss
+    for (const enemy of this.enemies) {
+      enemy.onShoot = (proj) => {
+        this.enemyProjectiles.push(proj);
+        this.audio.playEnemyShoot();
+      };
+    }
 
     // 5. Inizializza Goal (bloccato finché il boss del livello non viene sconfitto)
     const hasBoss = this.enemies.some((e) => e instanceof BossEnemy);
@@ -177,6 +193,7 @@ export class GameEngine {
 
     this.bullets = [];
     this.bombs = [];
+    this.enemyProjectiles = [];
 
     // 6. Inizializza Player con il personaggio selezionato
     const selectedChar = SaveManager.getSelectedCharacter();
@@ -544,7 +561,7 @@ export class GameEngine {
     SaveManager.recordScore(this.currentLevel.id, this.score, this.gianduiottiCount);
 
     this.emitHudUpdate(true);
-    if (this.currentLevel.id >= 10) {
+    if (this.currentLevel.id >= totalLevelsCount) {
       this.status = 'gameVictory';
       this.callbacks.onStateChange('gameVictory');
     } else {
@@ -779,7 +796,21 @@ export class GameEngine {
       if (enemy instanceof BossEnemy) {
         enemy.checkEncounter(this.player.x, this.camera.x, this.canvas.width);
       }
-      enemy.update(enemyDt);
+      enemy.update(enemyDt, this.player.x, this.player.y);
+
+      // Controllo attacco corpo a corpo / pugno / ombrellata nemica
+      const punchBox = enemy.getPunchHitbox();
+      if (punchBox && !enemy.isDead && !this.player.isGhostActive && CollisionSystem.checkAABB(playerBox, punchBox)) {
+        this.audio.playPunch();
+        const dead = this.player.takeDamage();
+        if (dead) {
+          this.handlePlayerDeath();
+        } else if (!this.player.hasPowerUp('marijuana')) {
+          this.camera.triggerShake(11, 0.22);
+          this.audio.playHurt();
+        }
+        this.emitHudUpdate(true);
+      }
 
       // Aura Tossica di Krebs: stermina i nemici entro raggio di 85px
       if (!enemy.isDead && this.player.isBioAuraActive) {
@@ -1037,6 +1068,55 @@ export class GameEngine {
     }
     this.bombs = this.bombs.filter((b) => !b.isFinished);
 
+    // --- AGGIORNAMENTO PROIETTILI NEMICI (MULTE, LASER, GUANO, FIREBALL, LANCIA) ---
+    for (const ep of this.enemyProjectiles) {
+      ep.update(enemyDt);
+      if (!ep.active) continue;
+
+      const epBox = ep.getHitbox();
+
+      // Collisione con piattaforme solide (distrugge il proiettile)
+      for (const plat of this.platforms) {
+        if (!plat.active || plat.isOneWay) continue;
+        if (CollisionSystem.checkAABB(epBox, plat.getHitbox())) {
+          ep.active = false;
+          this.particles.emitGoldSparks(ep.x + ep.width / 2, ep.y + ep.height / 2, 6);
+          break;
+        }
+      }
+
+      if (!ep.active) continue;
+
+      // Intercettazione proiettile nemico con i proiettili del giocatore
+      for (const bullet of this.bullets) {
+        if (bullet.active && CollisionSystem.checkAABB(epBox, bullet.getHitbox())) {
+          bullet.active = false;
+          ep.active = false;
+          this.particles.emitGoldSparks(ep.x + ep.width / 2, ep.y + ep.height / 2, 12);
+          this.score += 50 * scoreMultiplier;
+          this.audio.playCoin();
+          break;
+        }
+      }
+
+      if (!ep.active) continue;
+
+      // Collisione con il giocatore
+      if (!this.player.isGhostActive && CollisionSystem.checkAABB(playerBox, epBox)) {
+        ep.active = false;
+        this.particles.emitGoldSparks(ep.x + ep.width / 2, ep.y + ep.height / 2, 14);
+        const dead = this.player.takeDamage();
+        if (dead) {
+          this.handlePlayerDeath();
+        } else if (!this.player.hasPowerUp('marijuana')) {
+          this.camera.triggerShake(10, 0.22);
+          this.audio.playHurt();
+        }
+        this.emitHudUpdate(true);
+      }
+    }
+    this.enemyProjectiles = this.enemyProjectiles.filter((p) => p.active);
+
     // --- TRAGUARDO (GOAL) ---
     if (CollisionSystem.checkAABB(playerBox, this.goal.getHitbox())) {
       if (this.goal.isLocked) {
@@ -1156,6 +1236,9 @@ export class GameEngine {
     }
     for (const bomb of this.bombs) {
       bomb.render(this.ctx);
+    }
+    for (const ep of this.enemyProjectiles) {
+      ep.render(this.ctx);
     }
 
     // 9. Disegna Giocatore

@@ -1,10 +1,12 @@
 import { BossEnemy } from './BossEnemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
 
 export class BossComau extends BossEnemy {
   private weldTimer: number = 0;
   public isWelding: boolean = false;
   private sparkTimer: number = 0;
   private walkCycle: number = 0;
+  private hasShotLaserThisWeld: boolean = false;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
     super(
@@ -16,13 +18,13 @@ export class BossComau extends BossEnemy {
       patrolLeft,
       patrolRight,
       130, // moveSpeed
-      4,   // maxHp (4 colpi)
+      10,  // maxHp (incrementato a 10 HP per un duello d'acciaio imponente)
       'Pietro Nutella',
       'Il Colosso d\'Acciaio della Pista e delle Officine del Lingotto'
     );
   }
 
-  public update(dt: number): void {
+  public update(dt: number, playerX?: number, playerY?: number): void {
     if (this.isDead) {
       this.y += 220 * dt;
       this.deathTimer -= dt;
@@ -36,19 +38,55 @@ export class BossComau extends BossEnemy {
     this.walkCycle += dt * 7;
     this.weldTimer += dt;
 
-    // Ogni 2.7 secondi emette una scarica di saldatura industriale con scintille
-    if (this.weldTimer >= 2.7) {
+    if (this.punchTimer > 0) {
+      this.punchTimer -= dt;
+      if (this.punchTimer <= 0) {
+        this.isPunching = false;
+      }
+    }
+
+    // Se il giocatore è a distanza ravvicinata (<130px), attiva il Pugno a Pistone Idraulico!
+    if (!this.isPunching && playerX !== undefined && playerY !== undefined) {
+      const dx = playerX - (this.x + this.width / 2);
+      const dy = Math.abs(playerY - (this.y + this.height / 2));
+      const isFront = (this.movingRight && dx > 0 && dx < 130) || (!this.movingRight && dx < 0 && dx > -130);
+      if (isFront && dy < 60 && Math.random() < 0.05) {
+        this.isPunching = true;
+        this.punchTimer = 0.45;
+      }
+    }
+
+    // Ogni 2.4 secondi emette una scarica di saldatura industriale con scintille e dardo laser
+    if (this.weldTimer >= 2.4) {
       this.isWelding = true;
       this.sparkTimer += dt;
+
+      // Spara un dardo laser frontale a metà ciclo saldatura
+      if (!this.hasShotLaserThisWeld && this.sparkTimer >= 0.25 && this.onShoot) {
+        this.hasShotLaserThisWeld = true;
+        const vx = this.movingRight ? 360 : -360;
+        this.onShoot(
+          new EnemyProjectile(
+            this.movingRight ? this.x + this.width + 8 : this.x - 28,
+            this.y + 36,
+            vx,
+            0,
+            'laser',
+            2.8
+          )
+        );
+      }
+
       if (this.sparkTimer >= 0.8) {
         this.isWelding = false;
         this.sparkTimer = 0;
         this.weldTimer = 0;
+        this.hasShotLaserThisWeld = false;
       }
     }
 
-    // Movimento di pattuglia orizzontale (rallenta leggermente durante la saldatura)
-    const currentSpeed = this.isWelding ? this.moveSpeed * 0.4 : this.moveSpeed;
+    // Movimento di pattuglia orizzontale (rallenta leggermente durante la saldatura o pugno)
+    const currentSpeed = (this.isWelding || this.isPunching) ? this.moveSpeed * 0.35 : this.moveSpeed;
     if (this.movingRight) {
       this.x += currentSpeed * dt;
       if (this.x >= this.patrolRight) {

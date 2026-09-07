@@ -1,9 +1,11 @@
 import { Enemy } from './Enemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
 
 export class RobotLingotto extends Enemy {
   private sparkTimer: number = 0;
   private isSparking: boolean = false;
   private trackTimer: number = 0;
+  private hasShotThisSpark: boolean = false;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
     // Robot industriale saldatore FIAT/Comau delle linee di montaggio del Lingotto
@@ -11,7 +13,7 @@ export class RobotLingotto extends Enemy {
     super(id, x, y, 38, 44, patrolLeft, patrolRight, 130, false);
   }
 
-  public update(dt: number): void {
+  public update(dt: number, playerX?: number, _playerY?: number): void {
     if (this.isDead) {
       this.deathTimer -= dt;
       if (this.deathTimer <= 0) {
@@ -24,11 +26,32 @@ export class RobotLingotto extends Enemy {
     this.sparkTimer += dt;
 
     // Ciclo scintille saldatrice
-    if (this.sparkTimer > 2.0) {
+    if (this.sparkTimer > 2.2) {
       this.sparkTimer = 0;
       this.isSparking = true;
+      this.hasShotThisSpark = false;
     } else if (this.sparkTimer > 0.6 && this.isSparking) {
       this.isSparking = false;
+    }
+
+    // Sparo laser se il giocatore è nella linea di tiro o entro 500px
+    if (this.isSparking && !this.hasShotThisSpark && this.sparkTimer > 0.25 && this.onShoot) {
+      this.hasShotThisSpark = true;
+      const isPlayerRight = playerX !== undefined ? playerX > this.x : this.movingRight;
+      if (playerX !== undefined && Math.abs(playerX - this.x) < 500) {
+        this.movingRight = isPlayerRight;
+      }
+      const vx = this.movingRight ? 320 : -320;
+      this.onShoot(
+        new EnemyProjectile(
+          this.movingRight ? this.x + this.width + 4 : this.x - 24,
+          this.y + 14,
+          vx,
+          0,
+          'laser',
+          2.5
+        )
+      );
     }
 
     if (this.movingRight) {

@@ -323,22 +323,172 @@ const LevelQuadroArt: React.FC<{ levelId: number }> = ({ levelId }) => {
         </svg>
       );
 
+    case 11:
+      // Quadro 11: Porta Palatina & Quadrilatero Romano
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_palatina" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#450a0a" />
+              <stop offset="50%" stopColor="#c2410c" />
+              <stop offset="100%" stopColor="#fef08a" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_palatina)" />
+          {/* Sole caldo al tramonto */}
+          <circle cx="190" cy="28" r="14" fill="#fef08a" />
+          {/* Mura romane in mattoni rossi */}
+          <rect x="20" y="55" width="200" height="50" fill="#7f1d1d" />
+          {/* Torri poligonali della Porta Palatina */}
+          <rect x="40" y="28" width="34" height="77" fill="#450a0a" />
+          <polygon points="36,28 57,12 78,28" fill="#78350f" />
+          <rect x="140" y="28" width="34" height="77" fill="#450a0a" />
+          <polygon points="136,28 157,12 178,28" fill="#78350f" />
+          {/* Arcata centrale romana */}
+          <path d="M 88,105 L 88,68 Q 107,46 126,68 L 126,105 Z" fill="#1e1b4b" />
+          {/* Fiaccole accese */}
+          <circle cx="82" cy="62" r="3" fill="#f97316" />
+          <circle cx="132" cy="62" r="3" fill="#f97316" />
+          {/* Pavimentazione in basolato romano */}
+          <rect x="0" y="105" width="240" height="15" fill="#292524" />
+        </svg>
+      );
+
+    case 12:
+      // Quadro 12: Monte dei Cappuccini & Gran Madre
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_capp" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#020617" />
+              <stop offset="40%" stopColor="#0f172a" />
+              <stop offset="75%" stopColor="#1e1b4b" />
+              <stop offset="100%" stopColor="#312e81" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_capp)" />
+          {/* Luna argentea */}
+          <circle cx="205" cy="22" r="14" fill="#fef08a" />
+          {/* Silhouette della Mole Antonelliana in lontananza */}
+          <polygon points="65,18 63,48 67,48" fill="#0f172a" />
+          <polygon points="65,48 54,68 76,68" fill="#0f172a" />
+          <rect x="52" y="68" width="26" height="35" fill="#0f172a" />
+          <text x="56" y="62" fill="#ef4444" fontSize="3.5" fontFamily="monospace">1 1 2 3</text>
+          {/* Collina del Monte dei Cappuccini */}
+          <path d="M100,120 Q160,40 240,80 L240,120 Z" fill="#064e3b" />
+          {/* Convento in cima al colle */}
+          <rect x="155" y="44" width="32" height="22" fill="#1e293b" />
+          <rect x="178" y="32" width="8" height="16" fill="#1e293b" />
+          <rect x="160" y="48" width="5" height="7" fill="#fef08a" />
+          {/* Cupola Gran Madre sul fiume */}
+          <path d="M10,120 L10,88 Q30,70 50,88 L50,120 Z" fill="#0f172a" />
+          {/* Fiume Po con riflessi notturni */}
+          <rect x="0" y="105" width="240" height="15" fill="#0c4a6e" />
+          <line x1="0" y1="108" x2="240" y2="108" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="6,4" />
+        </svg>
+      );
+
+    case 13:
+      // Quadro 13: Reggia di Venaria Reale & La Galleria Grande
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_venaria" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#312e81" />
+              <stop offset="40%" stopColor="#9333ea" />
+              <stop offset="80%" stopColor="#f59e0b" />
+              <stop offset="100%" stopColor="#fef08a" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_venaria)" />
+          {/* Sole tramonto dorato */}
+          <circle cx="195" cy="25" r="15" fill="#fef08a" />
+          {/* Alpi innevate */}
+          <polygon points="30,70 65,30 100,70" fill="#c084fc" />
+          <polygon points="57,40 65,30 73,40" fill="#ffffff" />
+          {/* Facciata Juvarriana della Reggia di Venaria */}
+          <rect x="15" y="58" width="210" height="47" fill="#fde68a" />
+          <rect x="10" y="55" width="220" height="4" fill="#b45309" />
+          {/* Timpano centrale con orologio */}
+          <polygon points="120,42 95,55 145,55" fill="#f59e0b" />
+          <circle cx="120" cy="50" r="3" fill="#ffffff" stroke="#1e293b" strokeWidth="0.8" />
+          {/* Arcate della Galleria di Diana */}
+          <rect x="30" y="65" width="12" height="24" rx="6" fill="#1e1b4b" />
+          <rect x="52" y="65" width="12" height="24" rx="6" fill="#1e1b4b" />
+          <rect x="74" y="65" width="12" height="24" rx="6" fill="#1e1b4b" />
+          <rect x="134" y="65" width="12" height="24" rx="6" fill="#1e1b4b" />
+          <rect x="156" y="65" width="12" height="24" rx="6" fill="#1e1b4b" />
+          <rect x="178" y="65" width="12" height="24" rx="6" fill="#1e1b4b" />
+          {/* Fontana d'Ercole con zampillo d'acqua */}
+          <ellipse cx="105" cy="106" rx="20" ry="5" fill="#38bdf8" />
+          <line x1="105" y1="106" x2="105" y2="88" stroke="#ffffff" strokeWidth="2" />
+          {/* Prato reale */}
+          <rect x="0" y="105" width="240" height="15" fill="#15803d" />
+        </svg>
+      );
+
+    case 14:
+      // Quadro 14: OGR Torino & Le Grandi Riparazioni (Boss Supremo)
+      return (
+        <svg viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky_ogr" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#020617" />
+              <stop offset="40%" stopColor="#090d16" />
+              <stop offset="75%" stopColor="#1e1b4b" />
+              <stop offset="100%" stopColor="#3b0764" />
+            </linearGradient>
+          </defs>
+          <rect width="240" height="120" fill="url(#sky_ogr)" />
+          {/* Fasci di luce spotlight da concerto techno OGR */}
+          <polygon points="50,120 20,0 80,0" fill="rgba(56, 189, 248, 0.18)" />
+          <polygon points="190,120 160,0 220,0" fill="rgba(244, 63, 94, 0.18)" />
+          {/* Campate in mattoni rossi OGR */}
+          <rect x="15" y="48" width="210" height="57" fill="#7f1d1d" />
+          {/* Tetto a shed industriale a dente di sega */}
+          <polygon points="20,48 55,28 70,48" fill="#1e293b" />
+          <polygon points="70,48 105,28 120,48" fill="#1e293b" />
+          <polygon points="120,48 155,28 170,48" fill="#1e293b" />
+          <polygon points="170,48 205,28 220,48" fill="#1e293b" />
+          {/* Vetrate industriali ad arco illuminate al neon */}
+          <rect x="40" y="58" width="18" height="30" rx="9" fill="#0f172a" />
+          <rect x="42" y="60" width="14" height="26" rx="7" fill="rgba(254, 240, 138, 0.35)" />
+          <rect x="80" y="58" width="18" height="30" rx="9" fill="#0f172a" />
+          <rect x="82" y="60" width="14" height="26" rx="7" fill="rgba(254, 240, 138, 0.35)" />
+          <rect x="140" y="58" width="18" height="30" rx="9" fill="#0f172a" />
+          <rect x="142" y="60" width="14" height="26" rx="7" fill="rgba(254, 240, 138, 0.35)" />
+          <rect x="180" y="58" width="18" height="30" rx="9" fill="#0f172a" />
+          <rect x="182" y="60" width="14" height="26" rx="7" fill="rgba(254, 240, 138, 0.35)" />
+          {/* Trave carroponte giallo sicurezza */}
+          <rect x="0" y="86" width="240" height="5" fill="#eab308" />
+          {/* Insegna OGR Neon */}
+          <text x="120" y="68" fill="#38bdf8" fontSize="6.5" fontWeight="bold" fontFamily="monospace" textAnchor="middle">OGR TORINO</text>
+          {/* Binari delle locomotive storiche */}
+          <rect x="0" y="105" width="240" height="15" fill="#18181b" />
+          <line x1="0" y1="108" x2="240" y2="108" stroke="#94a3b8" strokeWidth="2" strokeDasharray="6,4" />
+        </svg>
+      );
+
     default:
       return null;
   }
 };
 
 const LEVEL_METADATA: Record<number, { tag: string; diff: string; nemici: string }> = {
-  1: { tag: '🏛️ CENTRO STORICO', diff: '⭐', nemici: 'Piccioni, Vigili con Paletta, Tram 7' },
+  1: { tag: '🏛️ CENTRO STORICO', diff: '⭐', nemici: 'Piccioni, Vigili con Paletta & Multa, Tram 7' },
   2: { tag: '🍎 PORTA PALAZZO', diff: '⭐⭐', nemici: 'Torinesi col carrello, Gabbiani golosi' },
   3: { tag: '🌳 PARCO VALENTINO', diff: '⭐⭐', nemici: 'Nutrie del Po, Scoiattoli balzanti & Barconi' },
-  4: { tag: '🌙 MURAZZI DI NOTTE', diff: '⭐⭐⭐', nemici: 'Rider su Monopattino, Regina Nutria (BOSS 4 HP)' },
-  5: { tag: '☕ PIAZZA SAN CARLO', diff: '⭐⭐⭐', nemici: 'Vigili con Fischietto, Caval \'d Brôns' },
-  6: { tag: '🗼 MOLE ANTONELLIANA', diff: '⭐⭐⭐⭐', nemici: 'Gabbiani in picchiata, Re Piccione (BOSS 4 HP)' },
+  4: { tag: '🌙 MURAZZI DI NOTTE', diff: '⭐⭐⭐', nemici: 'Rider su Monopattino, Regina Nutria (BOSS 8 HP)' },
+  5: { tag: '☕ PIAZZA SAN CARLO', diff: '⭐⭐⭐', nemici: 'Vigili con Fischietto & Multa, Caval \'d Brôns' },
+  6: { tag: '🗼 MOLE ANTONELLIANA', diff: '⭐⭐⭐⭐', nemici: 'Gabbiani in picchiata, Re Piccione (BOSS 7 HP)' },
   7: { tag: '🏺 MUSEO EGIZIO', diff: '⭐⭐⭐⭐', nemici: 'Guardiani del museo, Spuntoni di granito' },
   8: { tag: '🐗 COLLINA SUPERGA', diff: '⭐⭐⭐⭐⭐', nemici: 'Cinghiali feroci in carica (NO Stomp) & Dentiera' },
-  9: { tag: '🤖 LINGOTTO FIAT', diff: '⭐⭐⭐⭐⭐', nemici: 'Robot Saldatori, Comau Titan (BOSS 5 HP)' },
-  10: { tag: '🐂 PIAZZA STATUTO', diff: '⭐⭐⭐⭐⭐⭐ (MAX)', nemici: 'Trappole alchemiche, TAURUS INVICTUS (BOSS 8 HP)' },
+  9: { tag: '🤖 LINGOTTO FIAT', diff: '⭐⭐⭐⭐⭐', nemici: 'Robot Saldatori Laser, Comau Titan (BOSS 10 HP)' },
+  10: { tag: '🐂 PIAZZA STATUTO', diff: '⭐⭐⭐⭐⭐⭐ (MAX)', nemici: 'Trappole alchemiche, TAURUS INVICTUS (BOSS 16 HP)' },
+  11: { tag: '🏛️ PORTA PALATINA', diff: '⭐⭐⭐⭐⭐', nemici: 'Vigili con multe, Torinesi all\'attacco, CENTURIO TAURINUS (BOSS 12 HP)' },
+  12: { tag: '🌙 MONTE CAPPUCCINI', diff: '⭐⭐⭐⭐⭐', nemici: 'Cinghiali collinari, Funicolare panoramica, Gabbiani aerei' },
+  13: { tag: '👑 VENARIA REALE', diff: '⭐⭐⭐⭐⭐⭐', nemici: 'Guardie sabaude, Siepi labirinto, Fontana d\'Ercole zampillante' },
+  14: { tag: '⚡ OGR GRANDI RIPARAZIONI', diff: '⭐⭐⭐⭐⭐⭐ (SUPREMO)', nemici: 'Gru industriali, Robot laser, LOCOTITAN OGR-X (BOSS SUPREMO 16 HP)' },
 };
 
 export const LevelSelect: React.FC<LevelSelectProps> = ({
@@ -418,7 +568,7 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
           <div>
             <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px' }}>SCEGLI IL TUO QUADRO</h2>
             <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0 }}>
-              Tutti i 10 livelli sbloccati! Clicca su un quadro o premi il numero <kbd>1</kbd>-<kbd>9</kbd>, <kbd>0</kbd>.
+              Tutti i 14 livelli sbloccati! Clicca su un quadro o esplora la Mappa Reale di Torino.
             </p>
           </div>
           <button

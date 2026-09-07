@@ -1,4 +1,6 @@
 import { BossEnemy } from './BossEnemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
+import { Hitbox } from '../../types/physics';
 
 export class BossToro extends BossEnemy {
   private chargeTimer: number = 0;
@@ -9,6 +11,7 @@ export class BossToro extends BossEnemy {
   private groundY: number;
   private walkCycle: number = 0;
   private steamTimer: number = 0;
+  private fireballTimer: number = 0;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
     super(
@@ -20,14 +23,27 @@ export class BossToro extends BossEnemy {
       patrolLeft,
       patrolRight,
       135, // velocità base
-      8,   // 8 HP: Boss Finale poderoso!
+      16,  // 16 HP: Boss Finale poderoso ed epico!
       'Taurus Invictus',
       'Il Colosso Alchemico di Piazza Statuto — Sovrano delle Grotte Oscure'
     );
     this.groundY = y;
+    // Il boss attende all'estremità destra dell'arena e guarda a sinistra verso l'eroe
+    this.movingRight = false;
   }
 
-  public update(dt: number): void {
+  public override getPunchHitbox(): Hitbox | null {
+    if (!this.isPunching) return null;
+    const reach = 38;
+    return {
+      x: this.movingRight ? this.x + this.width - 8 : this.x - reach + 8,
+      y: this.y + 10,
+      width: reach,
+      height: this.height - 18,
+    };
+  }
+
+  public override update(dt: number, playerX?: number, playerY?: number): void {
     if (this.isDead) {
       this.y += 240 * dt;
       this.deathTimer -= dt;
@@ -37,38 +53,93 @@ export class BossToro extends BossEnemy {
       return;
     }
 
-    const isEnraged = this.hp <= 4;
-    const currentSpeed = isEnraged ? (this.isCharging ? 270 : 180) : (this.isCharging ? 210 : 135);
-    this.speed = currentSpeed;
+    const isEnraged = this.hp <= 8;
+    const currentSpeed = isEnraged ? (this.isCharging ? 280 : 185) : (this.isCharging ? 220 : 140);
+    this.moveSpeed = currentSpeed;
+
+    // Durante la carica frontale a testa bassa, le corna trafiggono chiunque: non è calpestabile dall'alto!
+    this.isStompable = !this.isCharging;
 
     this.updateBossBase(dt);
     this.walkCycle += dt * (isEnraged ? 10 : 7);
     this.steamTimer += dt * 4;
 
-    // Ciclo di Carica frontale a testa bassa
-    this.chargeTimer += dt;
-    if (!this.isCharging && this.chargeTimer >= (isEnraged ? 2.5 : 4.0)) {
-      this.isCharging = true;
-      this.chargeDuration = isEnraged ? 1.6 : 1.2;
-      this.chargeTimer = 0;
+    // Cooldown e durata attacco corpo a corpo ravvicinato (Cornata)
+    if (this.punchCooldown > 0) {
+      this.punchCooldown -= dt;
+    }
+    if (this.punchTimer > 0) {
+      this.punchTimer -= dt;
+      if (this.punchTimer <= 0 && !this.isCharging) {
+        this.isPunching = false;
+      }
     }
 
-    if (this.isCharging) {
+    // Cornata ravvicinata (Melee Horn Thrust) se il giocatore è davanti entro 125px
+    if (!this.isCharging && !this.isPunching && this.punchCooldown <= 0 && playerX !== undefined && playerY !== undefined) {
+      const dx = playerX - (this.x + this.width / 2);
+      const dy = Math.abs(playerY - (this.y + this.height / 2));
+      const isFacing = (this.movingRight && dx > 0 && dx < 125) || (!this.movingRight && dx < 0 && dx > -125);
+      if (isFacing && dy < 55) {
+        this.isPunching = true;
+        this.punchTimer = 0.45;
+        this.punchCooldown = 1.8;
+      }
+    }
+
+    // Fiammata Alchemica: ogni 2.8s (o 1.8s se furente) scaglia una sfera di fuoco alchemica verso il giocatore
+    if (!this.isCharging) {
+      this.fireballTimer += dt;
+      const fireballInterval = isEnraged ? 1.8 : 2.8;
+      if (this.fireballTimer >= fireballInterval && this.onShoot) {
+        this.fireballTimer = 0;
+        const bCenterX = this.x + this.width / 2;
+        const isPlayerRight = playerX !== undefined ? playerX > bCenterX : this.movingRight;
+        this.movingRight = isPlayerRight;
+        const vx = isPlayerRight ? 340 : -340;
+        this.onShoot(
+          new EnemyProjectile(
+            isPlayerRight ? this.x + this.width + 4 : this.x - 26,
+            this.y + 24,
+            vx,
+            -20,
+            'fireball',
+            3.2
+          )
+        );
+      }
+    }
+
+    // Ciclo di Carica frontale a testa bassa (attiva pugno/cornata tellurica ad alta velocità)
+    if (!this.isCharging) {
+      this.chargeTimer += dt;
+      if (this.chargeTimer >= (isEnraged ? 2.6 : 4.2)) {
+        this.isCharging = true;
+        this.chargeDuration = isEnraged ? 1.6 : 1.2;
+        this.chargeTimer = 0;
+        this.isPunching = true;
+        // All'inizio della carica si orienta verso la posizione del giocatore
+        if (playerX !== undefined) {
+          this.movingRight = playerX > this.x + this.width / 2;
+        }
+      }
+    } else {
       this.chargeDuration -= dt;
       if (this.chargeDuration <= 0) {
         this.isCharging = false;
+        this.isPunching = false;
       }
     }
 
     // Salto Schiacciata Terremotante
-    this.jumpTimer += dt;
-    if (!this.isJumping && this.jumpTimer >= (isEnraged ? 3.2 : 5.0)) {
-      this.isJumping = true;
-      this.vy = -450;
-      this.jumpTimer = 0;
-    }
-
-    if (this.isJumping) {
+    if (!this.isJumping) {
+      this.jumpTimer += dt;
+      if (this.jumpTimer >= (isEnraged ? 3.4 : 5.2)) {
+        this.isJumping = true;
+        this.vy = -450;
+        this.jumpTimer = 0;
+      }
+    } else {
       this.vy += 980 * dt; // gravità
       this.y += this.vy * dt;
       if (this.y >= this.groundY) {
@@ -77,24 +148,57 @@ export class BossToro extends BossEnemy {
         this.isJumping = false;
       }
     }
+
+    // Movimento di pattuglia e carica orizzontale
+    if (this.movingRight) {
+      this.x += this.moveSpeed * dt;
+      if (this.x >= this.patrolRight) {
+        this.x = this.patrolRight;
+        this.movingRight = false;
+        if (this.isCharging) {
+          this.isCharging = false;
+          this.isPunching = false;
+        }
+      }
+    } else {
+      this.x -= this.moveSpeed * dt;
+      if (this.x <= this.patrolLeft) {
+        this.x = this.patrolLeft;
+        this.movingRight = true;
+        if (this.isCharging) {
+          this.isCharging = false;
+          this.isPunching = false;
+        }
+      }
+    }
   }
 
-  public render(ctx: CanvasRenderingContext2D): void {
+  public override render(ctx: CanvasRenderingContext2D): void {
     if (!this.active) return;
 
     ctx.save();
-    ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-    if (this.direction < 0) {
+    ctx.translate(Math.round(this.x + this.width / 2), Math.round(this.y + this.height / 2));
+    if (!this.movingRight) {
       ctx.scale(-1, 1);
     }
 
-    // Effetto lampeggio al danno
-    if (this.invulnerableTimer > 0 && Math.floor(Date.now() / 60) % 2 === 0) {
+    // Effetto lampeggio al danno o dissolvenza alla morte
+    if (this.isDead) {
+      ctx.globalAlpha = Math.max(0, this.deathTimer / 0.3);
+    } else if (this.invulnerableTimer > 0 && Math.floor(Date.now() / 60) % 2 === 0) {
       ctx.globalAlpha = 0.4;
     }
 
-    const isEnraged = this.hp <= 4;
+    const isEnraged = this.hp <= 8;
     const legOffset = Math.sin(this.walkCycle) * (this.isCharging ? 12 : 7);
+
+    const safeRoundRect = (rx: number, ry: number, rw: number, rh: number, radius: number) => {
+      if (typeof ctx.roundRect === 'function') {
+        ctx.roundRect(rx, ry, rw, rh, radius);
+      } else {
+        ctx.rect(rx, ry, rw, rh);
+      }
+    };
 
     // 1. Alone Alchemico se Enraged (viola/rosso fuoco)
     if (isEnraged) {
@@ -138,7 +242,7 @@ export class BossToro extends BossEnemy {
     // 4. Busto massiccio del Toro (armatura sabauda)
     ctx.fillStyle = isEnraged ? '#450a0a' : '#1e293b';
     ctx.beginPath();
-    ctx.roundRect(-46, -24, 76, 42, 12);
+    safeRoundRect(-46, -24, 76, 42, 12);
     ctx.fill();
 
     // Corazza laterale con fregi dorati sabaudi
@@ -148,11 +252,17 @@ export class BossToro extends BossEnemy {
     ctx.lineWidth = 2;
     ctx.strokeRect(-32, -18, 48, 28);
 
-    // Emblema Reale di Torino (Toro rampante dorato stilizzato)
+    // Emblema Reale di Torino (Toro dorato con orientamento del testo corretto)
+    ctx.save();
+    if (!this.movingRight) {
+      ctx.scale(-1, 1);
+    }
     ctx.fillStyle = '#ffb703';
-    ctx.font = 'bold 12px serif';
+    ctx.font = 'bold 11px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('TORO', -8, 2);
+    ctx.textBaseline = 'middle';
+    ctx.fillText('TORO', this.movingRight ? -8 : 8, -4);
+    ctx.restore();
 
     // 5. Zampe anteriori
     ctx.fillStyle = '#1e293b';
@@ -176,14 +286,14 @@ export class BossToro extends BossEnemy {
     ctx.fill();
 
     // 7. Testa imponente del Toro
-    const headAngle = this.isCharging ? 0.25 : 0; // Abbassa la testa se carica!
+    const headAngle = this.isCharging ? 0.25 : (this.isPunching ? 0.15 : 0);
     ctx.save();
     ctx.translate(40, -12);
     ctx.rotate(headAngle);
 
     ctx.fillStyle = isEnraged ? '#991b1b' : '#1e293b';
     ctx.beginPath();
-    ctx.roundRect(-4, -18, 36, 32, 8);
+    safeRoundRect(-4, -18, 36, 32, 8);
     ctx.fill();
 
     // Muso bronzeo con narici
@@ -202,7 +312,7 @@ export class BossToro extends BossEnemy {
     ctx.stroke();
 
     // Vapore alchemico dalle narici
-    if (this.isCharging || isEnraged) {
+    if (this.isCharging || isEnraged || this.isPunching) {
       const steamAlpha = 0.6 + Math.sin(this.steamTimer) * 0.3;
       ctx.fillStyle = isEnraged ? `rgba(239, 68, 68, ${steamAlpha})` : `rgba(241, 245, 249, ${steamAlpha})`;
       ctx.beginPath();
@@ -238,6 +348,15 @@ export class BossToro extends BossEnemy {
     ctx.arc(28, -42, 2.5, 0, Math.PI * 2);
     ctx.arc(36, -38, 2.5, 0, Math.PI * 2);
     ctx.fill();
+
+    // Effetto scia d'urto tellurica se in carica o pugno
+    if (this.isPunching || this.isCharging) {
+      ctx.strokeStyle = isEnraged ? 'rgba(239, 68, 68, 0.7)' : 'rgba(251, 191, 36, 0.6)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(32, -28, 22, -0.6, 0.6);
+      ctx.stroke();
+    }
 
     ctx.restore(); // restore head transform
 

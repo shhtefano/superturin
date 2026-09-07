@@ -1,10 +1,12 @@
 import { BossEnemy } from './BossEnemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
 
 export class BossPiccione extends BossEnemy {
   private flapTimer: number = 0;
   private attackPhaseTimer: number = 0;
   private isDiving: boolean = false;
   private baseHeightY: number;
+  private featherShootTimer: number = 0;
 
   constructor(id: string, x: number, y: number, patrolLeft: number, patrolRight: number) {
     super(
@@ -15,15 +17,15 @@ export class BossPiccione extends BossEnemy {
       56,
       patrolLeft,
       patrolRight,
-      130, // moveSpeed
-      3,   // maxHp (3 colpi per scontro rapido e divertente)
+      135, // moveSpeed
+      7,   // maxHp (incrementata a 7 HP per una boss fight epica)
       'Concettina A Pilusa',
       'La Terribile Regina dei Tetti Sabaudi e della Mole'
     );
     this.baseHeightY = y;
   }
 
-  public update(dt: number): void {
+  public update(dt: number, playerX?: number, playerY?: number): void {
     if (this.isDead) {
       this.y += 240 * dt;
       this.deathTimer -= dt;
@@ -36,11 +38,36 @@ export class BossPiccione extends BossEnemy {
     this.updateBossBase(dt);
     this.flapTimer += dt * 10;
     this.attackPhaseTimer += dt;
+    this.featherShootTimer += dt;
 
-    // Ogni 3.2 secondi il Re Piccione inizia una picchiata rapida verso il terreno
-    if (!this.isDiving && this.attackPhaseTimer >= 3.2) {
+    // Ogni 2.8 secondi lancia un proiettile di piume / guano verso il giocatore
+    if (this.featherShootTimer >= 2.8 && this.onShoot) {
+      this.featherShootTimer = 0;
+      const bCenterX = this.x + this.width / 2;
+      const targetX = playerX ?? bCenterX;
+      const dirX = targetX > bCenterX ? 140 : -140;
+      this.onShoot(
+        new EnemyProjectile(
+          bCenterX,
+          this.y + this.height - 4,
+          dirX,
+          80,
+          'guano',
+          3.0
+        )
+      );
+    }
+
+    // Ogni 3.0 secondi il Re Piccione inizia una picchiata rapida verso il terreno
+    if (!this.isDiving && this.attackPhaseTimer >= 3.0) {
       this.isDiving = true;
       this.attackPhaseTimer = 0;
+      // All'inizio della picchiata rilascia una scarica di piume
+      if (this.onShoot) {
+        const bCenterX = this.x + this.width / 2;
+        this.onShoot(new EnemyProjectile(bCenterX - 10, this.y + this.height, -90, 100, 'guano', 2.0));
+        this.onShoot(new EnemyProjectile(bCenterX + 10, this.y + this.height, 90, 100, 'guano', 2.0));
+      }
     }
 
     if (this.isDiving) {

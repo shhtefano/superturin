@@ -43,7 +43,7 @@ export const MAP_NODES: Record<number, MapNode> = {
     nemici: 'Piccioni, Torinesi con ombrello, Tram 7',
     x: 400,
     y: 260,
-    neighbors: { up: 2, down: 5, right: 6, left: 10 },
+    neighbors: { up: 11, down: 5, right: 6, left: 10 },
   },
   2: {
     id: 2,
@@ -55,7 +55,7 @@ export const MAP_NODES: Record<number, MapNode> = {
     nemici: 'Torinesi col carrello, Gabbiani golosi',
     x: 360,
     y: 150,
-    neighbors: { down: 1, left: 10 },
+    neighbors: { down: 1, left: 10, right: 11 },
   },
   3: {
     id: 3,
@@ -76,10 +76,10 @@ export const MAP_NODES: Record<number, MapNode> = {
     landmark: 'Murazzi del Po',
     tag: '🌙 MURAZZI DI NOTTE',
     diff: '⭐⭐⭐',
-    nemici: 'Rider in monopattino, Nutrie giganti, Regina Nutria (BOSS 4 HP)',
+    nemici: 'Rider in monopattino, Nutrie giganti, Regina Nutria (BOSS 8 HP)',
     x: 720,
     y: 400,
-    neighbors: { up: 6, down: 3, right: 8 },
+    neighbors: { up: 6, down: 3, right: 12 },
   },
   5: {
     id: 5,
@@ -91,7 +91,7 @@ export const MAP_NODES: Record<number, MapNode> = {
     nemici: 'Vigili con fischietto, Rider veloci',
     x: 380,
     y: 360,
-    neighbors: { up: 1, down: 9, right: 7 },
+    neighbors: { up: 1, down: 9, right: 7, left: 14 },
   },
   6: {
     id: 6,
@@ -100,7 +100,7 @@ export const MAP_NODES: Record<number, MapNode> = {
     landmark: 'Mole Antonelliana',
     tag: '🗼 MOLE ANTONELLIANA',
     diff: '⭐⭐⭐⭐',
-    nemici: 'Gabbiani in picchiata, Re Piccione (BOSS 4 HP)',
+    nemici: 'Gabbiani in picchiata, Re Piccione (BOSS 7 HP)',
     x: 650,
     y: 240,
     neighbors: { left: 1, down: 4, right: 8 },
@@ -127,7 +127,7 @@ export const MAP_NODES: Record<number, MapNode> = {
     nemici: 'Cinghiali feroci in carica, Dentiera a cremagliera',
     x: 1060,
     y: 190,
-    neighbors: { left: 6, down: 4 },
+    neighbors: { left: 6, down: 12 },
   },
   9: {
     id: 9,
@@ -136,10 +136,10 @@ export const MAP_NODES: Record<number, MapNode> = {
     landmark: 'Lingotto FIAT',
     tag: '🤖 LINGOTTO FIAT',
     diff: '⭐⭐⭐⭐⭐',
-    nemici: 'Robot Saldatori, Comau Titan (BOSS 5 HP)',
+    nemici: 'Robot Saldatori Laser, Comau Titan (BOSS 10 HP)',
     x: 270,
     y: 600,
-    neighbors: { up: 5, right: 3 },
+    neighbors: { up: 14, right: 3 },
   },
   10: {
     id: 10,
@@ -148,10 +148,58 @@ export const MAP_NODES: Record<number, MapNode> = {
     landmark: 'Obelisco Geodetico',
     tag: '🐂 PIAZZA STATUTO',
     diff: '⭐⭐⭐⭐⭐⭐ (MAX)',
-    nemici: 'Trappole infuocate, TAURUS INVICTUS (BOSS FINALE 8 HP)',
+    nemici: 'Trappole infuocate, TAURUS INVICTUS (BOSS 16 HP)',
     x: 170,
     y: 230,
-    neighbors: { right: 1, up: 2 },
+    neighbors: { right: 1, up: 13, down: 14 },
+  },
+  11: {
+    id: 11,
+    title: 'Porta Palatina & Quadrilatero Romano',
+    subtitle: 'Mura Romane di Augusta Taurinorum & Le Piole',
+    landmark: 'Porta Palatina',
+    tag: '🏛️ PORTA PALATINA',
+    diff: '⭐⭐⭐⭐⭐',
+    nemici: 'Vigili con multe, Torinesi all\'attacco, CENTURIO (BOSS 12 HP)',
+    x: 460,
+    y: 160,
+    neighbors: { down: 1, left: 2, right: 6 },
+  },
+  12: {
+    id: 12,
+    title: 'Monte dei Cappuccini & Gran Madre',
+    subtitle: 'Veduta Panoramica Notturna sul Po e la Mole',
+    landmark: 'Monte dei Cappuccini',
+    tag: '🌙 MONTE CAPPUCCINI',
+    diff: '⭐⭐⭐⭐⭐',
+    nemici: 'Cinghiali collinari, Funicolare panoramica, Gabbiani aerei',
+    x: 840,
+    y: 440,
+    neighbors: { left: 4, up: 8, down: 3 },
+  },
+  13: {
+    id: 13,
+    title: 'Reggia di Venaria Reale',
+    subtitle: 'Galleria Grande di Juvarra, Giardini & Fontana d\'Ercole',
+    landmark: 'Reggia di Venaria',
+    tag: '👑 VENARIA REALE',
+    diff: '⭐⭐⭐⭐⭐⭐',
+    nemici: 'Guardie sabaude, Siepi labirinto, Zampilli d\'acqua',
+    x: 120,
+    y: 100,
+    neighbors: { down: 10, right: 2 },
+  },
+  14: {
+    id: 14,
+    title: 'OGR Torino & Grandi Riparazioni',
+    subtitle: 'Il Tempio Ferroviario e Culturale & Raggi Laser',
+    landmark: 'OGR Torino',
+    tag: '⚡ OGR GRANDI RIPARAZIONI',
+    diff: '⭐⭐⭐⭐⭐⭐ (SUPREMO)',
+    nemici: 'Robot industriali, Gru aeree, LOCOTITAN OGR-X (BOSS SUPREMO 16 HP)',
+    x: 180,
+    y: 440,
+    neighbors: { up: 10, down: 9, right: 5 },
   },
 };
 
@@ -187,11 +235,29 @@ const MAP_PATHS: PathSegment[] = [
     to: 10,
     points: [{ x: 400, y: 260 }, { x: 280, y: 245 }, { x: 170, y: 230 }],
   },
+  // 1 <-> 11: Via XX Settembre (Castello <-> Porta Palatina)
+  {
+    from: 1,
+    to: 11,
+    points: [{ x: 400, y: 260 }, { x: 430, y: 210 }, { x: 460, y: 160 }],
+  },
   // 2 <-> 10: Corso Regina Margherita
   {
     from: 2,
     to: 10,
     points: [{ x: 360, y: 150 }, { x: 260, y: 180 }, { x: 170, y: 230 }],
+  },
+  // 2 <-> 11: Corso Regina verso Porta Palatina
+  {
+    from: 2,
+    to: 11,
+    points: [{ x: 360, y: 150 }, { x: 410, y: 155 }, { x: 460, y: 160 }],
+  },
+  // 2 <-> 13: Viale Reale di Venaria
+  {
+    from: 2,
+    to: 13,
+    points: [{ x: 360, y: 150 }, { x: 240, y: 120 }, { x: 120, y: 100 }],
   },
   // 3 <-> 4: Sentiero fluviale Po (Valentino <-> Murazzi)
   {
@@ -217,6 +283,12 @@ const MAP_PATHS: PathSegment[] = [
     to: 9,
     points: [{ x: 520, y: 490 }, { x: 390, y: 550 }, { x: 270, y: 600 }],
   },
+  // 3 <-> 12: Sentiero collinare verso Monte dei Cappuccini
+  {
+    from: 3,
+    to: 12,
+    points: [{ x: 520, y: 490 }, { x: 680, y: 470 }, { x: 840, y: 440 }],
+  },
   // 4 <-> 6: Salita dai Murazzi verso la Mole
   {
     from: 4,
@@ -228,6 +300,12 @@ const MAP_PATHS: PathSegment[] = [
     from: 4,
     to: 8,
     points: [{ x: 720, y: 400 }, { x: 880, y: 310 }, { x: 1060, y: 190 }],
+  },
+  // 4 <-> 12: Ponte Vittorio Emanuele I sul Po verso Monte dei Cappuccini
+  {
+    from: 4,
+    to: 12,
+    points: [{ x: 720, y: 400 }, { x: 780, y: 420 }, { x: 840, y: 440 }],
   },
   // 5 <-> 7: Via Maria Vittoria (San Carlo <-> Museo Egizio)
   {
@@ -241,6 +319,12 @@ const MAP_PATHS: PathSegment[] = [
     to: 9,
     points: [{ x: 380, y: 360 }, { x: 320, y: 480 }, { x: 270, y: 600 }],
   },
+  // 5 <-> 14: Corso Vittorio Emanuele II verso OGR
+  {
+    from: 5,
+    to: 14,
+    points: [{ x: 380, y: 360 }, { x: 280, y: 400 }, { x: 180, y: 440 }],
+  },
   // 6 <-> 7: Via Giolitti
   {
     from: 6,
@@ -252,6 +336,36 @@ const MAP_PATHS: PathSegment[] = [
     from: 6,
     to: 8,
     points: [{ x: 650, y: 240 }, { x: 850, y: 210 }, { x: 1060, y: 190 }],
+  },
+  // 6 <-> 11: Via Po / Via Garibaldi verso Porta Palatina
+  {
+    from: 6,
+    to: 11,
+    points: [{ x: 650, y: 240 }, { x: 550, y: 190 }, { x: 460, y: 160 }],
+  },
+  // 8 <-> 12: Panoramica collinare Superga <-> Monte dei Cappuccini
+  {
+    from: 8,
+    to: 12,
+    points: [{ x: 1060, y: 190 }, { x: 950, y: 320 }, { x: 840, y: 440 }],
+  },
+  // 9 <-> 14: Raccordo ferroviario e Corso Castelfidardo (Lingotto <-> OGR)
+  {
+    from: 9,
+    to: 14,
+    points: [{ x: 270, y: 600 }, { x: 220, y: 520 }, { x: 180, y: 440 }],
+  },
+  // 10 <-> 13: Corso Francia verso la Reggia di Venaria
+  {
+    from: 10,
+    to: 13,
+    points: [{ x: 170, y: 230 }, { x: 140, y: 160 }, { x: 120, y: 100 }],
+  },
+  // 10 <-> 14: Corso Inghilterra / Castelfidardo verso le OGR
+  {
+    from: 10,
+    to: 14,
+    points: [{ x: 170, y: 230 }, { x: 175, y: 340 }, { x: 180, y: 440 }],
   },
 ];
 

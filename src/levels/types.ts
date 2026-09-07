@@ -12,7 +12,11 @@ export type LevelTheme =
   | 'egizio'
   | 'superga'
   | 'lingotto'
-  | 'alchimia';
+  | 'alchimia'
+  | 'palatina'
+  | 'cappuccini'
+  | 'venaria'
+  | 'ogr';
 
 export type CollectibleType = 'gianduiotto' | 'cocaina' | 'marijuana' | 'md' | 'lsd' | 'funghetti';
 
@@ -129,7 +133,9 @@ export type EnemyType =
   | 'bossPiccione'
   | 'bossNutria'
   | 'bossComau'
-  | 'bossToro';
+  | 'bossToro'
+  | 'bossCenturione'
+  | 'bossOGR';
 
 export interface EnemyConfig {
   id: string;

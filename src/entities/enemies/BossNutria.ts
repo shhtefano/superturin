@@ -1,4 +1,5 @@
 import { BossEnemy } from './BossEnemy';
+import { EnemyProjectile } from '../projectiles/EnemyProjectile';
 
 export class BossNutria extends BossEnemy {
   private jumpTimer: number = 0;
@@ -15,15 +16,15 @@ export class BossNutria extends BossEnemy {
       58,
       patrolLeft,
       patrolRight,
-      140, // moveSpeed
-      4,   // maxHp (4 colpi)
+      145, // moveSpeed
+      8,   // maxHp (aumentato a 8 HP)
       'PinoFicaFica',
       'Signore Indiscusso dei Fondali del Po e dei Murazzi'
     );
     this.groundY = y;
   }
 
-  public update(dt: number): void {
+  public update(dt: number, playerX?: number, _playerY?: number): void {
     if (this.isDead) {
       this.y += 200 * dt;
       this.deathTimer -= dt;
@@ -36,11 +37,17 @@ export class BossNutria extends BossEnemy {
     this.updateBossBase(dt);
     this.runAnimTimer += dt * 8;
     this.jumpTimer += dt;
+    if (this.punchTimer > 0) {
+      this.punchTimer -= dt;
+      if (this.punchTimer <= 0) {
+        this.isPunching = false;
+      }
+    }
 
-    // Salto e Coda-Slam ogni 2.8 secondi
-    if (!this.isJumping && this.jumpTimer >= 2.8) {
+    // Salto e Coda-Slam ogni 2.5 secondi
+    if (!this.isJumping && this.jumpTimer >= 2.5) {
       this.isJumping = true;
-      this.vy = -420;
+      this.vy = -430;
       this.jumpTimer = 0;
     }
 
@@ -52,6 +59,14 @@ export class BossNutria extends BossEnemy {
         this.y = this.groundY;
         this.isJumping = false;
         this.vy = 0;
+        // All'impatto a terra, attiva codata (pugno melee) e spruzza fango del Po
+        this.isPunching = true;
+        this.punchTimer = 0.35;
+        if (this.onShoot) {
+          const bCenterX = this.x + this.width / 2;
+          this.onShoot(new EnemyProjectile(bCenterX - 15, this.y + 10, -180, -120, 'guano', 2.0));
+          this.onShoot(new EnemyProjectile(bCenterX + 15, this.y + 10, 180, -120, 'guano', 2.0));
+        }
       }
     }
 

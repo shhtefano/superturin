@@ -344,6 +344,85 @@ export class AudioManager {
     osc.stop(now + 0.36);
   }
 
+  /**
+   * Effetto sonoro sparo nemico / lancio proiettile
+   */
+  public playEnemyShoot(): void {
+    if (!this.isSfxEnabled) return;
+    this.initContext();
+    if (!this.ctx || !this.sfxGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(620, now);
+    osc.frequency.exponentialRampToValueAtTime(180, now + 0.14);
+
+    gain.gain.setValueAtTime(0.24, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+
+    osc.start(now);
+    osc.stop(now + 0.15);
+  }
+
+  /**
+   * Effetto sonoro pugno / stoccata d'ombrello / colpo ravvicinato
+   */
+  public playPunch(): void {
+    if (!this.isSfxEnabled) return;
+    this.initContext();
+    if (!this.ctx || !this.sfxGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.exponentialRampToValueAtTime(50, now + 0.12);
+
+    gain.gain.setValueAtTime(0.35, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+
+    osc.start(now);
+    osc.stop(now + 0.13);
+  }
+
+  /**
+   * Fischietto del vigile sabaudo
+   */
+  public playWhistle(): void {
+    if (!this.isSfxEnabled) return;
+    this.initContext();
+    if (!this.ctx || !this.sfxGain) return;
+
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1760, now); // A6
+    osc.frequency.setValueAtTime(1975, now + 0.06); // B6
+    osc.frequency.setValueAtTime(1760, now + 0.12);
+
+    gain.gain.setValueAtTime(0.22, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+
+    osc.start(now);
+    osc.stop(now + 0.22);
+  }
+
   // --- MUSICA DI SOTTOFONDO PROCEDURALE VINTAGE ---
 
   public startBgm(): void {
