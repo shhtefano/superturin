@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface HowToPlayModalProps {
   onClose: () => void;
 }
 
 export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
+  const [activeTab, setActiveTab] = useState<'controls' | 'items'>('controls');
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (['Enter', 'Space', 'Escape', 'KeyW', 'KeyS'].includes(e.code)) {
+      if (['Escape'].includes(e.code)) {
+        e.preventDefault();
+        onClose();
+      } else if (e.code === 'Tab' || e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
+        e.preventDefault();
+        setActiveTab((prev) => (prev === 'controls' ? 'items' : 'controls'));
+      } else if (e.code === 'Enter' || e.code === 'Space') {
         e.preventDefault();
         onClose();
       }
@@ -18,50 +26,119 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-card" style={{ maxWidth: '620px' }}>
-        <h2 className="modal-title">COME GIOCARE</h2>
-        <p className="modal-subtitle">Controlli e Meccaniche Sabaude</p>
-
-        <div className="controls-grid">
-          <div><span className="key-badge">A</span> / <span className="key-badge">◀</span></div>
-          <div>Muoviti a Sinistra</div>
-
-          <div><span className="key-badge">D</span> / <span className="key-badge">▶</span></div>
-          <div>Muoviti a Destra</div>
-
-          <div><span className="key-badge">W</span> / <span className="key-badge">▲</span></div>
-          <div>Salto Arcade (tieni premuto per saltare più in alto!)</div>
-
-          <div><span className="key-badge">SPAZIO</span> / <span className="key-badge">⭐ JOYPAD</span></div>
-          <div><strong>⭐ Super-Abilità Eroe:</strong> Abilità speciale unica con cooldown (14 Eroi giocabili: Shhte, Ugo, Jari, Jonson, Krebs, Devis, Willy, Bennipi, Alessiuccia, Ludo, Ariannuccia, Prato, Sandrone, Vinzert)</div>
-
-          <div><span className="key-badge">SHIFT</span></div>
-          <div>Corsa veloce con scatto</div>
-
-          <div><span className="key-badge">1</span> / <span className="key-badge">Num1</span> / <span className="key-badge">J</span></div>
-          <div><strong>🔫 Pistola Sabauda:</strong> Spara proiettili a nemici e blocchi ? distanti</div>
-
-          <div><span className="key-badge">2</span> / <span className="key-badge">Num2</span> / <span className="key-badge">K</span></div>
-          <div><strong>💣 Bomba Gianduiotto:</strong> Lancio a parabola ed esplosione ad area dorata</div>
+      <div className="modal-card how-to-play-compact-card">
+        {/* Header compatto */}
+        <div className="modal-header-compact">
+          <h2 className="modal-title" style={{ fontSize: '1.25rem', marginBottom: '2px' }}>
+            GUIDA RAPIDA DI GIOCO
+          </h2>
+          <p className="modal-subtitle" style={{ fontSize: '0.82rem', marginBottom: '8px' }}>
+            Controlli Arcade Sabaudi & Collezionabili Speciali
+          </p>
         </div>
 
-        <div className="lore-box" style={{ marginBottom: '20px', maxHeight: '220px', overflowY: 'auto' }}>
-          <strong>Collezionabili (Durata 12s - Bonus & Malus):</strong><br />
-          • <strong>🍫 Gianduiotto:</strong> Punteggio base classico (+100).<br />
-          • <strong>⚡ Cocaina:</strong> Super Velocità (+50%) & Salto Stellare | <em>Malus:</em> Leggero tremolio della vista.<br />
-          • <strong>🌿 Marijuana:</strong> +1 Cuore & Invulnerabilità totale ai nemici | <em>Malus:</em> Ritmo rilassato (-15% velocità, salti sempre pieni).<br />
-          • <strong>💊 MDMA:</strong> Punti raddoppiati (x2) & Magnete Gianduiotti | <em>Malus:</em> Scivoli sul ghiaccio.<br />
-          • <strong>🌀 LSD:</strong> Sblocca il DOPPIO SALTO a mezz'aria | <em>Malus:</em> Distorsione psichedelica.<br />
-          • <strong>🍄 Funghetti:</strong> Diventi GIGANTE e schiacci i nemici frontalmente | <em>Malus:</em> Corpo enorme e caduta pesante.<br />
-          • <strong>💥 EFFETTI CUMULATIVI:</strong> Puoi raccogliere e avere attive più sostanze contemporaneamente (es. Cocaina per correre veloce + LSD per il doppio salto + MDMA per il magnete)!
+        {/* Tab switch per dividere le info ed eliminare ogni scorrimento verticale */}
+        <div className="how-to-play-tabs">
+          <button
+            type="button"
+            className={`how-tab-btn ${activeTab === 'controls' ? 'is-active' : ''}`}
+            onClick={() => setActiveTab('controls')}
+          >
+            🎮 CONTROLLI & ABILITÀ
+          </button>
+          <button
+            type="button"
+            className={`how-tab-btn ${activeTab === 'items' ? 'is-active' : ''}`}
+            onClick={() => setActiveTab('items')}
+          >
+            🍫 SOSTANZE & BONUS (12s)
+          </button>
         </div>
 
-        <button className="btn-arcade btn-arcade-primary is-selected" onClick={onClose}>
+        {/* Contenuto Tab 1: Controlli */}
+        {activeTab === 'controls' && (
+          <div className="controls-compact-grid">
+            <div className="control-item">
+              <span className="key-badge">A</span> / <span className="key-badge">D</span> o <span className="key-badge">◀</span> <span className="key-badge">▶</span>
+              <span className="control-desc">Movimento sinistra / destra</span>
+            </div>
+            <div className="control-item">
+              <span className="key-badge">W</span> / <span className="key-badge">▲</span>
+              <span className="control-desc">Salto dinamico arcade</span>
+            </div>
+            <div className="control-item">
+              <span className="key-badge">SHIFT</span>
+              <span className="control-desc">Scatto / Corsa rapida</span>
+            </div>
+            <div className="control-item">
+              <span className="key-badge">SPAZIO</span> / <span className="key-badge">⭐</span>
+              <span className="control-desc"><strong>Super-Abilità unica dell'Eroe</strong></span>
+            </div>
+            <div className="control-item">
+              <span className="key-badge">1</span> / <span className="key-badge">J</span>
+              <span className="control-desc"><strong>🔫 Pistola Sabauda:</strong> spara a distanza</span>
+            </div>
+            <div className="control-item">
+              <span className="key-badge">2</span> / <span className="key-badge">K</span>
+              <span className="control-desc"><strong>💣 Bomba Gianduiotto:</strong> danno AoE</span>
+            </div>
+          </div>
+        )}
+
+        {/* Contenuto Tab 2: Sostanze e Collezionabili */}
+        {activeTab === 'items' && (
+          <div className="items-compact-grid">
+            <div className="item-pill">
+              <span className="item-icon">🍫</span>
+              <div className="item-details">
+                <strong>Gianduiotto</strong>: +100 Punti classici
+              </div>
+            </div>
+            <div className="item-pill">
+              <span className="item-icon">⚡</span>
+              <div className="item-details">
+                <strong>Cocaina</strong>: +50% Sprint & Super Salto
+              </div>
+            </div>
+            <div className="item-pill">
+              <span className="item-icon">🌿</span>
+              <div className="item-details">
+                <strong>Marijuana</strong>: +1 Cuore & Scudo Invulnerabile
+              </div>
+            </div>
+            <div className="item-pill">
+              <span className="item-icon">💊</span>
+              <div className="item-details">
+                <strong>MDMA</strong>: Punti x2 & Magnete Monete
+              </div>
+            </div>
+            <div className="item-pill">
+              <span className="item-icon">🌀</span>
+              <div className="item-details">
+                <strong>LSD</strong>: Sblocca il <em>Doppio Salto</em> in volo
+              </div>
+            </div>
+            <div className="item-pill">
+              <span className="item-icon">🍄</span>
+              <div className="item-details">
+                <strong>Funghetti</strong>: Diventi GIGANTE e schiacci i nemici
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Pulsante di chiusura compatto */}
+        <button
+          type="button"
+          className="btn-arcade btn-arcade-primary is-selected"
+          style={{ marginTop: '10px', padding: '10px 16px', fontSize: '0.78rem' }}
+          onClick={onClose}
+        >
           ▶ HO CAPITO, ANDIAMO! (INVIO / ESC)
         </button>
 
-        <div className="menu-nav-hint">
-          ⌨️ Premi <kbd>INVIO</kbd>, <kbd>SPAZIO</kbd> o <kbd>ESC</kbd> per chiudere
+        <div className="menu-nav-hint" style={{ marginTop: '6px', fontSize: '0.66rem' }}>
+          ⌨️ Premi <kbd>TAB</kbd> o <kbd>◀</kbd>/<kbd>▶</kbd> per cambiare tab • <kbd>INVIO</kbd> per chiudere
         </div>
       </div>
     </div>

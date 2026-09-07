@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { LEVELS } from '../levels';
 import { CharacterId } from '../types/game';
 import { TorinoWorldMap } from './TorinoWorldMap';
@@ -546,6 +546,22 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [viewMode, selectedIndex, levelList, onSelectLevel, onClose]);
 
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = document.getElementById(`level-card-${selectedIndex}`);
+    if (el && carouselRef.current) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [selectedIndex]);
+
+  const handleSlide = (dir: 'left' | 'right') => {
+    if (carouselRef.current) {
+      const amount = 280;
+      carouselRef.current.scrollBy({ left: dir === 'left' ? -amount : amount, behavior: 'smooth' });
+    }
+  };
+
   // Visualizzazione predefinita: Mappa del Mondo di Torino (Super Mario World style)
   if (viewMode === 'map') {
     return (
@@ -563,70 +579,94 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-card level-select-card" style={{ maxWidth: '900px', width: '95%' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+      <div className="modal-card level-select-compact-card">
+        <div className="level-select-header-compact">
           <div>
-            <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px' }}>SCEGLI IL TUO QUADRO</h2>
-            <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0 }}>
-              Tutti i 14 livelli sbloccati! Clicca su un quadro o esplora la Mappa Reale di Torino.
+            <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px', fontSize: '1.25rem' }}>
+              SELEZIONA IL LIVELLO (14 QUADRI)
+            </h2>
+            <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0, fontSize: '0.78rem' }}>
+              Scorri orizzontalmente con le frecce o clicca un livello per giocare subito.
             </p>
           </div>
           <button
+            type="button"
             className="btn-arcade"
-            style={{ padding: '6px 14px', fontSize: '0.66rem', background: '#ffb703', color: '#0f172a', whiteSpace: 'nowrap' }}
+            style={{ padding: '6px 14px', fontSize: '0.68rem', background: '#ffb703', color: '#0f172a', whiteSpace: 'nowrap' }}
             onClick={() => setViewMode('map')}
           >
-            🗺️ TORNA ALLA MAPPA
+            🗺️ VISTA MAPPA REALE
           </button>
         </div>
 
-        {/* Griglia a Quadri con Anteprima d'Arte */}
-        <div className="level-gallery-grid">
-          {levelList.map((level, idx) => {
-            const isSelected = selectedIndex === idx;
-            const meta = LEVEL_METADATA[level.id] || { tag: 'TORINO', diff: '⭐⭐⭐', nemici: 'Ostacoli torinesi' };
-            const bestScore = bestScores[level.id] || 0;
+        {/* Carousel / Slider Orizzontale dei 14 Livelli — Zero Scorrimento Verticale */}
+        <div className="level-carousel-wrapper">
+          <button
+            type="button"
+            className="level-carousel-arrow level-arrow-left"
+            onClick={() => handleSlide('left')}
+            title="Scorri indietro"
+          >
+            ◀
+          </button>
 
-            return (
-              <div
-                key={level.id}
-                className={`level-quadro ${isSelected ? 'is-selected' : ''}`}
-                onClick={() => onSelectLevel(level.id)}
-                onMouseEnter={() => setSelectedIndex(idx)}
-                title={`Premi ${level.id} o clicca per giocare subito a ${level.title}`}
-              >
-                {/* Cornice con Anteprima Grafica */}
-                <div className="level-quadro-art">
-                  <LevelQuadroArt levelId={level.id} />
-                  <span className="level-quadro-tag">{meta.tag}</span>
-                  <span className="level-quadro-diff" title={`Difficoltà: ${meta.diff}`}>
-                    {meta.diff}
-                  </span>
-                </div>
+          <div className="level-gallery-slider" ref={carouselRef}>
+            {levelList.map((level, idx) => {
+              const isSelected = selectedIndex === idx;
+              const meta = LEVEL_METADATA[level.id] || { tag: 'TORINO', diff: '⭐⭐⭐', nemici: 'Ostacoli torinesi' };
+              const bestScore = bestScores[level.id] || 0;
 
-                {/* Info Livello */}
-                <div className="level-quadro-info">
-                  <div className="level-quadro-title">
-                    <span>{level.id}. {level.title.replace(`Livello ${level.id} — `, '')}</span>
+              return (
+                <div
+                  key={level.id}
+                  id={`level-card-${idx}`}
+                  className={`level-quadro-card ${isSelected ? 'is-selected' : ''}`}
+                  onClick={() => onSelectLevel(level.id)}
+                  onMouseEnter={() => setSelectedIndex(idx)}
+                  title={`Premi ${level.id} o clicca per giocare subito a ${level.title}`}
+                >
+                  {/* Cornice con Anteprima Grafica */}
+                  <div className="level-quadro-art">
+                    <LevelQuadroArt levelId={level.id} />
+                    <span className="level-quadro-tag">{meta.tag}</span>
+                    <span className="level-quadro-diff" title={`Difficoltà: ${meta.diff}`}>
+                      {meta.diff}
+                    </span>
                   </div>
-                  <div className="level-quadro-sub">{level.subtitle}</div>
-                  <div className="level-quadro-enemies">
-                    <span className="level-enemies-label">Nemici:</span> {meta.nemici}
+
+                  {/* Info Livello */}
+                  <div className="level-quadro-info">
+                    <div className="level-quadro-title">
+                      <span>{level.id}. {level.title.replace(`Livello ${level.id} — `, '')}</span>
+                    </div>
+                    <div className="level-quadro-sub">{level.subtitle}</div>
+                    <div className="level-quadro-enemies">
+                      <span className="level-enemies-label">Nemici:</span> {meta.nemici}
+                    </div>
+                  </div>
+
+                  {/* Punteggio e Pulsante Gioca */}
+                  <div className="level-quadro-footer">
+                    <span className="level-quadro-score">
+                      {bestScore > 0 ? `⭐ ${bestScore}` : '⭐ Record: 0'}
+                    </span>
+                    <span className="level-quadro-play-btn">
+                      GIOCA [{level.id}] ▶
+                    </span>
                   </div>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Punteggio e Pulsante Gioca */}
-                <div className="level-quadro-footer">
-                  <span className="level-quadro-score">
-                    {bestScore > 0 ? `⭐ ${bestScore}` : '⭐ Record: 0'}
-                  </span>
-                  <span className="level-quadro-play-btn">
-                    GIOCA [{level.id}] ▶
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          <button
+            type="button"
+            className="level-carousel-arrow level-arrow-right"
+            onClick={() => handleSlide('right')}
+            title="Scorri avanti"
+          >
+            ▶
+          </button>
         </div>
 
         {/* Pulsante Indietro & Hint comandi */}

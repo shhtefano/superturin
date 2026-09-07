@@ -10,11 +10,8 @@ interface CharacterSelectModalProps {
   onClose: () => void;
 }
 
-// Mini-componente Canvas per renderizzare l'avatar pixel-art animato del personaggio
-const CharacterPreviewCanvas: React.FC<{ heroId: CharacterId; isSelected: boolean }> = ({
-  heroId,
-  isSelected,
-}) => {
+// Mini-avatar pixel art animato per ciascuna tessera del roster
+const MiniHeroAvatar: React.FC<{ heroId: CharacterId; isSelected: boolean }> = ({ heroId, isSelected }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -29,68 +26,128 @@ const CharacterPreviewCanvas: React.FC<{ heroId: CharacterId; isSelected: boolea
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Glow di selezione dietro all'eroe
       if (isSelected) {
         const char = getCharacterConfig(heroId);
-        const grad = ctx.createRadialGradient(32, 38, 5, 32, 38, 28);
-        grad.addColorStop(0, char.color + '88');
-        grad.addColorStop(1, 'transparent');
-        ctx.fillStyle = grad;
+        ctx.fillStyle = char.color + '44';
         ctx.beginPath();
-        ctx.arc(32, 38, 28, 0, Math.PI * 2);
+        ctx.arc(18, 18, 16, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Ombra sotto i piedi
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
       ctx.beginPath();
-      ctx.ellipse(32, 57, 14, 5, 0, 0, Math.PI * 2);
+      ctx.ellipse(18, 32, 9, 3, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      // Piccolo respiro animato (bobbing)
       tick++;
-      const bobbing = Math.sin(tick * 0.08) * 1.5;
+      const bobbing = Math.sin(tick * 0.08) * 1.2;
 
-      // Disegna il player con lo sprite personalizzato
       Sprites.drawPlayerCombined(
         ctx,
-        16, // x
-        8 + bobbing, // y
-        32, // width
-        48, // height
-        true, // facingRight
-        true, // isGrounded
-        0, // vx
-        0, // vy
-        0, // invincibleTimer
-        new Map(), // activePowerUps
-        false, // isSliding
-        heroId, // characterId
-        heroId === 'devis' && isSelected, // isGhostActive
-        heroId === 'krebs' && isSelected, // isBioAuraActive
-        heroId === 'benedetta' && isSelected, // isCharmActive
-        heroId === 'prato' && isSelected // isBrambleActive
+        7,
+        4 + bobbing,
+        22,
+        28,
+        true,
+        true,
+        0,
+        0,
+        0,
+        new Map(),
+        false,
+        heroId,
+        heroId === 'devis' && isSelected,
+        heroId === 'krebs' && isSelected,
+        heroId === 'benedetta' && isSelected,
+        heroId === 'prato' && isSelected
       );
 
       animFrameId = requestAnimationFrame(render);
     };
 
     render();
-
-    return () => {
-      cancelAnimationFrame(animFrameId);
-    };
+    return () => cancelAnimationFrame(animFrameId);
   }, [heroId, isSelected]);
 
   return (
     <canvas
       ref={canvasRef}
-      width={64}
-      height={64}
-      className="char-preview-canvas"
-      style={{
-        imageRendering: 'pixelated',
-      }}
+      width={36}
+      height={36}
+      style={{ imageRendering: 'pixelated', display: 'block' }}
+    />
+  );
+};
+
+// Vetrina grande animata per l'eroe selezionato
+const ShowcaseHeroAvatar: React.FC<{ heroId: CharacterId }> = ({ heroId }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animFrameId: number;
+    let tick = 0;
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const char = getCharacterConfig(heroId);
+
+      // Aureola / Glow rotante attorno all'eroe
+      tick++;
+      const pulse = 0.55 + Math.sin(tick * 0.06) * 0.2;
+      const grad = ctx.createRadialGradient(40, 48, 8, 40, 48, 38);
+      grad.addColorStop(0, char.color + Math.floor(pulse * 255).toString(16).padStart(2, '0'));
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(40, 48, 38, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Ombra sotto i piedi
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      ctx.beginPath();
+      ctx.ellipse(40, 72, 18, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      const bobbing = Math.sin(tick * 0.08) * 2;
+
+      Sprites.drawPlayerCombined(
+        ctx,
+        20,
+        14 + bobbing,
+        40,
+        58,
+        true,
+        true,
+        0,
+        0,
+        0,
+        new Map(),
+        false,
+        heroId,
+        heroId === 'devis',
+        heroId === 'krebs',
+        heroId === 'benedetta',
+        heroId === 'prato'
+      );
+
+      animFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+    return () => cancelAnimationFrame(animFrameId);
+  }, [heroId]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={80}
+      height={82}
+      style={{ imageRendering: 'pixelated', display: 'block' }}
     />
   );
 };
@@ -102,6 +159,15 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   onClose,
 }) => {
   const [selectedHero, setSelectedHero] = useState<CharacterId>(currentHero);
+  const rosterScrollRef = useRef<HTMLDivElement>(null);
+
+  // Scorri la tessera selezionata nella vista se necessario
+  useEffect(() => {
+    const el = document.getElementById(`hero-tile-${selectedHero}`);
+    if (el && rosterScrollRef.current) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }
+  }, [selectedHero]);
 
   // Gestione tastiera arcade per selezione eroe
   useEffect(() => {
@@ -123,37 +189,38 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         return;
       }
 
-      // Selezione diretta con tasti 1-8
-      if (e.key >= '1' && e.key <= '8') {
-        e.preventDefault();
-        const index = parseInt(e.key, 10) - 1;
-        if (CHARACTER_LIST[index]) {
-          const hero = CHARACTER_LIST[index].id;
-          setSelectedHero(hero);
-          onSelectHero(hero);
+      // Tasti 1-9 e 0 per scelta rapida
+      if (e.key >= '1' && e.key <= '9') {
+        const idx = parseInt(e.key, 10) - 1;
+        if (CHARACTER_LIST[idx]) {
+          setSelectedHero(CHARACTER_LIST[idx].id);
+          onSelectHero(CHARACTER_LIST[idx].id);
         }
         return;
       }
 
-      // Frecce Sinistra / Destra
+      const currentIndex = CHARACTER_LIST.findIndex((c) => c.id === selectedHero);
+
       if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
         e.preventDefault();
-        const currentIndex = CHARACTER_LIST.findIndex((c) => c.id === selectedHero);
-        const prevIndex = (currentIndex - 1 + CHARACTER_LIST.length) % CHARACTER_LIST.length;
-        const hero = CHARACTER_LIST[prevIndex].id;
-        setSelectedHero(hero);
-        onSelectHero(hero);
-        return;
-      }
-
-      if (e.key === 'ArrowRight' || e.key === 'KeyD') {
+        const prevIdx = (currentIndex - 1 + CHARACTER_LIST.length) % CHARACTER_LIST.length;
+        setSelectedHero(CHARACTER_LIST[prevIdx].id);
+        onSelectHero(CHARACTER_LIST[prevIdx].id);
+      } else if (e.key === 'ArrowRight' || e.key === 'KeyD') {
         e.preventDefault();
-        const currentIndex = CHARACTER_LIST.findIndex((c) => c.id === selectedHero);
-        const nextIndex = (currentIndex + 1) % CHARACTER_LIST.length;
-        const hero = CHARACTER_LIST[nextIndex].id;
-        setSelectedHero(hero);
-        onSelectHero(hero);
-        return;
+        const nextIdx = (currentIndex + 1) % CHARACTER_LIST.length;
+        setSelectedHero(CHARACTER_LIST[nextIdx].id);
+        onSelectHero(CHARACTER_LIST[nextIdx].id);
+      } else if (e.key === 'ArrowUp' || e.key === 'KeyW') {
+        e.preventDefault();
+        const prevRowIdx = (currentIndex - 7 + CHARACTER_LIST.length) % CHARACTER_LIST.length;
+        setSelectedHero(CHARACTER_LIST[prevRowIdx].id);
+        onSelectHero(CHARACTER_LIST[prevRowIdx].id);
+      } else if (e.key === 'ArrowDown' || e.key === 'KeyS') {
+        e.preventDefault();
+        const nextRowIdx = (currentIndex + 7) % CHARACTER_LIST.length;
+        setSelectedHero(CHARACTER_LIST[nextRowIdx].id);
+        onSelectHero(CHARACTER_LIST[nextRowIdx].id);
       }
     };
 
@@ -173,127 +240,157 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
     }
   };
 
+  const handleSlide = (dir: 'left' | 'right') => {
+    if (rosterScrollRef.current) {
+      const scrollAmount = 180;
+      rosterScrollRef.current.scrollBy({
+        left: dir === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
     <div className="modal-backdrop char-select-backdrop">
-      <div className="modal-card char-select-card">
-        {/* Header Modale */}
-        <div className="char-select-header">
-          <h1 className="modal-title char-modal-title">
-            SCEGLI IL TUO EROE
-          </h1>
-          <p className="modal-subtitle char-modal-subtitle">
-            Ogni eroe sabaudo possiede una <strong style={{ color: '#ffd166' }}>Super-Abilità unica</strong> attivabile con <kbd className="arcade-kbd">SPAZIO</kbd> o con il tasto ⭐ del Joypad!
+      <div className="modal-card char-select-compact-card">
+        {/* Header compatto */}
+        <div className="char-compact-header">
+          <div className="char-compact-title-row">
+            <h2 className="modal-title char-compact-title">SCEGLI L'EROE SABAUDO</h2>
+            <span className="char-count-badge">14 EROI DISPONIBILI</span>
+          </div>
+          <p className="char-compact-subtitle">
+            Ogni eroe sabaudo possiede una <strong style={{ color: '#ffd166' }}>Super-Abilità unica</strong> (<kbd className="arcade-kbd">SPAZIO</kbd> o ⭐ Joypad).
           </p>
         </div>
 
-        {/* Griglia degli Eroi di Torino */}
-        <div className="char-grid">
-          {CHARACTER_LIST.map((char, index) => {
-            const isSelected = char.id === selectedHero;
+        {/* Layout Principale a Schermo Intero: Roster a sinistra/sopra + Vetrina a destra/sotto */}
+        <div className="char-select-main-layout">
+          {/* Barra / Griglia Roster dei 14 Eroi */}
+          <div className="char-roster-wrapper">
+            <button
+              type="button"
+              className="roster-slide-arrow roster-arrow-left"
+              onClick={() => handleSlide('left')}
+              title="Scorri a sinistra"
+            >
+              ◀
+            </button>
 
-            return (
-              <div
-                key={char.id}
-                className={`char-card ${isSelected ? 'is-active' : ''}`}
-                style={{
-                  borderColor: isSelected ? char.color : 'rgba(255, 255, 255, 0.12)',
-                  boxShadow: isSelected
-                    ? `0 0 20px ${char.color}66, 0 8px 24px rgba(0,0,0,0.7)`
-                    : 'none',
-                }}
-                onClick={() => {
-                  setSelectedHero(char.id);
-                  onSelectHero(char.id);
-                }}
-              >
-                {/* Badge Numerico per selezione rapida da tastiera */}
-                <div
-                  className="char-key-badge"
-                  style={{
-                    backgroundColor: isSelected ? char.color : 'rgba(15, 23, 42, 0.8)',
-                    color: isSelected ? '#030712' : '#94a3b8',
-                  }}
-                >
-                  {index + 1}
-                </div>
-
-                {/* Avatar Canvas */}
-                <div className="char-avatar-box">
-                  <CharacterPreviewCanvas heroId={char.id} isSelected={isSelected} />
-                </div>
-
-                {/* Informazioni Eroe */}
-                <div className="char-info">
-                  <div className="char-tag" style={{ color: char.color }}>
-                    {char.tag}
-                  </div>
-                  <h3 className="char-name" style={{ color: isSelected ? '#ffffff' : '#e2e8f0' }}>
-                    {char.name}
-                  </h3>
-                  <div className="char-role">{char.subtitle}</div>
-                </div>
-
-                {/* Box Super Abilità */}
-                <div
-                  className="char-skill-preview"
-                  style={{
-                    borderLeftColor: char.color,
-                  }}
-                >
-                  <div className="char-skill-title">
-                    <span className="char-skill-star">⭐</span>
-                    <strong style={{ color: char.color }}>{char.skillName}</strong>
-                    <span className="char-skill-cd">⏱ {char.skillCooldown}s</span>
-                  </div>
-                  <p className="char-skill-desc">{char.skillDescription}</p>
-                </div>
-
-                {/* Indicatore di selezione */}
-                <div className="char-select-indicator">
-                  {isSelected ? (
-                    <span className="indicator-selected" style={{ color: char.color }}>
-                      ✓ SELEZIONATO
+            <div className="char-roster-grid" ref={rosterScrollRef}>
+              {CHARACTER_LIST.map((char, index) => {
+                const isSelected = char.id === selectedHero;
+                return (
+                  <button
+                    key={char.id}
+                    id={`hero-tile-${char.id}`}
+                    type="button"
+                    className={`char-tile ${isSelected ? 'is-active' : ''}`}
+                    style={{
+                      borderColor: isSelected ? char.color : 'rgba(255, 255, 255, 0.12)',
+                      boxShadow: isSelected ? `0 0 14px ${char.color}88` : 'none',
+                    }}
+                    onClick={() => {
+                      setSelectedHero(char.id);
+                      onSelectHero(char.id);
+                    }}
+                    title={`${index + 1}. ${char.name} — ${char.skillName}`}
+                  >
+                    <span
+                      className="char-tile-num"
+                      style={{
+                        color: isSelected ? '#030712' : '#94a3b8',
+                        backgroundColor: isSelected ? char.color : 'rgba(15, 23, 42, 0.75)',
+                      }}
+                    >
+                      {index + 1}
                     </span>
-                  ) : (
-                    <span className="indicator-choose">CLICCA PER SCEGLIERE</span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
 
-        {/* Dettagli dell'eroe selezionato attualmente */}
-        <div
-          className="char-summary-bar"
-          style={{
-            borderColor: activeConfig.color,
-            background: `linear-gradient(90deg, ${activeConfig.color}22 0%, rgba(15, 23, 42, 0.8) 100%)`,
-          }}
-        >
-          <div className="char-summary-left">
-            <span className="char-summary-name" style={{ color: activeConfig.color }}>
-              {activeConfig.name} — {activeConfig.subtitle}
-            </span>
-            <span className="char-summary-lore">{activeConfig.description}</span>
+                    <div className="char-tile-avatar">
+                      <MiniHeroAvatar heroId={char.id} isSelected={isSelected} />
+                    </div>
+
+                    <span
+                      className="char-tile-name"
+                      style={{ color: isSelected ? '#ffffff' : '#cbd5e1' }}
+                    >
+                      {char.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              className="roster-slide-arrow roster-arrow-right"
+              onClick={() => handleSlide('right')}
+              title="Scorri a destra"
+            >
+              ▶
+            </button>
           </div>
-          <button
-            type="button"
-            className="btn-arcade btn-arcade-primary char-confirm-btn"
-            onClick={() => handlePickAndPlay(activeConfig.id)}
+
+          {/* Vetrina Dettagliata dell'Eroe Selezionato */}
+          <div
+            className="char-showcase-panel"
+            style={{
+              borderColor: activeConfig.color,
+              background: `linear-gradient(135deg, ${activeConfig.color}18 0%, rgba(10, 16, 30, 0.92) 100%)`,
+            }}
           >
-            ▶ GIOCA CON {activeConfig.name.toUpperCase()}
-          </button>
+            <div className="char-showcase-avatar-col">
+              <ShowcaseHeroAvatar heroId={activeConfig.id} />
+              <span className="char-showcase-tag" style={{ color: activeConfig.color }}>
+                {activeConfig.tag}
+              </span>
+            </div>
+
+            <div className="char-showcase-info-col">
+              <div className="char-showcase-title-row">
+                <h3 className="char-showcase-name" style={{ color: activeConfig.color }}>
+                  {activeConfig.name}
+                </h3>
+                <span className="char-showcase-subtitle">{activeConfig.subtitle}</span>
+              </div>
+
+              <p className="char-showcase-desc">{activeConfig.description}</p>
+
+              {/* Box Super Abilità */}
+              <div className="char-showcase-skill-card" style={{ borderLeftColor: activeConfig.color }}>
+                <div className="char-showcase-skill-header">
+                  <span className="char-showcase-skill-name">
+                    ⭐ <strong style={{ color: activeConfig.color }}>{activeConfig.skillName}</strong>
+                  </span>
+                  <span className="char-showcase-skill-cd">⏱ {activeConfig.skillCooldown}s Cooldown</span>
+                </div>
+                <p className="char-showcase-skill-desc">{activeConfig.skillDescription}</p>
+              </div>
+
+              {/* Pulsante di Avvio Gioco Rapido */}
+              <div className="char-showcase-actions">
+                <button
+                  type="button"
+                  className="btn-arcade btn-arcade-primary char-play-btn"
+                  onClick={() => handlePickAndPlay(activeConfig.id)}
+                >
+                  ▶ GIOCA CON {activeConfig.name.toUpperCase()} (INVIO)
+                </button>
+                <button
+                  type="button"
+                  className="btn-arcade btn-arcade-secondary char-cancel-btn"
+                  onClick={onClose}
+                >
+                  ◀ INDIETRO (ESC)
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Footer comandi */}
-        <div className="char-select-footer">
-          <div className="menu-nav-hint">
-            ⌨️ Scegli con <kbd>1</kbd>-<kbd>8</kbd> o <kbd>◀</kbd> <kbd>▶</kbd> • Premi <kbd>INVIO</kbd> per giocare • <kbd>ESC</kbd> per chiudere
-          </div>
-          <button type="button" className="btn-arcade btn-arcade-secondary btn-close-modal" onClick={onClose}>
-            INDIETRO AL MENU
-          </button>
+        {/* Footer compatto con istruzioni tastiera */}
+        <div className="char-compact-footer">
+          <span>⌨️ Usa <kbd>◀</kbd> <kbd>▶</kbd> <kbd>▲</kbd> <kbd>▼</kbd> o <kbd>1</kbd>-<kbd>9</kbd> per selezionare • Premi <kbd>INVIO</kbd> per giocare</span>
         </div>
       </div>
     </div>
