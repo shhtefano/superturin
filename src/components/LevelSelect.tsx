@@ -582,10 +582,10 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
       <div className="modal-card level-select-compact-card">
         <div className="level-select-header-compact">
           <div>
-            <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px', fontSize: '1.25rem' }}>
+            <h2 className="modal-title level-modal-title" style={{ marginBottom: '2px', fontSize: '1.2rem' }}>
               SELEZIONA IL LIVELLO (14 QUADRI)
             </h2>
-            <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0, fontSize: '0.78rem' }}>
+            <p className="modal-subtitle level-modal-subtitle" style={{ marginBottom: 0, fontSize: '0.72rem' }}>
               Scorri orizzontalmente con le frecce o clicca un livello per giocare subito.
             </p>
           </div>
@@ -595,7 +595,7 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
             style={{ padding: '6px 14px', fontSize: '0.68rem', background: '#ffb703', color: '#0f172a', whiteSpace: 'nowrap' }}
             onClick={() => setViewMode('map')}
           >
-            🗺️ VISTA MAPPA REALE
+            🗺️ VISTA MAPPA
           </button>
         </div>
 
@@ -671,23 +671,16 @@ export const LevelSelect: React.FC<LevelSelectProps> = ({
 
         {/* Pulsante Indietro & Hint comandi */}
         <div className="level-select-footer">
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              className="btn-arcade btn-arcade-secondary level-btn-back"
-              onClick={() => setViewMode('map')}
-            >
-              🗺️ VISTA MAPPA
-            </button>
-            <button
-              className="btn-arcade btn-arcade-secondary level-btn-back"
-              onClick={onClose}
-            >
-              ◀ TORNA AL MENU (ESC)
-            </button>
-          </div>
+          <button
+            type="button"
+            className="btn-arcade btn-arcade-secondary level-btn-back"
+            onClick={onClose}
+          >
+            ◀ TORNA AL MENU (ESC)
+          </button>
 
           <div className="menu-nav-hint level-nav-hint">
-            ⌨️ Premi <kbd>1</kbd>-<kbd>9</kbd>, <kbd>0</kbd> per avvio rapido | Frecce <kbd>◀</kbd><kbd>▶</kbd><kbd>▲</kbd><kbd>▼</kbd> + <kbd>INVIO</kbd>
+            ⌨️ Frecce <kbd>◀</kbd><kbd>▶</kbd> o tasti <kbd>1</kbd>-<kbd>9</kbd> e <kbd>INVIO</kbd> per giocare subito
           </div>
         </div>
       </div>

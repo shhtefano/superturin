@@ -535,22 +535,22 @@
   align-items: center;
   gap: 8px;
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .level-carousel-arrow {
   background: rgba(15, 23, 42, 0.95);
   border: 1.5px solid rgba(255, 183, 3, 0.5);
   color: #ffb703;
-  width: 32px;
-  height: 90px;
+  width: 34px;
+  height: 68px;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 3;
-  font-size: 1rem;
+  font-size: 0.95rem;
   transition: all 0.15s;
   flex-shrink: 0;
 }
@@ -581,14 +581,14 @@
 }
 
 .level-quadro-card {
-  flex: 0 0 215px;
+  flex: 0 0 230px;
   background: rgba(15, 23, 42, 0.9);
   border: 2px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 6px 10px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   cursor: pointer;
   transition: all 0.15s;
   scroll-snap-align: center;
@@ -609,7 +609,7 @@
 }
 
 .level-quadro-art {
-  height: 82px;
+  height: 72px;
   border-radius: 4px;
   overflow: hidden;
   position: relative;

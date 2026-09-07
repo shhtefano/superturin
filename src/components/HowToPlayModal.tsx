@@ -32,9 +32,6 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = ({ onClose }) => {
           <h2 className="modal-title" style={{ fontSize: '1.25rem', marginBottom: '2px' }}>
             GUIDA RAPIDA DI GIOCO
           </h2>
-          <p className="modal-subtitle" style={{ fontSize: '0.82rem', marginBottom: '8px' }}>
-            Controlli Arcade Sabaudi & Collezionabili Speciali
-          </p>
         </div>
 
         {/* Tab switch per dividere le info ed eliminare ogni scorrimento verticale */}

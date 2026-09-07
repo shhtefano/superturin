@@ -1368,35 +1368,48 @@ export const TorinoWorldMap: React.FC<TorinoWorldMapProps> = ({
             ◀
           </button>
 
-          {/* Pillole livello */}
+          {/* Finestra ridotta di 5 livelli centrata sul livello corrente */}
           <div className="map-mobile-nav-levels">
-            {Object.values(MAP_NODES).map((node) => {
-              const isCurrent = node.id === currentNodeId;
-              const isTarget = node.id === targetNodeId;
+            {(() => {
+              const allIds = Object.keys(MAP_NODES).map(Number);
+              const currentIdx = allIds.indexOf(currentNodeId);
+              const visibleOffsets = [-2, -1, 0, 1, 2];
               const levelEmojis: Record<number, string> = {
-                1: '🏛️', 2: '🗼', 3: '🌳', 4: '🌙', 5: '🐗', 6: '🤖',
+                1: '🏛️', 2: '🍎', 3: '🌳', 4: '🌙', 5: '☕', 6: '🗼',
+                7: '🏺', 8: '🐗', 9: '🤖', 10: '🐂', 11: '🏛️', 12: '⛰️',
+                13: '👑', 14: '⚡',
               };
-              return (
-                <button
-                  key={node.id}
-                  className={`map-mobile-level-pill${isCurrent ? ' is-current' : ''}${isTarget ? ' is-moving' : ''}`}
-                  onClick={() => {
-                    if (isCurrent && !animRef.current.isMoving) {
-                      onSelectLevel(node.id);
-                    } else {
-                      moveToNode(node.id);
-                    }
-                  }}
-                  title={node.title}
-                >
-                  <span className="map-pill-emoji">{levelEmojis[node.id] ?? '📍'}</span>
-                  <span className="map-pill-num">{node.id}</span>
-                  {(bestScores[node.id] ?? 0) > 0 && (
-                    <span className="map-pill-star">⭐</span>
-                  )}
-                </button>
-              );
-            })}
+
+              return visibleOffsets.map((offset) => {
+                const targetIdx = (currentIdx + offset + allIds.length) % allIds.length;
+                const node = MAP_NODES[allIds[targetIdx]];
+                if (!node) return null;
+
+                const isCurrent = node.id === currentNodeId;
+                const isTarget = node.id === targetNodeId;
+
+                return (
+                  <button
+                    key={node.id}
+                    className={`map-mobile-level-pill${isCurrent ? ' is-current' : ''}${isTarget ? ' is-moving' : ''}`}
+                    onClick={() => {
+                      if (isCurrent && !animRef.current.isMoving) {
+                        onSelectLevel(node.id);
+                      } else {
+                        moveToNode(node.id);
+                      }
+                    }}
+                    title={node.title}
+                  >
+                    <span className="map-pill-emoji">{levelEmojis[node.id] ?? '📍'}</span>
+                    <span className="map-pill-num">{node.id}</span>
+                    {(bestScores[node.id] ?? 0) > 0 && (
+                      <span className="map-pill-star">⭐</span>
+                    )}
+                  </button>
+                );
+              });
+            })()}
           </div>
 
           {/* Freccia Successiva */}

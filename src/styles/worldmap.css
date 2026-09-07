@@ -463,12 +463,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: rgba(15, 23, 42, 0.92);
-  border: 1.5px solid rgba(200, 168, 90, 0.45);
+  background: rgba(15, 23, 42, 0.94);
+  border: 1.5px solid rgba(200, 168, 90, 0.55);
   border-radius: 12px;
-  padding: 4px 10px;
-  max-width: 175px;
-  min-width: 110px;
+  padding: 5px 12px;
+  max-width: 320px;
+  min-width: 195px;
+  flex: 1;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   user-select: none;
 }
@@ -476,19 +477,19 @@
 .map-mobile-info-main {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
   min-width: 0;
 }
 
 .map-mobile-info-num {
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: #ffb703;
   color: #0f172a;
   font-family: var(--font-display);
-  font-size: 0.60rem;
+  font-size: 0.65rem;
   font-weight: 900;
   display: flex;
   align-items: center;
@@ -497,12 +498,13 @@
 
 .map-mobile-info-title {
   font-family: var(--font-display);
-  font-size: 0.58rem;
+  font-size: 0.76rem;
   font-weight: 800;
   color: #fde68a;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: 0.3px;
 }
 
 .map-mobile-info-meta {
@@ -687,23 +689,25 @@
   }
 
   .map-mobile-info-badge {
-    padding: 2px 6px;
-    max-width: 130px;
-    min-width: 90px;
+    padding: 3px 8px;
+    max-width: 280px;
+    min-width: 175px;
+    flex: 1;
   }
 
   .map-mobile-info-num {
-    width: 15px;
-    height: 15px;
-    font-size: 0.50rem;
+    width: 17px;
+    height: 17px;
+    font-size: 0.58rem;
   }
 
   .map-mobile-info-title {
-    font-size: 0.48rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.2px;
   }
 
   .map-mobile-info-meta {
-    font-size: 0.40rem;
+    font-size: 0.48rem;
   }
 
   .map-mobile-level-pill {
