@@ -43,7 +43,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-card main-menu-compact-card">
+      <div className="modal-card main-menu-wide-card">
         {/* Header compatto */}
         <div className="main-menu-header">
           <h1 className="modal-title main-modal-title">TORINO RUN</h1>

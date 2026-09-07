@@ -30,24 +30,24 @@ const MiniHeroAvatar: React.FC<{ heroId: CharacterId; isSelected: boolean }> = (
         const char = getCharacterConfig(heroId);
         ctx.fillStyle = char.color + '44';
         ctx.beginPath();
-        ctx.arc(18, 18, 16, 0, Math.PI * 2);
+        ctx.arc(17, 17, 15, 0, Math.PI * 2);
         ctx.fill();
       }
 
       ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
       ctx.beginPath();
-      ctx.ellipse(18, 32, 9, 3, 0, 0, Math.PI * 2);
+      ctx.ellipse(17, 30, 8, 3, 0, 0, Math.PI * 2);
       ctx.fill();
 
       tick++;
-      const bobbing = Math.sin(tick * 0.08) * 1.2;
+      const bobbing = Math.sin(tick * 0.08) * 1.1;
 
       Sprites.drawPlayerCombined(
         ctx,
         7,
-        4 + bobbing,
-        22,
-        28,
+        3 + bobbing,
+        20,
+        26,
         true,
         true,
         0,
@@ -72,9 +72,9 @@ const MiniHeroAvatar: React.FC<{ heroId: CharacterId; isSelected: boolean }> = (
   return (
     <canvas
       ref={canvasRef}
-      width={36}
-      height={36}
-      style={{ imageRendering: 'pixelated', display: 'block' }}
+      width={34}
+      height={34}
+      style={{ imageRendering: 'pixelated', display: 'block', flexShrink: 0 }}
     />
   );
 };
@@ -96,31 +96,29 @@ const ShowcaseHeroAvatar: React.FC<{ heroId: CharacterId }> = ({ heroId }) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const char = getCharacterConfig(heroId);
 
-      // Aureola / Glow rotante attorno all'eroe
       tick++;
       const pulse = 0.55 + Math.sin(tick * 0.06) * 0.2;
-      const grad = ctx.createRadialGradient(40, 48, 8, 40, 48, 38);
+      const grad = ctx.createRadialGradient(38, 44, 8, 38, 44, 34);
       grad.addColorStop(0, char.color + Math.floor(pulse * 255).toString(16).padStart(2, '0'));
       grad.addColorStop(1, 'transparent');
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(40, 48, 38, 0, Math.PI * 2);
+      ctx.arc(38, 44, 34, 0, Math.PI * 2);
       ctx.fill();
 
-      // Ombra sotto i piedi
       ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
       ctx.beginPath();
-      ctx.ellipse(40, 72, 18, 6, 0, 0, Math.PI * 2);
+      ctx.ellipse(38, 66, 16, 5, 0, 0, Math.PI * 2);
       ctx.fill();
 
-      const bobbing = Math.sin(tick * 0.08) * 2;
+      const bobbing = Math.sin(tick * 0.08) * 1.8;
 
       Sprites.drawPlayerCombined(
         ctx,
-        20,
-        14 + bobbing,
-        40,
-        58,
+        18,
+        12 + bobbing,
+        38,
+        54,
         true,
         true,
         0,
@@ -145,9 +143,9 @@ const ShowcaseHeroAvatar: React.FC<{ heroId: CharacterId }> = ({ heroId }) => {
   return (
     <canvas
       ref={canvasRef}
-      width={80}
-      height={82}
-      style={{ imageRendering: 'pixelated', display: 'block' }}
+      width={76}
+      height={76}
+      style={{ imageRendering: 'pixelated', display: 'block', flexShrink: 0 }}
     />
   );
 };
@@ -159,15 +157,6 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
   onClose,
 }) => {
   const [selectedHero, setSelectedHero] = useState<CharacterId>(currentHero);
-  const rosterScrollRef = useRef<HTMLDivElement>(null);
-
-  // Scorri la tessera selezionata nella vista se necessario
-  useEffect(() => {
-    const el = document.getElementById(`hero-tile-${selectedHero}`);
-    if (el && rosterScrollRef.current) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-    }
-  }, [selectedHero]);
 
   // Gestione tastiera arcade per selezione eroe
   useEffect(() => {
@@ -189,7 +178,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         return;
       }
 
-      // Tasti 1-9 e 0 per scelta rapida
+      // Tasti numerici 1-9 per selezione rapida diretta
       if (e.key >= '1' && e.key <= '9') {
         const idx = parseInt(e.key, 10) - 1;
         if (CHARACTER_LIST[idx]) {
@@ -213,6 +202,7 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
         onSelectHero(CHARACTER_LIST[nextIdx].id);
       } else if (e.key === 'ArrowUp' || e.key === 'KeyW') {
         e.preventDefault();
+        // Spostamento tra le 2 righe (7 colonne per riga)
         const prevRowIdx = (currentIndex - 7 + CHARACTER_LIST.length) % CHARACTER_LIST.length;
         setSelectedHero(CHARACTER_LIST[prevRowIdx].id);
         onSelectHero(CHARACTER_LIST[prevRowIdx].id);
@@ -240,157 +230,130 @@ export const CharacterSelectModal: React.FC<CharacterSelectModalProps> = ({
     }
   };
 
-  const handleSlide = (dir: 'left' | 'right') => {
-    if (rosterScrollRef.current) {
-      const scrollAmount = 180;
-      rosterScrollRef.current.scrollBy({
-        left: dir === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   return (
     <div className="modal-backdrop char-select-backdrop">
-      <div className="modal-card char-select-compact-card">
-        {/* Header compatto */}
-        <div className="char-compact-header">
-          <div className="char-compact-title-row">
-            <h2 className="modal-title char-compact-title">SCEGLI L'EROE SABAUDO</h2>
-            <span className="char-count-badge">14 EROI DISPONIBILI</span>
+      <div className="modal-card char-select-wide-card">
+        {/* Header compatto a larghezza piena */}
+        <div className="char-wide-header">
+          <div className="char-wide-title-row">
+            <h2 className="modal-title char-wide-title">ROSTER EROI DI TORINO</h2>
+            <span className="char-count-badge">14 EROI SABAUDI</span>
           </div>
-          <p className="char-compact-subtitle">
-            Ogni eroe sabaudo possiede una <strong style={{ color: '#ffd166' }}>Super-Abilità unica</strong> (<kbd className="arcade-kbd">SPAZIO</kbd> o ⭐ Joypad).
+          <p className="char-wide-subtitle">
+            Scegli il tuo eroe: ciascuno ha statistiche e una <strong style={{ color: '#ffd166' }}>Super-Abilità unica</strong> (<kbd className="arcade-kbd">SPAZIO</kbd> / ⭐ Joypad).
           </p>
         </div>
 
-        {/* Layout Principale a Schermo Intero: Roster a sinistra/sopra + Vetrina a destra/sotto */}
-        <div className="char-select-main-layout">
-          {/* Barra / Griglia Roster dei 14 Eroi */}
-          <div className="char-roster-wrapper">
-            <button
-              type="button"
-              className="roster-slide-arrow roster-arrow-left"
-              onClick={() => handleSlide('left')}
-              title="Scorri a sinistra"
-            >
-              ◀
-            </button>
+        {/* Griglia a 7 colonne x 2 righe: TUTTI I 14 EROI VISIBILI CONTEMPORANEAMENTE SENZA SCROLL */}
+        <div className="char-roster-2x7-grid">
+          {CHARACTER_LIST.map((char, index) => {
+            const isSelected = char.id === selectedHero;
+            return (
+              <button
+                key={char.id}
+                type="button"
+                className={`char-tile-wide ${isSelected ? 'is-active' : ''}`}
+                style={{
+                  borderColor: isSelected ? char.color : 'rgba(255, 255, 255, 0.12)',
+                  boxShadow: isSelected ? `0 0 14px ${char.color}99` : 'none',
+                }}
+                onClick={() => {
+                  setSelectedHero(char.id);
+                  onSelectHero(char.id);
+                }}
+                title={`${index + 1}. ${char.name} — ${char.subtitle}`}
+              >
+                <span
+                  className="char-tile-num"
+                  style={{
+                    color: isSelected ? '#030712' : '#94a3b8',
+                    backgroundColor: isSelected ? char.color : 'rgba(15, 23, 42, 0.75)',
+                  }}
+                >
+                  {index + 1}
+                </span>
 
-            <div className="char-roster-grid" ref={rosterScrollRef}>
-              {CHARACTER_LIST.map((char, index) => {
-                const isSelected = char.id === selectedHero;
-                return (
-                  <button
-                    key={char.id}
-                    id={`hero-tile-${char.id}`}
-                    type="button"
-                    className={`char-tile ${isSelected ? 'is-active' : ''}`}
-                    style={{
-                      borderColor: isSelected ? char.color : 'rgba(255, 255, 255, 0.12)',
-                      boxShadow: isSelected ? `0 0 14px ${char.color}88` : 'none',
-                    }}
-                    onClick={() => {
-                      setSelectedHero(char.id);
-                      onSelectHero(char.id);
-                    }}
-                    title={`${index + 1}. ${char.name} — ${char.skillName}`}
+                <div className="char-tile-avatar-box">
+                  <MiniHeroAvatar heroId={char.id} isSelected={isSelected} />
+                </div>
+
+                <div className="char-tile-text-box">
+                  <span
+                    className="char-tile-name"
+                    style={{ color: isSelected ? '#ffffff' : '#cbd5e1' }}
                   >
-                    <span
-                      className="char-tile-num"
-                      style={{
-                        color: isSelected ? '#030712' : '#94a3b8',
-                        backgroundColor: isSelected ? char.color : 'rgba(15, 23, 42, 0.75)',
-                      }}
-                    >
-                      {index + 1}
-                    </span>
+                    {char.name}
+                  </span>
+                  <span className="char-tile-mini-tag" style={{ color: char.color }}>
+                    {char.tag.split(' ')[0]}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
 
-                    <div className="char-tile-avatar">
-                      <MiniHeroAvatar heroId={char.id} isSelected={isSelected} />
-                    </div>
-
-                    <span
-                      className="char-tile-name"
-                      style={{ color: isSelected ? '#ffffff' : '#cbd5e1' }}
-                    >
-                      {char.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <button
-              type="button"
-              className="roster-slide-arrow roster-arrow-right"
-              onClick={() => handleSlide('right')}
-              title="Scorri a destra"
-            >
-              ▶
-            </button>
+        {/* Vetrina Dettagliata dell'Eroe Selezionato: Layout Orizzontale a 3 Sezioni */}
+        <div
+          className="char-showcase-wide-panel"
+          style={{
+            borderColor: activeConfig.color,
+            background: `linear-gradient(135deg, ${activeConfig.color}15 0%, rgba(10, 16, 30, 0.94) 100%)`,
+          }}
+        >
+          {/* Sezione 1: Avatar grande e tag */}
+          <div className="char-showcase-avatar-col">
+            <ShowcaseHeroAvatar heroId={activeConfig.id} />
+            <span className="char-showcase-tag" style={{ color: activeConfig.color }}>
+              {activeConfig.tag}
+            </span>
           </div>
 
-          {/* Vetrina Dettagliata dell'Eroe Selezionato */}
-          <div
-            className="char-showcase-panel"
-            style={{
-              borderColor: activeConfig.color,
-              background: `linear-gradient(135deg, ${activeConfig.color}18 0%, rgba(10, 16, 30, 0.92) 100%)`,
-            }}
-          >
-            <div className="char-showcase-avatar-col">
-              <ShowcaseHeroAvatar heroId={activeConfig.id} />
-              <span className="char-showcase-tag" style={{ color: activeConfig.color }}>
-                {activeConfig.tag}
-              </span>
+          {/* Sezione 2: Nome, Descrizione e Super-Abilità */}
+          <div className="char-showcase-center-col">
+            <div className="char-showcase-title-row">
+              <h3 className="char-showcase-name" style={{ color: activeConfig.color }}>
+                {activeConfig.name}
+              </h3>
+              <span className="char-showcase-subtitle">{activeConfig.subtitle}</span>
             </div>
 
-            <div className="char-showcase-info-col">
-              <div className="char-showcase-title-row">
-                <h3 className="char-showcase-name" style={{ color: activeConfig.color }}>
-                  {activeConfig.name}
-                </h3>
-                <span className="char-showcase-subtitle">{activeConfig.subtitle}</span>
-              </div>
+            <p className="char-showcase-desc">{activeConfig.description}</p>
 
-              <p className="char-showcase-desc">{activeConfig.description}</p>
-
-              {/* Box Super Abilità */}
-              <div className="char-showcase-skill-card" style={{ borderLeftColor: activeConfig.color }}>
-                <div className="char-showcase-skill-header">
-                  <span className="char-showcase-skill-name">
-                    ⭐ <strong style={{ color: activeConfig.color }}>{activeConfig.skillName}</strong>
-                  </span>
-                  <span className="char-showcase-skill-cd">⏱ {activeConfig.skillCooldown}s Cooldown</span>
-                </div>
-                <p className="char-showcase-skill-desc">{activeConfig.skillDescription}</p>
+            {/* Box Super Abilità */}
+            <div className="char-showcase-skill-card" style={{ borderLeftColor: activeConfig.color }}>
+              <div className="char-showcase-skill-header">
+                <span className="char-showcase-skill-name">
+                  ⭐ <strong style={{ color: activeConfig.color }}>{activeConfig.skillName}</strong>
+                </span>
+                <span className="char-showcase-skill-cd">⏱ {activeConfig.skillCooldown}s Ricarica</span>
               </div>
-
-              {/* Pulsante di Avvio Gioco Rapido */}
-              <div className="char-showcase-actions">
-                <button
-                  type="button"
-                  className="btn-arcade btn-arcade-primary char-play-btn"
-                  onClick={() => handlePickAndPlay(activeConfig.id)}
-                >
-                  ▶ GIOCA CON {activeConfig.name.toUpperCase()} (INVIO)
-                </button>
-                <button
-                  type="button"
-                  className="btn-arcade btn-arcade-secondary char-cancel-btn"
-                  onClick={onClose}
-                >
-                  ◀ INDIETRO (ESC)
-                </button>
-              </div>
+              <p className="char-showcase-skill-desc">{activeConfig.skillDescription}</p>
             </div>
+          </div>
+
+          {/* Sezione 3: Pulsanti d'azione */}
+          <div className="char-showcase-action-col">
+            <button
+              type="button"
+              className="btn-arcade btn-arcade-primary char-play-btn"
+              onClick={() => handlePickAndPlay(activeConfig.id)}
+            >
+              ▶ GIOCA CON {activeConfig.name.toUpperCase()} (INVIO)
+            </button>
+            <button
+              type="button"
+              className="btn-arcade btn-arcade-secondary char-cancel-btn"
+              onClick={onClose}
+            >
+              ◀ INDIETRO (ESC)
+            </button>
           </div>
         </div>
 
         {/* Footer compatto con istruzioni tastiera */}
         <div className="char-compact-footer">
-          <span>⌨️ Usa <kbd>◀</kbd> <kbd>▶</kbd> <kbd>▲</kbd> <kbd>▼</kbd> o <kbd>1</kbd>-<kbd>9</kbd> per selezionare • Premi <kbd>INVIO</kbd> per giocare</span>
+          <span>⌨️ Frecce <kbd>◀</kbd> <kbd>▶</kbd> <kbd>▲</kbd> <kbd>▼</kbd> o tasti <kbd>1</kbd>-<kbd>9</kbd> per selezionare • Premi <kbd>INVIO</kbd> per giocare subito</span>
         </div>
       </div>
     </div>

@@ -158,10 +158,9 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
               handleSkillTrigger(1);
             }}
             onMouseDown={() => handleSkillTrigger(1)}
-            title="[1] Colpo di Pistola"
+            title="Colpo di Pistola"
           >
             <span className="skill-btn-icon">🔫</span>
-            <span className="skill-btn-badge">1</span>
             {!(skills?.shootReady ?? true) && (
               <span className="skill-btn-cd">{(skills?.shootTimeLeft ?? 0).toFixed(1)}s</span>
             )}
@@ -176,10 +175,9 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
               handleSkillTrigger(2);
             }}
             onMouseDown={() => handleSkillTrigger(2)}
-            title="[2] Bomba Gianduiotto"
+            title="Bomba Gianduiotto"
           >
             <span className="skill-btn-icon">💣</span>
-            <span className="skill-btn-badge">2</span>
             {!(skills?.bombReady ?? true) && (
               <span className="skill-btn-cd">{(skills?.bombTimeLeft ?? 0).toFixed(1)}s</span>
             )}
@@ -194,10 +192,9 @@ export const VirtualJoypad: React.FC<VirtualJoypadProps> = ({
               handleSpecialSkillTrigger();
             }}
             onMouseDown={handleSpecialSkillTrigger}
-            title={`[SPAZIO] ${skills?.specialSkillName ?? 'Super Abilità'} (${skills?.characterName ?? ''})`}
+            title={`${skills?.specialSkillName ?? 'Super Abilità'} (${skills?.characterName ?? ''})`}
           >
             <span className="skill-btn-icon">⭐</span>
-            <span className="skill-btn-badge">SPZ</span>
             {!(skills?.specialSkillReady ?? true) && (
               <span className="skill-btn-cd">{(skills?.specialSkillTimeLeft ?? 0).toFixed(1)}s</span>
             )}

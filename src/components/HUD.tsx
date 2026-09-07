@@ -141,14 +141,13 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
           ⏸
         </button>
 
-        {/* Hotbar delle Skill (Tasti 1 e 2 + SPAZIO) */}
+        {/* Hotbar delle Skill */}
         {data.skills && (
           <div className="hud-skills-bar">
             <div
               className={`skill-slot ${data.skills.shootReady ? 'is-ready' : 'is-cooldown'}`}
-              title="[1] o Num1 / J: Sparo Pistola (colpisce nemici e blocchi ? a distanza)"
+              title="Sparo Pistola (colpisce nemici e blocchi ? a distanza)"
             >
-              <div className="skill-badge-key">1</div>
               <div className="skill-icon">🔫</div>
               <div className="skill-name">PISTOLA</div>
               {!data.skills.shootReady && (
@@ -163,9 +162,8 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
 
             <div
               className={`skill-slot ${data.skills.bombReady ? 'is-ready' : 'is-cooldown'}`}
-              title="[2] o Num2 / K: Bomba Gianduiotto (esplosione parabolica dorata ad area)"
+              title="Bomba Gianduiotto (esplosione parabolica dorata ad area)"
             >
-              <div className="skill-badge-key">2</div>
               <div className="skill-icon">💣</div>
               <div className="skill-name">BOMBA 🍫</div>
               {!data.skills.bombReady && (
@@ -178,13 +176,12 @@ export const HUD: React.FC<HUDProps> = ({ data, onPause }) => {
               )}
             </div>
 
-            {/* Super Abilità Eroe (Barra Spaziatrice) */}
+            {/* Super Abilità Eroe */}
             {data.skills.specialSkillName && (
               <div
                 className={`skill-slot special-skill-slot ${data.skills.specialSkillReady ? 'is-ready' : 'is-cooldown'}`}
-                title={`[SPAZIO]: ${data.skills.specialSkillName} (${data.skills.characterName})`}
+                title={`${data.skills.specialSkillName} (${data.skills.characterName})`}
               >
-                <div className="skill-badge-key">SPAZIO</div>
                 <div className="skill-icon">⭐</div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', overflow: 'hidden' }}>
                   <div className="skill-name">{data.skills.specialSkillName}</div>

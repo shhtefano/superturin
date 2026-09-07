@@ -71,19 +71,21 @@
 }
 
 /* =========================================================
-   MENU PRINCIPALE COMPATTO — 2 COLONNE
+   MENU PRINCIPALE AMPIO & SPAZIOSO — 2 COLONNE SENZA SCROLL
    ========================================================= */
-.main-menu-compact-card {
-  max-width: 560px;
-  padding: 16px 20px;
+.main-menu-wide-card {
+  max-width: 800px;
+  width: 94%;
+  padding: 14px 22px;
+  overflow: hidden;
 }
 
 .main-menu-header {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .main-modal-title {
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   margin: 0 0 2px 0;
   color: var(--color-oro-reale);
   letter-spacing: 1.5px;
@@ -91,23 +93,23 @@
 }
 
 .main-modal-subtitle {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   color: var(--text-muted);
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
 }
 
 .main-hero-stats-compact {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   font-size: 0.74rem;
   font-family: var(--font-display);
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 183, 3, 0.2);
   border-radius: var(--radius-md);
-  padding: 6px 12px;
-  margin-bottom: 12px;
+  padding: 5px 14px;
+  margin-bottom: 10px;
   color: var(--text-accent);
   flex-wrap: wrap;
 }
@@ -115,13 +117,13 @@
 .main-menu-btn-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 8px 12px;
+  margin-bottom: 8px;
 }
 
 .btn-menu-compact {
-  padding: 9px 12px;
-  font-size: 0.73rem;
+  padding: 9px 14px;
+  font-size: 0.74rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -149,7 +151,7 @@
 }
 
 .main-menu-nav-hint {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -245,34 +247,36 @@
 }
 
 /* =========================================================
-   SELEZIONE PERSONAGGIO COMPATTA — ROSTER SLIDER & SHOWCASE
+   SELEZIONE PERSONAGGIO AMPIA & PANORAMICA — 14 EROI (2x7 GRID)
    ========================================================= */
-.char-select-compact-card {
-  max-width: 920px;
-  width: 95%;
-  max-height: 92vh;
-  padding: 14px 18px;
+.char-select-wide-card {
+  max-width: 1040px;
+  width: 96%;
+  max-height: 94vh;
+  padding: 12px 18px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
-.char-compact-header {
-  margin-bottom: 8px;
+.char-wide-header {
+  margin-bottom: 6px;
   text-align: left;
 }
 
-.char-compact-title-row {
+.char-wide-title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.char-compact-title {
-  font-size: 1.2rem;
+.char-wide-title {
+  font-size: 1.15rem;
   margin: 0;
   color: var(--color-oro-reale);
   font-family: var(--font-display);
+  letter-spacing: 1px;
 }
 
 .char-count-badge {
@@ -286,105 +290,56 @@
   font-weight: 800;
 }
 
-.char-compact-subtitle {
-  font-size: 0.74rem;
+.char-wide-subtitle {
+  font-size: 0.72rem;
   color: var(--text-muted);
   margin: 2px 0 0 0;
 }
 
-.char-select-main-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
-  min-height: 0;
-}
-
-.char-roster-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+/* Griglia 7 colonne x 2 righe: tutti i 14 eroi visibili contemporaneamente SENZA scroll */
+.char-roster-2x7-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 8px;
   width: 100%;
 }
 
-.roster-slide-arrow {
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(255, 183, 3, 0.4);
-  color: #ffb703;
-  width: 26px;
-  height: 56px;
-  border-radius: 4px;
+.char-tile-wide {
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
-  font-size: 0.8rem;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-
-.roster-slide-arrow:hover {
-  background: #ffb703;
-  color: #030712;
-}
-
-.char-roster-grid {
-  display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  scrollbar-width: thin;
-  scroll-snap-type: x mandatory;
-  padding: 4px 2px;
-  flex: 1;
-}
-
-.char-roster-grid::-webkit-scrollbar {
-  height: 4px;
-}
-
-.char-roster-grid::-webkit-scrollbar-thumb {
-  background: rgba(255, 183, 3, 0.3);
-  border-radius: 4px;
-}
-
-.char-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 58px;
-  height: 60px;
-  flex-shrink: 0;
-  background: rgba(15, 23, 42, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  gap: 5px;
+  padding: 4px 6px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
   position: relative;
   cursor: pointer;
-  transition: all 0.15s;
-  padding: 2px;
-  scroll-snap-align: start;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  min-height: 42px;
+  text-align: left;
+  outline: none;
 }
 
-.char-tile:hover {
-  background: rgba(30, 41, 59, 0.9);
+.char-tile-wide:hover {
+  background: rgba(30, 41, 59, 0.95);
   transform: translateY(-2px);
+  border-color: rgba(255, 183, 3, 0.6);
 }
 
-.char-tile.is-active {
+.char-tile-wide.is-active {
   background: rgba(30, 41, 59, 0.98);
-  transform: scale(1.05);
-  border-width: 2px;
+  transform: scale(1.03);
+  z-index: 2;
 }
 
 .char-tile-num {
   position: absolute;
   top: 2px;
-  left: 2px;
-  font-size: 0.52rem;
-  width: 13px;
-  height: 13px;
+  left: 3px;
+  font-size: 0.50rem;
+  width: 12px;
+  height: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -393,22 +348,45 @@
   font-family: var(--font-display);
 }
 
-.char-tile-name {
-  font-size: 0.56rem;
-  font-weight: 700;
-  margin-top: 1px;
-  white-space: nowrap;
-  max-width: 54px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-}
-
-.char-showcase-panel {
+.char-tile-avatar-box {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 16px;
+  justify-content: center;
+}
+
+.char-tile-text-box {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  flex: 1;
+}
+
+.char-tile-name {
+  font-size: 0.66rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.15;
+}
+
+.char-tile-mini-tag {
+  font-size: 0.52rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.1;
+}
+
+/* Vetrina Dettagliata Orizzontale a 3 Sezioni */
+.char-showcase-wide-panel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
   border-radius: 8px;
   border: 1.5px solid;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
@@ -429,10 +407,10 @@
   font-family: var(--font-display);
 }
 
-.char-showcase-info-col {
+.char-showcase-center-col {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   flex: 1;
   text-align: left;
   min-width: 0;
@@ -441,25 +419,26 @@
 .char-showcase-title-row {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .char-showcase-name {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   margin: 0;
   font-family: var(--font-display);
   letter-spacing: 0.5px;
+  line-height: 1;
 }
 
 .char-showcase-subtitle {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: #94a3b8;
   font-weight: 600;
 }
 
 .char-showcase-desc {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: #cbd5e1;
   margin: 0;
   line-height: 1.25;
@@ -469,7 +448,7 @@
   background: rgba(0, 0, 0, 0.4);
   border-left: 3px solid;
   border-radius: 4px;
-  padding: 6px 10px;
+  padding: 5px 10px;
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -479,7 +458,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
 }
 
 .char-showcase-skill-name {
@@ -488,41 +467,43 @@
 }
 
 .char-showcase-skill-cd {
-  font-size: 0.66rem;
+  font-size: 0.65rem;
   color: #fde047;
   font-weight: 700;
 }
 
 .char-showcase-skill-desc {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: #e2e8f0;
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
-.char-showcase-actions {
+.char-showcase-action-col {
   display: flex;
-  gap: 10px;
-  margin-top: 4px;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 175px;
+  flex-shrink: 0;
 }
 
 .char-play-btn {
-  padding: 8px 18px;
-  font-size: 0.76rem;
-  flex: 1;
+  padding: 8px 14px;
+  font-size: 0.74rem;
+  width: 100%;
 }
 
 .char-cancel-btn {
-  padding: 8px 14px;
-  font-size: 0.7rem;
-  width: auto;
+  padding: 6px 12px;
+  font-size: 0.68rem;
+  width: 100%;
 }
 
 .char-compact-footer {
   font-size: 0.66rem;
   color: var(--text-muted);
   text-align: center;
-  margin-top: 6px;
+  margin-top: 5px;
 }
 
 /* =========================================================
@@ -864,34 +845,63 @@
    RESPONSIVE & MOBILE DESIGN
    ========================================================= */
 @media screen and (max-width: 768px) {
+  .main-menu-wide-card {
+    max-width: 96vw;
+    padding: 8px 12px;
+  }
+
   .main-menu-btn-grid {
-    grid-template-columns: 1fr;
-    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 8px;
   }
 
-  .char-showcase-panel {
-    flex-direction: column;
-    text-align: center;
+  .btn-menu-compact {
+    padding: 6px 10px;
+    min-height: 36px;
+    font-size: 0.68rem;
+  }
+
+  .char-select-wide-card {
+    max-width: 98vw;
+    padding: 6px 10px;
+  }
+
+  .char-roster-2x7-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 6px;
+  }
+
+  .char-tile-wide {
+    padding: 2px 4px;
+    min-height: 36px;
+    gap: 3px;
+  }
+
+  .char-tile-name {
+    font-size: 0.58rem;
+  }
+
+  .char-tile-mini-tag {
+    font-size: 0.46rem;
+  }
+
+  .char-showcase-wide-panel {
+    grid-template-columns: auto 1fr auto;
     gap: 8px;
-    padding: 10px 12px;
+    padding: 6px 10px;
   }
 
-  .char-showcase-info-col {
-    text-align: center;
+  .char-showcase-name {
+    font-size: 1rem;
   }
 
-  .char-showcase-title-row {
-    justify-content: center;
+  .char-showcase-desc {
+    display: none;
   }
 
-  .char-showcase-skill-header {
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .char-showcase-actions {
-    flex-direction: column;
-    gap: 6px;
+  .char-showcase-action-col {
+    min-width: 130px;
   }
 
   .controls-compact-grid,
